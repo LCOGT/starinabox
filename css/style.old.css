@@ -1,0 +1,121 @@
+*{
+	padding:0;
+	margin:0;
+}
+
+body{
+	font-family: 'Helvetica Neue', 'Helvetica', 'Arial';
+	font-size: 12.5px;
+}
+
+h1{
+	border-bottom: 1px solid #eee;
+	margin-bottom: 5px;
+}
+
+#wrapper{
+	width: 960px;
+	min-height: 600px;
+	margin: 50px auto 0 auto;
+	border: solid 1px #ccc;
+	padding: 10px;
+	margin-bottom: 20px;
+}
+
+#placeholder{
+	width:960px;
+	height:400px;
+	position: relative;
+}
+
+#thermometer{
+	width:300px;
+	height:400px;
+	position: relative;
+}
+
+#placeholder svg{
+position: absolute;
+}
+
+#placeholder .button {
+	position: absolute;
+    cursor: pointer;
+}
+#placeholder div.button {
+    font-size: smaller;
+    color: #999;
+    background-color: #eee;
+    padding: 2px;
+}
+.message {
+    padding-left: 50px;
+    font-size: smaller;
+}
+
+#inputs{
+border: solid 1px #ccc;
+padding: 10px;
+margin: 10px 0;
+}
+
+#stagesc1{
+width: 50%;
+float:left;
+}
+
+#mass-slider{
+margin: 10px 0;
+}
+
+#stages{
+padding: 10px 0;
+margin: 5px 0;
+}
+
+#stages .ui-slider-label{
+font-size: 75%;
+width: 150px;
+text-align: center;
+}
+
+#rCanvas{
+position: relative;
+height: 400px;
+width: 420px;
+margin: 20px 0 20px 0;
+background-color: #000;
+}
+
+#tevTime{
+position: absolute;
+top: 10px;
+right: 10px;
+color: #fff;
+background-color: black;
+padding: 5px;
+font-size: 90%;
+}
+
+#evolve{
+display:none;
+}
+
+#rPie{
+width: 500px;
+height: 400px;
+position: relative;
+border: 1px solid #000;
+margin: 20px 0;
+float: right;
+}
+
+#spacer{
+width: 100%;
+height: 5px;
+clear: both;
+}
+
+#placeholder svg{
+z-index: 1000;
+}
