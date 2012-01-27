@@ -1,0 +1,27 @@
+#placeholder canvas div{
+	top:0;
+}
+
+#input,
+#input .tab-top,
+#animate,
+#animate .tab-bottom{
+background-color: #048;
+}
+
+#right,#loader.loading,#loader #loading{
+background: transparent;
+-ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#7F000000,endColorstr=#7F000000)"; /* IE8 */
+      zoom: 1;
+
+}
+
+#loader #loading {
+background-image: url('images/ajax-loader.gif');
+    background-position: center 20px;
+    background-repeat: no-repeat;
+}
+
+#right .caption{
+background: #000;
+}
