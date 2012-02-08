@@ -95,14 +95,16 @@ $(document).ready(function () {
 		}
 		//draw sun
 		this.sizeComparison.sun = this.sizeComparison.paper.circle(25, 200, 5);
-		this.sizeComparison.sun.attr("fill", "#fff3ea");
+		this.sizeComparison.sun.attr({"fill":"#fff3ea","stroke-width":"0"});
 		this.sizeComparison.sunLabel = this.sizeComparison.paper.text(25, 220, "Sun");
 		this.sizeComparison.sunLabel.attr("fill", "#fff3ea");
 		//draw comparison star
-		this.sizeComparison.star = this.sizeComparison.paper.circle(50, 200, 5);
-		this.sizeComparison.star.attr("fill", "#fff3ea");
-		this.sizeComparison.starOffset;
-
+		this.sizeComparison.starX = 50;
+		this.sizeComparison.starY = 200;
+		this.sizeComparison.starR = 5;
+		this.sizeComparison.starOffset = 45;
+		this.sizeComparison.star = this.sizeComparison.paper.circle(this.sizeComparison.starX+this.sizeComparison.starR, this.sizeComparison.starY, this.sizeComparison.starR);
+		this.sizeComparison.star.attr({"fill":"#fff3ea","stroke-width":"0"});
 	}
 
 	StarInABox.prototype.findMassIndex = function(mass){
@@ -258,7 +260,7 @@ $(document).ready(function () {
 		$("#evolve").change({box:this},function evolveStar(e) {
 			var el = e.data.box.getData();
 			e.data.box.sizeComparison.star.attr("fill", el.RGB);
-			e.data.box.sizeComparison.star.attr("stroke", "#000");
+			//e.data.box.sizeComparison.star.attr("stroke", "#000","stroke-width","0");
 			e.data.box.setcomparisonStarSize(el.radius);
 		});
 
@@ -292,7 +294,9 @@ $(document).ready(function () {
 						if(typeof el=="object"){
 							if(box.timestep % box.reduction == 0 && box.timestep < box.data.data.length) {
 								box.sizeComparison.star.animate({
-									scale: [el.radius, el.radius, box.sizeComparison.starOffset],
+									cx: (box.sizeComparison.starX+el.radius*box.sizeComparison.starR),
+									r: box.sizeComparison.starR*el.radius,
+									//scale: [el.radius, el.radius, box.sizeComparison.starOffset],
 									fill: el.RGB
 								}, (duration*box.reduction));
 								box.setThermometer(el.temp, (duration * box.reduction));
@@ -626,15 +630,14 @@ $(document).ready(function () {
 	}
 	StarInABox.prototype.setcomparisonStarSize = function(sm) {
 		//var size = sm * 9.1;
-		this.sizeComparison.starOffset = 45;
 		this.sizeComparison.star.scale(sm, sm, this.sizeComparison.starOffset);
 	}
 	StarInABox.prototype.setcomparisonStarColour = function(value) {
-		this.sizeComparison.star.attr("fill", value);
+		this.sizeComparison.star.attr("fill", value,"stroke-width","0");
 	}
 	StarInABox.prototype.sStarReset = function() {
 		this.sizeComparison.star.remove();
-		this.sizeComparison.star = this.sizeComparison.paper.circle(50, 200, 5);
+		this.sizeComparison.star = this.sizeComparison.paper.circle(this.sizeComparison.starX, this.sizeComparison.starY, this.sizeComparison.starR);
 	}
 	StarInABox.prototype.log10 = function(v) {
 		return Math.log(v)/2.302585092994046;
