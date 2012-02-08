@@ -43,8 +43,8 @@ var QueryLoader = {
 	
 	ieLoadFix: function() {
 		var ie = navigator.userAgent.match(/MSIE (\d+(?:\.\d+)+(?:b\d*)?)/);
-		if (ie[0].match("MSIE")) {
-			while ((100 / QueryLoader.doneStatus) * QueryLoader.doneNow < 100) {
+		if(ie && ie[0].match("MSIE")) {
+			while((100 / QueryLoader.doneStatus) * QueryLoader.doneNow < 100) {
 				QueryLoader.imgCallback();
 			}
 		}

@@ -65,7 +65,7 @@ body {
     position: absolute;
     width: 1016px;
     height: 615px;
-    z-index: 100;
+    z-index: 310;
     background: url(images/box-top-edge_s1.png);
     cursor: pointer;
     pointer-events:none;
@@ -101,14 +101,19 @@ body {
     left: 58px;
 }
 
+#container.open #box-lid {
+   	box-shadow: -24px -10px 24px rgba(0,0,0,0.3);
+	-moz-box-shadow: -24px -10px 24px rgba(0,0,0,0.3);
+	-webkit-box-shadow: -24px -10px 24px rgba(0,0,0,0.3);
+}
 #box-lid {
-    z-index: 90;
-    background: url(images/box-lid_s1.png) no-repeat;
-    width: 1023px;
-    height: 615px;
+    z-index: 300;
+    background: url(images/box-lid_s1.png) no-repeat center center;
+    width: 993px;
+    height: 573px;
     position: absolute;
-    top: 0;
-    left: -10px;
+    top: 20px;
+    left: 0px;
     cursor: pointer;
     overflow: visible!important;
 }
@@ -131,7 +136,7 @@ body {
 
 #content.closed { z-index: 80 }
 
-#content.open { z-index: 200 }
+#container.open #content { z-index: 200 }
 
 #placeholder {
     margin-top: 10px;
@@ -140,19 +145,17 @@ body {
     position: relative;
 }
 
-	#placeholder svg { position: absolute }
+#placeholder .button {
+	position: absolute;
+	cursor: pointer;
+}
 
-	#placeholder .button {
-	    position: absolute;
-	    cursor: pointer;
-	}
-
-	#placeholder div.button {
-	    font-size: smaller;
-	    color: #999;
-	    background-color: #eee;
-	    padding: 2px;
-	}
+#placeholder div.button {
+	font-size: smaller;
+	color: #999;
+	background-color: #eee;
+	padding: 2px;
+}
 
 .message {
     padding-left: 50px;
@@ -161,7 +164,7 @@ body {
 
 #evolve { display: none }
 
-#placeholder svg { z-index: 1000 }
+#placeholder svg { z-index: 105 }
 
 .tickLabels .tickLabel { color: #fff }
 
@@ -178,15 +181,20 @@ body {
     margin: 0 auto;
     color: #fff;
     padding: 10px 20px;
-    background: rgba(0,50,120,0.8);
+    background: #002e8a;
     -moz-border-radius: 10px 10px 0 0;
     -webkit-border-radius: 10px 10px 0 0;
     position: absolute;
     bottom: -122px;
-    z-index: 2000;
-    -webkit-box-shadow: -8px -20px 20px rgba(0,0,0,0.2);
-    -moz-box-shadow: -8px -20px 20px rgba(0,0,0,0.2);
-    -box-shadow: -8px -20px 20px rgba(0,0,0,0.2);
+    z-index: 106;
+    -webkit-box-shadow: -8px -4px 10px rgba(0,0,0,0.2);
+    -moz-box-shadow: -8px -4px 10px rgba(0,0,0,0.2);
+    -box-shadow: -8px -4px 10px rgba(0,0,0,0.2);
+}
+#input.open {
+    -webkit-box-shadow: -16px -20px 20px rgba(0,0,0,0.2);
+    -moz-box-shadow: -16px -20px 20px rgba(0,0,0,0.2);
+    -box-shadow: -16px -20px 20px rgba(0,0,0,0.2);
 }
 
 .ui-slider,
@@ -237,14 +245,14 @@ body {
     height: 25px;
     -moz-border-radius: 10px 10px 0 0;
     -webkit-border-radius: 10px 10px 0 0;
-    background: rgba(0,50,120,0.8);
+    background: #002e8a;
     padding: 0 15px;
     line-height: 25px;
     font-weight: 700;
     cursor: pointer;
-    -webkit-box-shadow: -8px -20px 20px rgba(0,0,0,0.2);
-    -moz-box-shadow: -8px -20px 20px rgba(0,0,0,0.2);
-    -box-shadow: -8px -20px 20px rgba(0,0,0,0.2);
+    -webkit-box-shadow: -16px -20px 20px rgba(0,0,0,0.2);
+    -moz-box-shadow: -16px -20px 20px rgba(0,0,0,0.2);
+    -box-shadow: -16px -20px 20px rgba(0,0,0,0.2);
 }
 
 #animate {
@@ -254,35 +262,32 @@ body {
     width: 210px;
     height: 50px;
     padding: 10px;
-    background: rgba(0,50,120,0.8);
+    background: #002e8a;
     color: #fff;
     -moz-border-radius: 0 0 10px 10px;
     -webkit-border-radius: 0 0 10px 10px;
-    z-index: 2000;
-    -webkit-box-shadow: -4px 10px 20px rgba(0,0,0,0.3);
-    -moz-box-shadow: -4px 10px 20px rgba(0,0,0,0.3);
-    -box-shadow: -8px -20px 20px rgba(0,0,0,0.3);
+    z-index: 106;
+    -webkit-box-shadow: -16px -20px 20px rgba(0,0,0,0.3);
+    -moz-box-shadow: -16px -20px 20px rgba(0,0,0,0.3);
+    -box-shadow: -16px -20px 20px rgba(0,0,0,0.3);
 }
 
-	#animate #animateEvolve,
-	#animate #animateEvolveReset { margin-top: 10px }
+#animate #animateEvolve,
+#animate #animateEvolveReset { margin-top: 10px }
 
-	#animate .tab-bottom {
-	    position: absolute;
-	    right: 20px;
-	    bottom: -25px;
-	    height: 25px;
-	    -moz-border-radius: 0 0 10px 10px;
-	    -webkit-border-radius: 0 0 10px 10px;
-	    background: rgba(0,50,120,0.8);
-	    line-height: 25px;
-	    font-weight: 700;
-	    cursor: pointer;
-	    -webkit-box-shadow: -4px 10px 20px rgba(0,0,0,0.3);
-	    -moz-box-shadow: -4px 10px 20px rgba(0,0,0,0.3);
-	    -box-shadow: -8px -20px 20px rgba(0,0,0,0.3);
-	    padding: 0 15px;
-	}
+#animate .tab-bottom {
+	position: absolute;
+	right: 20px;
+	bottom: -25px;
+	height: 25px;
+	-moz-border-radius: 0 0 10px 10px;
+	-webkit-border-radius: 0 0 10px 10px;
+	background: #002e8a;
+	line-height: 25px;
+	font-weight: 700;
+	cursor: pointer;
+	padding: 0 15px;
+}
 
 #nav {
     position: absolute;
@@ -456,7 +461,7 @@ a#animateEvolveReset:active {
 #loader.done { display: none }
 
 #loader.loading {
-    z-index: 5000;
+    z-index: 200;
     background-color: rgba(0,0,0,0.5);
     position: absolute;
     top: 0;
@@ -504,7 +509,7 @@ a#animateEvolveReset:active {
 
 #current-stage{
 	position: absolute;
-	z-index: 500;
+	z-index: 105;
 	top:102px;
 	left:110px;
 	color: #000;
@@ -516,10 +521,10 @@ a#animateEvolveReset:active {
 
 #welcome{
 	position: absolute;
-	top:80px;
-	right: 60px;
-	width: 300px;
-	height: 280px;
+	top:48px;
+	right: 48px;
+	width: 304px;
+	height: 272px;
 	text-align: right;
 	padding: 20px;
 	background: #fff;
@@ -528,10 +533,10 @@ a#animateEvolveReset:active {
 	-moz-box-shadow: 1px 1px 5px rgba(0,0,0,0.7);
 	box-shadow: 1px 1px 5px rgba(0,0,0,0.7);
 	cursor: default;
-	z-index: 5000;
+	z-index: 110;
 }
 
-#welcome.summary{
+#welcome.summary {
 	width: 800px;
 	height: 400px;
 	-webkit-transition: all 1s ease-in-out;
@@ -550,6 +555,11 @@ a#animateEvolveReset:active {
 	top:-15px;
 	right:30px;
 }
+#welcome #about-content,#welcome #help-content,#welcome #summary-content { display: none; }
+#welcome.help #welcome-content,#welcome.help #about-content,#welcome.help #summary-content { display: none; }
+#welcome.summary #welcome-content,#welcome.help #about-content,#welcome.help #help-content { display: none; }
+#welcome.about #welcome-content,#welcome.help #summary-content,#welcome.help #help-content { display: none; }
+#welcome.help #help-content,#welcome.about #about-content,#welcome.summary #summary-content { display: block; }
 
 #welcome h1{
 	font-family: 'SecretTypewriterRegular';
@@ -561,15 +571,15 @@ a#animateEvolveReset:active {
 }
 
 #menu{
-position: absolute;
-top:7px;
-right: 50px;
-z-index:10000;
-color: #222;
-text-shadow: -1px -1px rgba(255,255,255,0.3);
-letter-spacing: 1px;
-font-weight: bold;
-font-size: 14px;
+	position: absolute;
+	top:7px;
+	right: 50px;
+	z-index:320;
+	color: #222;
+	text-shadow: -1px -1px  1px rgba(255,255,255,0.3);
+	letter-spacing: 1px;
+	font-weight: bold;
+	font-size: 14px;
 }
 
 #menu a{
@@ -585,23 +595,21 @@ text-shadow: -1px -1px rgba(0,0,0,0.3);
 #welcome.about{
 	width: 450px;
 	-webkit-transition: all 1s ease-in-out;
-  -moz-transition: all 1s ease-in-out;
-  -o-transition: all 1s ease-in-out;
-  -webkit-transition: all 1s ease-in-out;
-  transition: all 1s ease-in-out;
-
+	-moz-transition: all 1s ease-in-out;
+	-o-transition: all 1s ease-in-out;
+	-webkit-transition: all 1s ease-in-out;
+	transition: all 1s ease-in-out;
 }
 
 #welcome.help{
 	width: 800px;
 	height:400px;
 	-webkit-transition: all 1s ease-in-out;
-  -moz-transition: all 1s ease-in-out;
-  -o-transition: all 1s ease-in-out;
-  -webkit-transition: all 1s ease-in-out;
-  transition: all 1s ease-in-out;
-  z-index: 100;
-
+	-moz-transition: all 1s ease-in-out;
+	-o-transition: all 1s ease-in-out;
+	-webkit-transition: all 1s ease-in-out;
+	transition: all 1s ease-in-out;
+	z-index: 100;
 }
 
 #lid-open a{
@@ -614,21 +622,21 @@ text-shadow: -1px -1px rgba(0,0,0,0.3);
 	cursor: pointer;
 }
 
-#welcome-content td,#welcome-content  th,#welcome-content  tr{
+#welcome td,#welcome th,#welcome  tr{
 	border: 1px solid #999;
 	padding: 3px;
 }
 
-#welcome-content td{
-	min-width: 100px;
+#welcome td {
+	min-width: 110px;
 }
 
-#welcome-content .label{
+#welcome .label {
 	font-weight: bold;
+	margin-right: 0.2em;
 }
-
 #welcome.summary #welcome-content p{
-margin: 10px 0;
+	margin: 10px 0;
 }
 
 #summary-table{
