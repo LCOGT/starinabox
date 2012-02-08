@@ -357,6 +357,7 @@ $(document).ready(function () {
 		this.loadChartData(sMass);
 		this.stageLife = Array();
 		this.stageIndex = Array();
+		
 		$("a#animateEvolve").text('Start');
 		$("a#animateEvolveReset").css('display', '');
 		this.el.time.text("Time: 0 Myrs");
@@ -439,8 +440,9 @@ $(document).ready(function () {
 			sliderOptions: {
 				change: function (event, ui) {
 					clearInterval(that.eAnim);
-					that.updateEvolve();
 					that.resetStage()
+//					console.log(that.sStart,that.sEnd)
+					that.updateEvolve();
 					$("a#animateEvolve").text('Start');
 					$("a#animateEvolveReset").css('display', '');
 					$('a#animationEvolveReset').trigger('click');
@@ -496,17 +498,20 @@ $(document).ready(function () {
 		this.updateCurrentStage();
 	}
 	StarInABox.prototype.resetStage = function(i){
+		this.assessStages();
 		if(i){
 			if(i < 1 || i > this.stageIndex.length) return;
 		}else i = this.stageIndex[this.sStart];
 		this.timestep = i;
 		var first = this.getData();
-
-		this.el.time.text("Time: " + first.t + " Myrs");
-		this.sStarReset();
-		this.setComparisonStar(this.stageIndex[i]);
-		this.eqLevel(first.lum);
-		this.setThermometer(first.temp);
+		//console.log(this.sStart,this.timestep,this.stageIndex,this.eAnimPoints)
+		if(typeof first=="object"){
+			this.el.time.text("Time: " + first.t + " Myrs");
+			this.sStarReset();
+			this.setComparisonStar(this.stageIndex[i]);
+			this.eqLevel(first.lum);
+			this.setThermometer(first.temp);
+		}
 		this.chart.star.attr("cx", (this.eAnimPoints[this.timestep][0]));
 		this.chart.star.attr("cy", (this.eAnimPoints[this.timestep][1]));
 	}
@@ -612,11 +617,11 @@ $(document).ready(function () {
 	}
 	StarInABox.prototype.rebuildCharts = function() {
 		this.assessStages();
+		this.updateChart();
 		this.setComparisonStar(0);
 		this.createPie();
 		this.updateCurrentStage();
 		this.doneLoadingStar();
-		this.updateChart();
 	}
 	
 	StarInABox.prototype.setComparisonStar = function(i) {
@@ -629,8 +634,8 @@ $(document).ready(function () {
 		}
 	}
 	StarInABox.prototype.setcomparisonStarSize = function(sm) {
-		//var size = sm * 9.1;
-		this.sizeComparison.star.scale(sm, sm, this.sizeComparison.starOffset);
+		r = sm*this.sizeComparison.starR;
+		this.sizeComparison.star.attr({cx:(this.sizeComparison.starX+r),r:r});
 	}
 	StarInABox.prototype.setcomparisonStarColour = function(value) {
 		this.sizeComparison.star.attr("fill", value,"stroke-width","0");
@@ -765,8 +770,6 @@ $(document).ready(function () {
 		return p;
 	}
 	StarInABox.prototype.updateEvolve = function() {
-		this.assessStages();
-		this.timestep = this.stageIndex[this.sStart];
 		this.createPie();
 		this.updateCurrentStage();
 	}
