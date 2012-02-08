@@ -106,7 +106,6 @@ $(document).ready(function () {
 		this.sizeComparison.star = this.sizeComparison.paper.circle(this.sizeComparison.starX+this.sizeComparison.starR, this.sizeComparison.starY, this.sizeComparison.starR);
 		this.sizeComparison.star.attr({"fill":"#fff3ea","stroke-width":"0"});
 	}
-
 	StarInABox.prototype.findMassIndex = function(mass){
 		for(var i = 0; i < this.massVM.length; i++){
 			if(mass == this.massVM[i]){
@@ -114,7 +113,6 @@ $(document).ready(function () {
 			}
 		}
 	}
-
 	StarInABox.prototype.setupUI = function(){
 
 		// Define if we can open the box or not
@@ -137,6 +135,8 @@ $(document).ready(function () {
 			var code = e.keyCode || e.charCode || e.which || 0;
 			//var c = String.fromCharCode(code).toLowerCase();
 			if(code==32) $('a#animateEvolve').trigger('click');
+			else if(code == 37 /* left */){ box.animateStep(-1); }
+			else if(code == 39 /* right */){ box.animateStep(1); }
 		});
 		
 		//make nav divs clickable
@@ -287,43 +287,8 @@ $(document).ready(function () {
 
 				//animate through stages...
 				$("a#animateEvolve").text('Pause');
-				var duration = $("#evolveSpeed option:selected").attr("value");
-				box.eAnim = setInterval(function () {
-					if (box.timestep == box.eAnimPoints.length) {
-						$("a#animateEvolve").text('Start');
-						clearInterval(box.eAnim);
-						$("a#animateEvolveReset").css('display', '');
-						$("a#animateEvolveReset").css('display', 'n');
-						box.timestep = box.stageIndex[box.sStart];
-						box.animating = false;
-					} else {
-						el = box.getData();
-						if(typeof el=="object"){
-							if(box.timestep % box.reduction == 0 && box.timestep < box.data.data.length) {
-								box.sizeComparison.star.animate({
-									cx: (box.sizeComparison.starX+el.radius*box.sizeComparison.starR),
-									r: box.sizeComparison.starR*el.radius,
-									//scale: [el.radius, el.radius, box.sizeComparison.starOffset],
-									fill: el.RGB
-								}, (duration*box.reduction));
-								box.setThermometer(el.temp, (duration * box.reduction));
-								if (box.eqCurrentLevel != Math.round(el.lum / 0.3) + 1) box.eqLevel(el.lum, true);
-								box.updateCurrentStage();
-							}
-							box.el.time.text("Time: " + el.t + " Myrs");
-							// In the case of 0 luminosity the y-value is returned as negative.
-							// Don't change anything if that is the case.
-							if(box.eAnimPoints[box.timestep][1] >= 0) {
-								box.chart.star.animate({
-									//path:box.getStarShape(box.eAnimPoints[box.iMod][0],box.eAnimPoints[box.iMod][1])
-									cx: (box.eAnimPoints[box.timestep][0]),
-									cy: (box.eAnimPoints[box.timestep][1])
-								}, duration);
-							}
-						}
-						box.timestep++;
-					}
-				}, duration);
+				box.duration = $("#evolveSpeed option:selected").attr("value");
+				box.eAnim = setInterval(function () { box.animateStep(1); }, box.duration);
 			}
 			return false;
 		});
@@ -348,6 +313,43 @@ $(document).ready(function () {
 		}
 
 	}
+	StarInABox.prototype.animateStep = function(delta){
+		duration = this.duration;
+		if (this.timestep == this.eAnimPoints.length) {
+			$("a#animateEvolve").text('Start');
+			clearInterval(this.eAnim);
+			$("a#animateEvolveReset").css('display', '');
+			$("a#animateEvolveReset").css('display', 'n');
+			this.timestep = this.stageIndex[this.sStart];
+			this.animating = false;
+		} else {
+			this.timestep+=delta;
+			if(this.timestep < 0) this.timestep = 0;
+			el = this.getData();
+			if(typeof el=="object"){
+				if(this.timestep % this.reduction == 0 && this.timestep < this.data.data.length) {
+					this.sizeComparison.star.animate({
+						cx: (this.sizeComparison.starX+el.radius*this.sizeComparison.starR),
+						r: this.sizeComparison.starR*el.radius,
+						fill: el.RGB
+					}, (duration*this.reduction));
+					this.setThermometer(el.temp, (duration * this.reduction));
+					if (this.eqCurrentLevel != Math.round(el.lum / 0.3) + 1) this.eqLevel(el.lum, true);
+					this.updateCurrentStage();
+				}
+				this.el.time.text("Time: " + el.t + " Myrs");
+				// In the case of 0 luminosity the y-value is returned as negative.
+				// Don't change anything if that is the case.
+				if(this.eAnimPoints[this.timestep][1] >= 0) {
+					this.chart.star.animate({
+						//path:this.getStarShape(this.eAnimPoints[this.iMod][0],this.eAnimPoints[this.iMod][1])
+						cx: (this.eAnimPoints[this.timestep][0]),
+						cy: (this.eAnimPoints[this.timestep][1])
+					}, duration);
+				}
+			}
+		}
+	}
 	StarInABox.prototype.setThermometer = function(temp,duration){
 		s = Math.min(temp / 60000,1.05);
 		if(typeof duration=="number" && duration > 0) this.thermoTemp.animate({ transform: "s1,"+s+",0,343" }, duration);
@@ -367,10 +369,8 @@ $(document).ready(function () {
 		$("a#animateEvolve").text('Start');
 		$("a#animateEvolveReset").css('display', '');
 		this.el.time.text("Time: 0 Myrs");
-		//$('a#animationEvolveReset').trigger('click');
 		this.reset();
 	}
-
 	StarInABox.prototype.createMassSlider = function(){
 		//Add Mass Slider and set defaults
 		var that = this;
@@ -500,10 +500,9 @@ $(document).ready(function () {
 		}
 		if(this.numBars != this.eqCurrentLevel && this.eqCurrentLevel >= 0) window.setTimeout(function(box){ box.eqChange(); },100,this);
 	}
-
 	StarInABox.prototype.reset = function(){
 		clearInterval(this.eAnim);
-		//this.resetStage();
+		this.resetStage();
 		$("a#animateEvolve").text('Start');
 		this.updateCurrentStage();
 	}
@@ -556,7 +555,6 @@ $(document).ready(function () {
 			ii++;
 		}
 	}
-	
 	/**
 	 *
 	 *	Generate Pie Chart for selected mass and range of lifecycle stages.
@@ -618,6 +616,7 @@ $(document).ready(function () {
 				//console.log('getEvolver ',data)
 				this.data = data;
 				this.rebuildCharts();
+				this.timestep = 0;
 			}
 		});
 	}
@@ -629,7 +628,6 @@ $(document).ready(function () {
 		this.createPie();
 		this.doneLoadingStar();
 	}
-	
 	StarInABox.prototype.setComparisonStar = function(i) {
 		if(!i) i = 0;
 		if(i > this.data.data.length) return;
@@ -676,7 +674,7 @@ $(document).ready(function () {
 			m = 6.1;
 			c = 23.2;
 			p1 = this.getPixPos(3000,Math.pow(10,m*this.log10(3000)-c));
-			p2 = this.getPixPos(60000,Math.pow(10,m*this.log10(60000)-c));
+			p2 = this.getPixPos(50000,Math.pow(10,m*this.log10(50000)-c));
 			mid = this.getPixPos(12000,Math.pow(10,m*this.log10(12000)-c));
 			this.chart.mainSequence = this.chart.holder.path("M"+p1[0]+","+p1[1]+"L"+p2[0]+","+p2[1]).attr({
 				stroke : "rgba(255, 0, 0, 0.5)",
