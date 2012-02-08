@@ -127,9 +127,16 @@ $(document).ready(function () {
 		$('a#animateEvolve').click({box:this},function(e){
 			e.preventDefault();
 			if($(this).text() == 'Start'){
-				e.data.box.toggleAnimatePanel();
+				e.data.box.closeAnimatePanel();
 				if(e.data.box.inputopen) e.data.box.toggleInputPanel();
 			}
+		});
+		$(document).bind('keypress',{box:this},function(e){
+			if(!e) e=window.event;
+			box = e.data.box;
+			var code = e.keyCode || e.charCode || e.which || 0;
+			//var c = String.fromCharCode(code).toLowerCase();
+			if(code==32) $('a#animateEvolve').trigger('click');
 		});
 		
 		//make nav divs clickable
@@ -415,8 +422,13 @@ $(document).ready(function () {
 		else $("#animate").animate({"top": "0px"}, duration);
 		this.animateopen = !this.animateopen;
 	}
-		// get stages for current mass function
-
+	StarInABox.prototype.closeAnimatePanel = function(duration){
+		if(typeof duration!="number") duration = 300;
+		if(!this.animateopen) return;
+		$("#animate").animate({"top": "-60px"}, duration);
+		this.animateopen = false;
+	}
+	// get stages for current mass function
 	StarInABox.prototype.getStages = function(mass){
 		if(!this.allstages["m"+mass]) return;
 		data = this.allstages["m"+mass];
@@ -661,14 +673,14 @@ $(document).ready(function () {
 	StarInABox.prototype.updateChart = function() {
 		this.getChartOffset();
 		if(!this.chart.mainSequence){
-			c = Math.pow(10,-23.2);
-			m = Math.pow(10,6.1);
-			p1 = this.getPixPos(3000,m*3000+c);
-			p2 = this.getPixPos(70000,m*70000+c);
-			mid = this.getPixPos(10000,m*10000+c);
+			m = 6.1;
+			c = 23.2;
+			p1 = this.getPixPos(3000,Math.pow(10,m*this.log10(3000)-c));
+			p2 = this.getPixPos(60000,Math.pow(10,m*this.log10(60000)-c));
+			mid = this.getPixPos(12000,Math.pow(10,m*this.log10(12000)-c));
 			this.chart.mainSequence = this.chart.holder.path("M"+p1[0]+","+p1[1]+"L"+p2[0]+","+p2[1]).attr({
 				stroke : "rgba(255, 0, 0, 0.5)",
-				"stroke-width": 30,
+				"stroke-width": 35,
 				"stroke-linecap" : "round"
 			});
 			this.chart.mainSequenceLabel = this.chart.holder.text(mid[0],mid[1],"Main Sequence").attr({ fill: "white",'font-size': '14px','text-anchor':'middle' }).rotate(Raphael.angle(p1[0],p1[1],p2[0],p2[1]));
