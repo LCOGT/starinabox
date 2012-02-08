@@ -339,7 +339,7 @@ $(document).ready(function () {
 	}
 	StarInABox.prototype.setThermometer = function(temp,duration){
 		s = Math.min(temp / 60000,1.05);
-		if(typeof duration=="number" && duration > 0) this.thermoTemp.animate({ scale: [1, s, 0, 343] }, duration);
+		if(typeof duration=="number" && duration > 0) this.thermoTemp.animate({ transform: "s1,"+s+",0,343" }, duration);
 		else this.thermoTemp.scale(1, s, 0, 343);
 	}
 	StarInABox.prototype.slideTo = function(p){
@@ -565,25 +565,25 @@ $(document).ready(function () {
 		}
 
 		this.rPie = Raphael("rPie");
-		this.rPie.g.txtattr.font = "12px 'Fontin Sans', Fontin-Sans, sans-serif";
+		//this.rPie.attr({ 'font': "12px 'Fontin Sans', Fontin-Sans, sans-serif"});
 
-		this.pie = this.rPie.g.piechart(140, 130, 100, this.pieData, {
+		this.pie = this.rPie.piechart(140, 130, 100, this.pieData, {
 			legend: this.pieLegend,
 			legendpos: "south",
 			legendcolor: "#FFF"
-		});
+		}).attr({ 'font': "12px 'Fontin Sans', Fontin-Sans, sans-serif"})
 		this.pie.hover(function () {
 			this.sector.stop();
 			this.sector.scale(1.1, 1.1, this.cx, this.cy);
 			if (this.label) {
 				this.label[0].stop();
-				this.label[0].scale(1.5);
+				this.label[0].attr({ r: 7.5 });
 				this.label[1].attr({ "font-weight": 800 });
 			}
 		}, function () {
-			this.sector.animate({ scale: [1, 1, this.cx, this.cy] }, 500, "bounce");
+			this.sector.animate({ transform: 's1 1 ' + this.cx + ' ' + this.cy }, 500, "bounce");
 			if (this.label) {
-				this.label[0].animate({ scale: 1 }, 500, "bounce");
+				this.label[0].animate({ r: 5 }, 500, "bounce");
 				this.label[1].attr({ "font-weight": 400 });
 			}
 		});
@@ -673,7 +673,7 @@ $(document).ready(function () {
 		}
 		//if(!this.chart.border) this.chart.border = this.chart.holder.rect(0,0,this.chart.width,this.chart.height).attr({stroke:'rgba(0,0,0,0.2)'});
 		if(!this.chart.axes) this.chart.axes = this.chart.holder.rect(this.chart.offset.left,this.chart.offset.top,this.chart.offset.width,this.chart.offset.height).attr({stroke:'rgba(0,0,0,0.5)','stroke-width':2});
-		if(!this.chart.yLabel) this.chart.yLabel = this.chart.holder.text(this.chart.offset.left - 10, this.chart.offset.top+(this.chart.offset.height/2), "Brightness (L0)").attr({"rotation": "270", fill: "black",'font-size': '12px' });
+		if(!this.chart.yLabel) this.chart.yLabel = this.chart.holder.text(this.chart.offset.left - 10, this.chart.offset.top+(this.chart.offset.height/2), "Brightness (L0)").attr({fill: "black",'font-size': '12px' }).rotate(270);
 		if(!this.chart.yaxis){
 			this.chart.yaxis = this.chart.holder.set();
 /*			for (var i = Math.ceil(this.chart.options.yaxis.min); i <= Math.floor(this.chart.options.yaxis.max); i++) {
