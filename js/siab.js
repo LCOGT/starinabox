@@ -348,20 +348,19 @@ $(document).ready(function () {
 	}
 	StarInABox.prototype.slideTo = function(p){
 		//console.log('createMassSlider:change',p)
+		clearInterval(this.eAnim);
 		var sMass = this.massVM[p];
 		this.loadingStar();
-		clearInterval(this.eAnim);
 		//on change get stages for the mass of star!
 		$('#stages .ui-slider').remove();
 		this.getStages(sMass);
-		this.loadChartData(sMass);
 		this.stageLife = Array();
 		this.stageIndex = Array();
 		
 		$("a#animateEvolve").text('Start');
 		$("a#animateEvolveReset").css('display', '');
 		this.el.time.text("Time: 0 Myrs");
-		$('a#animationEvolveReset').trigger('click');
+		//$('a#animationEvolveReset').trigger('click');
 		this.reset();
 	}
 
@@ -429,6 +428,7 @@ $(document).ready(function () {
 		$("select#last-stage").html(sOptions);
 		$('#first-stage option:first').attr('selected', 'selected');
 		$('#last-stage option:last').attr('selected', 'selected');
+
 		this.setThermometer($("#first-stage option:selected").attr("temp"));
 		this.eqLevel($("#first-stage option:selected").attr("lum"));
 
@@ -440,8 +440,7 @@ $(document).ready(function () {
 			sliderOptions: {
 				change: function (event, ui) {
 					clearInterval(that.eAnim);
-					that.resetStage()
-//					console.log(that.sStart,that.sEnd)
+					that.resetStage();
 					that.updateEvolve();
 					$("a#animateEvolve").text('Start');
 					$("a#animateEvolveReset").css('display', '');
@@ -450,7 +449,6 @@ $(document).ready(function () {
 			}
 		}).hide();
 		this.loadChartData(mass);
-
 	}
 	StarInABox.prototype.eqLevel = function(num, anim) {
 		var zero = 4;
@@ -493,7 +491,7 @@ $(document).ready(function () {
 
 	StarInABox.prototype.reset = function(){
 		clearInterval(this.eAnim);
-		this.resetStage();
+		//this.resetStage();
 		$("a#animateEvolve").text('Start');
 		this.updateCurrentStage();
 	}
@@ -526,26 +524,24 @@ $(document).ready(function () {
 		});
 		var ii = 0;
 		var n = 0;
-		var type = new Array(0, this.sStart);
-		this.stageIndex[0] = 1;
+		var type = new Array(0, 1);
+		this.stageIndex = [0];
 		for (var i = 0; i < this.data.data.length; i++) {
 			var eType = this.data.data[i].type;
-			if (eType >= this.sStart && eType <= this.sEnd) {
-				change = false;
-				if (eType != type[1]) {
-					type[1] = eType;
-					type[0]++;
-					ii = 0;
-					change = true;
-				}
-				if(change) {
-					if(!this.stageIndex[type[0]]) this.stageIndex[type[0]] = n;
-					n = i;
-				}
-				if(!this.stageLife[type[0]]) this.stageLife[type[0]] = new Array();
-				this.stageLife[type[0]][ii] = [this.data.data[i].type, this.stages[this.data.data[i].type], this.data.data[i].t];
-				ii++;
+			change = false;
+			if (eType != type[1]) {
+				type[1] = eType;
+				type[0]++;
+				ii = 0;
+				change = true;
 			}
+			if(change) {
+				if(!this.stageIndex[type[0]]) this.stageIndex[type[0]] = n;
+				n = i;
+			}
+			if(!this.stageLife[type[0]]) this.stageLife[type[0]] = new Array();
+			this.stageLife[type[0]][ii] = [this.data.data[i].type, this.stages[this.data.data[i].type], this.data.data[i].t];
+			ii++;
 		}
 	}
 	
@@ -569,9 +565,7 @@ $(document).ready(function () {
 			}
 		}
 		//raphael script for pie chart...
-		if ($("#rPie #pie").children().size() > 0) {
-			$("#rPie #pie").children().remove();
-		}
+		if ($("#rPie #pie").children().size() > 0) $("#rPie #pie").children().remove();
 
 		this.rPie = Raphael("rPie");
 		//this.rPie.attr({ 'font': "12px 'Fontin Sans', Fontin-Sans, sans-serif"});
@@ -617,10 +611,10 @@ $(document).ready(function () {
 	}
 	StarInABox.prototype.rebuildCharts = function() {
 		this.assessStages();
+		this.updateCurrentStage();
 		this.updateChart();
 		this.setComparisonStar(0);
 		this.createPie();
-		this.updateCurrentStage();
 		this.doneLoadingStar();
 	}
 	
@@ -638,7 +632,7 @@ $(document).ready(function () {
 		this.sizeComparison.star.attr({cx:(this.sizeComparison.starX+r),r:r});
 	}
 	StarInABox.prototype.setcomparisonStarColour = function(value) {
-		this.sizeComparison.star.attr("fill", value,"stroke-width","0");
+		this.sizeComparison.star.attr({"fill":value,"stroke-width":"0"});
 	}
 	StarInABox.prototype.sStarReset = function() {
 		this.sizeComparison.star.remove();
@@ -830,8 +824,7 @@ $(document).ready(function () {
 	}
 
 	function roundNumber(num, dec) {
-		var result = Math.round(num * Math.pow(10, dec)) / Math.pow(10, dec);
-		return result;
+		return Math.round(num * Math.pow(10, dec)) / Math.pow(10, dec);
 	}
 	function addCommas(nStr) {
 		nStr += '';
