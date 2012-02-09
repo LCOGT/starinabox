@@ -562,28 +562,24 @@ $(document).ready(function () {
 
 		this.pieData = [];
 		this.pieLegend = [];
-		for (i = 0; i < this.stageLife.length; i++) {
-			if(this.stageLife[i]){
-				var sStart = this.stageLife[i][0][2];
-				var sEnd = this.stageLife[i][(this.stageLife[i].length) - 1][2];
-				var sValue = sEnd - sStart;
-				var sLegend = this.stageLife[i][0][1];
-				this.pieLegend.push(sLegend);
-				this.pieData.push(sValue);
-			}
+
+		for (var i = 1 ; i < this.stageIndex.length ; i++){
+			s = this.getData(this.stageIndex[i]);
+			n = (i < this.stageIndex.length-1) ? this.stageIndex[i+1]-1 : this.data.data.length-1;
+			e = this.getData(n);
+			this.pieLegend.push(this.stages[s.type]);
+			this.pieData.push(e.t-s.t);
 		}
 		//raphael script for pie chart...
-		if ($("#rPie #pie").children().size() > 0) $("#rPie #pie").children().remove();
+		if ($("#rPie #pie").length > 0) $("#rPie #pie").remove();
 
 		this.rPie = Raphael("rPie");
-		//this.rPie.attr({ 'font': "12px 'Fontin Sans', Fontin-Sans, sans-serif"});
 
 		this.pie = this.rPie.piechart(140, 130, 100, this.pieData, {
 			legend: this.pieLegend,
 			legendpos: "south",
 			legendcolor: "#FFF"
-		}).attr({ 'font': "12px 'Fontin Sans', Fontin-Sans, sans-serif"})
-		this.pie.hover(function () {
+		}).attr({ 'font': "12px 'Fontin Sans', Fontin-Sans, sans-serif"}).hover(function () {
 			this.sector.stop();
 			this.sector.scale(1.1, 1.1, this.cx, this.cy);
 			if (this.label) {
