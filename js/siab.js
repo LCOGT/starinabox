@@ -110,6 +110,8 @@ $(document).ready(function () {
 		this.sizeComparison.starR = 5;
 		this.sizeComparison.starOffset = 45;
 		this.sizeComparison.star = this.sizeComparison.paper.circle(this.sizeComparison.starX+this.sizeComparison.starR, this.sizeComparison.starY, this.sizeComparison.starR).attr({"fill":"#fff3ea","stroke-width":"0"});
+
+
 	}
 	StarInABox.prototype.findMassIndex = function(mass){
 		for(var i = 0; i < this.massVM.length; i++){
@@ -362,7 +364,6 @@ $(document).ready(function () {
 		else this.thermoTemp.scale(1, s, 0, 343);
 	}
 	StarInABox.prototype.slideTo = function(p){
-		//console.log('createMassSlider:change',p)
 		clearInterval(this.eAnim);
 		var sMass = this.massVM[p];
 		this.loadingStar();
@@ -447,8 +448,8 @@ $(document).ready(function () {
 		$('#first-stage option:first').attr('selected', 'selected');
 		$('#last-stage option:last').attr('selected', 'selected');
 
-		this.setThermometer($("#first-stage option:selected").attr("temp"));
-		this.eqLevel($("#first-stage option:selected").attr("lum"));
+		//this.setThermometer($("#first-stage option:selected").attr("temp"));
+		//this.eqLevel($("#first-stage option:selected").attr("lum"));
 
 
 		//Load Stages Slider...
@@ -474,10 +475,9 @@ $(document).ready(function () {
 		var bars = 20;
 
 		if (num != null) {
-			num = this.log10(num);
+			num = this.log10(parseFloat(num));
 			this.numBars = num / units;
 			this.numBars = Math.round(this.numBars) + zero;
-
 			if (anim == true) this.eqChange();
 			else {
 				if(this.numBars >= 0) this.eqCurrentLevel = this.numBars;
@@ -530,6 +530,7 @@ $(document).ready(function () {
 		this.chart.star.attr("cy", (this.eAnimPoints[this.timestep][1]));
 	}
 	StarInABox.prototype.assessStages = function() {
+		if(!this.data.data) return;
 		this.sStart = 1;
 		this.sEnd = 11;
 		var that = this;
@@ -615,9 +616,9 @@ $(document).ready(function () {
 				console.log('Arghh!');
 			},
 			success: function(data){
-				//console.log('getEvolver ',data)
 				this.data = data;
 				this.rebuildCharts();
+				this.resetStage();
 				this.timestep = 0;
 			}
 		});
