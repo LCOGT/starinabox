@@ -285,6 +285,13 @@ $(document).ready(function () {
 			"time": $("#tevTime"),
 		}
 	}
+	StarInABox.prototype.supernova = function(){
+		if($('.supernova').length == 0) $('#container').append('<div class="supernova"></div>');
+		c = $('#container');
+		b = $('#box-top');
+		$('.supernova').css({position:'absolute',width:c.width()-10,left:5,top:5,height:c.height()-10,'z-index':(b.css('z-index')-2),opacity:1}).delay(200).animate({opacity:0},1500,"easeOutExpo",function() { $(this).remove(); });
+		c.clearQueue().animate({left:"-=12px"},20).animate({left:"+=20px"},20).animate({left:"-=4px"},50).animate({left:"+=7px"},50).animate({left:"-=15px"},50).animate({left:"+=5px"},70).animate({left:"-=2px"},80);
+	}
 	StarInABox.prototype.play = function(e){
 		if(this.animating){
 			clearInterval(this.eAnim);
@@ -305,13 +312,6 @@ $(document).ready(function () {
 			this.eAnim = setInterval(function () { _obj.animateStep(1,_obj.reduction); }, this.duration);
 		}
 		return false;
-	}
-	StarInABox.prototype.supernova = function(){
-		if($('.supernova').length == 0) $('#container').append('<div class="supernova"></div>');
-		c = $('#container');
-		b = $('#box-top');
-		$('.supernova').css({position:'absolute',width:c.width()-10,left:5,top:5,height:c.height()-10,'z-index':(b.css('z-index')-2),opacity:1}).delay(200).animate({opacity:0},1500,"easeOutExpo",function() { $(this).remove(); });
-		c.clearQueue().animate({left:"-=12px"},20).animate({left:"+=20px"},40).animate({left:"-=4px"},20).animate({left:"+=7px"},40).animate({left:"-=15px"},60).animate({left:"+=5px"},100).animate({left:"-=2px"},150);
 	}
 	StarInABox.prototype.animateStep = function(delta,reduction){
 		duration = this.duration;
