@@ -126,10 +126,12 @@ $(document).ready(function () {
 			if(!e) e=window.event;
 			box = e.data.box;
 			var code = e.keyCode || e.charCode || e.which || 0;
-			//var c = String.fromCharCode(code).toLowerCase();
-			if(code==32) box.reset();
+			var c = String.fromCharCode(code).toLowerCase();
+			if(code==32) box.play();
 			else if(code == 37 /* left */){ box.animateStep(-1); }
 			else if(code == 39 /* right */){ box.animateStep(1); }
+			if(c == 's'){ box.supernova(); }
+			if(c == 'l'){ box.toggleLid(); }
 		});
 		
 		//make nav divs clickable
@@ -189,8 +191,6 @@ $(document).ready(function () {
 		// open/close animate panel
 		$("#animate .tab-bottom").click({box:this},function(e){ e.data.box.toggleAnimatePanel(); });
 
-
-
 		//thermometer
 		this.thermo = Raphael("thermometer", 280, 390);
 		//333px is bottom of thermometer...
@@ -209,18 +209,10 @@ $(document).ready(function () {
 		ll = this.thermo.text(50, 200, "Temperature (Kelvin)").attr(txtprops);
 		ll.rotate(-90);
 
-
-		/**
-		 *
-		 *	EQ for Luminosity
-		 *
-		 **/
-
+		// Luminosity meter
 		this.rLum = Raphael("rlum", 280, 390);
-
 		this.eqBg1 = this.rLum.image("images/eq-bg.png", 40, 20, 57, 354);
 		this.eqBg2 = this.rLum.image("images/eq-bg.png", 105, 20, 57, 354);
-
 		//add LEDs
 		this.eq1 = [];
 		this.eq2 = [];
@@ -314,6 +306,13 @@ $(document).ready(function () {
 		}
 		return false;
 	}
+	StarInABox.prototype.supernova = function(){
+		if($('.supernova').length == 0) $('#container').append('<div class="supernova"></div>');
+		c = $('#container');
+		b = $('#box-top');
+		$('.supernova').css({position:'absolute',width:c.width()-10,left:5,top:5,height:c.height()-10,'z-index':(b.css('z-index')-2),opacity:1}).delay(200).animate({opacity:0},1500,"easeOutExpo",function() { $(this).remove(); });
+		c.clearQueue().animate({left:"-=12px"},20).animate({left:"+=20px"},40).animate({left:"-=4px"},20).animate({left:"+=7px"},40).animate({left:"-=15px"},60).animate({left:"+=5px"},100).animate({left:"-=2px"},150);
+	}
 	StarInABox.prototype.animateStep = function(delta,reduction){
 		duration = this.duration;
 		if(!reduction) reduction = 1;
@@ -329,6 +328,11 @@ $(document).ready(function () {
 			if(this.timestep < 0) this.timestep = 0;
 			el = this.getData();
 			if(typeof el=="object"){
+				if(this.timestep > 1){
+					if(this.data.data[this.timestep].type != this.data.data[this.timestep-1].type){
+						if(this.data.data[this.timestep].type > 11) this.supernova();
+					}
+				}
 				if(this.timestep % reduction == 0 && this.timestep < this.data.data.length) {
 					this.sizeComparison.star.animate({
 						cx: (this.sizeComparison.starX+el.radius*this.sizeComparison.starR),
