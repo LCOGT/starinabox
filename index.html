@@ -57,13 +57,13 @@
 				<div id="help-content">
 					<h1>HELP!</h1>
 					<p>Star in a Box allows you to explore one of the most enigmatic tools in astronomy - the <a href="http://lcogt.net/book/h-r-diagrams">Herzsprungg-Russell diagram</a>. The tracks that you see on the diagram map the lifecycle of a star. You can play the animation of the star moving around the diagram, and see how its brightness, size and surface temperature change as it evolves (in the panel on the left).</p>
-					<p><strong>Controls:</strong><br/>
-					    <ul>
+					<p><strong>Controls:</strong></p>
+					<ul>
 					    <li><strong>spacebar</strong> - Play/pause the animation</li>
 					    <li><strong>right/left arrow</strong> - Move the animation forwards/backwards in time</li>
 					    <li><strong></strong> - </li>
 					    <li><strong></strong> - </li>
-					    </ul>
+					</ul>
 				</div>
 				<div id="summary-content">
 				</div>
@@ -126,7 +126,7 @@
                             Slow
                         </option>
                     </select>
-                </div><a href="" id="animateEvolve">Start</a> <a href="" id="animateEvolveReset">Reset</a>
+                </div><a href="" id="animateEvolve" class="control_play">Start</a> <a href="" id="animateEvolveReset" class="control_reset">Reset</a>
             </div>
 
             <div id="nav">
@@ -180,10 +180,12 @@
                     </div>
                 </div>
             </div>
-
-            <div id="tevTime">
-                Time: 0 Myrs
-            </div>
+			<div id="control">
+				<div id="controls">
+					<a href="#" class="control_reset"><img src="css/images/cleardot.gif" class="icon reset" alt="reset" title="Reset" /></a><a href="#" class="control_rewind"><img src="css/images/cleardot.gif" class="icon rewind" alt="rewind" title="Rewind" /></a><a href="#" class="control_play"><img src="css/images/cleardot.gif" class="icon play" alt="play" title="Start/Pause" /></a><a href="#" class="control_ff"><img src="css/images/cleardot.gif" class="icon ff" alt="fast-forward" title="Fast-forward" /></a>
+				</div>
+				<div id="tevTime">Time: 0 Myrs</div>
+			</div>
         </div>
     </div>
 </body>

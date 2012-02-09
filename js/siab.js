@@ -122,19 +122,12 @@ $(document).ready(function () {
 		$("#box-lid,#box-top").click({box:this},function(e){
 			if(e.data.box.canopen) e.data.box.toggleLid();
 		});
-		$('a#animateEvolve').click({box:this},function(e){
-			e.preventDefault();
-			if($(this).text() == 'Start'){
-				e.data.box.closeAnimatePanel();
-				if(e.data.box.inputopen) e.data.box.toggleInputPanel();
-			}
-		});
 		$(document).bind('keypress',{box:this},function(e){
 			if(!e) e=window.event;
 			box = e.data.box;
 			var code = e.keyCode || e.charCode || e.which || 0;
 			//var c = String.fromCharCode(code).toLowerCase();
-			if(code==32) $('a#animateEvolve').trigger('click');
+			if(code==32) box.reset();
 			else if(code == 37 /* left */){ box.animateStep(-1); }
 			else if(code == 39 /* right */){ box.animateStep(1); }
 		});
@@ -267,40 +260,28 @@ $(document).ready(function () {
 		$("#evolve").change({box:this},function evolveStar(e) {
 			var el = e.data.box.getData();
 			e.data.box.sizeComparison.star.attr("fill", el.RGB);
-			//e.data.box.sizeComparison.star.attr("stroke", "#000","stroke-width","0");
 			e.data.box.setcomparisonStarSize(el.radius);
 		});
 
 		this.eAnim = '';
 
-		$("a#animateEvolve").click({box:this},function (e) {
-			var box = e.data.box;
-			if(box.animating){
-				clearInterval(box.eAnim);
-				$("a#animateEvolve").text('Start');
-				$("a#animateEvolveReset").css('display', '');
-				box.animating = false;
-			}else{
-				box.animating = true;
-				$("a#animateEvolveReset").css('display', 'none');
-				if(box.timestep == box.eAnimPoints.length) $("a#animateEvolveReset").trigger('click');
-
-				//animate through stages...
-				$("a#animateEvolve").text('Pause');
-				box.duration = $("#evolveSpeed option:selected").attr("value");
-				box.eAnim = setInterval(function () { box.animateStep(1,box.reduction); }, box.duration);
-			}
-			return false;
+		$('a.control_play').click({box:this},function (e) {
+			e.preventDefault();
+			e.data.box.play();
 		});
-
-		$("a#animateEvolveReset").click({box:this},function(e){
+		$("a.control_reset").click({box:this},function(e){
 			e.preventDefault();
 			e.data.box.reset();
-			return false;
+		});
+		$("a.control_rewind").click({box:this},function(e){
+			e.preventDefault();
+			e.data.box.animateStep(-1);
+		});
+		$("a.control_ff").click({box:this},function(e){
+			e.preventDefault();
+			e.data.box.animateStep(+1);
 		});
 
-
-		//summary script
 		//show summary
 		$('#summary').click({box:this},function (e) {
 			$('#welcome').removeClass('about').removeClass('help').addClass('summary');
@@ -311,7 +292,27 @@ $(document).ready(function () {
 		this.el = {
 			"time": $("#tevTime"),
 		}
+	}
+	StarInABox.prototype.play = function(e){
+		if(this.animating){
+			clearInterval(this.eAnim);
+			$("a#animateEvolve").text('Start');
+			$("a#animateEvolveReset").css('display', '');
+			this.animating = false;
+		}else{
+			this.animating = true;
+			this.closeAnimatePanel();
+			if(this.inputopen) this.toggleInputPanel();
+			$("a#animateEvolveReset").css('display', 'none');
+			if(this.timestep == this.eAnimPoints.length) this.reset();
 
+			//animate through stages...
+			$("a#animateEvolve").text('Pause');
+			this.duration = $("#evolveSpeed option:selected").attr("value");
+			var _obj = this;
+			this.eAnim = setInterval(function () { _obj.animateStep(1,_obj.reduction); }, this.duration);
+		}
+		return false;
 	}
 	StarInABox.prototype.animateStep = function(delta,reduction){
 		duration = this.duration;
@@ -457,7 +458,7 @@ $(document).ready(function () {
 					that.updateEvolve();
 					$("a#animateEvolve").text('Start');
 					$("a#animateEvolveReset").css('display', '');
-					$('a#animationEvolveReset').trigger('click');
+					that.reset();
 				}
 			}
 		}).hide();
@@ -595,8 +596,11 @@ $(document).ready(function () {
 			}
 		});
 	}
+	StarInABox.prototype.fileName = function(mass) {
+		return "db/star_"+mass+"_solar_mass";
+	}
 	StarInABox.prototype.loadChartData = function(mass) {
-		var dataurl = "db/star_"+mass+"_solar_mass.json";
+		var dataurl = this.fileName(mass)+".json";
 
 		$.ajax({
 			url: dataurl,
@@ -843,7 +847,7 @@ $(document).ready(function () {
 			}
 		}
 		sOutput += '</table></div>';
-		sOutput += '<div id="downloads">Download data as: <a href="db/csv.php?s='+this.data.mass+'">CSV</a></div>';
+		sOutput += '<div id="downloads">Download data as: <a href="'+this.fileName(this.data.mass)+'.csv">CSV</a></div>';
 		return sOutput;
 	}
 	function addCommas(nStr) {

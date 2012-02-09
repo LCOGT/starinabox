@@ -255,6 +255,7 @@ body {
 }
 
 #animate {
+    display: none;
     position: absolute;
     top: -60px;
     left: 40px;
@@ -290,48 +291,48 @@ body {
 
 #nav {
     position: absolute;
-    top: 30px;
+    top: 426px;
     right: 50px;
 }
 
-	#nav .item {
-	    width: 44px;
-	    height: 50px;
-	    padding: 0 0 10px;
-	    margin: 0 10px;
-	    cursor: pointer;
-	    float: left;
-	}
+#nav .item {
+	width: 44px;
+	height: 50px;
+	padding: 0 0 10px;
+	margin: 0 10px;
+	cursor: pointer;
+	float: left;
+}
 
-	#nav #therm { background: url(images/buttons.png) no-repeat 3px }
+#nav #therm { background: url(images/buttons.png) no-repeat 3px }
 
-	#nav #pie { background: url(images/buttons.png) no-repeat -43px }
+#nav #pie { background: url(images/buttons.png) no-repeat -43px }
 
-	#nav #bulb { background: url(images/buttons.png) no-repeat -93px }
+#nav #bulb { background: url(images/buttons.png) no-repeat -93px }
 
-	#nav #compare { background: url(images/buttons.png) no-repeat -137px }
+#nav #compare { background: url(images/buttons.png) no-repeat -137px }
 
-	#nav #therm:hover { background: url(images/buttons_hover.png) no-repeat 3px }
+#nav #therm:hover { background: url(images/buttons_hover.png) no-repeat 3px }
 
-	#nav #pie:hover { background: url(images/buttons_hover.png) no-repeat -43px }
+#nav #pie:hover { background: url(images/buttons_hover.png) no-repeat -43px }
 
-	#nav #bulb:hover { background: url(images/buttons_hover.png) no-repeat -93px }
+#nav #bulb:hover { background: url(images/buttons_hover.png) no-repeat -93px }
 
-	#nav #compare:hover { background: url(images/buttons_hover.png) no-repeat -137px }
+#nav #compare:hover { background: url(images/buttons_hover.png) no-repeat -137px }
 
-	#nav #therm.active { background: url(images/buttons_active.png) no-repeat 3px }
+#nav #therm.active { background: url(images/buttons_active.png) no-repeat 3px }
 
-	#nav #pie.active { background: url(images/buttons_active.png) no-repeat -43px }
+#nav #pie.active { background: url(images/buttons_active.png) no-repeat -43px }
 
-	#nav #bulb.active { background: url(images/buttons_active.png) no-repeat -93px }
+#nav #bulb.active { background: url(images/buttons_active.png) no-repeat -93px }
 
-	#nav #compare.active { background: url(images/buttons_active.png) no-repeat -137px }
+#nav #compare.active { background: url(images/buttons_active.png) no-repeat -137px }
 
 #right {
     width: 280px;
     position: absolute;
     height: 390px;
-    top: 90px;
+    top: 39px;
     right: 40px;
     overflow: hidden;
     -webkit-box-shadow: inset 0 0 6px #444;
@@ -368,9 +369,12 @@ body {
 #slide.nav-4 { top: 0 }
 
 #rCanvas {
-    background: rgba(0,0,0,0.5);
     top: 0;
     right: 0;
+}
+
+#rCanvas,#thermometer,#rPie,#rlum {
+	background: rgba(0,0,0,0.5);
 }
 
 #thermometer {
@@ -378,18 +382,36 @@ body {
     right: 0;
 }
 
-#rPie { top: 400px }
+#rPie { top: 400px; }
 
-#rlum { top: 1200px }
+#rlum { top: 1200px; }
+
+#control {
+	position: absolute;
+	bottom: 40px;
+	right: 40px;
+	width: 280px;
+	background-color: rgba(0,0,0,0.5);
+}
+#controls {
+	float: left;
+	padding:3px;
+	display: inline-block;
+}
+#controls a { margin: 0px; }
+img.icon { width:24px; height:24px; margin:0px; background:url('images/icons_24.png') no-repeat scroll transparent; }
+img.rewind { background-position: -48px 0px!important; }
+img.stop { background-position: -48px -24px!important; }
+img.ff { background-position: -48px -48px!important; }
+img.now { background-position: -48px -72px!important; }
+img.play { background-position: -48px -120px!important; }
+img.reset { background-position: -48px -144px!important; }
 
 #tevTime {
-    position: absolute;
-    bottom: 40px;
-    right: 40px;
+	float:right;
     color: #fff;
-    background-color: #000;
-    padding: 5px;
-    font-size: 90%;
+    padding: 7px 7px 6px 7px;
+    font-size: 14px;
 }
 
 #right .info {
@@ -525,7 +547,7 @@ a#animateEvolveReset:active {
 	width: 304px;
 	height: 272px;
 	text-align: right;
-	padding: 20px;
+	padding: 24px;
 	background: #fff;
 	background: url('images/graph.jpg') no-repeat -20px -16px;
 	-webkit-box-shadow: 1px 1px 5px rgba(0,0,0,0.7);
@@ -533,6 +555,7 @@ a#animateEvolveReset:active {
 	box-shadow: 1px 1px 5px rgba(0,0,0,0.7);
 	cursor: default;
 	z-index: 110;
+	overflow: auto;
 }
 
 #welcome.summary {
@@ -559,6 +582,13 @@ a#animateEvolveReset:active {
 #welcome.summary #welcome-content,#welcome.help #about-content,#welcome.help #help-content { display: none; }
 #welcome.about #welcome-content,#welcome.help #summary-content,#welcome.help #help-content { display: none; }
 #welcome.help #help-content,#welcome.about #about-content,#welcome.summary #summary-content { display: block; }
+
+#help-content {
+	text-align: left;
+}
+#welcome p {
+	margin-bottom: 8px;
+}
 
 #welcome h1{
 	font-family: 'SecretTypewriterRegular';
@@ -649,7 +679,6 @@ text-shadow: -1px -1px rgba(0,0,0,0.3);
 	-webkit-box-shadow: 1px 1px 5px #666;
 	box-shadow: 0px 0px 5px #999;
 	clear: both;
-	
 }
 
 #downloads{
@@ -658,3 +687,4 @@ text-shadow: -1px -1px rgba(0,0,0,0.3);
 	display: block;
 	width: 100%;
 }
+
