@@ -23,6 +23,8 @@ $(document).ready(function () {
 		this.open = false;
 		this.inputopen = false;
 		this.animateopen = false;
+
+		this.massVM = [0.2, 0.65, 1, 2, 4, 6, 10, 20, 30, 40];
 		// The stages indices must match indices used in the data
 		this.stages = ["Deeply or fully convective low mass MS star","Main Sequence star","Hertzsprung Gap","First Giant Branch","Core Helium Burning","First Asymptotic Giant Branch","Second Asymptotic Giant Branch","Main Sequence Naked Helium star","Hertzsprung Gap Naked Helium star","Giant Branch Naked Helium star","Helium White Dwarf","Carbon/Oxygen White Dwarf","Oxygen/Neon White Dwarf","Neutron Star","Black Hole","Massless Supernova"];
 		this.allstages = {
@@ -37,19 +39,15 @@ $(document).ready(function () {
 			"m30" : [{"type":1, "lum":5.4128, "t":5.9496, "radius":22.18, "temp":22695, "RGB":"#aabfff"}, {"type":2, "lum":5.4158, "t":5.9582, "radius":1142.88, "temp":3892, "RGB":"#ffd29c"}, {"type":4, "lum":5.3705, "t":6.4737, "radius":1.2, "temp":56701, "RGB":"#9eb5ff"}, {"type":7, "lum":5.2557, "t":6.629, "radius":0.89, "temp":56701, "RGB":"#9eb5ff"}, {"type":8, "lum":5.4248, "t":6.6577, "radius":1.04, "temp":56701, "RGB":"#9eb5ff"}, {"type":14, "lum":5.4248, "t":6.6577, "radius":0, "temp":56701, "RGB":"#9eb5ff"}],
 			"m40" : [{"type":1, "lum":5.6288, "t":4.8716, "radius":29.01, "temp":22695, "RGB":"#aabfff"}, {"type":2, "lum":5.6187, "t":4.878, "radius":1433.51, "temp":3892, "RGB":"#ffd29c"}, {"type":4, "lum":5.5568, "t":5.1816, "radius":1.41, "temp":56701, "RGB":"#9eb5ff"}, {"type":7, "lum":5.3259, "t":5.448, "radius":0.95, "temp":56701, "RGB":"#9eb5ff"}, {"type":8, "lum":5.4786, "t":5.4732, "radius":1.06, "temp":56701, "RGB":"#9eb5ff"}, {"type":14, "lum":5.4841, "t":5.474, "radius":0, "temp":56701, "RGB":"#9eb5ff"}]
 		}
+
 		// Main Objects
 		this.stageLife = [];
 		this.stageIndex = [];
-		this.jsonChartData;
+		// array for animation data points...
+		this.eAnimPoints = [];
 		this.timestep = 0;
 		this.animating = false;
 		this.reduction = 4;	// A slower framerate for the size/thermometer animations
-
-
-		// array for animation data points...
-		this.eAnimPoints = [];
-
-		this.massVM = [0.2, 0.65, 1, 2, 4, 6, 10, 20, 30, 40];
 
 		//GET URL if one is passed
 		this.fullurl = parent.document.URL;
@@ -61,13 +59,11 @@ $(document).ready(function () {
 
 		// get default stages (1 solar mass)
 		this.getStages(this.initStarMass);
-		
 
 		/**
 		 *	Set Chart variables
 		 **/
 		this.data = [];
-		this.placeholder = $("#placeholder");
 		this.chart = {
 			offset : [],
 			width: 600,
@@ -94,23 +90,18 @@ $(document).ready(function () {
 			paper: Raphael("rCanvas", 280, 390)
 		}
 		//draw sun
-		this.sizeComparison.sun = this.sizeComparison.paper.circle(25, 200, 5);
-		this.sizeComparison.sun.attr({"fill":"#fff3ea","stroke-width":"0"});
-		this.sizeComparison.sunLabel = this.sizeComparison.paper.text(25, 220, "Sun");
-		this.sizeComparison.sunLabel.attr("fill", "#fff3ea");
+		this.sizeComparison.sun = this.sizeComparison.paper.circle(25, 200, 5).attr({"fill":"#fff3ea","stroke-width":"0"});
+		this.sizeComparison.sunLabel = this.sizeComparison.paper.text(25, 220, "Sun").attr("fill", "#fff3ea");
 		//draw comparison star
 		this.sizeComparison.starX = 50;
 		this.sizeComparison.starY = 200;
 		this.sizeComparison.starR = 5;
 		this.sizeComparison.starOffset = 45;
-		this.sizeComparison.star = this.sizeComparison.paper.circle(this.sizeComparison.starX+this.sizeComparison.starR, this.sizeComparison.starY, this.sizeComparison.starR);
-		this.sizeComparison.star.attr({"fill":"#fff3ea","stroke-width":"0"});
+		this.sizeComparison.star = this.sizeComparison.paper.circle(this.sizeComparison.starX+this.sizeComparison.starR, this.sizeComparison.starY, this.sizeComparison.starR).attr({"fill":"#fff3ea","stroke-width":"0"});
 	}
 	StarInABox.prototype.findMassIndex = function(mass){
 		for(var i = 0; i < this.massVM.length; i++){
-			if(mass == this.massVM[i]){
-				return i;
-			}
+			if(mass == this.massVM[i]) return i;
 		}
 	}
 	StarInABox.prototype.setupUI = function(){
@@ -288,7 +279,7 @@ $(document).ready(function () {
 				//animate through stages...
 				$("a#animateEvolve").text('Pause');
 				box.duration = $("#evolveSpeed option:selected").attr("value");
-				box.eAnim = setInterval(function () { box.animateStep(1); }, box.duration);
+				box.eAnim = setInterval(function () { box.animateStep(1,box.reduction); }, box.duration);
 			}
 			return false;
 		});
@@ -313,8 +304,9 @@ $(document).ready(function () {
 		}
 
 	}
-	StarInABox.prototype.animateStep = function(delta){
+	StarInABox.prototype.animateStep = function(delta,reduction){
 		duration = this.duration;
+		if(!reduction) reduction = 1;
 		if (this.timestep == this.eAnimPoints.length) {
 			$("a#animateEvolve").text('Start');
 			clearInterval(this.eAnim);
@@ -327,13 +319,13 @@ $(document).ready(function () {
 			if(this.timestep < 0) this.timestep = 0;
 			el = this.getData();
 			if(typeof el=="object"){
-				if(this.timestep % this.reduction == 0 && this.timestep < this.data.data.length) {
+				if(this.timestep % reduction == 0 && this.timestep < this.data.data.length) {
 					this.sizeComparison.star.animate({
 						cx: (this.sizeComparison.starX+el.radius*this.sizeComparison.starR),
 						r: this.sizeComparison.starR*el.radius,
 						fill: el.RGB
-					}, (duration*this.reduction));
-					this.setThermometer(el.temp, (duration * this.reduction));
+					}, (duration*reduction));
+					this.setThermometer(el.temp, (duration * reduction));
 					if (this.eqCurrentLevel != Math.round(el.lum / 0.3) + 1) this.eqLevel(el.lum, true);
 					this.updateCurrentStage();
 				}
@@ -513,7 +505,6 @@ $(document).ready(function () {
 		}else i = this.stageIndex[this.sStart];
 		this.timestep = i;
 		var first = this.getData();
-		//console.log(this.sStart,this.timestep,this.stageIndex,this.eAnimPoints)
 		if(typeof first=="object"){
 			this.el.time.text("Time: " + first.t + " Myrs");
 			this.sStarReset();
@@ -535,18 +526,16 @@ $(document).ready(function () {
 		});
 		var ii = 0;
 		var n = 0;
-		var type = new Array(0, 1);
+		var type = new Array(0, this.data.data[0].type);
 		this.stageIndex = [0];
 		for (var i = 0; i < this.data.data.length; i++) {
 			var eType = this.data.data[i].type;
 			change = false;
-			if (eType != type[1]) {
+			if (eType != type[1] || i == this.data.data.length-1) {
 				type[1] = eType;
 				type[0]++;
 				ii = 0;
 				change = true;
-			}
-			if(change) {
 				if(!this.stageIndex[type[0]]) this.stageIndex[type[0]] = n;
 				n = i;
 			}
@@ -651,14 +640,14 @@ $(document).ready(function () {
 	StarInABox.prototype.log10 = function(v) {
 		return Math.log(v)/2.302585092994046;
 	}
-	StarInABox.prototype.getPixPos = function(x,y){
-		x = this.log10(x);
-		y = this.log10(y);
-		xr = this.chart.options.xaxis.max-this.chart.options.xaxis.min;
-		yr = this.chart.options.yaxis.max-this.chart.options.yaxis.min;
-		newx = this.chart.offset.left + this.chart.offset.width*(Math.abs(this.chart.options.xaxis.max-x)/xr);
+	StarInABox.prototype.getPixPos = function(x,y,type){
+		if(!type || type!="log"){
+			x = this.log10(x);
+			y = this.log10(y);
+		}
+		newx = this.chart.offset.left + this.chart.offset.width*(Math.abs(this.chart.options.xaxis.max-x)/(this.chart.options.xaxis.max-this.chart.options.xaxis.min));
 		if(y < this.chart.options.yaxis.min) return [newx,-1];
-		else return [newx,480-(this.chart.offset.bottom + this.chart.offset.height*((y-this.chart.options.yaxis.min)/yr))];
+		else return [newx,480-(this.chart.offset.bottom + this.chart.offset.height*((y-this.chart.options.yaxis.min)/(this.chart.options.yaxis.max-this.chart.options.yaxis.min)))];
 	}
 	StarInABox.prototype.getChartOffset = function(){
 		this.chart.offset.top = 1;
@@ -688,31 +677,30 @@ $(document).ready(function () {
 		if(!this.chart.yLabel) this.chart.yLabel = this.chart.holder.text(this.chart.offset.left - 10, this.chart.offset.top+(this.chart.offset.height/2), "Brightness (L0)").attr({fill: "black",'font-size': '12px' }).rotate(270);
 		if(!this.chart.yaxis){
 			this.chart.yaxis = this.chart.holder.set();
-/*			for (var i = Math.ceil(this.chart.options.yaxis.min); i <= Math.floor(this.chart.options.yaxis.max); i++) {
-				p1 = this.getPixPos(this.chart.options.xaxis.max,i);
-				p2 = this.getPixPos(this.chart.options.xaxis.min,i);
+			for (var i = Math.ceil(this.chart.options.yaxis.min); i <= Math.floor(this.chart.options.yaxis.max); i++) {
+				p1 = this.getPixPos(this.chart.options.xaxis.max,i,"log");
+				p2 = this.getPixPos(this.chart.options.xaxis.min,i,"log");
 				this.chart.yaxis.push(this.chart.holder.path("M"+p1[0]+","+p1[1]+"L"+p2[0]+","+p2[1]).attr({ stroke: this.chart.options.grid.color,'stroke-width':0.5}));
 				this.chart.yaxis.push(this.chart.holder.text(p1[0]+5,p1[1],addCommas(Math.pow(10, i))).attr({
 					'text-anchor': 'start',
 					'fill': "rgba(0, 0, 0, 0.5)",
 					'font-size': '11px'
 				}));
-			}*/
+			}
 		}
 		if(!this.chart.xLabel) this.chart.xLabel = this.chart.holder.text(this.chart.offset.left+this.chart.offset.width/2, this.chart.height-this.chart.offset.bottom + 10, "Temperature (K)").attr({ fill: "black",'font-size': '12px' });
 		if(!this.chart.xaxis){
 			this.chart.xaxis = this.chart.holder.set();
-			/*
 			for (var i = Math.ceil(this.chart.options.xaxis.min); i <= Math.floor(this.chart.options.xaxis.max); i++) {
-				p1 = this.getPixPos(i,this.chart.options.yaxis.min);
-				p2 = this.getPixPos(i,this.chart.options.yaxis.max);
+				p1 = this.getPixPos(i,this.chart.options.yaxis.min,"log");
+				p2 = this.getPixPos(i,this.chart.options.yaxis.max,"log");
 				this.chart.xaxis.push(this.chart.holder.path("M"+p1[0]+","+p1[1]+"L"+p2[0]+","+p2[1]).attr({ stroke: this.chart.options.grid.color,'stroke-width':0.5}));
 				this.chart.xaxis.push(this.chart.holder.text(p1[0],p1[1]-10,addCommas(Math.pow(10, i))).attr({
 					'text-anchor': (i == Math.ceil(this.chart.options.xaxis.min)) ? "end" : 'middle',
 					'fill': "rgba(0, 0, 0, 0.5)",
 					'font-size': '11px'
 				}));
-			}*/
+			}
 		}
 
 		if(this.data.data) {
@@ -811,30 +799,26 @@ $(document).ready(function () {
 		sOutput += '<th>Duration (Myr)</th>';
 		sOutput += '</tr>';
 
-		var j = 0;
-		for (var i in this.stageLife) {
-			var sStart = this.stageLife[i][0][2];
-			var sEnd = this.stageLife[i][(this.stageLife[i].length) - 1][2];
-			var sValue = sEnd - sStart;
-			j += this.stageLife[i].length
-			el = this.getData(j-1);
-			if(typeof el=="object"){
+		for (var i = 1 ; i < this.stageIndex.length ; i++){
+			//var sValue = sEnd - sStart;
+			s = this.getData(this.stageIndex[i]);
+			n = (i < this.stageIndex.length-1) ? this.stageIndex[i+1]-1 : this.data.data.length-1;
+			m = this.getData(Math.floor(this.stageIndex[i]+(n-this.stageIndex[i])/2));
+			e = this.getData(n);
+			t = e.t-s.t;
+			if(typeof e=="object"){
 				sOutput += '<tr>';
-				sOutput += '<td>' + this.stages[el.type] + '</td>'; //Stage Name
-				sOutput += '<td>' + roundNumber(el.radius, 2) + '</td>';
-				sOutput += '<td>' + roundNumber(el.lum, 2) + '</td>';
-				sOutput += '<td>' + roundNumber(el.temp, 2) + '</td>';
-				sOutput += '<td>' + roundNumber(sValue, 2) + '</td>';
+				sOutput += '<td>' + this.stages[s.type] + '</td>'; //Stage Name
+				sOutput += '<td>' + parseFloat(e.radius).toFixed(2) + '</td>';
+				sOutput += '<td>' + parseFloat(e.lum).toFixed(2) + '</td>';
+				sOutput += '<td>' + parseFloat(e.temp) + '</td>';
+				sOutput += '<td>' + t.toFixed(2) + '</td>';
 				sOutput += '</tr>';
 			}
 		}
 		sOutput += '</table></div>';
 		sOutput += '<div id="downloads">Download data as: <a href="db/csv.php?s='+this.data.mass+'">CSV</a></div>';
 		return sOutput;
-	}
-
-	function roundNumber(num, dec) {
-		return Math.round(num * Math.pow(10, dec)) / Math.pow(10, dec);
 	}
 	function addCommas(nStr) {
 		nStr += '';
