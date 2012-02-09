@@ -342,7 +342,7 @@ $(document).ready(function () {
 						fill: el.RGB
 					}, (duration*reduction));
 					this.setThermometer(el.temp, (duration * reduction));
-					if (this.eqCurrentLevel != Math.round(el.lum / 0.3) + 1) this.eqLevel(el.lum, true);
+					this.eqLevel(el.lum, true);
 					this.updateCurrentStage();
 				}
 				this.el.time.text("Time: " + el.t + " Myrs");
@@ -448,10 +448,6 @@ $(document).ready(function () {
 		$('#first-stage option:first').attr('selected', 'selected');
 		$('#last-stage option:last').attr('selected', 'selected');
 
-		//this.setThermometer($("#first-stage option:selected").attr("temp"));
-		//this.eqLevel($("#first-stage option:selected").attr("lum"));
-
-
 		//Load Stages Slider...
 		var that = this;
 		$('select.stages').selectToUISlider({
@@ -470,14 +466,12 @@ $(document).ready(function () {
 		this.loadChartData(mass);
 	}
 	StarInABox.prototype.eqLevel = function(num, anim) {
-		var zero = 4;
+		var zero = 5;
 		var units = 0.4;
 		var bars = 20;
 
 		if (num != null) {
-			num = this.log10(parseFloat(num));
-			this.numBars = num / units;
-			this.numBars = Math.round(this.numBars) + zero;
+			this.numBars = Math.round(this.log10(parseFloat(num)) / units) + zero;
 			if (anim == true) this.eqChange();
 			else {
 				if(this.numBars >= 0) this.eqCurrentLevel = this.numBars;
@@ -490,6 +484,7 @@ $(document).ready(function () {
 	}
 	StarInABox.prototype.eqChange = function() {
 		if(!this.eqCurrentLevel) this.eqCurrentLevel = 0;
+		if(this.numBars == this.eqCurrentLevel) return;
 		if(this.numBars > this.eqCurrentLevel){
 			// eq2 is indexed from 1
 			if(this.eqCurrentLevel >= 0){
