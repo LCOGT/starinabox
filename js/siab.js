@@ -65,18 +65,30 @@ $(document).ready(function () {
 		 **/
 		this.data = [];
 		this.chart = {
-			offset : [],
+			offset : {
+				top: 10,
+				left : 30,//62;
+				right : 0,
+				bottom : 46//18
+			},
 			width: 600,
-			height: 480,
+			height: 495,
 			options: {
-				grid: { color: "rgba(0,0,0,0.2)" },
+				grid: {
+					color: "rgba(0,0,0,0.25)",
+					width: "0.5",
+					sub: {
+						color: "rgba(0,0,0,0.08)",
+						width: "0.5"
+					}
+				},
 				xaxis: {
 					invert: true,
 					min: 3, // 3
 					max: 5.8 // 6.4
 				},
 				yaxis: {
-					min: -6.5, //-11
+					min: -6.4, //-11
 					max: 6.5 //8
 				}
 			},
@@ -105,14 +117,11 @@ $(document).ready(function () {
 		}
 	}
 	StarInABox.prototype.setupUI = function(){
-
 		// Define if we can open the box or not
 		$('#welcome').bind('mouseover',{box:this},function(e){ e.data.box.canopen = false; }).bind('mouseout',{box:this},function(e){ e.data.box.canopen = true; });
-
 		$("#box-lid,#box-top").click({box:this},function(e){
 			if(e.data.box.canopen) e.data.box.toggleLid();
 		});
-		
 		$('a#animateEvolve').click({box:this},function(e){
 			e.preventDefault();
 			if($(this).text() == 'Start'){
@@ -647,13 +656,13 @@ $(document).ready(function () {
 		}
 		newx = this.chart.offset.left + this.chart.offset.width*(Math.abs(this.chart.options.xaxis.max-x)/(this.chart.options.xaxis.max-this.chart.options.xaxis.min));
 		if(y < this.chart.options.yaxis.min) return [newx,-1];
-		else return [newx,480-(this.chart.offset.bottom + this.chart.offset.height*((y-this.chart.options.yaxis.min)/(this.chart.options.yaxis.max-this.chart.options.yaxis.min)))];
+		else return [newx,this.chart.height-(this.chart.offset.bottom + this.chart.offset.height*((y-this.chart.options.yaxis.min)/(this.chart.options.yaxis.max-this.chart.options.yaxis.min)))];
 	}
 	StarInABox.prototype.getChartOffset = function(){
-		this.chart.offset.top = 1;
-		this.chart.offset.left = 20;//62;
-		this.chart.offset.right = 1;
-		this.chart.offset.bottom = 20;//18;
+		if(!this.chart.offset.top) this.chart.offset.top = 1;
+		if(!this.chart.offset.left) this.chart.offset.left = 20;//62;
+		if(!this.chart.offset.right) this.chart.offset.right = 1;
+		if(!this.chart.offset.bottom) this.chart.offset.bottom = 20;//18;
 		this.chart.offset.width = this.chart.width-this.chart.offset.right-this.chart.offset.left;
 		this.chart.offset.height = this.chart.height-this.chart.offset.bottom-this.chart.offset.top;
 	}
@@ -675,17 +684,31 @@ $(document).ready(function () {
 		//if(!this.chart.border) this.chart.border = this.chart.holder.rect(0,0,this.chart.width,this.chart.height).attr({stroke:'rgba(0,0,0,0.2)'});
 		if(!this.chart.axes) this.chart.axes = this.chart.holder.rect(this.chart.offset.left,this.chart.offset.top,this.chart.offset.width,this.chart.offset.height).attr({stroke:'rgba(0,0,0,0.5)','stroke-width':2});
 		if(!this.chart.yLabel) this.chart.yLabel = this.chart.holder.text(this.chart.offset.left - 10, this.chart.offset.top+(this.chart.offset.height/2), "Brightness (L0)").attr({fill: "black",'font-size': '12px' }).rotate(270);
+		if(!this.chart.sub){
+			var v = [2,3,4,5,6,7,8,9]
+			this.chart.sub = []
+			for(var i = 0 ; i < v.length ; i++){
+				this.chart.sub[i] = this.log10(v[i]);
+			}
+		}
 		if(!this.chart.yaxis){
 			this.chart.yaxis = this.chart.holder.set();
-			for (var i = Math.ceil(this.chart.options.yaxis.min); i <= Math.floor(this.chart.options.yaxis.max); i++) {
+			for(var i = Math.ceil(this.chart.options.yaxis.min); i <= Math.floor(this.chart.options.yaxis.max); i++) {
 				p1 = this.getPixPos(this.chart.options.xaxis.max,i,"log");
 				p2 = this.getPixPos(this.chart.options.xaxis.min,i,"log");
-				this.chart.yaxis.push(this.chart.holder.path("M"+p1[0]+","+p1[1]+"L"+p2[0]+","+p2[1]).attr({ stroke: this.chart.options.grid.color,'stroke-width':0.5}));
+				this.chart.yaxis.push(this.chart.holder.path("M"+p1[0]+","+p1[1]+"L"+p2[0]+","+p2[1]).attr({ stroke: this.chart.options.grid.color,'stroke-width':(this.chart.options.grid.width ? this.chart.options.grid.width : 0.5)}));
 				this.chart.yaxis.push(this.chart.holder.text(p1[0]+5,p1[1],addCommas(Math.pow(10, i))).attr({
 					'text-anchor': 'start',
 					'fill': "rgba(0, 0, 0, 0.5)",
 					'font-size': '11px'
 				}));
+				for(var j = 0; j < this.chart.sub.length ; j++){
+					if(i+this.chart.sub[j] < this.chart.options.yaxis.max){
+						p1 = this.getPixPos(this.chart.options.xaxis.max,i+this.chart.sub[j],"log");
+						p2 = this.getPixPos(this.chart.options.xaxis.min,i+this.chart.sub[j],"log");
+						this.chart.yaxis.push(this.chart.holder.path("M"+p1[0]+","+p1[1]+"L"+p2[0]+","+p2[1]).attr({ stroke: this.chart.options.grid.sub.color,'stroke-width':(this.chart.options.grid.sub.width ? this.chart.options.grid.sub.width : 0.5)}));
+					}
+				}
 			}
 		}
 		if(!this.chart.xLabel) this.chart.xLabel = this.chart.holder.text(this.chart.offset.left+this.chart.offset.width/2, this.chart.height-this.chart.offset.bottom + 10, "Temperature (K)").attr({ fill: "black",'font-size': '12px' });
@@ -694,12 +717,19 @@ $(document).ready(function () {
 			for (var i = Math.ceil(this.chart.options.xaxis.min); i <= Math.floor(this.chart.options.xaxis.max); i++) {
 				p1 = this.getPixPos(i,this.chart.options.yaxis.min,"log");
 				p2 = this.getPixPos(i,this.chart.options.yaxis.max,"log");
-				this.chart.xaxis.push(this.chart.holder.path("M"+p1[0]+","+p1[1]+"L"+p2[0]+","+p2[1]).attr({ stroke: this.chart.options.grid.color,'stroke-width':0.5}));
+				this.chart.xaxis.push(this.chart.holder.path("M"+p1[0]+","+p1[1]+"L"+p2[0]+","+p2[1]).attr({ stroke: this.chart.options.grid.color,'stroke-width':(this.chart.options.grid.width ? this.chart.options.grid.width : 0.5)}));
 				this.chart.xaxis.push(this.chart.holder.text(p1[0],p1[1]-10,addCommas(Math.pow(10, i))).attr({
 					'text-anchor': (i == Math.ceil(this.chart.options.xaxis.min)) ? "end" : 'middle',
 					'fill': "rgba(0, 0, 0, 0.5)",
 					'font-size': '11px'
 				}));
+				for(var j = 0; j < this.chart.sub.length ; j++){
+					if(i+this.chart.sub[j] < this.chart.options.xaxis.max){
+						p1 = this.getPixPos(i+this.chart.sub[j],this.chart.options.yaxis.min,"log");
+						p2 = this.getPixPos(i+this.chart.sub[j],this.chart.options.yaxis.max,"log");
+						this.chart.yaxis.push(this.chart.holder.path("M"+p1[0]+","+p1[1]+"L"+p2[0]+","+p2[1]).attr({ stroke: this.chart.options.grid.sub.color,'stroke-width':(this.chart.options.grid.sub.width ? this.chart.options.grid.sub.width : 0.5)}));
+					}
+				}
 			}
 		}
 

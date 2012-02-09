@@ -130,7 +130,7 @@ body {
     left: 30px;
     width: 900px;
     height: 500px;
-    padding: 28px 24px 27px 32px;
+    padding: 30px 26px 27px 31px;
     overflow: hidden;
 }
 
@@ -139,9 +139,8 @@ body {
 #container.open #content { z-index: 200 }
 
 #placeholder {
-    margin-top: 10px;
     width: 600px;
-    height: 480px;
+    height: 495px;
     position: relative;
 }
 
