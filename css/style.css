@@ -20,7 +20,7 @@ body {
 	position: relative;
 	z-index: 0;
 }
-.supernova { z-index: 1000; background-color: rgba(255,255,255,1); }
+.supernova { z-index: 1000; background-color: rgb(255,255,255); }
 
 #vertical {
     float: left;
@@ -62,14 +62,29 @@ body {
 *
    ================================================== */
 
-#box-top {
-    position: absolute;
-    width: 1016px;
-    height: 615px;
-    z-index: 310;
-    background: url(images/box-top-edge_s1.png);
-    cursor: pointer;
-    pointer-events:none;
+
+#box-top-t, #box-top-r, #box-top-b {
+	position: absolute;
+	z-index: 310;
+}
+#box-top-t {
+	width: 1016px;
+	height: 40px;
+	background: url(images/box-top-edge_t.png);
+}
+#box-top-r {
+	width: 40px;
+	height: 534px;
+	top: 40px;
+	left: 975px;
+	background: url(images/box-top-edge_r.png);
+}
+#box-top-b {
+	left: 0px;
+	top: 574px;
+	width: 1016px;
+	height: 40px;
+	background: url(images/box-top-edge_b.png);
 }
 
 #box-sides {

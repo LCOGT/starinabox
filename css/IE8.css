@@ -9,11 +9,10 @@
 background-color: #048;
 }
 
-#right,#loader.loading,#loader #loading{
-background: transparent;
--ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#7F000000,endColorstr=#7F000000)"; /* IE8 */
-      zoom: 1;
-
+#right,#loader.loading,#loader #loading,#rCanvas,#thermometer,#rPie,#rlum,#control{
+	background: transparent;
+	-ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#7F000000,endColorstr=#7F000000)"; /* IE8 */
+	zoom: 1;
 }
 
 #loader #loading {
@@ -23,5 +22,5 @@ background-image: url('images/ajax-loader.gif');
 }
 
 #right .caption{
-background: #000;
+	background: #000;
 }

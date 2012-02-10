@@ -68,116 +68,82 @@
 			</div>
         </div>
 
-        <div id="inner-box">
-            <div id="box-top"></div>
-
-            <div id="box-sides"></div>
-
-            <div id="box-left-lip"></div>
-
-            <div id="box-bottom"></div>
-        </div>
+		<div id="inner-box">
+			<div id="box-top-t"></div>
+			<div id="box-top-r"></div>
+			<div id="box-top-b"></div>
+			<div id="box-sides"></div>
+			<div id="box-left-lip"></div>
+			<div id="box-bottom"></div>
+		</div>
 
         <div id="content" class="closed">
-            <div id="placeholder"></div>
-						<div id="current-stage"></div>
-            <div id="input">
-                <div class="tab-top">
-                    Star Properties
-                </div>
+			<div id="placeholder"></div>
+			<div id="current-stage"></div>
+			<div id="input">
+				<div class="tab-top">Star Properties</div>
+			
+				<div class="labels">
+					<p class="label">Mass:</p>
+					<p class="label">Stages:</p>
+				</div>
+			
+				<div id="mass-slider"></div>
 
-                <div class="labels">
-                    <p class="label">Mass:</p>
-
-                    <p class="label">Stages:</p>
-                </div>
-
-                <div id="mass-slider"></div>
-
-                <div id="stages">
-                    <div id="stages">
-                        <select class="stages" name="first-stage" id="first-stage">
-                            </select> <select class="stages" name="last-stage" id="last-stage">
-                            </select>
-                    </div>
-                </div>
+				<div id="stages">
+					<div id="stages">
+						<select class="stages" name="first-stage" id="first-stage"></select><select class="stages" name="last-stage" id="last-stage"></select>
+					</div>
+				</div>
             </div>
 
             <div id="animate">
-                <div class="tab-bottom">
-                    Animate
-                </div><select id="evolve" name="evolve">
-                    </select>
-
-                <div id="evolveSpeedDiv">
-                    Evolve Speed: <select id="evolveSpeedold" name="evolve">
-                        <option value="15">
-                            Fast
-                        </option>
-
-                        <option value="30" selected="true">
-                            Medium
-                        </option>
-
-                        <option value="60">
-                            Slow
-                        </option>
-                    </select>
-                </div><a href="" id="animateEvolve" class="control_play">Start</a> <a href="" id="animateEvolveReset" class="control_reset">Reset</a>
+				<a href="" id="animateEvolve" class="control_play">Start</a> <a href="" id="animateEvolveReset" class="control_reset">Reset</a>
             </div>
 
-            <div id="nav">
-                <a href="#" class="item 4 active" id="compare" title="Size Comparison"></a>
+			<div id="nav">
+				<a href="#" class="item 4 active" id="compare" title="Size Comparison"></a>
+				<a href="#" class="item 3" id="pie" title="Stages in your star's life"></a>
+				<a href="#" class="item 2" id="therm" title="Surface Temperature"></a>
+				<a href="#" class="item 1" id="bulb" title="Brightness"></a>
+			</div>
 
-                <a href="#" class="item 3" id="pie" title="Stages in your star's life"></a>
+			<div id="right">
+				<div id="slide">
+					<div id="rlum" class="section 4">
+						<div class="info"></div>
+						<div class="caption">
+							<h2>Brightness</h2>
+							How the brightness of your star changes, compared to the Sun.
+						</div>
+					</div>
 
-                <a href="#" class="item 2" id="therm" title="Surface Temperature"></a>
-
-                <a href="#" class="item 1" id="bulb" title="Brightness"></a>
-            </div>
-
-            <div id="right">
-                <div id="slide">
-                    <div id="rlum" class="section 4">
-                        <div class="info"></div>
-
-                        <div class="caption">
-                            <h2>Brightness</h2>
-                            How the brightness of your star changes, compared to the Sun.
-                        </div>
-                    </div>
-
-                    <div id="thermometer" class="section 3">
-                        <div class="info"></div>
-
-                        <div class="caption">
+					<div id="thermometer" class="section 3">
+						<div class="info"></div>
+						<div class="caption">
                             <h2>Surface Temperature</h2>
 							How surface temperature changes with time, compared to the Sun.
                         </div>
                     </div>
 
-                    <div id="rPie" class="section 2">
-                        <div id="pie"></div>
-
-                        <div class="info"></div>
-
-                        <div class="caption">
-                            <h2>Stages in your star's life</h2>
+					<div id="rPie" class="section 2">
+						<div id="pie"></div>
+							<div class="info"></div>
+							<div class="caption">
+							<h2>Stages in your star's life</h2>
 							This is a clock face. At midnight the star begins its journey by joining the Main Sequence, and at midday its life ends.
-                        </div>
-                    </div>
-
-                    <div id="rCanvas" class="section 1">
-                        <div class="info"></div>
-
-                        <div class="caption">
-                            <h2>Size</h2>
-                            How your star changes in size and colour, compared to the current conditions of the Sun.
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div id="tevTime">0 Myrs</div>
+							</div>
+						</div>
+						<div id="rCanvas" class="section 1">
+						<div class="info"></div>
+						<div class="caption">
+							<h2>Size</h2>
+							How your star changes in size and colour, compared to the current conditions of the Sun.
+						</div>
+					</div>
+				</div>
+			</div>
+			<div id="tevTime">0 Myrs</div>
 
 			<div id="control">
 				<div id="controls">
