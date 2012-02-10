@@ -76,7 +76,7 @@ $(document).ready(function () {
 			options: {
 				grid: {
 					color: "rgb(0,0,0)",
-					opacity: 0.25
+					opacity: 0.25,
 					width: "0.5",
 					sub: {
 						color: "rgb(0,0,0)",
