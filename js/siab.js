@@ -727,8 +727,8 @@ $(document).ready(function () {
 					if(i+this.chart.sub[j] < this.chart.options.xaxis.max){
 						p1 = this.getPixPos(i+this.chart.sub[j],this.chart.options.yaxis.min,"log");
 						p2 = this.getPixPos(i+this.chart.sub[j],this.chart.options.yaxis.max,"log");
-						s = this.chart.options.grid.sub.color;
-						this.chart.yaxis.push(this.chart.holder.path("M"+p1[0]+","+p1[1]+"L"+p2[0]+","+p2[1]).attr({ stroke: s.color,'stroke-opacity': s.opacity,'stroke-width':(s.width ? s.width : 0.5)}));
+						s = this.chart.options.grid.sub;
+						this.chart.xaxis.push(this.chart.holder.path("M"+p1[0]+","+p1[1]+"L"+p2[0]+","+p2[1]).attr({ stroke: s.color,'stroke-opacity': s.opacity,'stroke-width':(s.width ? s.width : 0.5)}));
 					}
 				}
 			}
