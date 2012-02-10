@@ -284,13 +284,15 @@ $(document).ready(function () {
 		}
 	}
 	StarInABox.prototype.supernova = function(){
-		if($('.supernova').length == 0) $('#container').append('<div class="supernova"></div>');
-		if(this.open) if($('.supernovaflash').length == 0) $('body').append('<div class="supernovaflash"></div>');
-		if(this.open) $('.supernovaflash').css({position:'absolute',left:0,top:0,right:0,bottom:0}).animate({opacity:0},500,function() { $(this).remove(); });
 		c = $('#container');
 		b = $('#box-top');
-		$('.supernova').css({position:'absolute',width:c.width()-10,left:5,top:5,height:c.height()-10,'z-index':(b.css('z-index')-2),opacity:1}).delay(200).animate({opacity:0},1500,"easeOutExpo",function() { $(this).remove(); });
-		c.clearQueue().animate({left:"-=12px"},20).animate({left:"+=20px"},20).animate({left:"-=4px"},50).animate({left:"+=7px"},50).animate({left:"-=15px"},50).animate({left:"+=5px"},70).animate({left:"-=2px"},80);
+		if($('.supernova').length == 0) $('#container').append('<div class="supernova"></div>');
+		if(this.open){
+			if($('.supernovaflash').length == 0) $('body').append('<div class="supernovaflash"></div>');
+			$('.supernovaflash').clearQueue().css({position:'absolute',left:0,top:0,right:0,bottom:0,opacity:1}).animate({opacity:0},500,function() { $(this).remove(); });
+		}
+		$('.supernova').clearQueue().css({position:'absolute',width:c.width()-10,left:5,top:5,height:c.height()-10,'z-index':(b.css('z-index')-2),opacity:1}).delay(200).animate({opacity:0},1500,"easeOutExpo",function() { $(this).remove(); });
+		c.clearQueue().css({left:'0px'}).animate({left:"-=12px"},20).animate({left:"+=20px"},20).animate({left:"-=4px"},50).animate({left:"+=7px"},50).animate({left:"-=15px"},50).animate({left:"+=5px"},70).animate({left:"-=2px"},80);
 	}
 	StarInABox.prototype.play = function(e){
 		if(this.animating){
