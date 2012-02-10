@@ -659,7 +659,7 @@ a#animateEvolveReset:active {
 	position: absolute;
 	top:8px;
 	right: 35px;
-	z-index:320;
+	z-index:1005;
 	color: #ddd;
 	letter-spacing: 1px;
 	font-weight: bold;
