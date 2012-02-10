@@ -65,7 +65,7 @@ body {
 
 #box-top-t, #box-top-r, #box-top-b {
 	position: absolute;
-	z-index: 310;
+	z-index: 1002;
 }
 #box-top-t {
 	width: 1016px;
@@ -123,7 +123,7 @@ body {
 	-webkit-box-shadow: -24px -10px 24px rgba(0,0,0,0.3);
 }
 #box-lid {
-    z-index: 309;
+    z-index: 1001;
     background: url(images/box-lid_s1.png) no-repeat center center;
     width: 993px;
     height: 573px;
@@ -185,10 +185,10 @@ body {
 
 .legend tr { color: #FFF }
 
-	.legend tr td {
-	    padding: 2px;
-	    text-align: left;
-	}
+.legend tr td {
+	padding: 2px;
+	text-align: left;
+}
 
 #input {
     width: 860px;
@@ -201,7 +201,7 @@ body {
     -webkit-border-radius: 10px 10px 0 0;
     position: absolute;
     bottom: -122px;
-    z-index: 106;
+    z-index: 108;
     -webkit-box-shadow: -8px -4px 10px rgba(0,0,0,0.2);
     -moz-box-shadow: -8px -4px 10px rgba(0,0,0,0.2);
     -box-shadow: -8px -4px 10px rgba(0,0,0,0.2);
@@ -541,7 +541,7 @@ a#animateEvolveReset:active {
     box-shadow: rgba(0,0,0,0.8) 1px 1px 10px;
 }
 
-#mass-slider .ticks{
+#mass-slider .ticks {
 	width: 700px;
 	height: 12px;
 	position: absolute;
@@ -549,12 +549,28 @@ a#animateEvolveReset:active {
 	color: #fff;
 }
 
-#mass-slider .tick{
+#mass-slider .tick {
 	position: absolute;
 	font-size: 80%;
 	top:0;
 	left:0;
 	width: 40px;
+	text-align: center;
+}
+
+#stages .ticks {
+	width: 700px;
+	height: 12px;
+	position: absolute;
+	top: 16px;
+	color: #fff;
+}
+#stages .tick {
+	position: absolute;
+	font-size: 70%;
+	top:0;
+	left:0;
+	width: 80px;
 	text-align: center;
 }
 

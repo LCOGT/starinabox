@@ -301,7 +301,7 @@ $(document).ready(function () {
 			this.closeAnimatePanel();
 			if(this.inputopen) this.toggleInputPanel();
 			$("a#animateEvolveReset").css('display', 'none');
-			if(this.timestep == this.eAnimPoints.length) this.reset();
+			if(this.timestep == this.eAnimPoints.length-1) this.reset();
 
 			//animate through stages...
 			$("a#animateEvolve").text('Pause');
@@ -314,6 +314,7 @@ $(document).ready(function () {
 	StarInABox.prototype.animateStep = function(delta,reduction){
 		duration = this.duration;
 		if(!reduction) reduction = 1;
+		if(!this.timestep) this.timestep = 0;
 		if (this.timestep == this.eAnimPoints.length) {
 			$("a#animateEvolve").text('Start');
 			clearInterval(this.eAnim);
@@ -322,8 +323,9 @@ $(document).ready(function () {
 			this.timestep = this.stageIndex[this.sStart];
 			this.animating = false;
 		} else {
-			this.timestep+=delta;
+			this.timestep += delta;
 			if(this.timestep < 0) this.timestep = 0;
+			if(this.timestep > this.data.data.length -1) this.timestep = this.data.data.length - 1;
 			el = this.getData();
 			if(typeof el=="object"){
 				if(this.timestep > 1){
@@ -364,7 +366,6 @@ $(document).ready(function () {
 		var sMass = this.massVM[p];
 		this.loadingStar();
 		//on change get stages for the mass of star!
-		$('#stages .ui-slider').remove();
 		this.getStages(sMass);
 		this.stageLife = Array();
 		this.stageIndex = Array();
@@ -392,7 +393,7 @@ $(document).ready(function () {
 		var tickSpace = msLength / (this.massVM.length - 1);
 		for (var i = 0; i < this.massVM.length; i++) {
 			$("#mass-slider .ticks").append("<p class='tick'>" + this.massVM[i] + "</p>");
-			$(".ticks p.tick:last").css('left', (i * tickSpace) - 20);
+			$("#mass-slider .ticks p.tick:last").css('left', (i * tickSpace) - 20);
 		}
 	}
 	StarInABox.prototype.toggleLid = function(){
@@ -435,7 +436,24 @@ $(document).ready(function () {
 	StarInABox.prototype.getStages = function(mass){
 		if(!this.allstages["m"+mass]) return;
 		data = this.allstages["m"+mass];
-		var sOptions = '';
+
+		var that = this;
+		$("#stages").slider("destroy").html('').slider({
+			value: 0,
+			min: 0,
+			max: data.length-1,
+			change: function (event, ui) { that.slideStages(); }
+		});
+		//add ticks
+		$("#stages").append('<div class="ticks"></div>');
+		var i;
+		var msLength = 700;
+		var tickSpace = msLength / (data.length - 1);
+		for (var i = 0; i < data.length; i++) {
+			$("#stages .ticks").append("<p class='tick' style='left:"+((i * tickSpace) - 40)+"px;'>" + this.stages[data[i].type] + "</p>");
+		}
+
+/*		var sOptions = '';
 		for (var i = 0; i < data.length; i++) {
 			sOptions += '<option lum="' + data[i].lum + '" radius="' + data[i].radius + '" tev="' + data[i].t + '" temp="' + data[i].temp + '" rgb="' + data[i].RGB + '" label="' + data[i].type + '"value="' + this.stages[data[i].type] + '">' + this.stages[data[i].type] + '</option>';
 		}
@@ -459,8 +477,18 @@ $(document).ready(function () {
 				}
 			}
 		}).hide();
+*/
 		this.loadChartData(mass);
 	}
+	StarInABox.prototype.slideStages = function(p){
+		clearInterval(this.eAnim);
+		this.resetStage();
+		this.updateEvolve();
+		$("a#animateEvolve").text('Start');
+		$("a#animateEvolveReset").css('display', '');
+		this.reset();
+	}
+
 	StarInABox.prototype.eqLevel = function(num, anim) {
 		var zero = 5;
 		var units = 0.4;
@@ -508,7 +536,8 @@ $(document).ready(function () {
 		if(i){
 			if(i < 1 || i > this.stageIndex.length) return;
 		}else i = this.stageIndex[this.sStart];
-		this.timestep = i;
+		this.timestep = (typeof i=="number") ? i : this.data.data.length-1;
+		if(this.timestep == this.data.data.length) this.timestep = this.data.data.length - 1;
 		var first = this.getData();
 		if(typeof first=="object"){
 			this.displayTime(first.t);
@@ -525,11 +554,11 @@ $(document).ready(function () {
 		this.sStart = 1;
 		this.sEnd = 11;
 		var that = this;
-		$('#stages :selected').each(function (i) {
-			v = parseInt($(this).attr('label'));
-			if (i==0) that.sStart = v;
-			else that.sEnd = v;
-		});
+		if(!this.allstages["m"+this.data.mass]) return;
+		data = this.allstages["m"+this.data.mass];
+		this.sStart = data[$('#stages').slider("value")].type;
+		this.sEnd = data[data.length - 1].type
+
 		var ii = 0;
 		var n = 0;
 		var type = new Array(0, this.data.data[0].type);
@@ -852,7 +881,7 @@ $(document).ready(function () {
 		return sOutput;
 	}
 	StarInABox.prototype.displayTime = function(t) {
-		this.el.time.text(t.toFixed(1) + " million years");
+		if(typeof t== "number") this.el.time.text(t.toFixed(1) + " million years");
 	}
 	function addCommas(nStr) {
 		nStr += '';
