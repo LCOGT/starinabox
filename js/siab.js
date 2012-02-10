@@ -75,10 +75,12 @@ $(document).ready(function () {
 			height: 495,
 			options: {
 				grid: {
-					color: "rgba(0,0,0,0.25)",
+					color: "rgb(0,0,0)",
+					opacity: 0.25
 					width: "0.5",
 					sub: {
-						color: "rgba(0,0,0,0.08)",
+						color: "rgb(0,0,0)",
+						opacity: 0.08,
 						width: "0.5"
 					}
 				},
@@ -670,14 +672,14 @@ $(document).ready(function () {
 			mid = this.getPixPos(12000,Math.pow(10,m*this.log10(12000)-c));
 			this.chart.mainSequence = this.chart.holder.path("M"+p1[0]+","+p1[1]+"L"+p2[0]+","+p2[1]).attr({
 				stroke : "rgb(255, 0, 0)",
-				opacity: 0.5,
+				"stroke-opacity": 0.5,
 				"stroke-width": 35,
 				"stroke-linecap" : "round"
 			});
 			this.chart.mainSequenceLabel = this.chart.holder.text(mid[0],mid[1],"Main Sequence").attr({ fill: "white",'font-size': '14px','text-anchor':'middle' }).rotate(Raphael.angle(p1[0],p1[1],p2[0],p2[1]));
 		}
 		//if(!this.chart.border) this.chart.border = this.chart.holder.rect(0,0,this.chart.width,this.chart.height).attr({stroke:'rgba(0,0,0,0.2)'});
-		if(!this.chart.axes) this.chart.axes = this.chart.holder.rect(this.chart.offset.left,this.chart.offset.top,this.chart.offset.width,this.chart.offset.height).attr({stroke:'rgba(0,0,0,0.5)','stroke-width':2});
+		if(!this.chart.axes) this.chart.axes = this.chart.holder.rect(this.chart.offset.left,this.chart.offset.top,this.chart.offset.width,this.chart.offset.height).attr({stroke:'rgb(0,0,0)','stroke-opacity': 0.5,'stroke-width':2});
 		if(!this.chart.yLabel) this.chart.yLabel = this.chart.holder.text(this.chart.offset.left - 10, this.chart.offset.top+(this.chart.offset.height/2), "Brightness (L0)").attr({fill: "black",'font-size': '12px' }).rotate(270);
 		if(!this.chart.sub){
 			var v = [2,3,4,5,6,7,8,9]
@@ -691,17 +693,19 @@ $(document).ready(function () {
 			for(var i = Math.ceil(this.chart.options.yaxis.min); i <= Math.floor(this.chart.options.yaxis.max); i++) {
 				p1 = this.getPixPos(this.chart.options.xaxis.max,i,"log");
 				p2 = this.getPixPos(this.chart.options.xaxis.min,i,"log");
-				this.chart.yaxis.push(this.chart.holder.path("M"+p1[0]+","+p1[1]+"L"+p2[0]+","+p2[1]).attr({ stroke: this.chart.options.grid.color,'stroke-width':(this.chart.options.grid.width ? this.chart.options.grid.width : 0.5)}));
+				this.chart.yaxis.push(this.chart.holder.path("M"+p1[0]+","+p1[1]+"L"+p2[0]+","+p2[1]).attr({ stroke: this.chart.options.grid.color,'stroke-opacity':this.chart.options.grid.opacity,'stroke-width':(this.chart.options.grid.width ? this.chart.options.grid.width : 0.5)}));
 				this.chart.yaxis.push(this.chart.holder.text(p1[0]+5,p1[1],addCommas(Math.pow(10, i))).attr({
 					'text-anchor': 'start',
-					'fill': "rgba(0, 0, 0, 0.5)",
+					'fill': "rgb(0, 0, 0)",
+					'fill-opacity': 0.5,
 					'font-size': '11px'
 				}));
 				for(var j = 0; j < this.chart.sub.length ; j++){
 					if(i+this.chart.sub[j] < this.chart.options.yaxis.max){
 						p1 = this.getPixPos(this.chart.options.xaxis.max,i+this.chart.sub[j],"log");
 						p2 = this.getPixPos(this.chart.options.xaxis.min,i+this.chart.sub[j],"log");
-						this.chart.yaxis.push(this.chart.holder.path("M"+p1[0]+","+p1[1]+"L"+p2[0]+","+p2[1]).attr({ stroke: this.chart.options.grid.sub.color,'stroke-width':(this.chart.options.grid.sub.width ? this.chart.options.grid.sub.width : 0.5)}));
+						s = this.chart.options.grid.sub;
+						this.chart.yaxis.push(this.chart.holder.path("M"+p1[0]+","+p1[1]+"L"+p2[0]+","+p2[1]).attr({ stroke: s.color,'stroke-opacity': s.opacity,'stroke-width':(s.width ? s.width : 0.5)}));
 					}
 				}
 			}
@@ -712,17 +716,19 @@ $(document).ready(function () {
 			for (var i = Math.ceil(this.chart.options.xaxis.min); i <= Math.floor(this.chart.options.xaxis.max); i++) {
 				p1 = this.getPixPos(i,this.chart.options.yaxis.min,"log");
 				p2 = this.getPixPos(i,this.chart.options.yaxis.max,"log");
-				this.chart.xaxis.push(this.chart.holder.path("M"+p1[0]+","+p1[1]+"L"+p2[0]+","+p2[1]).attr({ stroke: this.chart.options.grid.color,'stroke-width':(this.chart.options.grid.width ? this.chart.options.grid.width : 0.5)}));
+				this.chart.xaxis.push(this.chart.holder.path("M"+p1[0]+","+p1[1]+"L"+p2[0]+","+p2[1]).attr({ stroke: this.chart.options.grid.color,'stroke-opacity':this.chart.options.grid.opacity,'stroke-width':(this.chart.options.grid.width ? this.chart.options.grid.width : 0.5)}));
 				this.chart.xaxis.push(this.chart.holder.text(p1[0],p1[1]-10,addCommas(Math.pow(10, i))).attr({
 					'text-anchor': (i == Math.ceil(this.chart.options.xaxis.min)) ? "end" : 'middle',
-					'fill': "rgba(0, 0, 0, 0.5)",
+					'fill': "rgb(0, 0, 0)",
+					'fill-opacity': 0.5,
 					'font-size': '11px'
 				}));
 				for(var j = 0; j < this.chart.sub.length ; j++){
 					if(i+this.chart.sub[j] < this.chart.options.xaxis.max){
 						p1 = this.getPixPos(i+this.chart.sub[j],this.chart.options.yaxis.min,"log");
 						p2 = this.getPixPos(i+this.chart.sub[j],this.chart.options.yaxis.max,"log");
-						this.chart.yaxis.push(this.chart.holder.path("M"+p1[0]+","+p1[1]+"L"+p2[0]+","+p2[1]).attr({ stroke: this.chart.options.grid.sub.color,'stroke-width':(this.chart.options.grid.sub.width ? this.chart.options.grid.sub.width : 0.5)}));
+						s = this.chart.options.grid.sub.color;
+						this.chart.yaxis.push(this.chart.holder.path("M"+p1[0]+","+p1[1]+"L"+p2[0]+","+p2[1]).attr({ stroke: s.color,'stroke-opacity': s.opacity,'stroke-width':(s.width ? s.width : 0.5)}));
 					}
 				}
 			}
@@ -744,7 +750,7 @@ $(document).ready(function () {
 			}
 			if(this.starPath) this.starPath.remove();
 			if(this.starPathShadow) this.starPathShadow.remove();
-			if(strshadow) this.starPathShadow = this.chart.holder.path(strshadow).attr({stroke:'rgba(0,0,0,0.2)','stroke-width':3,'stroke-dasharray':'-'});
+			if(strshadow) this.starPathShadow = this.chart.holder.path(strshadow).attr({stroke:'rgb(0,0,0)','stroke-opacity': 0.2,'stroke-width':3,'stroke-dasharray':'-'});
 			if(str) this.starPath = this.chart.holder.path(str).attr({stroke:'#ffcc00','stroke-width':2,'stroke-dasharray':'-'});
 
 			if(this.chart.star) this.chart.star.remove();
