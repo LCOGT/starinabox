@@ -314,18 +314,19 @@ $(document).ready(function () {
 	StarInABox.prototype.animateStep = function(delta,reduction){
 		duration = this.duration;
 		if(!reduction) reduction = 1;
-		if(!this.timestep) this.timestep = 0;
-		if (this.timestep == this.eAnimPoints.length) {
+		if(!this.timestep){ this.timestep = 0; }
+		this.timestep += delta;
+
+		if (this.timestep >= this.eAnimPoints.length) {
 			$("a#animateEvolve").text('Start');
 			clearInterval(this.eAnim);
 			$("a#animateEvolveReset").css('display', '');
 			$("a#animateEvolveReset").css('display', 'n');
-			this.timestep = this.stageIndex[this.sStart];
+			if(delta > 0) this.timestep = this.eAnimPoints.length-1;
+			//this.timestep = this.stageIndex[this.sStart];
 			this.animating = false;
 		} else {
-			this.timestep += delta;
 			if(this.timestep < 0) this.timestep = 0;
-			if(this.timestep > this.data.data.length -1) this.timestep = this.data.data.length - 1;
 			el = this.getData();
 			if(typeof el=="object"){
 				if(this.timestep > 1){
@@ -355,6 +356,7 @@ $(document).ready(function () {
 				}
 			}
 		}
+		//console.log(this.timestep,delta)
 	}
 	StarInABox.prototype.setThermometer = function(temp,duration){
 		s = Math.min(temp / 60000,1.05);
