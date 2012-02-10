@@ -164,7 +164,7 @@ body {
 
 #evolve { display: none }
 
-#placeholder svg { z-index: 105 }
+#placeholder svg { z-index: 105; }
 
 .tickLabels .tickLabel { color: #fff }
 
@@ -395,9 +395,12 @@ body {
 	background-color: rgba(0,0,0,0.5);
 }
 #controls {
-	float: left;
 	padding:3px;
 	display: inline-block;
+}
+#controls select {
+	font-size: 12px;
+	height: 14px;
 }
 #controls a { margin: 0px; }
 img.icon { width:24px; height:24px; margin:0px; background:url('images/icons_24.png') no-repeat scroll transparent; }
@@ -409,11 +412,22 @@ img.play { background-position: -48px -120px!important; }
 img.reset { background-position: -48px -144px!important; }
 
 #tevTime {
-	float:right;
-    color: #fff;
-    padding: 7px 7px 6px 7px;
-    font-size: 14px;
+	position: absolute;
+	bottom: 44px;
+	right: 330px;
+	text-align:right;
+	z-index: 106;
+	color: #fff;
+	padding: 0px;
+	font-size: 14px;
 }
+#speedcontrol {
+	float:right;
+	color: #fff;
+	padding: 3px 0px 0px 8px;
+	font-size: 14px;
+}
+
 
 #right .info {
     width: 25px;
@@ -578,11 +592,11 @@ a#animateEvolveReset:active {
 	top:-15px;
 	right:30px;
 }
-#welcome #about-content,#welcome #help-content,#welcome #summary-content { display: none; }
-#welcome.help #welcome-content,#welcome.help #about-content,#welcome.help #summary-content { display: none; }
-#welcome.summary #welcome-content,#welcome.help #about-content,#welcome.help #help-content { display: none; }
-#welcome.about #welcome-content,#welcome.help #summary-content,#welcome.help #help-content { display: none; }
-#welcome.help #help-content,#welcome.about #about-content,#welcome.summary #summary-content { display: block; }
+#welcome #help-content,#welcome #summary-content { display: none; }
+#welcome.help #welcome-content,#welcome.help #summary-content { display: none; }
+#welcome.summary #welcome-content,#welcome.help #help-content { display: none; }
+#welcome.help #summary-content,#welcome.help #help-content { display: none; }
+#welcome.help #help-content,#welcome.summary #summary-content { display: block; }
 
 #help-content {
 	text-align: left;
@@ -591,44 +605,44 @@ a#animateEvolveReset:active {
 	margin-bottom: 8px;
 }
 
-#welcome h1{
+#welcome h1,#welcome h2, #welcome h3 {
 	font-family: 'SecretTypewriterRegular';
-	font-size: 40px;
-	color: #222;
-	margin-bottom: 10px;
 	opacity: 0.7;
 	color: #000;
 }
+#welcome h1 {
+	font-size: 40px;
+	margin-bottom: 10px;
+}
+#welcome h2 {
+	font-size: 30px;
+	margin-bottom: 10px;
+}
+#welcome h3 {
+	font-size: 20px;
+	margin-top: 16px;
+	margin-bottom: 8px;
+}
 
-#menu{
+#menu {
 	position: absolute;
-	top:7px;
-	right: 50px;
+	top:8px;
+	right: 35px;
 	z-index:320;
-	color: #222;
-	text-shadow: -1px -1px  1px rgba(255,255,255,0.3);
+	color: #ddd;
 	letter-spacing: 1px;
 	font-weight: bold;
 	font-size: 14px;
 }
 
-#menu a{
-color: #222;
-text-decoration: none;
+#menu a {
+	color: #ddd;
+	text-decoration: none;
 }
 
 #menu a:hover{
-color: #ddd;
-text-shadow: -1px -1px rgba(0,0,0,0.3);
-}
-
-#welcome.about{
-	width: 450px;
-	-webkit-transition: all 1s ease-in-out;
-	-moz-transition: all 1s ease-in-out;
-	-o-transition: all 1s ease-in-out;
-	-webkit-transition: all 1s ease-in-out;
-	transition: all 1s ease-in-out;
+	color: #ddd;
+	text-shadow: -1px -1px rgba(0,0,0,0.3);
 }
 
 #welcome.help{

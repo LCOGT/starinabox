@@ -174,15 +174,9 @@ $(document).ready(function () {
 		$("a#animateEvolve, a#animateEvolveReset").css("background","-webkit-gradient(linear, left top, left bottom, from(#ddd), to(#6b6b6b))");
 		$("a#animateEvolve, a#animateEvolveReset").css("background","-moz-linear-gradient(top, #ddd, #6b6b6b)");
 
-		// help & about
-		$('#about').click({box:this},function(e){
-			$('#welcome').removeClass('help').removeClass('summary').addClass('about');
-			if(e.data.box.open) e.data.box.toggleLid();
-			$('#welcome #about-content').css({opacity: 0}).animate({opacity: 1},500);
-		});
-		
+		// help
 		$('#help').click({box:this},function(e){
-			$('#welcome').removeClass('about').removeClass('summary').addClass('help');
+			$('#welcome').removeClass('summary').addClass('help');
 			if(e.data.box.open) e.data.box.toggleLid();
 			$('#welcome #help-content').css({opacity: 0}).animate({opacity: 1},500);
 		});
@@ -278,7 +272,7 @@ $(document).ready(function () {
 
 		//show summary
 		$('#summary').click({box:this},function (e) {
-			$('#welcome').removeClass('about').removeClass('help').addClass('summary');
+			$('#welcome').removeClass('help').addClass('summary');
 			if(e.data.box.open) e.data.box.toggleLid();
 			e.data.box.displaySummary();
 		});
@@ -345,7 +339,7 @@ $(document).ready(function () {
 					this.eqLevel(el.lum, true);
 					this.updateCurrentStage();
 				}
-				this.el.time.text("Time: " + el.t + " Myrs");
+				this.displayTime(el.t);
 				// In the case of 0 luminosity the y-value is returned as negative.
 				// Don't change anything if that is the case.
 				if(this.eAnimPoints[this.timestep][1] >= 0) {
@@ -375,7 +369,7 @@ $(document).ready(function () {
 		
 		$("a#animateEvolve").text('Start');
 		$("a#animateEvolveReset").css('display', '');
-		this.el.time.text("Time: 0 Myrs");
+		this.displayTime(0);
 		this.reset();
 	}
 	StarInABox.prototype.createMassSlider = function(){
@@ -515,7 +509,7 @@ $(document).ready(function () {
 		this.timestep = i;
 		var first = this.getData();
 		if(typeof first=="object"){
-			this.el.time.text("Time: " + first.t + " Myrs");
+			this.displayTime(first.t);
 			this.sStarReset();
 			this.setComparisonStar(this.stageIndex[i]);
 			this.eqLevel(first.lum);
@@ -814,11 +808,11 @@ $(document).ready(function () {
 		$('#welcome #summary-content').html(this.generateSummary());
 	}
 	StarInABox.prototype.displaySummary = function() {
-		$('#welcome').removeClass('help').removeClass('about').addClass('summary');
+		$('#welcome').removeClass('help').addClass('summary');
 		$('#welcome #summary-content').css({opacity: 0}).animate({opacity: 1},500);
 	}
 	StarInABox.prototype.generateSummary = function() {
-		var sOutput = "<h1>Summary</h1>";
+		var sOutput = "<h2>Summary</h2>";
 		sOutput += "<p>This is a summary of the star that is currently selected.</p>"
 		sOutput += '<p><span class="label">Mass: </span><span class="result">' + this.data.mass + ' Solar mass'+((this.data.mass==1) ? '':'es')+'</span></p>';
 		sOutput += '<div id="summary-table"><table border="1"><tr>';
@@ -849,6 +843,9 @@ $(document).ready(function () {
 		sOutput += '</table></div>';
 		sOutput += '<div id="downloads">Download data as: <a href="'+this.fileName(this.data.mass)+'.csv">CSV</a></div>';
 		return sOutput;
+	}
+	StarInABox.prototype.displayTime = function(t) {
+		this.el.time.text(t.toFixed(1) + " million years");
 	}
 	function addCommas(nStr) {
 		nStr += '';
