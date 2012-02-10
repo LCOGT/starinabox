@@ -883,7 +883,7 @@ $(document).ready(function () {
 		return sOutput;
 	}
 	StarInABox.prototype.displayTime = function(t) {
-		if(typeof t== "number") this.el.time.text(t.toFixed(1) + " million years");
+		if(typeof t== "number") this.el.time.text(t.toFixed(3) + " million years");
 	}
 	function addCommas(nStr) {
 		nStr += '';
