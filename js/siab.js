@@ -121,7 +121,7 @@ $(document).ready(function () {
 	StarInABox.prototype.setupUI = function(){
 		// Define if we can open the box or not
 		$('#welcome').bind('mouseover',{box:this},function(e){ e.data.box.canopen = false; }).bind('mouseout',{box:this},function(e){ e.data.box.canopen = true; });
-		$("#box-lid,#box-top").click({box:this},function(e){
+		$("#box-lid").click({box:this},function(e){
 			if(e.data.box.canopen) e.data.box.toggleLid();
 		});
 		$(document).bind('keypress',{box:this},function(e){
@@ -406,7 +406,7 @@ $(document).ready(function () {
 			//move content underneath lid then animate shut.
 			$("#container").removeClass("closed").addClass("open");
 			$("#box-lid").animate({"left": "-"+($('#box-lid').outerWidth()-30)+"px"},1000).addClass("open");
-			$("#lid-open a").html('&rsaquo; Close the lid')
+			$("#lid-open a").html('&rsaquo; Close the lid');
 			this.open = true;
 		}
 	}
