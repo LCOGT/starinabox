@@ -46,8 +46,9 @@ $(document).ready(function () {
 		// array for animation data points...
 		this.eAnimPoints = [];
 		this.timestep = 0;
+		this.temperature = 0;
 		this.animating = false;
-		this.reduction = 4;	// A slower framerate for the size/thermometer animations
+		this.reduction = 5;	// A slower framerate for the size/thermometer animations
 
 		//GET URL if one is passed
 		this.fullurl = parent.document.URL;
@@ -333,20 +334,23 @@ $(document).ready(function () {
 			if(this.timestep < 0) this.timestep = 0;
 			el = this.getData();
 			if(typeof el=="object"){
-				if(this.timestep > 1){
+				if(this.data.data[this.timestep].type > 10){
 					if(this.data.data[this.timestep].type != this.data.data[this.timestep-1].type){
 						if(this.data.data[this.timestep].type > 11) this.supernova();
 					}
 				}
-				if(this.timestep % reduction == 0 && this.timestep < this.data.data.length) {
-					this.sizeComparison.star.animate({
-						cx: (this.sizeComparison.starX+el.radius*this.sizeComparison.starR),
-						r: this.sizeComparison.starR*el.radius,
-						fill: el.RGB
-					}, (duration*reduction));
-					this.setThermometer(el.temp, (duration * reduction));
-					this.eqLevel(el.lum, true);
-					this.updateCurrentStage();
+				if(this.timestep % reduction == 0){
+					if(this.timestep < this.data.data.length) {
+						r = this.sizeComparison.starR*el.radius
+						this.sizeComparison.star.animate({
+							cx: (this.sizeComparison.starX+r),
+							r: r,
+							fill: el.RGB
+						}, (duration*reduction));
+						this.setThermometer(el.temp, (duration * reduction));
+						this.eqLevel(el.lum, true);
+						this.updateCurrentStage();
+					}
 				}
 				this.displayTime(el.t);
 				// In the case of 0 luminosity the y-value is returned as negative.
@@ -360,11 +364,10 @@ $(document).ready(function () {
 				}
 			}
 		}
-		//console.log(this.timestep,delta)
 	}
 	StarInABox.prototype.setThermometer = function(temp,duration){
 		s = Math.min(temp / 60000,1.05);
-		if(typeof duration=="number" && duration > 0) this.thermoTemp.animate({ transform: "s1,"+s+",0,343" }, duration);
+		if(typeof duration=="number") this.thermoTemp.animate({ transform: "s1,"+s+",0,343" }, duration);
 		else this.thermoTemp.scale(1, s, 0, 343);
 	}
 	StarInABox.prototype.slideTo = function(p){
@@ -492,7 +495,7 @@ $(document).ready(function () {
 		this.updateEvolve();
 		$("a#animateEvolve").text('Start');
 		$("a#animateEvolveReset").css('display', '');
-		this.reset();
+//		this.reset();
 	}
 
 	StarInABox.prototype.eqLevel = function(num, anim) {
@@ -501,13 +504,16 @@ $(document).ready(function () {
 		var bars = 20;
 
 		if (num != null) {
-			this.numBars = Math.round(this.log10(parseFloat(num)) / units) + zero;
-			if (anim == true) this.eqChange();
-			else {
-				if(this.numBars >= 0) this.eqCurrentLevel = this.numBars;
-				for (var i = 1; i <= this.totalBars; i++) {
-					if(i <= this.numBars) this.eq2[i].attr('opacity', 1);
-					else this.eq2[i].attr('opacity', 0.3);
+			n = Math.round(this.log10(parseFloat(num)) / units) + zero;
+			if(this.numBars != n){
+				this.numBars = n;
+				if (anim == true) this.eqChange();
+				else {
+					if(this.numBars >= 0) this.eqCurrentLevel = this.numBars;
+					for (var i = 1; i <= this.totalBars; i++) {
+						if(i <= this.numBars) this.eq2[i].attr('opacity', 1);
+						else this.eq2[i].attr('opacity', 0.3);
+					}
 				}
 			}
 		}
@@ -544,6 +550,7 @@ $(document).ready(function () {
 		}else i = this.stageIndex[this.sStart];
 		this.timestep = (typeof i=="number") ? i : this.data.data.length-1;
 		if(this.timestep == this.data.data.length) this.timestep = this.data.data.length - 1;
+
 		var first = this.getData();
 		if(typeof first=="object"){
 			this.displayTime(first.t);
@@ -557,14 +564,8 @@ $(document).ready(function () {
 	}
 	StarInABox.prototype.assessStages = function() {
 		if(!this.data.data) return;
-		this.sStart = 1;
-		this.sEnd = 11;
-		var that = this;
 		if(!this.allstages["m"+this.data.mass]) return;
-		data = this.allstages["m"+this.data.mass];
-		this.sStart = data[$('#stages').slider("value")].type;
-		this.sEnd = data[data.length - 1].type
-
+		var that = this;
 		var ii = 0;
 		var n = 0;
 		var type = new Array(0, this.data.data[0].type);
@@ -584,6 +585,10 @@ $(document).ready(function () {
 			this.stageLife[type[0]][ii] = [this.data.data[i].type, this.stages[this.data.data[i].type], this.data.data[i].t];
 			ii++;
 		}
+		this.sStart = 1;
+		this.sEnd = 11;
+		this.sStart = $('#stages').slider("value")+1;
+		this.sEnd = data[data.length - 1].type
 	}
 	/**
 	 *
@@ -658,7 +663,7 @@ $(document).ready(function () {
 		this.doneLoadingStar();
 	}
 	StarInABox.prototype.setComparisonStar = function(i) {
-		if(!i) i = 0;
+		if(!i) i = this.timestep;
 		if(i > this.data.data.length) return;
 		var d = this.getData(i);
 		if(typeof d=="object"){
