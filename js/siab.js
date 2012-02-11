@@ -282,6 +282,7 @@ $(document).ready(function () {
 
 		this.el = {
 			"time": $("#tevTime"),
+			"stagelabel": $('#current-stage'),
 		}
 	}
 	StarInABox.prototype.supernova = function(){
@@ -322,7 +323,7 @@ $(document).ready(function () {
 		if(!this.timestep){ this.timestep = 0; }
 		this.timestep += delta;
 
-		if (this.timestep >= this.eAnimPoints.length) {
+		if(this.timestep >= this.eAnimPoints.length){
 			$("a#animateEvolve").text('Start');
 			clearInterval(this.eAnim);
 			$("a#animateEvolveReset").css('display', '');
@@ -347,7 +348,7 @@ $(document).ready(function () {
 							r: r,
 							fill: el.RGB
 						}, (duration*reduction));
-						this.setThermometer(el.temp, (duration * reduction));
+						this.setThermometer(el.temp);
 						this.eqLevel(el.lum, true);
 						this.updateCurrentStage();
 					}
@@ -365,10 +366,11 @@ $(document).ready(function () {
 			}
 		}
 	}
-	StarInABox.prototype.setThermometer = function(temp,duration){
+	StarInABox.prototype.setThermometer = function(temp){
 		s = Math.min(temp / 60000,1.05);
-		if(typeof duration=="number") this.thermoTemp.animate({ transform: "s1,"+s+",0,343" }, duration);
-		else this.thermoTemp.scale(1, s, 0, 343);
+		//if(typeof duration=="number") this.thermoTemp.animate({ transform: "s1,"+s+",0,343" }, duration);
+		//else 
+		this.thermoTemp.transform("s1,"+s+",0,343");
 	}
 	StarInABox.prototype.slideTo = function(p){
 		clearInterval(this.eAnim);
@@ -504,7 +506,7 @@ $(document).ready(function () {
 		var bars = 20;
 
 		if (num != null) {
-			n = Math.round(this.log10(parseFloat(num)) / units) + zero;
+			n = Math.round(this.log10(num) / units) + zero;
 			if(this.numBars != n){
 				this.numBars = n;
 				if (anim == true) this.eqChange();
@@ -849,7 +851,7 @@ $(document).ready(function () {
 	}
 	StarInABox.prototype.updateCurrentStage = function() {
 		el = this.getData();
-		if(typeof el=="object") $('#current-stage').html('<strong>Stage:</strong> ' + this.stages[el.type]);
+		if(typeof el=="object") this.el.stagelabel.html('<strong>Stage:</strong> ' + this.stages[el.type]);
 	}
 	StarInABox.prototype.updateSummary = function() {
 		$('#welcome #summary-content').html(this.generateSummary());
