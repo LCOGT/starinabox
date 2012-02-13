@@ -43,9 +43,26 @@
 			<div id="welcome">
 				<div id="welcome-content">
 					<h1>Hello!</h1>
-					<p>Explore the different stages in a star's life.</p>
-					<p>You can see how its brightness, size and mass compare to the current condition of the Sun. You can also animate its evolution. </p>
-					<p>All contained in this neat little box</p>
+					<div class="jsonly">
+						<p>Explore the different stages in a star's life.</p>
+						<p>You can see how its brightness, size and mass compare to the current condition of the Sun. You can also animate its evolution. </p>
+						<p>All contained in this neat little box</p>
+					</div>
+					<div class="accessible">
+						<p>You don't appear to have Javascript enabled so you won't be able to use the interactive features of Star In A Box. However, you can still download data to make your own investigations of how the brightness, size and mass of stars change as they go through their lives:</p>
+						<ul>
+							<li><a href="db/star_0.2_solar_mass.csv">0.2 solar mass star</a></li>
+							<li><a href="db/star_0.65_solar_mass.csv">0.65 solar mass star</a></li>
+							<li><a href="db/star_1_solar_mass.csv">1 solar mass star</a></li>
+							<li><a href="db/star_2_solar_mass.csv">2 solar mass star</a></li>
+							<li><a href="db/star_4_solar_mass.csv">4 solar mass star</a></li>
+							<li><a href="db/star_8_solar_mass.csv">8 solar mass star</a></li>
+							<li><a href="db/star_10_solar_mass.csv">10 solar mass star</a></li>
+							<li><a href="db/star_20_solar_mass.csv">20 solar mass star</a></li>
+							<li><a href="db/star_30_solar_mass.csv">30 solar mass star</a></li>
+							<li><a href="db/star_40_solar_mass.csv">40 solar mass star</a></li>
+						</ul>
+					</div>
 				</div>
 				<div id="help-content">
 					<h2>HELP!</h2>
@@ -63,7 +80,7 @@
 				</div>
 				<div id="summary-content">
 				</div>
-				<div id="lid-open"><a href="#">&lsaquo; Open the Lid</a></div>
+				<div id="lid-open" class="jsonly"><a href="#">&lsaquo; Open the Lid</a></div>
 			</div>
         </div>
 

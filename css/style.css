@@ -8,7 +8,7 @@ body {
     background: url(images/bg-shadow.png) no-repeat center center;
     overflow: hidden;
 }
-
+.jsonly { display: none; }
 #container {
 	width: 1016px;
 	height: 615px;
@@ -591,8 +591,8 @@ a#animateEvolveReset:active {
 	position: absolute;
 	top:48px;
 	right: 48px;
-	width: 304px;
-	height: 272px;
+	width: 320px;
+	height: 320px;
 	text-align: right;
 	padding: 24px;
 	background: #fff;

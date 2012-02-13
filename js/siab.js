@@ -4,6 +4,11 @@
  *  Refactoring by Stuart Lowe - February 2012
  *
  */
+
+// Elements with the class "accessible" are intended for people who don't 
+// have Javascript enabled. If we are here they obviously do have Javascript.
+document.write('<style type="text/css">.accessible { display: none; } .jsonly { display: block; }</style>');
+
 $(document).ready(function () {
 
 	/*@cc_on
@@ -88,15 +93,22 @@ $(document).ready(function () {
 				xaxis: {
 					invert: true,
 					min: 3, // 3
-					max: 5.8 // 6.4
+					max: 5.8, // 6.4
+					label: {
+						color: "rgb(255,255,255)"
+					}
 				},
 				yaxis: {
 					min: -6.4, //-11
-					max: 6.5 //8
+					max: 6.5, //8
+					label: {
+						color: "rgb(255,255,255)"
+					}
 				}
 			},
 			holder: []
 		}
+this.chart.options.yaxis.label.color
 		this.chart.holder = Raphael("placeholder", this.chart.width, this.chart.height),
 		this.updateChart();
 
@@ -120,6 +132,7 @@ $(document).ready(function () {
 		for(var i = 0; i < this.massVM.length; i++){
 			if(mass == this.massVM[i]) return i;
 		}
+		return 0;
 	}
 	StarInABox.prototype.setupUI = function(){
 		// Define if we can open the box or not
@@ -205,7 +218,7 @@ $(document).ready(function () {
 		var l4 = this.thermo.text(150, 208, "24,000 (K)").attr(txtprops);
 		var l5 = this.thermo.text(150, 268, "12,000 (K)").attr(txtprops);
 		var l6 = this.thermo.text(150, 328, "0 (K)").attr(txtprops);
-		ll = this.thermo.text(50, 200, "Temperature (Kelvin)").attr(txtprops);
+		var ll = this.thermo.text(50, 200, "Temperature (Kelvin)").attr(txtprops);
 		ll.rotate(-90);
 
 		// Luminosity meter
@@ -446,8 +459,7 @@ $(document).ready(function () {
 	// get stages for current mass function
 	StarInABox.prototype.getStages = function(mass){
 		if(!this.allstages["m"+mass]) return;
-		data = this.allstages["m"+mass];
-
+		var data = this.allstages["m"+mass];
 		var that = this;
 		$("#stages").slider("destroy").html('').slider({
 			value: 0,
@@ -504,7 +516,7 @@ $(document).ready(function () {
 		var zero = 5;
 		var units = 0.4;
 		var bars = 20;
-
+		var n;
 		if (num != null) {
 			n = Math.round(this.log10(num) / units) + zero;
 			if(this.numBars != n){
@@ -572,8 +584,9 @@ $(document).ready(function () {
 		var n = 0;
 		var type = new Array(0, this.data.data[0].type);
 		this.stageIndex = [0];
+		var eType,change
 		for (var i = 0; i < this.data.data.length; i++) {
-			var eType = this.data.data[i].type;
+			eType = this.data.data[i].type;
 			change = false;
 			if (eType != type[1] || i == this.data.data.length-1) {
 				type[1] = eType;
@@ -590,7 +603,7 @@ $(document).ready(function () {
 		this.sStart = 1;
 		this.sEnd = 11;
 		this.sStart = $('#stages').slider("value")+1;
-		this.sEnd = data[data.length - 1].type
+		if(typeof data=="object") this.sEnd = data[data.length - 1].type
 	}
 	/**
 	 *
@@ -601,7 +614,7 @@ $(document).ready(function () {
 
 		this.pieData = [];
 		this.pieLegend = [];
-
+		var s,n,e;
 		for (var i = 1 ; i < this.stageIndex.length ; i++){
 			s = this.getData(this.stageIndex[i]);
 			n = (i < this.stageIndex.length-1) ? this.stageIndex[i+1]-1 : this.data.data.length-1;
@@ -674,7 +687,7 @@ $(document).ready(function () {
 		}
 	}
 	StarInABox.prototype.setcomparisonStarSize = function(sm) {
-		r = sm*this.sizeComparison.starR;
+		var r = sm*this.sizeComparison.starR;
 		this.sizeComparison.star.attr({cx:(this.sizeComparison.starX+r),r:r});
 	}
 	StarInABox.prototype.setcomparisonStarColour = function(value) {
@@ -692,7 +705,7 @@ $(document).ready(function () {
 			x = this.log10(x);
 			y = this.log10(y);
 		}
-		newx = this.chart.offset.left + this.chart.offset.width*(Math.abs(this.chart.options.xaxis.max-x)/(this.chart.options.xaxis.max-this.chart.options.xaxis.min));
+		var newx = this.chart.offset.left + this.chart.offset.width*(Math.abs(this.chart.options.xaxis.max-x)/(this.chart.options.xaxis.max-this.chart.options.xaxis.min));
 		if(y < this.chart.options.yaxis.min) return [newx,-1];
 		else return [newx,this.chart.height-(this.chart.offset.bottom + this.chart.offset.height*((y-this.chart.options.yaxis.min)/(this.chart.options.yaxis.max-this.chart.options.yaxis.min)))];
 	}
@@ -705,6 +718,7 @@ $(document).ready(function () {
 		this.chart.offset.height = this.chart.height-this.chart.offset.bottom-this.chart.offset.top;
 	}
 	StarInABox.prototype.updateChart = function() {
+		var p1,p2,mid,m,c,v,s;
 		this.getChartOffset();
 		if(!this.chart.mainSequence){
 			m = 6.1;
@@ -722,9 +736,9 @@ $(document).ready(function () {
 		}
 		//if(!this.chart.border) this.chart.border = this.chart.holder.rect(0,0,this.chart.width,this.chart.height).attr({stroke:'rgba(0,0,0,0.2)'});
 		if(!this.chart.axes) this.chart.axes = this.chart.holder.rect(this.chart.offset.left,this.chart.offset.top,this.chart.offset.width,this.chart.offset.height).attr({stroke:'rgb(0,0,0)','stroke-opacity': 0.5,'stroke-width':2});
-		if(!this.chart.yLabel) this.chart.yLabel = this.chart.holder.text(this.chart.offset.left - 10, this.chart.offset.top+(this.chart.offset.height/2), "Brightness (L0)").attr({fill: "black",'font-size': '12px' }).rotate(270);
+		if(!this.chart.yLabel) this.chart.yLabel = this.chart.holder.text(this.chart.offset.left - 10, this.chart.offset.top+(this.chart.offset.height/2), "Brightness (L0)").attr({fill: (this.chart.options.yaxis.label.color ? this.chart.options.yaxis.label.color : "black"),'font-size': '12px' }).rotate(270);
 		if(!this.chart.sub){
-			var v = [2,3,4,5,6,7,8,9]
+			v = [2,3,4,5,6,7,8,9]
 			this.chart.sub = []
 			for(var i = 0 ; i < v.length ; i++){
 				this.chart.sub[i] = this.log10(v[i]);
@@ -752,7 +766,7 @@ $(document).ready(function () {
 				}
 			}
 		}
-		if(!this.chart.xLabel) this.chart.xLabel = this.chart.holder.text(this.chart.offset.left+this.chart.offset.width/2, this.chart.height-this.chart.offset.bottom + 10, "Temperature (K)").attr({ fill: "black",'font-size': '12px' });
+		if(!this.chart.xLabel) this.chart.xLabel = this.chart.holder.text(this.chart.offset.left+this.chart.offset.width/2, this.chart.height-this.chart.offset.bottom + 10, "Temperature (K)").attr({ fill: (this.chart.options.xaxis.label.color ? this.chart.options.xaxis.label.color : "black"),'font-size': '12px' });
 		if(!this.chart.xaxis){
 			this.chart.xaxis = this.chart.holder.set();
 			for (var i = Math.ceil(this.chart.options.xaxis.min); i <= Math.floor(this.chart.options.xaxis.max); i++) {
@@ -778,8 +792,8 @@ $(document).ready(function () {
 
 		if(this.data.data) {
 			this.eAnimPoints = [];
-			str = "";
-			strshadow = "";
+			var str = "";
+			var strshadow = "";
 			for (var i in this.data.data) {
 				var ii = this.getPixPos(this.data.data[i].temp,this.data.data[i].lum);
 				if(ii[1] > 0){
@@ -850,7 +864,7 @@ $(document).ready(function () {
 		return this.data.data[i];
 	}
 	StarInABox.prototype.updateCurrentStage = function() {
-		el = this.getData();
+		var el = this.getData();
 		if(typeof el=="object") this.el.stagelabel.html('<strong>Stage:</strong> ' + this.stages[el.type]);
 	}
 	StarInABox.prototype.updateSummary = function() {
@@ -871,7 +885,7 @@ $(document).ready(function () {
 		sOutput += '<th>Temperature (K)</th>';
 		sOutput += '<th>Duration (Myr)</th>';
 		sOutput += '</tr>';
-
+		var s,t,n,m,e;
 		for (var i = 1 ; i < this.stageIndex.length ; i++){
 			//var sValue = sEnd - sStart;
 			s = this.getData(this.stageIndex[i]);
@@ -898,9 +912,9 @@ $(document).ready(function () {
 	}
 	function addCommas(nStr) {
 		nStr += '';
-		x = nStr.split('.');
-		x1 = x[0];
-		x2 = x.length > 1 ? '.' + x[1] : '';
+		var x = nStr.split('.');
+		var x1 = x[0];
+		var x2 = x.length > 1 ? '.' + x[1] : '';
 		var rgx = /(\d+)(\d{3})/;
 		while (rgx.test(x1)) {
 			x1 = x1.replace(rgx, '$1' + ',' + '$2');
@@ -917,6 +931,6 @@ $(document).ready(function () {
     	return closest;
 	}
 
-	box = new StarInABox();
+	var box = new StarInABox();
 
 }); //ready.function
