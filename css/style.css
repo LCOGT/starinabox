@@ -20,8 +20,6 @@ body {
 	position: relative;
 	z-index: 0;
 }
-.supernova { z-index: 1000; background-color: rgb(255,255,255); }
-.supernovaflash { z-index: 1050; background-color: rgb(255,255,255); }
 
 #vertical {
     float: left;
@@ -63,6 +61,23 @@ body {
 *
    ================================================== */
 
+.supernova { z-index: 1000; background-color: rgb(255,255,255); }
+.supernovaflash { z-index: 1050; background-color: rgb(255,255,255); }
+.caution {
+	font-family: 'SecretTypewriterRegular';
+	color: white;
+    text-shadow: rgb(0,0,0) 1px 1px 1px;
+	background: url(images/caution.png) repeat-x center center;
+	position: absolute;
+	top:0px;
+	left:0px;
+	width: 1000px;
+	height: 35px;
+	z-index: 1000;
+	display: none;
+	font-size: 2em;
+	padding-top: 5px;
+}
 
 #box-top-t, #box-top-r, #box-top-b {
 	position: absolute;
@@ -416,15 +431,15 @@ body {
 }
 #controls select {
 	font-size: 12px;
-	height: 14px;
 }
 #controls a { margin: 0px; }
 img.icon { width:24px; height:24px; margin:0px; background:url('images/icons_24.png') no-repeat scroll transparent; }
-img.rewind { background-position: -48px 0px!important; }
+img.rewind { background-position: 0px -168px!important; }
 img.stop { background-position: -48px -24px!important; }
-img.ff { background-position: -48px -48px!important; }
+img.ff { background-position: -24px -168px!important; }
 img.now { background-position: -48px -72px!important; }
 img.play { background-position: -48px -120px!important; }
+img.pause { background-position: -48px -168px!important; }
 img.reset { background-position: -48px -144px!important; }
 
 #tevTime {
@@ -435,13 +450,11 @@ img.reset { background-position: -48px -144px!important; }
 	z-index: 106;
 	color: #fff;
 	padding: 0px;
-	font-size: 14px;
 }
 #speedcontrol {
 	float:right;
 	color: #fff;
 	padding: 3px 0px 0px 8px;
-	font-size: 14px;
 }
 
 
@@ -489,8 +502,6 @@ a#animateEvolveReset {
     box-shadow: rgba(0,0,0,1) 0 1px 0;
     text-shadow: rgba(0,0,0,.4) 0 1px 0;
     color: #fff;
-    font-size: 13px;
-    font-family: Helvetica, Arial, Sans-Serif;
     text-decoration: none;
     vertical-align: middle;
 }
@@ -581,10 +592,8 @@ a#animateEvolveReset:active {
 	top:45px;
 	right:335px;
 	color: #000;
-	font-size: 12px;
 	width: 200px;
 	text-align: right;
-	line-height: 15px;
 }
 
 #welcome{
@@ -643,15 +652,15 @@ a#animateEvolveReset:active {
 	color: #000;
 }
 #welcome h1 {
-	font-size: 40px;
+	font-size: 2.6em;
 	margin-bottom: 10px;
 }
 #welcome h2 {
-	font-size: 30px;
+	font-size: 2em;
 	margin-bottom: 10px;
 }
 #welcome h3 {
-	font-size: 20px;
+	font-size: 1.5em;
 	margin-top: 16px;
 	margin-bottom: 8px;
 }
@@ -664,7 +673,6 @@ a#animateEvolveReset:active {
 	color: #ddd;
 	letter-spacing: 1px;
 	font-weight: bold;
-	font-size: 14px;
 }
 
 #menu a {
@@ -694,7 +702,7 @@ a#animateEvolveReset:active {
 	right: 10px;
 	font-family: 'SecretTypewriterRegular';
 	text-decoration: none;
-	font-size: 20px;
+	font-size: 1.5em;
 	cursor: pointer;
 }
 

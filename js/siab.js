@@ -108,7 +108,6 @@ $(document).ready(function () {
 			},
 			holder: []
 		}
-this.chart.options.yaxis.label.color
 		this.chart.holder = Raphael("placeholder", this.chart.width, this.chart.height),
 		this.updateChart();
 
@@ -148,6 +147,7 @@ this.chart.options.yaxis.label.color
 			if(code==32) box.play();
 			else if(code == 37 /* left */){ box.animateStep(-1); }
 			else if(code == 39 /* right */){ box.animateStep(1); }
+			if(c == 'w'){ box.supernovaWarning(); }
 			if(c == 's'){ box.supernova(); }
 			if(c == 'l'){ box.toggleLid(); }
 		});
@@ -223,10 +223,10 @@ this.chart.options.yaxis.label.color
 
 		// Luminosity meter
 		this.rLum = Raphael("rlum", 280, 390);
-		this.eqBg1 = this.rLum.image("images/eq-bg.png", 40, 20, 57, 354);
+		//this.eqBg1 = this.rLum.image("images/eq-bg.png", 40, 20, 57, 354);
 		this.eqBg2 = this.rLum.image("images/eq-bg.png", 105, 20, 57, 354);
 		//add LEDs
-		this.eq1 = [];
+		//this.eq1 = [];
 		this.eq2 = [];
 		this.xLed = 22;
 		this.eqCurrentLevel = 0;
@@ -236,25 +236,25 @@ this.chart.options.yaxis.label.color
 		this.initEqDown = '';
 
 		for (var i = this.totalBars; i > 0; --i) {
-			this.eq1[i] = this.rLum.image("images/eq-led.png", 40, this.xLed, 57, 29);
+			//this.eq1[i] = this.rLum.image("images/eq-led.png", 40, this.xLed, 57, 29);
 			this.eq2[i] = this.rLum.image("images/eq-led.png", 105, this.xLed, 57, 29);
-			this.eq1[i].attr("opacity", "0.3");
+			//this.eq1[i].attr("opacity", "0.3");
 			this.eq2[i].attr("opacity", "0.3");
 			this.xLed = this.xLed + 17;
 		}
 
-		this.eq1[1].attr("opacity", "1");
-		this.eq1[2].attr("opacity", "1");
-		this.eq1[3].attr("opacity", "1");
-		this.eq1[4].attr("opacity", "1");
-		this.eq1[5].attr("opacity", "1");
+		//this.eq1[1].attr("opacity", "1");
+		//this.eq1[2].attr("opacity", "1");
+		//this.eq1[3].attr("opacity", "1");
+		//this.eq1[4].attr("opacity", "1");
+		//this.eq1[5].attr("opacity", "1");
 
 		var le1 = this.rLum.text(170, 30, "1,000,000").attr(txtprops);
 		var le2 = this.rLum.text(170, 115, "10,000").attr(txtprops);
 		var le3 = this.rLum.text(170, 202, "100").attr(txtprops);
 		var le4 = this.rLum.text(170, 285, "1").attr(txtprops);
 		var le5 = this.rLum.text(170, 370, "0.001").attr(txtprops);
-		ll = this.rLum.text(-34, 220, "Brightness (Luminosities)").attr(txtprops);
+		ll = this.rLum.text(34, 220, "Brightness (Luminosities)").attr(txtprops);
 		ll.rotate(-90);
 
 		this.createMassSlider();
@@ -262,7 +262,7 @@ this.chart.options.yaxis.label.color
 
 		// animate evolution over selected stages
 		$("#evolve").change({box:this},function evolveStar(e) {
-			var el = e.data.box.getData();
+			var el = e.data.box.getData(e.data.box.timestep);
 			e.data.box.sizeComparison.star.attr("fill", el.RGB);
 			e.data.box.setcomparisonStarSize(el.radius);
 		});
@@ -306,14 +306,22 @@ this.chart.options.yaxis.label.color
 			if($('.supernovaflash').length == 0) $('body').append('<div class="supernovaflash"></div>');
 			$('.supernovaflash').clearQueue().css({position:'absolute',left:0,top:0,right:0,bottom:0,opacity:1}).animate({opacity:0},500,function() { $(this).remove(); });
 		}
+		$('.caution').hide();
 		$('.supernova').clearQueue().css({position:'absolute',width:c.width()-10,left:5,top:5,height:c.height()-10,'z-index':(b.css('z-index')-2),opacity:1}).delay(200).animate({opacity:0},1500,"easeOutExpo",function() { $(this).remove(); });
 		c.clearQueue().css({left:'0px'}).animate({left:"-=12px"},20).animate({left:"+=20px"},20).animate({left:"-=4px"},50).animate({left:"+=7px"},50).animate({left:"-=15px"},50).animate({left:"+=5px"},70).animate({left:"-=2px"},80);
+	}
+	StarInABox.prototype.supernovaWarning = function(){
+		c = $('#container');
+		b = $('#box-top');
+		if($('.caution').length == 0) $('#container').append('<div class="caution"></div>');
+		$('.caution').show().css({top:"0px"}).animate({top: "30px"},500,function(){ setTimeout("$('.caution').hide()",7000); });
 	}
 	StarInABox.prototype.play = function(e){
 		if(this.animating){
 			clearInterval(this.eAnim);
 			$("a#animateEvolve").text('Start');
 			$("a#animateEvolveReset").css('display', '');
+			$("a.control_play img.pause").removeClass('pause').addClass('play');
 			this.animating = false;
 		}else{
 			this.animating = true;
@@ -327,6 +335,7 @@ this.chart.options.yaxis.label.color
 			this.duration = $("#evolveSpeed option:selected").attr("value");
 			var _obj = this;
 			this.eAnim = setInterval(function () { _obj.animateStep(1,_obj.reduction); }, this.duration);
+			$("a.control_play img.play").removeClass('play').addClass('pause');
 		}
 		return false;
 	}
@@ -341,17 +350,22 @@ this.chart.options.yaxis.label.color
 			clearInterval(this.eAnim);
 			$("a#animateEvolveReset").css('display', '');
 			$("a#animateEvolveReset").css('display', 'n');
+			$("a.control_play img.pause").removeClass('pause').addClass('play');
 			if(delta > 0) this.timestep = this.eAnimPoints.length-1;
 			//this.timestep = this.stageIndex[this.sStart];
 			this.animating = false;
 		} else {
 			if(this.timestep < 0) this.timestep = 0;
-			el = this.getData();
+			el = this.getData(this.timestep);
 			if(typeof el=="object"){
 				if(this.data.data[this.timestep].type > 10){
 					if(this.data.data[this.timestep].type != this.data.data[this.timestep-1].type){
 						if(this.data.data[this.timestep].type > 11) this.supernova();
 					}
+				}
+				var ahead = this.timestep + 100;
+				if(ahead < this.data.data.length){
+					if(ahead == this.stageIndex[this.stageIndex.length-1] && this.data.data[ahead].type > 11) this.supernovaWarning();
 				}
 				if(this.timestep % reduction == 0){
 					if(this.timestep < this.data.data.length) {
@@ -368,14 +382,13 @@ this.chart.options.yaxis.label.color
 				}
 				this.displayTime(el.t);
 				// In the case of 0 luminosity the y-value is returned as negative.
-				// Don't change anything if that is the case.
-				if(this.eAnimPoints[this.timestep][1] >= 0) {
-					this.chart.star.animate({
-						//path:this.getStarShape(this.eAnimPoints[this.iMod][0],this.eAnimPoints[this.iMod][1])
-						cx: (this.eAnimPoints[this.timestep][0]),
-						cy: (this.eAnimPoints[this.timestep][1])
-					}, duration);
+				if(this.eAnimPoints[this.timestep][1] < 0) {
+					this.eAnimPoints[this.timestep][1] = -10;
 				}
+				this.chart.star.animate({
+					cx: (this.eAnimPoints[this.timestep][0]),
+					cy: (this.eAnimPoints[this.timestep][1])
+				}, duration);
 			}
 		}
 	}
@@ -565,7 +578,7 @@ this.chart.options.yaxis.label.color
 		this.timestep = (typeof i=="number") ? i : this.data.data.length-1;
 		if(this.timestep == this.data.data.length) this.timestep = this.data.data.length - 1;
 
-		var first = this.getData();
+		var first = this.getData(this.timestep);
 		if(typeof first=="object"){
 			this.displayTime(first.t);
 			this.sStarReset();
@@ -612,20 +625,27 @@ this.chart.options.yaxis.label.color
 	 */
 	StarInABox.prototype.createPie = function(){
 
-		this.pieData = [];
-		this.pieLegend = [];
-		var s,n,e;
-		for (var i = 1 ; i < this.stageIndex.length ; i++){
-			s = this.getData(this.stageIndex[i]);
-			n = (i < this.stageIndex.length-1) ? this.stageIndex[i+1]-1 : this.data.data.length-1;
-			e = this.getData(n);
-			this.pieLegend.push(this.stages[s.type]);
-			this.pieData.push(e.t-s.t);
+		this.pieData = new Array();
+		this.pieLegend = new Array();
+		for (var i = 1 ; i < this.stageIndex.length-1 ; i++){
+			var s = this.getData(this.stageIndex[i]);
+			var n = (i < this.stageIndex.length-1) ? this.stageIndex[i+1]-1 : this.data.data.length-1;
+			var e = this.getData(n);
+			this.pieLegend[i] = this.stages[s.type];
+			this.pieData[i-1] = (e.t-s.t);
 		}
 		//raphael script for pie chart...
 		if ($("#rPie #pie").length > 0) $("#rPie #pie").remove();
 
 		this.rPie = Raphael("rPie");
+
+/*
+		this.pie = this.rPie.drawPieChart(140,130,100,{values:this.pieData,labels:this.pieLegend},{
+			fill : ["#52718c","#6a8ead","#88aecf","#b1cce3"],
+			stroke : "white",
+			resolution : 0.1
+		});
+*/
 
 		this.pie = this.rPie.piechart(140, 130, 100, this.pieData, {
 			legend: this.pieLegend,
@@ -705,6 +725,7 @@ this.chart.options.yaxis.label.color
 			x = this.log10(x);
 			y = this.log10(y);
 		}
+		if(x > this.chart.options.xaxis.max) return [-1,-1]
 		var newx = this.chart.offset.left + this.chart.offset.width*(Math.abs(this.chart.options.xaxis.max-x)/(this.chart.options.xaxis.max-this.chart.options.xaxis.min));
 		if(y < this.chart.options.yaxis.min) return [newx,-1];
 		else return [newx,this.chart.height-(this.chart.offset.bottom + this.chart.offset.height*((y-this.chart.options.yaxis.min)/(this.chart.options.yaxis.max-this.chart.options.yaxis.min)))];
@@ -796,13 +817,18 @@ this.chart.options.yaxis.label.color
 			var strshadow = "";
 			for (var i in this.data.data) {
 				var ii = this.getPixPos(this.data.data[i].temp,this.data.data[i].lum);
-				if(ii[1] > 0){
-					str += (i == 0) ? "M" : "L";
-					str += ii[0]+','+ii[1];
-					strshadow += (i == 0) ? "M" : "L";
-					strshadow += (ii[0]-1)+','+(ii[1]-1);
-				}
 				this.eAnimPoints.push(ii);
+			}
+			for(var i = 0 ; i < this.eAnimPoints.length ; i++){
+				if(i == 0 || (this.eAnimPoints[i][1] <= 0 || this.eAnimPoints[i][0] <= 0) || (i > 1 && (this.eAnimPoints[i-1][1] <= 0 || this.eAnimPoints[i-1][0] <= 0))){
+					str += "M";
+					strshadow += "M";
+				}else{
+					str += "L";
+					strshadow += "L";
+				}
+				str += this.eAnimPoints[i][0]+','+this.eAnimPoints[i][1];
+				strshadow += (this.eAnimPoints[i][0]-1)+','+(this.eAnimPoints[i][1]-1);
 			}
 			if(this.starPath) this.starPath.remove();
 			if(this.starPathShadow) this.starPathShadow.remove();
@@ -860,11 +886,10 @@ this.chart.options.yaxis.label.color
 		this.updateSummary();
 	}
 	StarInABox.prototype.getData = function(i) {
-		if(!i) i = this.timestep;
 		return this.data.data[i];
 	}
 	StarInABox.prototype.updateCurrentStage = function() {
-		var el = this.getData();
+		var el = this.getData(this.timestep);
 		if(typeof el=="object") this.el.stagelabel.html('<strong>Stage:</strong> ' + this.stages[el.type]);
 	}
 	StarInABox.prototype.updateSummary = function() {
@@ -896,10 +921,10 @@ this.chart.options.yaxis.label.color
 			if(typeof e=="object"){
 				sOutput += '<tr>';
 				sOutput += '<td>' + this.stages[s.type] + '</td>'; //Stage Name
-				sOutput += '<td>' + parseFloat(e.radius).toFixed(2) + '</td>';
-				sOutput += '<td>' + parseFloat(e.lum).toFixed(2) + '</td>';
-				sOutput += '<td>' + parseFloat(e.temp) + '</td>';
-				sOutput += '<td>' + t.toFixed(2) + '</td>';
+				sOutput += '<td>' + ((e.radius >= 0.01) ? parseFloat(e.radius).toFixed(2) : ((s.type==14) ? "&lt;&lt; 0.01" : "&lt; 0.01")) + '</td>';
+				sOutput += '<td>' + ((e.lum < 0.01 && e.lum!= 0) ? ((e.lum < 0.0001) ? "&lt;&lt; 0.01" : "&lt; 0.01") : parseFloat(e.lum).toFixed(2)) + '</td>';
+				sOutput += '<td>' + ((i == this.stageIndex.length-1 && e.type!=14) ? ((s.temp > 1e6) ? 'Cool down from '+parseFloat(s.temp) : "Cooling") : ((e.temp >= 1) ? parseFloat(e.temp) : "&lt;&lt; 1")) + '</td>';
+				sOutput += '<td>' + ((i < this.stageIndex.length-1) ? t.toFixed(2) : "A very long time") + '</td>';
 				sOutput += '</tr>';
 			}
 		}
@@ -929,6 +954,39 @@ this.chart.options.yaxis.label.color
     		}
     	}
     	return closest;
+	}
+	
+	// functions to make the chart:
+	Raphael.fn.drawPieChart = function(x,y,radius,d,attr){
+		if (!attr.resolution) attr.resolution = 0.1;
+		var TWO_PI = Math.PI * 2;
+		var pie = this.set();
+		var n = d.length;
+		var offsetAngle = -Math.PI/2;
+		var total = 0;
+		var s,f;
+		if(typeof d.values!="object") d = {values: d,labels:[]}
+		for (var i = 0; i < n; i++) total += d.values[i];
+		for (var i = 0; i < n; i++){
+			var angle =  TWO_PI * (d.values[i]/total);
+			s = (typeof attr.stroke=="object" && attr.stroke.length > i) ? attr.stroke[i] : ((typeof attr.stroke=="string") ? attr.stroke : "white");
+			f = (typeof attr.fill=="object" && attr.fill.length > i) ? attr.fill[i] : ((typeof attr.fill=="string") ? attr.fill : "black");
+			pie.push(drawSegment(this,radius, angle, offsetAngle, attr.resolution).attr({stroke:s,fill:f}));
+			offsetAngle += angle;
+		}
+		return pie.translate(x, y);	
+	}
+	function polarPath(radius, theta, rotation){
+		return "L " + (radius * Math.cos(theta + rotation)) + " " + (radius * Math.sin(theta + rotation)) + " "; 
+	}
+	// value and rotation are now in radians
+	function drawSegment(r,radius, value, rotation, resolution){
+		if (!resolution) resolution = 0.1;
+		var path = "M 0 0 ";
+		for (var i = 0; i < value; i+=resolution) path += polarPath(radius, i, rotation);
+		path += polarPath(radius, value, rotation);
+		path += "L 0 0";
+		return r.path(path);
 	}
 
 	var box = new StarInABox();
