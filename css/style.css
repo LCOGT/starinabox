@@ -324,16 +324,19 @@ body {
 #nav {
     position: absolute;
     top: 426px;
-    right: 50px;
+    right: 40px;
+    width: 280px;
+    text-align: center;
+    background-color: rgba(0, 0, 0, 0.5);
 }
 
 #nav .item {
 	width: 44px;
-	height: 50px;
+	height: 46px;
 	padding: 0 0 10px;
 	margin: 0 10px;
 	cursor: pointer;
-	float: left;
+	display: inline-block;
 }
 
 #nav #therm { background: url(images/buttons.png) no-repeat 3px }
@@ -363,7 +366,7 @@ body {
 #right {
     width: 280px;
     position: absolute;
-    height: 390px;
+    height: 386px;
     top: 39px;
     right: 40px;
     overflow: hidden;
