@@ -78,7 +78,7 @@ $(document).ready(function () {
 				bottom : 46//18
 			},
 			width: 600,
-			height: 495,
+			height: 503,
 			options: {
 				grid: {
 					color: "rgb(0,0,0)",
