@@ -639,7 +639,7 @@ $(document).ready(function () {
 
 		this.rPie = Raphael("rPie");
 
-		this.pie = this.rPie.piechart(140,130,100,{values:this.pieData,labels:this.pieLegend});
+		this.pie = this.rPie.piechart(140,130,100,{values:this.pieData,labels:this.pieLegend},{});
 	}
 	StarInABox.prototype.fileName = function(mass) {
 		return "db/star_"+mass+"_solar_mass";
