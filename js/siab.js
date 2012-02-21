@@ -631,7 +631,7 @@ $(document).ready(function () {
 			var s = this.getData(this.stageIndex[i]);
 			var n = (i < this.stageIndex.length-1) ? this.stageIndex[i+1]-1 : this.data.data.length-1;
 			var e = this.getData(n);
-			this.pieLegend[i] = this.stages[s.type];
+			this.pieLegend[i-1] = this.stages[s.type];
 			this.pieData[i-1] = (e.t-s.t);
 		}
 		//raphael script for pie chart...
@@ -639,33 +639,7 @@ $(document).ready(function () {
 
 		this.rPie = Raphael("rPie");
 
-/*
-		this.pie = this.rPie.drawPieChart(140,130,100,{values:this.pieData,labels:this.pieLegend},{
-			fill : ["#52718c","#6a8ead","#88aecf","#b1cce3"],
-			stroke : "white",
-			resolution : 0.1
-		});
-*/
-
-		this.pie = this.rPie.piechart(140, 130, 100, this.pieData, {
-			legend: this.pieLegend,
-			legendpos: "south",
-			legendcolor: "#FFF"
-		}).attr({ 'font': "12px 'Fontin Sans', Fontin-Sans, sans-serif"}).hover(function () {
-			this.sector.stop();
-			this.sector.scale(1.1, 1.1, this.cx, this.cy);
-			if (this.label) {
-				this.label[0].stop();
-				this.label[0].attr({ r: 7.5 });
-				this.label[1].attr({ "font-weight": 800 });
-			}
-		}, function () {
-			this.sector.animate({ transform: 's1 1 ' + this.cx + ' ' + this.cy }, 500, "bounce");
-			if (this.label) {
-				this.label[0].animate({ r: 5 }, 500, "bounce");
-				this.label[1].attr({ "font-weight": 400 });
-			}
-		});
+		this.pie = this.rPie.piechart(140,130,100,{values:this.pieData,labels:this.pieLegend});
 	}
 	StarInABox.prototype.fileName = function(mass) {
 		return "db/star_"+mass+"_solar_mass";
@@ -956,37 +930,52 @@ $(document).ready(function () {
     	return closest;
 	}
 	
+	
 	// functions to make the chart:
-	Raphael.fn.drawPieChart = function(x,y,radius,d,attr){
-		if (!attr.resolution) attr.resolution = 0.1;
+	Raphael.fn.piechart = function(x,y,radius,d,attr){
+		// Set defauls
 		var TWO_PI = Math.PI * 2;
-		var pie = this.set();
-		var n = d.length;
-		var offsetAngle = -Math.PI/2;
-		var total = 0;
-		var s,f;
+		var offsetAngle = -Math.PI/2;	// The rotation from east to start at
+		var total = 0;			// A running total
 		if(typeof d.values!="object") d = {values: d,labels:[]}
+		var n = d.values.length;		// Number of data points
+		// Calculate the total of all values so we can normalize
 		for (var i = 0; i < n; i++) total += d.values[i];
+		// Create each segment
+		var keysize = 12;			// Size of the key boxes in pixels
+		var yoff = y + radius*(1.2);
+		var yspace = Math.floor(keysize*1.4);
+		var pie = Array(n);
+		var f = ['#3366dd','#df0000','#fac900','#009d00','#d6ccff','#ffcccc','#fff5cc','#ccffcc'];
 		for (var i = 0; i < n; i++){
-			var angle =  TWO_PI * (d.values[i]/total);
-			s = (typeof attr.stroke=="object" && attr.stroke.length > i) ? attr.stroke[i] : ((typeof attr.stroke=="string") ? attr.stroke : "white");
-			f = (typeof attr.fill=="object" && attr.fill.length > i) ? attr.fill[i] : ((typeof attr.fill=="string") ? attr.fill : "black");
-			pie.push(drawSegment(this,radius, angle, offsetAngle, attr.resolution).attr({stroke:s,fill:f}));
-			offsetAngle += angle;
+			c = {'fill': (typeof attr.fill=="object" && attr.fill.length > i) ? attr.fill[i] : ((typeof attr.fill=="string") ? attr.fill : f[i % f.length]), 'stroke': (typeof attr.stroke=="object" && attr.stroke.length > i) ? attr.stroke[i] : ((typeof attr.stroke=="string") ? attr.stroke : "white")}
+			var a = offsetAngle;
+			var b = a+(TWO_PI * (d.values[i]/total));
+			x1 = x+(radius * Math.cos(a));
+			y1 = y+(radius * Math.sin(a));
+			x2 = x+(radius * Math.cos(b));
+			y2 = y+(radius * Math.sin(b));
+			t = (d.labels[i].length > 1.8*radius*2/keysize) ? d.labels[i].substring(0,Math.floor(1.75*radius*2/keysize))+'...' : d.labels[i];
+
+			pie[i] = this.set();
+			// Add the pie segment
+			pie.push(this.path("M "+x+" "+y+" L "+x1+" "+y1+" A "+radius+","+radius+" 0 "+((b-a >= Math.PI) ? 1 : 0)+" 1 "+x2+","+y2+" z").attr({stroke:c.stroke,fill:c.fill,'stroke-width':1}).mouseover(function(){
+					this.transform('s1.05,1.05,'+x+','+y);
+					this.next.transform('s1.2');	// key
+					this.next.next.attr({'font-weight':'bold'});	// key label
+				}).mouseout(function(){
+					this.transform('s1,1');
+					this.next.transform('s1');	// key
+					this.next.next.attr({'font-weight':'normal'});	// key label
+				})
+			);
+			// Add the key
+			pie.push(this.rect(x-radius+keysize/2,yoff+(i*yspace)-keysize/2,keysize,keysize).attr({stroke:c.stroke,fill:c.fill,'stroke-width':1.2}))
+			// Add the key label
+			pie.push(this.text(x-radius+keysize*2,yoff+(i*yspace),t).attr({fill:'white','stroke-width':1,'font-size':keysize,'text-anchor':'start'}));
+			offsetAngle = b;
 		}
-		return pie.translate(x, y);	
-	}
-	function polarPath(radius, theta, rotation){
-		return "L " + (radius * Math.cos(theta + rotation)) + " " + (radius * Math.sin(theta + rotation)) + " "; 
-	}
-	// value and rotation are now in radians
-	function drawSegment(r,radius, value, rotation, resolution){
-		if (!resolution) resolution = 0.1;
-		var path = "M 0 0 ";
-		for (var i = 0; i < value; i+=resolution) path += polarPath(radius, i, rotation);
-		path += polarPath(radius, value, rotation);
-		path += "L 0 0";
-		return r.path(path);
+		return pie;
 	}
 
 	var box = new StarInABox();
