@@ -411,15 +411,12 @@ body {
 #rCanvas,#thermometer,#rPie,#rlum {
 	background: rgba(0,0,0,0.5);
 }
-
 #thermometer {
-    top: 800px;
+    top: 400px;
     right: 0;
 }
-
-#rPie { top: 400px; }
-
-#rlum { top: 1200px; }
+#rPie { top: 1200px; }
+#rlum { top: 800px; }
 
 #control {
 	position: absolute;

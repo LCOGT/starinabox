@@ -93,7 +93,7 @@ $(document).ready(function () {
 				xaxis: {
 					invert: true,
 					min: 3, // 3
-					max: 5.8, // 6.4
+					max: 5.85, // 6.4
 					label: {
 						color: "rgb(255,255,255)"
 					}
@@ -378,17 +378,16 @@ $(document).ready(function () {
 						this.setThermometer(el.temp);
 						this.eqLevel(el.lum, true);
 						this.updateCurrentStage();
+						this.updatePie();
 					}
 				}
 				this.displayTime(el.t);
 				// In the case of 0 luminosity the y-value is returned as negative.
-				if(this.eAnimPoints[this.timestep][1] < 0) {
-					this.eAnimPoints[this.timestep][1] = -10;
+				if(this.eAnimPoints[this.timestep][1] < 0 || this.eAnimPoints[this.timestep][0] < 0) {
+					this.chart.star.attr({ cx: (-20), cy: (-20) });
+				}else{
+					this.chart.star.attr({ cx: (this.eAnimPoints[this.timestep][0]), cy: (this.eAnimPoints[this.timestep][1]) });
 				}
-				this.chart.star.animate({
-					cx: (this.eAnimPoints[this.timestep][0]),
-					cy: (this.eAnimPoints[this.timestep][1])
-				}, duration);
 			}
 		}
 	}
@@ -585,6 +584,7 @@ $(document).ready(function () {
 			this.setComparisonStar(this.stageIndex[i]);
 			this.eqLevel(first.lum);
 			this.setThermometer(first.temp);
+			this.updatePie();
 		}
 		this.chart.star.attr("cx", (this.eAnimPoints[this.timestep][0]));
 		this.chart.star.attr("cy", (this.eAnimPoints[this.timestep][1]));
@@ -636,10 +636,24 @@ $(document).ready(function () {
 		}
 		//raphael script for pie chart...
 		if ($("#rPie #pie").length > 0) $("#rPie #pie").remove();
-
 		this.rPie = Raphael("rPie");
-
 		this.pie = this.rPie.piechart(140,130,100,{values:this.pieData,labels:this.pieLegend},{});
+		this.updatePie();
+	}
+	StarInABox.prototype.updatePie = function(){
+		radius = 100*0.7;
+		total = 324;
+		t = this.data.data[this.timestep].t;
+		total = this.data.data[this.stageIndex[this.stageIndex.length-1]].t;
+		if(t > total) t = total;
+		if(t < 0) t = 0;
+		a = -Math.PI/2 + Math.PI*2*t/total;
+		x = (radius * Math.cos(a));
+		y = (radius * Math.sin(a));
+		if(this.clockhand) this.clockhand.remove();
+		this.clockhand = this.rPie.set();
+		this.clockhand.push(this.rPie.path("M 140 130 l "+x+" "+y).attr({'stroke':'white','stroke-width':4,'stroke-linecap':'round'}));
+		this.clockhand.push(this.rPie.circle(140+x,130+y,6).attr({'fill':'white','stroke-width':0}));
 	}
 	StarInABox.prototype.fileName = function(mass) {
 		return "db/star_"+mass+"_solar_mass";
@@ -682,7 +696,7 @@ $(document).ready(function () {
 	}
 	StarInABox.prototype.setcomparisonStarSize = function(sm) {
 		var r = sm*this.sizeComparison.starR;
-		this.sizeComparison.star.attr({cx:(this.sizeComparison.starX+r),r:r});
+		if(r) this.sizeComparison.star.attr({cx:(this.sizeComparison.starX+r),r:r});
 	}
 	StarInABox.prototype.setcomparisonStarColour = function(value) {
 		this.sizeComparison.star.attr({"fill":value,"stroke-width":"0"});
@@ -959,7 +973,7 @@ $(document).ready(function () {
 
 			pie[i] = this.set();
 			// Add the pie segment
-			pie.push(this.path("M "+x+" "+y+" L "+x1+" "+y1+" A "+radius+","+radius+" 0 "+((b-a >= Math.PI) ? 1 : 0)+" 1 "+x2+","+y2+" z").attr({stroke:c.stroke,fill:c.fill,'stroke-width':1}).mouseover(function(){
+			pie.push(this.path("M "+x+" "+y+" L "+x1+" "+y1+" A "+radius+","+radius+" 0 "+((b-a >= Math.PI) ? 1 : 0)+" 1 "+x2+","+y2+" z").attr({stroke:c.stroke,fill:c.fill,'stroke-width':0}).mouseover(function(){
 					this.transform('s1.05,1.05,'+x+','+y);
 					this.next.transform('s1.2');	// key
 					this.next.next.attr({'font-weight':'bold'});	// key label
