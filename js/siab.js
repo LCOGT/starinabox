@@ -31,7 +31,7 @@ $(document).ready(function () {
 
 		this.massVM = [0.2, 0.65, 1, 2, 4, 6, 10, 20, 30, 40];
 		// The stages indices must match indices used in the data
-		this.stages = ["Deeply or fully convective low mass MS star","Main Sequence star","Hertzsprung Gap","First Giant Branch","Core Helium Burning","First Asymptotic Giant Branch","Second Asymptotic Giant Branch","Main Sequence Naked Helium star","Hertzsprung Gap Naked Helium star","Giant Branch Naked Helium star","Helium White Dwarf","Carbon/Oxygen White Dwarf","Oxygen/Neon White Dwarf","Neutron Star","Black Hole","Massless Supernova"];
+		this.stages = ["Deeply or fully convective low mass MS star","Main Sequence star","Hertzsprung Gap","Red Giant Branch","Core Helium Burning","Asymptotic Giant Branch","Thermally-pulsing Asymptotic Giant Branch","Main Sequence Naked Helium star","Hertzsprung Gap Naked Helium star","Giant Branch Naked Helium star","Helium White Dwarf","Carbon/Oxygen White Dwarf","Oxygen/Neon White Dwarf","Neutron Star","Black Hole","Massless Supernova"];
 		this.allstages = {
 			"m0.2" : [ {"type":0, "lum":-2.2399, "t":639800, "radius":0.27, "temp":2942, "RGB":"#ffb765"}, {"type":2, "lum":-2.0034, "t":914000, "radius":0.36, "temp":2942, "RGB":"#ffb765"}, {"type":3, "lum":-2.2407, "t":962100, "radius":0.21, "temp":3463, "RGB":"#ffc885"}, {"type":10, "lum":1.9434, "t":1080000, "radius":0.02, "temp":56701, "RGB":"#9eb5ff"} ],
 			"m0.65" : [{"type":0, "lum":-0.3403, "t":57610, "radius":0.97, "temp":4849, "RGB":"#ffe5c6"}, {"type":2, "lum":-0.0538, "t":60970, "radius":1.45, "temp":4664, "RGB":"#ffe2bf"}, {"type":3, "lum":0.3772, "t":61970, "radius":2.39, "temp":4664, "RGB":"#ffe2bf"}, {"type":10, "lum":2.3074, "t":62750, "radius":0.02, "temp":56701, "RGB":"#9eb5ff"} ],
@@ -378,9 +378,9 @@ $(document).ready(function () {
 						this.setThermometer(el.temp);
 						this.eqLevel(el.lum, true);
 						this.updateCurrentStage();
-						this.updatePie();
 					}
 				}
+				this.updatePie();
 				this.displayTime(el.t);
 				// In the case of 0 luminosity the y-value is returned as negative.
 				if(this.eAnimPoints[this.timestep][1] < 0 || this.eAnimPoints[this.timestep][0] < 0) {
@@ -488,31 +488,6 @@ $(document).ready(function () {
 			$("#stages .ticks").append("<p class='tick' style='left:"+((i * tickSpace) - 40)+"px;'>" + this.stages[data[i].type] + "</p>");
 		}
 
-/*		var sOptions = '';
-		for (var i = 0; i < data.length; i++) {
-			sOptions += '<option lum="' + data[i].lum + '" radius="' + data[i].radius + '" tev="' + data[i].t + '" temp="' + data[i].temp + '" rgb="' + data[i].RGB + '" label="' + data[i].type + '"value="' + this.stages[data[i].type] + '">' + this.stages[data[i].type] + '</option>';
-		}
-		$("select#first-stage").html(sOptions);
-		$("select#last-stage").html(sOptions);
-		$('#first-stage option:first').attr('selected', 'selected');
-		$('#last-stage option:last').attr('selected', 'selected');
-
-		//Load Stages Slider...
-		var that = this;
-		$('select.stages').selectToUISlider({
-			labels: 16,
-			sliderOptions: {
-				change: function (event, ui) {
-					clearInterval(that.eAnim);
-					that.resetStage();
-					that.updateEvolve();
-					$("a#animateEvolve").text('Start');
-					$("a#animateEvolveReset").css('display', '');
-					that.reset();
-				}
-			}
-		}).hide();
-*/
 		this.loadChartData(mass);
 	}
 	StarInABox.prototype.slideStages = function(p){
@@ -521,7 +496,6 @@ $(document).ready(function () {
 		this.updateEvolve();
 		$("a#animateEvolve").text('Start');
 		$("a#animateEvolveReset").css('display', '');
-//		this.reset();
 	}
 
 	StarInABox.prototype.eqLevel = function(num, anim) {
@@ -531,6 +505,7 @@ $(document).ready(function () {
 		var n;
 		if (num != null) {
 			n = Math.round(this.log10(num) / units) + zero;
+
 			if(this.numBars != n){
 				this.numBars = n;
 				if (anim == true) this.eqChange();
@@ -545,7 +520,7 @@ $(document).ready(function () {
 		}
 	}
 	StarInABox.prototype.eqChange = function() {
-		if(!this.eqCurrentLevel) this.eqCurrentLevel = 0;
+		if(!this.eqCurrentLevel || this.eqCurrentLevel < 0) this.eqCurrentLevel = 0;
 		if(this.numBars == this.eqCurrentLevel) return;
 		if(this.numBars > this.eqCurrentLevel){
 			// eq2 is indexed from 1
@@ -667,7 +642,7 @@ $(document).ready(function () {
 			dataType: 'json',
 			context: this,
 			error: function(blah){
-				console.log('Arghh!');
+				$('#loader').show().removeClass('done').addClass('loading').html('<div class="error">Error: The star failed to form. Please try again later.</div>').delay(3000).fadeOut();
 			},
 			success: function(data){
 				this.data = data;
@@ -867,10 +842,10 @@ $(document).ready(function () {
 		this.updateCurrentStage();
 	}
 	StarInABox.prototype.loadingStar = function() {
-		$('#loader').removeClass('done').addClass('loading').width($(window).width()).height($(window).height()).html('<div id="loading">Your star is being prepared.</p><p>Please wait...</p>');
+		$('#loader').show().removeClass('done').addClass('loading').width($(window).width()).height($(window).height()).html('<div id="loading"><p>Your star is being prepared.</p><p>Please wait...</p></div>');
 	}
 	StarInABox.prototype.doneLoadingStar = function() {
-		$('#loader').html('').removeClass('loading').addClass('done');
+		$('#loader').html('').removeClass('loading').addClass('done').hide();
 		this.updateSummary();
 	}
 	StarInABox.prototype.getData = function(i) {

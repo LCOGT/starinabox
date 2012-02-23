@@ -532,18 +532,15 @@ a#animateEvolveReset:active {
     color: #fff;
 }
 
-#loader #loading {
+#loader #loading,#loader .error {
     position: relative;
     margin: 250px auto 0;
     display: block;
     width: 200px;
-    padding: 60px 20px 20px 20px;
     border: 1px solid #aaa;
+    padding: 20px;
     font-weight: 700;
     background: rgba(0,0,0,0.8);
-    background-image: url('images/ajax-loader.gif');
-    background-position: center 20px;
-    background-repeat: no-repeat;
     text-shadow: #000 2px 2px 10px;
     -webkit-border-radius: 15px;
     -moz-border-radius: 15px;
@@ -552,7 +549,12 @@ a#animateEvolveReset:active {
     -moz-box-shadow: rgba(0,0,0,0.8) 1px 1px 10px;
     box-shadow: rgba(0,0,0,0.8) 1px 1px 10px;
 }
-
+#loader #loading {
+    padding-top: 60px;
+    background-image: url('images/ajax-loader.gif');
+    background-position: center 20px;
+    background-repeat: no-repeat;
+}
 #mass-slider .ticks {
 	width: 700px;
 	height: 12px;
