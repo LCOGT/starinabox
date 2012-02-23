@@ -334,34 +334,41 @@ body {
 	width: 44px;
 	height: 46px;
 	padding: 0 0 10px;
-	margin: 0 10px;
+	margin: 0 1px;
 	cursor: pointer;
 	display: inline-block;
 }
 
-#nav #therm { background: url(images/buttons.png) no-repeat 3px }
+#nav #therm { background: url(images/buttons.png) no-repeat 0px }
+#nav #therm:hover { background: url(images/buttons_hover.png) no-repeat 0px }
+#nav #therm.active { background: url(images/buttons_active.png) no-repeat 0px }
 
-#nav #pie { background: url(images/buttons.png) no-repeat -43px }
+#nav #pie { background: url(images/buttons.png) no-repeat -45px }
+#nav #pie:hover { background: url(images/buttons_hover.png) no-repeat -45px }
+#nav #pie.active { background: url(images/buttons_active.png) no-repeat -45px }
 
-#nav #bulb { background: url(images/buttons.png) no-repeat -93px }
+#nav #bulb { background: url(images/buttons.png) no-repeat -90px }
+#nav #bulb:hover { background: url(images/buttons_hover.png) no-repeat -90px }
+#nav #bulb.active { background: url(images/buttons_active.png) no-repeat -90px }
 
-#nav #compare { background: url(images/buttons.png) no-repeat -137px }
+#nav #compare { background: url(images/buttons.png) no-repeat -135px }
+#nav #compare:hover { background: url(images/buttons_hover.png) no-repeat -135px }
+#nav #compare.active { background: url(images/buttons_active.png) no-repeat -135px }
 
-#nav #therm:hover { background: url(images/buttons_hover.png) no-repeat 3px }
+#nav #mass { background: url(images/buttons.png) no-repeat -180px }
+#nav #mass:hover { background: url(images/buttons_hover.png) no-repeat -180px }
+#nav #mass.active { background: url(images/buttons_active.png) no-repeat -180px }
 
-#nav #pie:hover { background: url(images/buttons_hover.png) no-repeat -43px }
-
-#nav #bulb:hover { background: url(images/buttons_hover.png) no-repeat -93px }
-
-#nav #compare:hover { background: url(images/buttons_hover.png) no-repeat -137px }
-
-#nav #therm.active { background: url(images/buttons_active.png) no-repeat 3px }
-
-#nav #pie.active { background: url(images/buttons_active.png) no-repeat -43px }
-
-#nav #bulb.active { background: url(images/buttons_active.png) no-repeat -93px }
-
-#nav #compare.active { background: url(images/buttons_active.png) no-repeat -137px }
+#scaletext {
+	display: block;
+	position: absolute;
+	text-align: right;
+	color: white;
+}
+.units {
+	font-size: 0.35em;
+	color: #bbb;
+}
 
 #right {
     width: 280px;
@@ -375,14 +382,14 @@ body {
     -box-shadow: inset 0 0 6px #444;
 }
 
-	#right .section {
-	    height: 390px;
-	    width: 280px;
-	    position: absolute;
-	    right: 0;
-	    border-bottom: groove 5px #999;
-	    overflow: hidden;
-	}
+#right .section {
+	height: 390px;
+	width: 280px;
+	position: absolute;
+	right: 0;
+	border-bottom: groove 5px #999;
+	overflow: hidden;
+}
 
 #slide {
     position: absolute;
@@ -396,27 +403,18 @@ body {
 }
 
 #slide.nav-1 { top: -1200px }
-
 #slide.nav-2 { top: -800px }
-
 #slide.nav-3 { top: -400px }
-
 #slide.nav-4 { top: 0 }
 
-#rCanvas {
-    top: 0;
-    right: 0;
-}
-
-#rCanvas,#thermometer,#rPie,#rlum {
+#rCanvas,#thermometer,#rPie,#rlum,#rScales {
 	background: rgba(0,0,0,0.5);
 }
-#thermometer {
-    top: 400px;
-    right: 0;
-}
-#rPie { top: 1200px; }
+#rCanvas { top: 0; right: 0; }
+#thermometer { top: 400px; right: 0; }
 #rlum { top: 800px; }
+#rPie { top: 1200px; }
+#rScales { top: 1600px; }
 
 #control {
 	position: absolute;
@@ -698,7 +696,7 @@ a#animateEvolveReset:active {
 	z-index: 100;
 }
 
-#lid-open a{
+#lid-open a {
 	position: absolute;
 	bottom:10px;
 	right: 10px;

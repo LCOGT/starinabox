@@ -31,7 +31,7 @@ $(document).ready(function () {
 
 		this.massVM = [0.2, 0.65, 1, 2, 4, 6, 10, 20, 30, 40];
 		// The stages indices must match indices used in the data
-		this.stages = ["Deeply or fully convective low mass MS star","Main Sequence star","Hertzsprung Gap","Red Giant Branch","Core Helium Burning","Asymptotic Giant Branch","Thermally-pulsing Asymptotic Giant Branch","Main Sequence Naked Helium star","Hertzsprung Gap Naked Helium star","Giant Branch Naked Helium star","Helium White Dwarf","Carbon/Oxygen White Dwarf","Oxygen/Neon White Dwarf","Neutron Star","Black Hole","Massless Supernova"];
+		this.stages = ["Deeply or fully convective low mass MS star","Main Sequence star","Hertzsprung Gap","Red Giant Branch","Core Helium Burning","Asymptotic Giant Branch","Thermally-pulsing Asymptotic Giant Branch","Main Sequence Naked Helium star","Wolf-Rayet star","Giant Branch Wolf-Rayet star","Helium White Dwarf","Carbon/Oxygen White Dwarf","Oxygen/Neon White Dwarf","Neutron Star","Black Hole","Massless Supernova"];
 		this.allstages = {
 			"m0.2" : [ {"type":0, "lum":-2.2399, "t":639800, "radius":0.27, "temp":2942, "RGB":"#ffb765"}, {"type":2, "lum":-2.0034, "t":914000, "radius":0.36, "temp":2942, "RGB":"#ffb765"}, {"type":3, "lum":-2.2407, "t":962100, "radius":0.21, "temp":3463, "RGB":"#ffc885"}, {"type":10, "lum":1.9434, "t":1080000, "radius":0.02, "temp":56701, "RGB":"#9eb5ff"} ],
 			"m0.65" : [{"type":0, "lum":-0.3403, "t":57610, "radius":0.97, "temp":4849, "RGB":"#ffe5c6"}, {"type":2, "lum":-0.0538, "t":60970, "radius":1.45, "temp":4664, "RGB":"#ffe2bf"}, {"type":3, "lum":0.3772, "t":61970, "radius":2.39, "temp":4664, "RGB":"#ffe2bf"}, {"type":10, "lum":2.3074, "t":62750, "radius":0.02, "temp":56701, "RGB":"#9eb5ff"} ],
@@ -113,18 +113,28 @@ $(document).ready(function () {
 
 		this.sizeComparison = {
 			// Raphael Script for star comparison
-			paper: Raphael("rCanvas", 280, 390)
+			'paper': Raphael("rCanvas", 280, 390),
+			'starX': 50,
+			'starY': 200,
+			'starR': 5,
+			'starOffset': 45
 		}
 		//draw sun
 		this.sizeComparison.sun = this.sizeComparison.paper.circle(25, 200, 5).attr({"fill":"#fff3ea","stroke-width":"0"});
 		this.sizeComparison.sunLabel = this.sizeComparison.paper.text(25, 220, "Sun").attr("fill", "#fff3ea");
 		//draw comparison star
-		this.sizeComparison.starX = 50;
-		this.sizeComparison.starY = 200;
-		this.sizeComparison.starR = 5;
-		this.sizeComparison.starOffset = 45;
 		this.sizeComparison.star = this.sizeComparison.paper.circle(this.sizeComparison.starX+this.sizeComparison.starR, this.sizeComparison.starY, this.sizeComparison.starR).attr({"fill":"#fff3ea","stroke-width":"0"});
 
+		if ($("#rScales #scales").length > 0) $("#rScales #scales").remove();
+		this.rScales = Raphael("rScales");
+
+		this.massComparison = { 
+			'r': this.sizeComparison.starR,
+			'x': 140,
+			'y': 250,
+			'offset':this.sizeComparison.starOffset
+		}
+		this.massComparison.star = this.rScales.circle(this.massComparison.x+this.massComparison.r, this.massComparison.y, this.massComparison.r).attr({"fill":"#fff3ea","stroke-width":"0"});
 
 	}
 	StarInABox.prototype.findMassIndex = function(mass){
@@ -158,15 +168,13 @@ $(document).ready(function () {
 			if($(this).hasClass("active")){
 				//if already active
 			}else{
+				el = $($(this).attr('href'));
 				$("#nav .item").removeClass("active");	
 				$(this).addClass("active");
-				var sliderID = ($(this).attr("class").split(" "))[1];
-				$("#slide").removeAttr("class");
-				$("#slide").addClass("nav-"+sliderID);
+				var sliderID = (el.attr("class").split(" "))[1];
+				$("#slide").css({top:-((sliderID-1)*400)+"px"});
 			}
-			
 		});
-	
 		$("#right .info").click(function(){
 			var clickedI = $(this);
 			var clickedC = $(clickedI).siblings(".caption");
@@ -178,14 +186,11 @@ $(document).ready(function () {
 				$(clickedC).stop().animate({top:0},300);
 			}
 		});
-		
 		$("#right .caption").each(function(){
 			var mTop = $(this).outerHeight();
 			$(this).css("top",(0 - mTop));
 		});
-		
 		$('#lid-open a').click({box:this},function(e){ e.data.box.toggleLid(); });
-	
 		// add gradient to buttons after loading as it breaks the pre-loader!
 		$("a#animateEvolve, a#animateEvolveReset").css("background","-webkit-gradient(linear, left top, left bottom, from(#ddd), to(#6b6b6b))");
 		$("a#animateEvolve, a#animateEvolveReset").css("background","-moz-linear-gradient(top, #ddd, #6b6b6b)");
@@ -375,12 +380,18 @@ $(document).ready(function () {
 							r: r,
 							fill: el.RGB
 						}, (duration*reduction));
+						this.massComparison.star.animate({
+							cy: (this.massComparison.y-r),
+							r: r,
+							fill: el.RGB
+						}, (duration*reduction));
 						this.setThermometer(el.temp);
 						this.eqLevel(el.lum, true);
 						this.updateCurrentStage();
 					}
 				}
 				this.updatePie();
+				this.updateScaleText();
 				this.displayTime(el.t);
 				// In the case of 0 luminosity the y-value is returned as negative.
 				if(this.eAnimPoints[this.timestep][1] < 0 || this.eAnimPoints[this.timestep][0] < 0) {
@@ -560,6 +571,7 @@ $(document).ready(function () {
 			this.eqLevel(first.lum);
 			this.setThermometer(first.temp);
 			this.updatePie();
+			this.createScales();
 		}
 		this.chart.star.attr("cx", (this.eAnimPoints[this.timestep][0]));
 		this.chart.star.attr("cy", (this.eAnimPoints[this.timestep][1]));
@@ -599,7 +611,6 @@ $(document).ready(function () {
 	 *
 	 */
 	StarInABox.prototype.createPie = function(){
-
 		this.pieData = new Array();
 		this.pieLegend = new Array();
 		for (var i = 1 ; i < this.stageIndex.length-1 ; i++){
@@ -630,6 +641,46 @@ $(document).ready(function () {
 		this.clockhand.push(this.rPie.path("M 140 130 l "+x+" "+y).attr({'stroke':'white','stroke-width':4,'stroke-linecap':'round'}));
 		this.clockhand.push(this.rPie.circle(140+x,130+y,6).attr({'fill':'white','stroke-width':0}));
 	}
+	StarInABox.prototype.createScales = function(){
+		if(!this.rScales) return;
+		if(!this.scales){
+			var ox = 140;
+			var oy = 250;
+			var h = 10;
+			var w = 80;
+			var t = 4;
+			this.balance = this.rScales.set();
+			this.balance.push(this.rScales.path("M"+(ox-w*1.2-h)+" "+(oy-h)+" l "+h+" "+h+", "+(w*2.4)+" 0, "+h+" -"+h).attr({'stroke':'white','stroke-width':t,'stroke-linecap':'round'}));
+			this.balance.push(this.rScales.rect(ox-w/4,oy,w/2,w/2).attr({'fill':'white','fill-opacity':0.5,'stroke-width':0}));
+			this.scales = this.rScales.rect(ox-w,oy+w*0.2,w*2,w*0.8,10).attr({'fill':'black','stroke':'white','stroke-width':w*0.25});
+			if(!this.scaletext) $('#rScales').append('<div id="scaletext">0.0</div>');
+			this.scaletext = $('#scaletext')
+			this.scaletext.css({'left':(ox-w*0.8)+'px','top':(oy+w*0.4)+'px','height':(w*0.4)+'px','width':(w*1.6)+'px','font-size':(w*0.4)+'px'})
+			this.massComparison.x = ox;
+			this.massComparison.y = oy-t/2;
+		}
+		this.updateScales();
+	}
+	StarInABox.prototype.dropOnScales = function(){
+		this.updateScaleText(0.0);
+		var _obj = this;
+		this.massComparison.star.animate({ cy: (this.massComparison.y-r) }, 1000,"bounce",function(){
+			_obj.updateScaleText();
+		});
+	}
+	StarInABox.prototype.updateScales = function(v){
+		this.setComparisonStar();
+		r = this.massComparison.star.attr('r');
+		this.massComparison.star.attr({cy:(this.massComparison.y-r-100)});
+		this.updateScaleText();
+	}
+	StarInABox.prototype.updateScaleText = function(v){
+		if(typeof v!="number"){
+			var s = this.getData(this.timestep);
+			var v = s.mass;
+		}
+		this.scaletext.html(v.toFixed(3)+'<span class="units">solar</span>');
+	}
 	StarInABox.prototype.fileName = function(mass) {
 		return "db/star_"+mass+"_solar_mass";
 	}
@@ -658,6 +709,8 @@ $(document).ready(function () {
 		this.updateChart();
 		this.setComparisonStar(0);
 		this.createPie();
+		this.createScales();
+		this.dropOnScales();
 		this.doneLoadingStar();
 	}
 	StarInABox.prototype.setComparisonStar = function(i) {
@@ -671,10 +724,14 @@ $(document).ready(function () {
 	}
 	StarInABox.prototype.setcomparisonStarSize = function(sm) {
 		var r = sm*this.sizeComparison.starR;
-		if(r) this.sizeComparison.star.attr({cx:(this.sizeComparison.starX+r),r:r});
+		if(r){
+			this.sizeComparison.star.attr({cx:(this.sizeComparison.starX+r),r:r});
+			this.massComparison.star.attr({cx:this.massComparison.x,cy:(this.massComparison.y-r),r:r});
+		}
 	}
 	StarInABox.prototype.setcomparisonStarColour = function(value) {
 		this.sizeComparison.star.attr({"fill":value,"stroke-width":"0"});
+		this.massComparison.star.attr({"fill":value,"stroke-width":"0"});
 	}
 	StarInABox.prototype.sStarReset = function() {
 		this.sizeComparison.star.remove();
@@ -839,6 +896,7 @@ $(document).ready(function () {
 	}
 	StarInABox.prototype.updateEvolve = function() {
 		this.createPie();
+		this.createScales();
 		this.updateCurrentStage();
 	}
 	StarInABox.prototype.loadingStar = function() {
