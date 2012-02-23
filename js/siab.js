@@ -660,6 +660,7 @@ $(document).ready(function () {
 			this.massComparison.y = oy-t/2;
 		}
 		this.updateScales();
+		this.dropOnScales();
 	}
 	StarInABox.prototype.dropOnScales = function(){
 		this.updateScaleText(0.0);
@@ -710,7 +711,6 @@ $(document).ready(function () {
 		this.setComparisonStar(0);
 		this.createPie();
 		this.createScales();
-		this.dropOnScales();
 		this.doneLoadingStar();
 	}
 	StarInABox.prototype.setComparisonStar = function(i) {
