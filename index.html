@@ -40,11 +40,11 @@
 		<div id="box-lid">
 			<div id="welcome">
 				<div id="welcome-content">
-					<h1>Hello!</h1>
+					<h1>Welcome!</h1>
 					<div class="jsonly">
-						<p>Explore the different stages in a star's life.</p>
-						<p>You can see how its brightness, size and mass compare to the current condition of the Sun. You can also animate its evolution. </p>
-						<p>All contained in this neat little box</p>
+						<p>You are now the proud owner of Star In A Box.</p>
+						<p>Inside this box you can animate the different stages in a star's life and see how its brightness, size, and mass change with time.</p>
+						<p>Once you've opened the box just <strong>click the play button</strong> to start animating.</p>
 					</div>
 					<div class="accessible">
 						<p>You don't appear to have Javascript enabled so you won't be able to use the interactive features of Star In A Box. However, you can still download data to make your own investigations of how the brightness, size and mass of stars change as they go through their lives:</p>
@@ -64,17 +64,17 @@
 				</div>
 				<div id="help-content">
 					<h2>HELP!</h2>
-					<p>Star in a Box allows you to explore one of the most enigmatic tools in astronomy - the <a href="http://lcogt.net/book/h-r-diagram">Hertzsprung-Russell diagram</a>. The tracks that you see on the diagram map the lifecycle of a star. You can play the animation of the star moving around the diagram, and see how its brightness, size and surface temperature change as it evolves (in the panel on the left).</p>
+					<p>Star in a Box allows you to explore one of the most enigmatic tools in astronomy - the <a href="http://lcogt.net/book/h-r-diagram">Hertzsprung-Russell diagram</a>.</p>
+					<p>When you first open the box you start with a star with the same mass as the Sun. The tracks that you see on the diagram to the left map the lifecycle of the star. You can use the <em>Star Properties</em> tab to choose a star with a different starting mass or to jump to particular stages. You can play the animation of the star moving around the diagram, and see how its brightness, size, surface temperature, and mass change in the panels on the right.</p>
 					<p>Stars can take billions of years to go through their lives with the dramatic events taking place in relatively short periods of time. In the animation we speed up time when the star is not really changing much and slow things down for the dramatic phases of the star's life.</p>
 					<p><strong>Controls:</strong></p>
 					<ul>
 					    <li><strong>spacebar</strong> - Play/pause the animation</li>
 					    <li><strong>right/left arrow</strong> - Move the animation forwards/backwards in time</li>
-					    <li><strong>l</strong> - Opens/closes lid</li>
+					    <li><strong>L</strong> - Opens/closes lid</li>
 					</ul>
 					<h3>Acknowledgments</h3>
-					<p><a href="http://jyardley.co.uk">Jon Yardley</a>, <a href="http://lcogt.net/user/slowe">Stuart Lowe</a>, <a href="http://lcogt.net/user/egomez">Edward Gomez</a> - <b>Design &amp; Development</b></p>
-					<p><a href="http://www.astro.cf.ac.uk/contactsandpeople/?page=full&id=151">Haley Gomez</a> - <b>Creative input</b></p>
+					<p><b>Design &amp; Development</b>: <a href="http://jyardley.co.uk">Jon Yardley</a>, <a href="http://lcogt.net/user/slowe">Stuart Lowe</a>, <a href="http://lcogt.net/user/egomez">Edward Gomez</a>; <b>Creative input</b>: <a href="http://www.astro.cf.ac.uk/contactsandpeople/?page=full&id=151">Haley Gomez</a></p>
 					<p>Supported by <a href="http://www.stfc.ac.uk/">STFC</a> and <a href="http://lcogt.net/">LCOGT</a></p>
 				</div>
 				<div id="summary-content">
@@ -115,11 +115,20 @@
             </div>
 
 			<div id="nav">
-				<a href="#rCanvas" class="item active" id="compare" title="Size Comparison"></a>
-				<a href="#thermometer" class="item" id="therm" title="Surface Temperature"></a>
-				<a href="#rlum" class="item" id="bulb" title="Brightness"></a>
-				<a href="#rPie" class="item" id="pie" title="Stages in your star's life"></a>
-				<a href="#rScales" class="item" id="mass" title="Mass"></a>
+				<ul>
+					<li><a href="#rCanvas" class="item active" id="compare" title="Size Comparison"></a></li>
+					<li><a href="#thermometer" class="item" id="therm" title="Surface Temperature"></a></li>
+					<li><a href="#rlum" class="item" id="bulb" title="Brightness"></a></li>
+					<li><a href="#rPie" class="item" id="pie" title="Stages in your star's life"></a></li>
+					<li><a href="#rScales" class="item" id="mass" title="Mass"></a></li>
+				</ul>
+			</div>
+
+
+			<div id="control">
+				<div id="controls">
+					<a href="#" class="control_play"><img src="css/images/cleardot.gif" class="icon play" alt="play" title="Start/Pause" /></a><a href="#" class="control_reset"><img src="css/images/cleardot.gif" class="icon reset" alt="reset" title="Reset" /></a><a href="#" class="control_rewind"><img src="css/images/cleardot.gif" class="icon rewind" alt="rewind" title="Step backwards" /></a><a href="#" class="control_ff"><img src="css/images/cleardot.gif" class="icon ff" alt="fast-forward" title="Step forward" /></a><div id="speedcontrol"><label for="evolveSpeed">Speed:</label><select id="evolveSpeed" name="evolve"><option value="30" selected="true">Speed</option><option value="10">Fast</option><option value="30">Normal</option><option value="100">Slow</option></select></div>
+				</div>
 			</div>
 
 			<div id="right">
@@ -164,13 +173,6 @@
 				</div>
 			</div>
 			<div id="tevTime">0 Myrs</div>
-
-			<div id="control">
-				<div id="controls">
-					<a href="#" class="control_reset"><img src="css/images/cleardot.gif" class="icon reset" alt="reset" title="Reset" /></a><a href="#" class="control_rewind"><img src="css/images/cleardot.gif" class="icon rewind" alt="rewind" title="Step backwards" /></a><a href="#" class="control_play"><img src="css/images/cleardot.gif" class="icon play" alt="play" title="Start/Pause" /></a><a href="#" class="control_ff"><img src="css/images/cleardot.gif" class="icon ff" alt="fast-forward" title="Step forward" /></a><div id="speedcontrol">Speed: <select id="evolveSpeed" name="evolve"><option value="10">Fast</option><option value="30" selected="true">Normal</option><option value="100">Slow</option></select></div>
-				</div>
-				
-			</div>
         </div>
 		<div class="caution">Caution: Supernova Imminent</div>
 

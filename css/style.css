@@ -7,6 +7,7 @@ body {
     text-align: center;
     background: url(images/bg-shadow.png) no-repeat center center;
     overflow: hidden;
+    font-size: 0.9em;
 }
 .jsonly { display: none; }
 #container {
@@ -323,41 +324,73 @@ body {
 
 #nav {
     position: absolute;
-    top: 426px;
+    top: 422px;
     right: 40px;
     width: 280px;
     text-align: center;
     background-color: rgba(0, 0, 0, 0.5);
 }
-
+#nav ul {
+	list-style: none;
+	margin: 0px;
+	padding: 0px;
+}
+#nav li {
+	display: inline-block;
+	padding: 5px;
+}
 #nav .item {
-	width: 44px;
-	height: 46px;
-	padding: 0 0 10px;
-	margin: 0 1px;
+	width: 36px;
+	height: 40px;
+	padding: 0px;
+	margin: 0px;
 	cursor: pointer;
 	display: inline-block;
 }
-
 #nav #therm { background: url(images/buttons.png) no-repeat 0px }
 #nav #therm:hover { background: url(images/buttons_hover.png) no-repeat 0px }
 #nav #therm.active { background: url(images/buttons_active.png) no-repeat 0px }
+#nav #pie { background: url(images/buttons.png) no-repeat -36px }
+#nav #pie:hover { background: url(images/buttons_hover.png) no-repeat -36px }
+#nav #pie.active { background: url(images/buttons_active.png) no-repeat -36px }
+#nav #bulb { background: url(images/buttons.png) no-repeat -72px }
+#nav #bulb:hover { background: url(images/buttons_hover.png) no-repeat -72px }
+#nav #bulb.active { background: url(images/buttons_active.png) no-repeat -72px }
+#nav #compare { background: url(images/buttons.png) no-repeat -108px }
+#nav #compare:hover { background: url(images/buttons_hover.png) no-repeat -108px }
+#nav #compare.active { background: url(images/buttons_active.png) no-repeat -108px }
+#nav #mass { background: url(images/buttons.png) no-repeat -144px }
+#nav #mass:hover { background: url(images/buttons_hover.png) no-repeat -144px }
+#nav #mass.active { background: url(images/buttons_active.png) no-repeat -144px }
 
-#nav #pie { background: url(images/buttons.png) no-repeat -45px }
-#nav #pie:hover { background: url(images/buttons_hover.png) no-repeat -45px }
-#nav #pie.active { background: url(images/buttons_active.png) no-repeat -45px }
-
-#nav #bulb { background: url(images/buttons.png) no-repeat -90px }
-#nav #bulb:hover { background: url(images/buttons_hover.png) no-repeat -90px }
-#nav #bulb.active { background: url(images/buttons_active.png) no-repeat -90px }
-
-#nav #compare { background: url(images/buttons.png) no-repeat -135px }
-#nav #compare:hover { background: url(images/buttons_hover.png) no-repeat -135px }
-#nav #compare.active { background: url(images/buttons_active.png) no-repeat -135px }
-
-#nav #mass { background: url(images/buttons.png) no-repeat -180px }
-#nav #mass:hover { background: url(images/buttons_hover.png) no-repeat -180px }
-#nav #mass.active { background: url(images/buttons_active.png) no-repeat -180px }
+#control {
+	position: absolute;
+	top: 481px;
+	right: 40px;
+	width: 280px;
+	background-color: rgba(0,0,0,0.5);
+}
+#controls {
+	display: inline-block;
+}
+#controls img { margin: 2px; }
+img.icon { width:36px; height:36px; margin:0px; background:url('images/icons.png') no-repeat scroll transparent; }
+img.play { background-position: 0px 0px!important; }
+img.pause { background-position: -36px 0px!important; }
+img.reset { background-position: -72px 0px!important; }
+img.rewind { background-position: -108px 0px!important; }
+img.ff { background-position: -144px 0px!important; }
+#speedcontrol {
+	float:right;
+	color: #fff;
+	padding: 10px 0px 0px 8px;
+}
+#speedcontrol select {
+	font-size: 14px;
+}
+#speedcontrol label {
+	display: none;
+}
 
 #scaletext {
 	display: block;
@@ -374,12 +407,12 @@ body {
     width: 280px;
     position: absolute;
     height: 386px;
-    top: 39px;
+    top: 36px;
     right: 40px;
     overflow: hidden;
-    -webkit-box-shadow: inset 0 0 6px #444;
-    -moz-box-shadow: inset 0 0 6px #444;
-    -box-shadow: inset 0 0 6px #444;
+    -webkit-box-shadow: inset 0 3px 6px #444;
+    -moz-box-shadow: inset 0 3px 6px #444;
+    box-shadow: inset 0 3px 6px #444;
 }
 
 #right .section {
@@ -416,30 +449,6 @@ body {
 #rPie { top: 1200px; }
 #rScales { top: 1600px; }
 
-#control {
-	position: absolute;
-	bottom: 40px;
-	right: 40px;
-	width: 280px;
-	background-color: rgba(0,0,0,0.5);
-}
-#controls {
-	padding:3px;
-	display: inline-block;
-}
-#controls select {
-	font-size: 12px;
-}
-#controls a { margin: 0px; }
-img.icon { width:24px; height:24px; margin:0px; background:url('images/icons_24.png') no-repeat scroll transparent; }
-img.rewind { background-position: 0px -168px!important; }
-img.stop { background-position: -48px -24px!important; }
-img.ff { background-position: -24px -168px!important; }
-img.now { background-position: -48px -72px!important; }
-img.play { background-position: -48px -120px!important; }
-img.pause { background-position: -48px -168px!important; }
-img.reset { background-position: -48px -144px!important; }
-
 #tevTime {
 	position: absolute;
 	bottom: 44px;
@@ -449,12 +458,6 @@ img.reset { background-position: -48px -144px!important; }
 	color: #fff;
 	padding: 0px;
 }
-#speedcontrol {
-	float:right;
-	color: #fff;
-	padding: 3px 0px 0px 8px;
-}
-
 
 #right .info {
     width: 25px;
@@ -481,11 +484,11 @@ img.reset { background-position: -48px -144px!important; }
     text-align: left;
 }
 
-	#right .caption h2 {
-	    padding: 0;
-	    margin: 0 0 5px;
-	    color: #fff;
-	}
+#right .caption h2 {
+	padding: 0;
+	margin: 0 0 5px;
+	color: #fff;
+}
 
 a#animateEvolve,
 a#animateEvolveReset {
@@ -592,7 +595,7 @@ a#animateEvolveReset:active {
 	top:45px;
 	right:335px;
 	color: #000;
-	width: 200px;
+	width: 400px;
 	text-align: right;
 }
 
@@ -601,7 +604,7 @@ a#animateEvolveReset:active {
 	top:48px;
 	right: 48px;
 	width: 320px;
-	height: 320px;
+	height: 350px;
 	text-align: right;
 	padding: 24px;
 	background: #fff;
@@ -614,6 +617,9 @@ a#animateEvolveReset:active {
 	overflow: auto;
 }
 
+#welcome-content {
+	text-align: left;
+}
 #welcome.summary {
 	width: 800px;
 	height: 400px;

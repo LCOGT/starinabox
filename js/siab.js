@@ -72,13 +72,13 @@ $(document).ready(function () {
 		this.data = [];
 		this.chart = {
 			offset : {
-				top: 10,
+				top: 7,
 				left : 30,//62;
 				right : 0,
 				bottom : 46//18
 			},
 			width: 600,
-			height: 503,
+			height: 492,
 			options: {
 				grid: {
 					color: "rgb(0,0,0)",
@@ -204,6 +204,8 @@ $(document).ready(function () {
 	
 		// open/close input panel
 		$("#input .tab-top").click({box:this},function(e){ e.data.box.toggleInputPanel(); });
+
+		$('#welcome').css({height: "210px"});
 		
 		// open/close animate panel
 		$("#animate .tab-bottom").click({box:this},function(e){ e.data.box.toggleAnimatePanel(); });
