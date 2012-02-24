@@ -259,7 +259,7 @@ $(document).ready(function () {
 		var le3 = this.rLum.text(170, 202, "100").attr(txtprops);
 		var le4 = this.rLum.text(170, 285, "1").attr(txtprops);
 		var le5 = this.rLum.text(170, 370, "0.001").attr(txtprops);
-		ll = this.rLum.text(34, 220, "Brightness (Luminosities)").attr(txtprops);
+		ll = this.rLum.text(34, 220, "Brightness (Solar luminosities)").attr(txtprops);
 		ll.rotate(-90);
 
 		this.createMassSlider();
@@ -777,7 +777,7 @@ $(document).ready(function () {
 		}
 		//if(!this.chart.border) this.chart.border = this.chart.holder.rect(0,0,this.chart.width,this.chart.height).attr({stroke:'rgba(0,0,0,0.2)'});
 		if(!this.chart.axes) this.chart.axes = this.chart.holder.rect(this.chart.offset.left,this.chart.offset.top,this.chart.offset.width,this.chart.offset.height).attr({stroke:'rgb(0,0,0)','stroke-opacity': 0.5,'stroke-width':2});
-		if(!this.chart.yLabel) this.chart.yLabel = this.chart.holder.text(this.chart.offset.left - 10, this.chart.offset.top+(this.chart.offset.height/2), "Brightness (L0)").attr({fill: (this.chart.options.yaxis.label.color ? this.chart.options.yaxis.label.color : "black"),'font-size': '12px' }).rotate(270);
+		if(!this.chart.yLabel) this.chart.yLabel = this.chart.holder.text(this.chart.offset.left - 10, this.chart.offset.top+(this.chart.offset.height/2), "Brightness (Solar luminosities)").attr({fill: (this.chart.options.yaxis.label.color ? this.chart.options.yaxis.label.color : "black"),'font-size': '12px' }).rotate(270);
 		if(!this.chart.sub){
 			v = [2,3,4,5,6,7,8,9]
 			this.chart.sub = []
@@ -807,7 +807,7 @@ $(document).ready(function () {
 				}
 			}
 		}
-		if(!this.chart.xLabel) this.chart.xLabel = this.chart.holder.text(this.chart.offset.left+this.chart.offset.width/2, this.chart.height-this.chart.offset.bottom + 10, "Temperature (K)").attr({ fill: (this.chart.options.xaxis.label.color ? this.chart.options.xaxis.label.color : "black"),'font-size': '12px' });
+		if(!this.chart.xLabel) this.chart.xLabel = this.chart.holder.text(this.chart.offset.left+this.chart.offset.width/2, this.chart.height-this.chart.offset.bottom + 10, "Temperature (Kelvin)").attr({ fill: (this.chart.options.xaxis.label.color ? this.chart.options.xaxis.label.color : "black"),'font-size': '12px' });
 		if(!this.chart.xaxis){
 			this.chart.xaxis = this.chart.holder.set();
 			for (var i = Math.ceil(this.chart.options.xaxis.min); i <= Math.floor(this.chart.options.xaxis.max); i++) {
