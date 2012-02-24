@@ -604,7 +604,7 @@ a#animateEvolveReset:active {
 	top:48px;
 	right: 48px;
 	width: 320px;
-	height: 350px;
+	min-height: 210px;
 	text-align: right;
 	padding: 24px;
 	background: #fff;
