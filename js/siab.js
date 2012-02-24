@@ -259,7 +259,7 @@ $(document).ready(function () {
 		var le3 = this.rLum.text(170, 202, "100").attr(txtprops);
 		var le4 = this.rLum.text(170, 285, "1").attr(txtprops);
 		var le5 = this.rLum.text(170, 370, "0.001").attr(txtprops);
-		ll = this.rLum.text(34, 220, "Brightness (Solar luminosities)").attr(txtprops);
+		ll = this.rLum.text(20, 220, "Brightness (Solar luminosities)").attr(txtprops);
 		ll.rotate(-90);
 
 		this.createMassSlider();
