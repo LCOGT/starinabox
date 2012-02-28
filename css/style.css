@@ -209,7 +209,7 @@ body {
 
 #input {
     width: 860px;
-    height: 112px;
+    height: 128px;
     margin: 0 auto;
     color: #fff;
     padding: 10px 20px;
@@ -217,7 +217,7 @@ body {
     -moz-border-radius: 10px 10px 0 0;
     -webkit-border-radius: 10px 10px 0 0;
     position: absolute;
-    bottom: -122px;
+    bottom: -138px;
     z-index: 108;
     -webkit-box-shadow: -8px -4px 10px rgba(0,0,0,0.2);
     -moz-box-shadow: -8px -4px 10px rgba(0,0,0,0.2);
@@ -459,6 +459,21 @@ img.ff { background-position: -144px 0px!important; }
 	padding: 0px;
 }
 
+#starMass {
+	position: absolute;
+	bottom: 44px;
+	left: 60px;
+	text-align:right;
+	z-index: 106;
+	color: #fff;
+	padding: 0px;
+}
+#starMass .value {
+	font-size:2em;
+	font-weight: bold;
+}
+
+
 #right .info {
     width: 25px;
     height: 25px;
@@ -585,7 +600,7 @@ a#animateEvolveReset:active {
 	font-size: 70%;
 	top:0;
 	left:0;
-	width: 80px;
+	width: 96px;
 	text-align: center;
 }
 

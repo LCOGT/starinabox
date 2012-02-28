@@ -73,7 +73,7 @@ $(document).ready(function () {
 		this.chart = {
 			offset : {
 				top: 7,
-				left : 30,//62;
+				left : 25,//62;
 				right : 0,
 				bottom : 46//18
 			},
@@ -462,7 +462,7 @@ $(document).ready(function () {
 	}
 	StarInABox.prototype.toggleInputPanel = function(duration){
 		if(typeof duration!="number") duration = 300;
-		if(this.inputopen) $("#input").animate({"bottom": "-122px"}, duration).removeClass("open");
+		if(this.inputopen) $("#input").animate({"bottom": "-138px"}, duration).removeClass("open");
 		else $("#input").animate({"bottom": "0px"}, duration).addClass("open");
 		this.inputopen = !this.inputopen;
 	}
@@ -861,6 +861,8 @@ $(document).ready(function () {
 
 			//print Solar Mass Value onto Graph!
 			if(this.massLabel) this.massLabel.remove();
+			$('#starMass').html(((this.data.mass==1) ? '<span class="value">'+this.data.mass+'</span> Solar mass' : '<span class="value">'+this.data.mass+'</span> Solar masses'));
+/*
 			this.massLabel = this.chart.holder.text((this.chart.offset.left + 8), (this.chart.offset.top + 22), this.data.mass).attr({
 				'text-anchor': 'start',
 				'fill': '#000',
@@ -874,6 +876,7 @@ $(document).ready(function () {
 				'fill': '#000',
 				'font-size': '12px'
 			});
+*/
 		}
 	};
 	StarInABox.prototype.getStarShape = function(x,y,r,n){
