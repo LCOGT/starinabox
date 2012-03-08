@@ -11,6 +11,8 @@ document.write('<style type="text/css">.accessible { display: none; } .jsonly { 
 
 $(document).ready(function () {
 
+	$("body").queryLoader2();
+
 	/*@cc_on
 	// Fix for IE's inability to handle arguments to setTimeout/setInterval
 	// From http://webreflection.blogspot.com/2007/06/simple-settimeout-setinterval-extra.html
@@ -20,9 +22,7 @@ $(document).ready(function () {
 	})(function(f){return function(c,t){var a=[].slice.call(arguments,2);return f(function(){c.apply(this,a)},t)}});
 	@*/
 	// Page PreLoader
-	QueryLoader.selectorPreload = "body";
-	QueryLoader.init();
-	
+
 	function StarInABox(inp){
 		this.canopen = true;
 		this.open = false;
@@ -61,56 +61,50 @@ $(document).ready(function () {
 		this.urlquery = this.fullurl.substring(this.fullurl.indexOf('?')+1, this.fullurl.length).split('=');
 		this.initStarMass = (this.urlquery.length == 0 || this.urlquery[0] != 's') ? 1 : getNearestNumber(this.massVM, parseInt(this.urlquery[1]));
 
-		this.setupUI();
-
-		// get default stages (1 solar mass)
-		this.getStages(this.initStarMass);
-
 		/**
 		 *	Set Chart variables
 		 **/
 		this.data = [];
 		this.chart = {
-			offset : {
+			'offset' : {
 				top: 7,
 				left : 25,//62;
 				right : 0,
 				bottom : 46//18
 			},
-			width: 600,
-			height: 492,
-			options: {
-				grid: {
-					color: "rgb(0,0,0)",
-					opacity: 0.25,
-					width: "0.5",
-					sub: {
-						color: "rgb(0,0,0)",
-						opacity: 0.08,
-						width: "0.5"
+			'width': 600,
+			'height': 492,
+			'opts': {
+				'grid': {
+					'color': "rgb(0,0,0)",
+					'opacity': 0.25,
+					'width': "0.5",
+					'sub': {
+						'color': "rgb(0,0,0)",
+						'opacity': 0.08,
+						'width': "0.5"
 					}
 				},
-				xaxis: {
-					invert: true,
-					min: 3, // 3
-					max: 5.85, // 6.4
-					label: {
-						color: "rgb(255,255,255)"
+				'xaxis': {
+					'invert': true,
+					'min': 3, // 3
+					'max': 5.85, // 6.4
+					'label': {
+						'color': "rgb(255,255,255)"
 					}
 				},
-				yaxis: {
-					min: -6.4, //-11
-					max: 6.5, //8
-					label: {
-						color: "rgb(255,255,255)"
+				'yaxis': {
+					'min': -6.4, //-11
+					'max': 6.5, //8
+					'label': {
+						'color': "rgb(255,255,255)"
 					}
 				}
 			},
-			holder: []
+			'holder': []
 		}
-		this.chart.holder = Raphael("placeholder", this.chart.width, this.chart.height),
-		this.updateChart();
 
+		this.chart.holder = Raphael("placeholder", this.chart.width, this.chart.height),
 		this.sizeComparison = {
 			// Raphael Script for star comparison
 			'paper': Raphael("rCanvas", 280, 390),
@@ -119,22 +113,28 @@ $(document).ready(function () {
 			'starR': 5,
 			'starOffset': 45
 		}
-		//draw sun
-		this.sizeComparison.sun = this.sizeComparison.paper.circle(25, 200, 5).attr({"fill":"#fff3ea","stroke-width":"0"});
-		this.sizeComparison.sunLabel = this.sizeComparison.paper.text(25, 220, "Sun").attr("fill", "#fff3ea");
-		//draw comparison star
-		this.sizeComparison.star = this.sizeComparison.paper.circle(this.sizeComparison.starX+this.sizeComparison.starR, this.sizeComparison.starY, this.sizeComparison.starR).attr({"fill":"#fff3ea","stroke-width":"0"});
-
-		if ($("#rScales #scales").length > 0) $("#rScales #scales").remove();
-		this.rScales = Raphael("rScales");
-
 		this.massComparison = { 
 			'r': this.sizeComparison.starR,
 			'x': 140,
 			'y': 250,
 			'offset':this.sizeComparison.starOffset
 		}
+		if ($("#rScales #scales").length > 0) $("#rScales #scales").remove();
+		this.rScales = Raphael("rScales");
+		//draw sun
+		this.sizeComparison.sun = this.sizeComparison.paper.circle(25, 200, 5).attr({"fill":"#fff3ea","stroke-width":"0"});
+		this.sizeComparison.sunLabel = this.sizeComparison.paper.text(25, 220, "Sun").attr("fill", "#fff3ea");
+		//draw comparison star
+		this.sizeComparison.star = this.sizeComparison.paper.circle(this.sizeComparison.starX+this.sizeComparison.starR, this.sizeComparison.starY, this.sizeComparison.starR).attr({"fill":"#fff3ea","stroke-width":"0"});
 		this.massComparison.star = this.rScales.circle(this.massComparison.x+this.massComparison.r, this.massComparison.y, this.massComparison.r).attr({"fill":"#fff3ea","stroke-width":"0"});
+
+		this.setupUI();
+
+		// get default stages (1 solar mass)
+		this.getStages(this.initStarMass);
+
+		this.updateChart();
+
 
 	}
 	StarInABox.prototype.findMassIndex = function(mass){
@@ -192,8 +192,8 @@ $(document).ready(function () {
 		});
 		$('#lid-open a').click({box:this},function(e){ e.data.box.toggleLid(); });
 		// add gradient to buttons after loading as it breaks the pre-loader!
-		$("a#animateEvolve, a#animateEvolveReset").css("background","-webkit-gradient(linear, left top, left bottom, from(#ddd), to(#6b6b6b))");
-		$("a#animateEvolve, a#animateEvolveReset").css("background","-moz-linear-gradient(top, #ddd, #6b6b6b)");
+		if($.browser == "webkit" || $.browser == "safari") $("a#animateEvolve, a#animateEvolveReset").css("background","-webkit-gradient(linear, left top, left bottom, from(#ddd), to(#6b6b6b))");
+		if($.browser == "mozilla") $("a#animateEvolve, a#animateEvolveReset").css("background","-moz-linear-gradient(top, #ddd, #6b6b6b)");
 
 		// help
 		$('#help').click({box:this},function(e){
@@ -300,7 +300,7 @@ $(document).ready(function () {
 
 		this.el = {
 			"time": $("#tevTime"),
-			"stagelabel": $('#current-stage'),
+			"stagelabel": $('#current-stage')
 		}
 	}
 	StarInABox.prototype.supernova = function(){
@@ -678,7 +678,7 @@ $(document).ready(function () {
 	StarInABox.prototype.updateScaleText = function(v){
 		if(typeof v!="number"){
 			var s = this.getData(this.timestep);
-			var v = s.mass;
+			var v = parseFloat(s.mass);
 		}
 		this.scaletext.html(v.toFixed(3)+'<span class="units">solar</span>');
 	}
@@ -745,12 +745,14 @@ $(document).ready(function () {
 			x = this.log10(x);
 			y = this.log10(y);
 		}
-		if(x > this.chart.options.xaxis.max) return [-1,-1]
-		var newx = this.chart.offset.left + this.chart.offset.width*(Math.abs(this.chart.options.xaxis.max-x)/(this.chart.options.xaxis.max-this.chart.options.xaxis.min));
-		if(y < this.chart.options.yaxis.min) return [newx,-1];
-		else return [newx,this.chart.height-(this.chart.offset.bottom + this.chart.offset.height*((y-this.chart.options.yaxis.min)/(this.chart.options.yaxis.max-this.chart.options.yaxis.min)))];
+		if(typeof this.chart.opts.xaxis.max=="number" && x > this.chart.opts.xaxis.max) return [-1,-1]
+		var newx = this.chart.offset.left + this.chart.offset.width*(Math.abs(this.chart.opts.xaxis.max-x)/(this.chart.opts.xaxis.max-this.chart.opts.xaxis.min));
+		if(y < this.chart.opts.yaxis.min) return [newx,-1];
+		else return [newx,this.chart.height-(this.chart.offset.bottom + this.chart.offset.height*((y-this.chart.opts.yaxis.min)/(this.chart.opts.yaxis.max-this.chart.opts.yaxis.min)))];
 	}
 	StarInABox.prototype.getChartOffset = function(){
+		if(typeof this.chart!="object") this.chart = {'offset':{}}
+		if(typeof this.chart.offset!="object") this.chart.offset = {}
 		if(!this.chart.offset.top) this.chart.offset.top = 1;
 		if(!this.chart.offset.left) this.chart.offset.left = 20;//62;
 		if(!this.chart.offset.right) this.chart.offset.right = 1;
@@ -777,7 +779,7 @@ $(document).ready(function () {
 		}
 		//if(!this.chart.border) this.chart.border = this.chart.holder.rect(0,0,this.chart.width,this.chart.height).attr({stroke:'rgba(0,0,0,0.2)'});
 		if(!this.chart.axes) this.chart.axes = this.chart.holder.rect(this.chart.offset.left,this.chart.offset.top,this.chart.offset.width,this.chart.offset.height).attr({stroke:'rgb(0,0,0)','stroke-opacity': 0.5,'stroke-width':2});
-		if(!this.chart.yLabel) this.chart.yLabel = this.chart.holder.text(this.chart.offset.left - 10, this.chart.offset.top+(this.chart.offset.height/2), "Brightness (Solar luminosities)").attr({fill: (this.chart.options.yaxis.label.color ? this.chart.options.yaxis.label.color : "black"),'font-size': '12px' }).rotate(270);
+		if(!this.chart.yLabel) this.chart.yLabel = this.chart.holder.text(this.chart.offset.left - 10, this.chart.offset.top+(this.chart.offset.height/2), "Brightness (Solar luminosities)").attr({fill: (this.chart.opts.yaxis.label.color ? this.chart.opts.yaxis.label.color : "black"),'font-size': '12px' }).rotate(270);
 		if(!this.chart.sub){
 			v = [2,3,4,5,6,7,8,9]
 			this.chart.sub = []
@@ -787,10 +789,10 @@ $(document).ready(function () {
 		}
 		if(!this.chart.yaxis){
 			this.chart.yaxis = this.chart.holder.set();
-			for(var i = Math.ceil(this.chart.options.yaxis.min); i <= Math.floor(this.chart.options.yaxis.max); i++) {
-				p1 = this.getPixPos(this.chart.options.xaxis.max,i,"log");
-				p2 = this.getPixPos(this.chart.options.xaxis.min,i,"log");
-				this.chart.yaxis.push(this.chart.holder.path("M"+p1[0]+","+p1[1]+"L"+p2[0]+","+p2[1]).attr({ stroke: this.chart.options.grid.color,'stroke-opacity':this.chart.options.grid.opacity,'stroke-width':(this.chart.options.grid.width ? this.chart.options.grid.width : 0.5)}));
+			for(var i = Math.ceil(this.chart.opts.yaxis.min); i <= Math.floor(this.chart.opts.yaxis.max); i++) {
+				p1 = this.getPixPos(this.chart.opts.xaxis.max,i,"log");
+				p2 = this.getPixPos(this.chart.opts.xaxis.min,i,"log");
+				this.chart.yaxis.push(this.chart.holder.path("M"+p1[0]+","+p1[1]+"L"+p2[0]+","+p2[1]).attr({ stroke: this.chart.opts.grid.color,'stroke-opacity':this.chart.opts.grid.opacity,'stroke-width':(this.chart.opts.grid.width ? this.chart.opts.grid.width : 0.5)}));
 				this.chart.yaxis.push(this.chart.holder.text(p1[0]+5,p1[1],addCommas(Math.pow(10, i))).attr({
 					'text-anchor': 'start',
 					'fill': "rgb(0, 0, 0)",
@@ -798,33 +800,33 @@ $(document).ready(function () {
 					'font-size': '11px'
 				}));
 				for(var j = 0; j < this.chart.sub.length ; j++){
-					if(i+this.chart.sub[j] < this.chart.options.yaxis.max){
-						p1 = this.getPixPos(this.chart.options.xaxis.max,i+this.chart.sub[j],"log");
-						p2 = this.getPixPos(this.chart.options.xaxis.min,i+this.chart.sub[j],"log");
-						s = this.chart.options.grid.sub;
+					if(i+this.chart.sub[j] < this.chart.opts.yaxis.max){
+						p1 = this.getPixPos(this.chart.opts.xaxis.max,i+this.chart.sub[j],"log");
+						p2 = this.getPixPos(this.chart.opts.xaxis.min,i+this.chart.sub[j],"log");
+						s = this.chart.opts.grid.sub;
 						this.chart.yaxis.push(this.chart.holder.path("M"+p1[0]+","+p1[1]+"L"+p2[0]+","+p2[1]).attr({ stroke: s.color,'stroke-opacity': s.opacity,'stroke-width':(s.width ? s.width : 0.5)}));
 					}
 				}
 			}
 		}
-		if(!this.chart.xLabel) this.chart.xLabel = this.chart.holder.text(this.chart.offset.left+this.chart.offset.width/2, this.chart.height-this.chart.offset.bottom + 10, "Temperature (Kelvin)").attr({ fill: (this.chart.options.xaxis.label.color ? this.chart.options.xaxis.label.color : "black"),'font-size': '12px' });
+		if(!this.chart.xLabel) this.chart.xLabel = this.chart.holder.text(this.chart.offset.left+this.chart.offset.width/2, this.chart.height-this.chart.offset.bottom + 10, "Temperature (Kelvin)").attr({ fill: (this.chart.opts.xaxis.label.color ? this.chart.opts.xaxis.label.color : "black"),'font-size': '12px' });
 		if(!this.chart.xaxis){
 			this.chart.xaxis = this.chart.holder.set();
-			for (var i = Math.ceil(this.chart.options.xaxis.min); i <= Math.floor(this.chart.options.xaxis.max); i++) {
-				p1 = this.getPixPos(i,this.chart.options.yaxis.min,"log");
-				p2 = this.getPixPos(i,this.chart.options.yaxis.max,"log");
-				this.chart.xaxis.push(this.chart.holder.path("M"+p1[0]+","+p1[1]+"L"+p2[0]+","+p2[1]).attr({ stroke: this.chart.options.grid.color,'stroke-opacity':this.chart.options.grid.opacity,'stroke-width':(this.chart.options.grid.width ? this.chart.options.grid.width : 0.5)}));
+			for (var i = Math.ceil(this.chart.opts.xaxis.min); i <= Math.floor(this.chart.opts.xaxis.max); i++) {
+				p1 = this.getPixPos(i,this.chart.opts.yaxis.min,"log");
+				p2 = this.getPixPos(i,this.chart.opts.yaxis.max,"log");
+				this.chart.xaxis.push(this.chart.holder.path("M"+p1[0]+","+p1[1]+"L"+p2[0]+","+p2[1]).attr({ stroke: this.chart.opts.grid.color,'stroke-opacity':this.chart.opts.grid.opacity,'stroke-width':(this.chart.opts.grid.width ? this.chart.opts.grid.width : 0.5)}));
 				this.chart.xaxis.push(this.chart.holder.text(p1[0],p1[1]-10,addCommas(Math.pow(10, i))).attr({
-					'text-anchor': (i == Math.ceil(this.chart.options.xaxis.min)) ? "end" : 'middle',
+					'text-anchor': (i == Math.ceil(this.chart.opts.xaxis.min)) ? "end" : 'middle',
 					'fill': "rgb(0, 0, 0)",
 					'fill-opacity': 0.5,
 					'font-size': '11px'
 				}));
 				for(var j = 0; j < this.chart.sub.length ; j++){
-					if(i+this.chart.sub[j] < this.chart.options.xaxis.max){
-						p1 = this.getPixPos(i+this.chart.sub[j],this.chart.options.yaxis.min,"log");
-						p2 = this.getPixPos(i+this.chart.sub[j],this.chart.options.yaxis.max,"log");
-						s = this.chart.options.grid.sub;
+					if(i+this.chart.sub[j] < this.chart.opts.xaxis.max){
+						p1 = this.getPixPos(i+this.chart.sub[j],this.chart.opts.yaxis.min,"log");
+						p2 = this.getPixPos(i+this.chart.sub[j],this.chart.opts.yaxis.max,"log");
+						s = this.chart.opts.grid.sub;
 						this.chart.xaxis.push(this.chart.holder.path("M"+p1[0]+","+p1[1]+"L"+p2[0]+","+p2[1]).attr({ stroke: s.color,'stroke-opacity': s.opacity,'stroke-width':(s.width ? s.width : 0.5)}));
 					}
 				}

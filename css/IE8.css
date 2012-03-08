@@ -6,10 +6,11 @@
 #input .tab-top,
 #animate,
 #animate .tab-bottom{
-background-color: #048;
+	background-color: #048;
 }
 
-#right,#loader.loading,#loader #loading,#rCanvas,#thermometer,#rPie,#rlum,#control{
+#right,#loader.loading,#loader #loading,#rCanvas,#thermometer,#rPie,#rlum,#rScales,#nav,#control{
+	background-color: black;
 	background: transparent;
 	-ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#7F000000,endColorstr=#7F000000)"; /* IE8 */
 	zoom: 1;
