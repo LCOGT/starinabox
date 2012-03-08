@@ -1,0 +1,49 @@
+#box-top-t {
+	position: absolute;
+	left: 0px;
+	top:0px;
+}
+#input {
+	position: absolute;
+	left: 30px;
+}
+#input .labels {
+	left: 20px;
+	width: 120px;
+}
+.ui-slider {
+	left: 20px;
+}
+#nav {
+	text-align: center;
+}
+#nav li {
+	display: inline;
+}
+#placeholder {
+	position: absolute;
+	left: 30px;
+	top: 26px;
+}
+#right,#loader.loading,#loader #loading,#rCanvas,#thermometer,#rPie,#rlum,#rScales,#nav,#control{
+	background-color: black;
+	background: transparent;
+	filter: progid:DXImageTransform.Microsoft.gradient(StartColorStr='#2F2F2F',EndColorStr='#0F0F0F', GradientType=1);
+	zoom: 1;
+}
+#controls { padding-left: 10px; }
+#controls a {
+	float: left; 
+	display: inline;
+}
+#speedcontrol {
+	float: right; 
+	display: inline;
+	padding: 8px;
+}
+#speedcontrol select {
+	margin: 0px;
+}
+#qLoverlay {
+
+}
