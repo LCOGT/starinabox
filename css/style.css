@@ -455,25 +455,16 @@ img.ff { background-position: -144px 0px!important; }
 #rPie { top: 1200px; }
 #rScales { top: 1600px; }
 
-#tevTime {
+#starMass, #tevTime {
 	position: absolute;
 	bottom: 44px;
-	right: 330px;
 	text-align:right;
 	z-index: 106;
-	color: #fff;
 	padding: 0px;
 }
+#tevTime { right: 330px; padding: 0px; }
+#starMass { left: 60px; }
 
-#starMass {
-	position: absolute;
-	bottom: 44px;
-	left: 60px;
-	text-align:right;
-	z-index: 106;
-	color: #fff;
-	padding: 0px;
-}
 #starMass .value {
 	font-size:2em;
 	font-weight: bold;

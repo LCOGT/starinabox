@@ -2,6 +2,7 @@
  *
  *	Star in a Box. Developed by Jon Yardley - October 2011
  *  Refactoring by Stuart Lowe - February 2012
+ *  Updating following school testing - September 2013
  *
  */
 
@@ -75,6 +76,7 @@ $(document).ready(function () {
 			'width': 600,
 			'height': 492,
 			'opts': {
+				'color': ($('#placeholder').length > 0 ? $('#placeholder').css('color') : "black"),
 				'grid': {
 					'color': "rgb(0,0,0)",
 					'opacity': 0.25,
@@ -83,6 +85,9 @@ $(document).ready(function () {
 						'color': "rgb(0,0,0)",
 						'opacity': 0.08,
 						'width': "0.5"
+					},
+					'label': {
+						'opacity' : 1
 					}
 				},
 				'xaxis': {
@@ -90,14 +95,14 @@ $(document).ready(function () {
 					'min': 3, // 3
 					'max': 5.85, // 6.4
 					'label': {
-						'color': "rgb(255,255,255)"
+						'opacity': 1
 					}
 				},
 				'yaxis': {
 					'min': -6.4, //-11
 					'max': 6.5, //8
 					'label': {
-						'color': "rgb(255,255,255)"
+						'opacity' : 1
 					}
 				}
 			},
@@ -779,7 +784,7 @@ $(document).ready(function () {
 		}
 		//if(!this.chart.border) this.chart.border = this.chart.holder.rect(0,0,this.chart.width,this.chart.height).attr({stroke:'rgba(0,0,0,0.2)'});
 		if(!this.chart.axes) this.chart.axes = this.chart.holder.rect(this.chart.offset.left,this.chart.offset.top,this.chart.offset.width,this.chart.offset.height).attr({stroke:'rgb(0,0,0)','stroke-opacity': 0.5,'stroke-width':2});
-		if(!this.chart.yLabel) this.chart.yLabel = this.chart.holder.text(this.chart.offset.left - 10, this.chart.offset.top+(this.chart.offset.height/2), "Brightness (Solar luminosities)").attr({fill: (this.chart.opts.yaxis.label.color ? this.chart.opts.yaxis.label.color : "black"),'font-size': '12px' }).rotate(270);
+		if(!this.chart.yLabel) this.chart.yLabel = this.chart.holder.text(this.chart.offset.left - 10, this.chart.offset.top+(this.chart.offset.height/2), "Brightness (Solar luminosities)").attr({fill: (this.chart.opts.yaxis.label.color ? this.chart.opts.yaxis.label.color : this.chart.opts.color),'fill-opacity': (this.chart.opts.yaxis.label.opacity ? this.chart.opts.yaxis.label.opacity : 1),'font-size': '12px' }).rotate(270);
 		if(!this.chart.sub){
 			v = [2,3,4,5,6,7,8,9]
 			this.chart.sub = []
@@ -795,8 +800,8 @@ $(document).ready(function () {
 				this.chart.yaxis.push(this.chart.holder.path("M"+p1[0]+","+p1[1]+"L"+p2[0]+","+p2[1]).attr({ stroke: this.chart.opts.grid.color,'stroke-opacity':this.chart.opts.grid.opacity,'stroke-width':(this.chart.opts.grid.width ? this.chart.opts.grid.width : 0.5)}));
 				this.chart.yaxis.push(this.chart.holder.text(p1[0]+5,p1[1],addCommas(Math.pow(10, i))).attr({
 					'text-anchor': 'start',
-					'fill': "rgb(0, 0, 0)",
-					'fill-opacity': 0.5,
+					'fill': (this.chart.opts.grid.label.color ? this.chart.opts.grid.label.color : this.chart.opts.color),
+					'fill-opacity': (this.chart.opts.grid.label.opacity ? this.chart.opts.grid.label.opacity : 0.5),
 					'font-size': '11px'
 				}));
 				for(var j = 0; j < this.chart.sub.length ; j++){
@@ -809,7 +814,7 @@ $(document).ready(function () {
 				}
 			}
 		}
-		if(!this.chart.xLabel) this.chart.xLabel = this.chart.holder.text(this.chart.offset.left+this.chart.offset.width/2, this.chart.height-this.chart.offset.bottom + 10, "Temperature (Kelvin)").attr({ fill: (this.chart.opts.xaxis.label.color ? this.chart.opts.xaxis.label.color : "black"),'font-size': '12px' });
+		if(!this.chart.xLabel) this.chart.xLabel = this.chart.holder.text(this.chart.offset.left+this.chart.offset.width/2, this.chart.height-this.chart.offset.bottom + 10, "Temperature (Kelvin)").attr({ fill: (this.chart.opts.xaxis.label.color ? this.chart.opts.xaxis.label.color : this.chart.opts.color), 'fill-opacity': (this.chart.opts.xaxis.label.opacity ? this.chart.opts.xaxis.label.opacity : 1),'font-size': '12px' });
 		if(!this.chart.xaxis){
 			this.chart.xaxis = this.chart.holder.set();
 			for (var i = Math.ceil(this.chart.opts.xaxis.min); i <= Math.floor(this.chart.opts.xaxis.max); i++) {
@@ -818,8 +823,8 @@ $(document).ready(function () {
 				this.chart.xaxis.push(this.chart.holder.path("M"+p1[0]+","+p1[1]+"L"+p2[0]+","+p2[1]).attr({ stroke: this.chart.opts.grid.color,'stroke-opacity':this.chart.opts.grid.opacity,'stroke-width':(this.chart.opts.grid.width ? this.chart.opts.grid.width : 0.5)}));
 				this.chart.xaxis.push(this.chart.holder.text(p1[0],p1[1]-10,addCommas(Math.pow(10, i))).attr({
 					'text-anchor': (i == Math.ceil(this.chart.opts.xaxis.min)) ? "end" : 'middle',
-					'fill': "rgb(0, 0, 0)",
-					'fill-opacity': 0.5,
+					'fill': (this.chart.opts.grid.label.color ? this.chart.opts.grid.label.color : this.chart.opts.color),
+					'fill-opacity': (this.chart.opts.grid.label.opacity ? this.chart.opts.grid.label.opacity : 0.5),
 					'font-size': '11px'
 				}));
 				for(var j = 0; j < this.chart.sub.length ; j++){
