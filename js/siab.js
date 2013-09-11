@@ -77,6 +77,10 @@ $(document).ready(function () {
 			'height': 492,
 			'opts': {
 				'color': ($('#placeholder').length > 0 ? $('#placeholder').css('color') : "black"),
+				'mainsequence' : {
+					'color' : "#3366dd",
+					'opacity' : 1
+				},
 				'grid': {
 					'color': "rgb(0,0,0)",
 					'opacity': 0.25,
@@ -775,8 +779,8 @@ $(document).ready(function () {
 			p2 = this.getPixPos(50000,Math.pow(10,m*this.log10(50000)-c));
 			mid = this.getPixPos(12000,Math.pow(10,m*this.log10(12000)-c));
 			this.chart.mainSequence = this.chart.holder.path("M"+p1[0]+","+p1[1]+"L"+p2[0]+","+p2[1]).attr({
-				stroke : "rgb(255, 0, 0)",
-				"stroke-opacity": 0.5,
+				stroke : this.chart.opts.mainsequence.color,
+				"stroke-opacity": this.chart.opts.mainsequence.opacity,
 				"stroke-width": 35,
 				"stroke-linecap" : "round"
 			});
