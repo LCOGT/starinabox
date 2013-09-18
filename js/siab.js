@@ -114,6 +114,21 @@ $(document).ready(function () {
 		}
 
 		this.chart.holder = Raphael("placeholder", this.chart.width, this.chart.height),
+
+		// Add mousemove event to show cursor position on HR diagram
+		$('#placeholder').on('mousemove',{me:this},function(e){
+			var off = $(this).offset();
+			var xy = e.data.me.getXYFromPix(e.pageX-off.left,e.pageY-off.top);
+			if($('#cursorPosition').length == 0){
+				$('#tevTime').before('<div id="cursorPosition" style="inline-block;"></div>');
+				e.data.me.cursorPosition = $('#cursorPosition');
+			}
+			if(typeof xy==="object"){
+				e.data.me.cursorPosition.html(Math.round(xy[0])+' K,'+xy[1]+' Solar luminosities');
+			}else{
+				e.data.me.cursorPosition.html('');
+			}
+		})
 		this.sizeComparison = {
 			// Raphael Script for star comparison
 			'paper': Raphael("rCanvas", 280, 390),
@@ -749,7 +764,16 @@ $(document).ready(function () {
 	StarInABox.prototype.log10 = function(v) {
 		return Math.log(v)/2.302585092994046;
 	}
-	StarInABox.prototype.getPixPos = function(x,y,type){
+	// Get the pixel positions for the given temperature and luminosity
+	// Inputs:
+	//   T - the temperature (Kelvin)
+	//   L - luminosity (Solar luminosities)
+	//   type - is this "log" or not
+	// Output:
+	//   [x,y]
+	StarInABox.prototype.getPixPos = function(T,L,type){
+		var x = T;
+		var y = L;
 		if(!type || type!="log"){
 			x = this.log10(x);
 			y = this.log10(y);
@@ -759,6 +783,35 @@ $(document).ready(function () {
 		if(y < this.chart.opts.yaxis.min) return [newx,-1];
 		else return [newx,this.chart.height-(this.chart.offset.bottom + this.chart.offset.height*((y-this.chart.opts.yaxis.min)/(this.chart.opts.yaxis.max-this.chart.opts.yaxis.min)))];
 	}
+
+	// Return the temperature and luminosity values for the xpx,y pixel positions
+	// Inputs:
+	//   x - the pixel position in the x-direction
+	//   y - the pixel position in the y-direction
+	//   type - is this "log" or not
+	// Output:
+	//   [T,L] - temperature (K) and luminosity (Solar luminosities)
+	StarInABox.prototype.getXYFromPix = function(x,y,type){
+
+		if(x < this.chart.offset.left || x > this.chart.offset.left+this.chart.offset.width) return;
+
+		var x = this.chart.opts.xaxis.max - (x - this.chart.offset.left)*(this.chart.opts.xaxis.max-this.chart.opts.xaxis.min)/this.chart.offset.width;
+		var y = this.chart.opts.yaxis.min - (this.chart.opts.yaxis.max-this.chart.opts.yaxis.min)*((y - this.chart.height + this.chart.offset.bottom)/this.chart.offset.height);
+
+		var T = x;
+		var L = y;
+		
+		if(!type || type!="log"){
+			T = Math.pow(10,x);
+			L = Math.pow(10,y);
+		}
+
+		if(y < this.chart.opts.yaxis.min) return;
+		if(y > this.chart.opts.yaxis.max) return;
+
+		return [T,L];
+	}
+
 	StarInABox.prototype.getChartOffset = function(){
 		if(typeof this.chart!="object") this.chart = {'offset':{}}
 		if(typeof this.chart.offset!="object") this.chart.offset = {}
