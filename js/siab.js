@@ -62,6 +62,9 @@ $(document).ready(function () {
 		this.urlquery = this.fullurl.substring(this.fullurl.indexOf('?')+1, this.fullurl.length).split('=');
 		this.initStarMass = (this.urlquery.length == 0 || this.urlquery[0] != 's') ? 1 : getNearestNumber(this.massVM, parseInt(this.urlquery[1]));
 
+		// Get font-size
+		this.fs = ($('#placeholder').css('font-size') ? parseInt($('#placeholder').css('font-size')) : 12);
+		
 		/**
 		 *	Set Chart variables
 		 **/
@@ -77,6 +80,7 @@ $(document).ready(function () {
 			'height': 492,
 			'opts': {
 				'color': ($('#placeholder').length > 0 ? $('#placeholder').css('color') : "black"),
+				'font-size' : this.fs+'px',
 				'mainsequence' : {
 					'color' : "#3366dd",
 					'opacity' : 1
@@ -100,14 +104,16 @@ $(document).ready(function () {
 					'max': 5.85, // 6.4
 					'label': {
 						'opacity': 1
-					}
+					},
+					'font-size' : Math.round(this.fs*0.9)+'px'
 				},
 				'yaxis': {
 					'min': -6.4, //-11
 					'max': 6.5, //8
 					'label': {
 						'opacity' : 1
-					}
+					},
+					'font-size' : Math.round(this.fs*0.9)+'px'
 				}
 			},
 			'holder': []
@@ -118,17 +124,43 @@ $(document).ready(function () {
 		// Add mousemove event to show cursor position on HR diagram
 		$('#placeholder').on('mousemove',{me:this},function(e){
 			var off = $(this).offset();
-			var xy = e.data.me.getXYFromPix(e.pageX-off.left,e.pageY-off.top);
-			if($('#cursorPosition').length == 0){
-				$('#tevTime').before('<div id="cursorPosition" style="inline-block;"></div>');
-				e.data.me.cursorPosition = $('#cursorPosition');
+			var x = e.pageX-off.left;
+			var y = e.pageY-off.top;
+			var xy = e.data.me.getXYFromPix(x,y);
+
+			// Draw a crosshair to show current cursor position
+			if(e.data.me.chart.crosshair){
+				e.data.me.chart.crosshair.remove();
+				e.data.me.chart.crosshair = "";
 			}
+			if(e.data.me.chart.ycursor){
+				e.data.me.chart.ycursor.remove();
+				e.data.me.chart.ycursor = "";
+			}
+			if(e.data.me.chart.ycursorbg){
+				e.data.me.chart.ycursorbg.remove();
+				e.data.me.chart.ycursorbg = "";
+			}
+			if(e.data.me.chart.xcursor){
+				e.data.me.chart.xcursor.remove();
+				e.data.me.chart.xcursor = "";
+			}
+			if(e.data.me.chart.xcursorbg){
+				e.data.me.chart.xcursorbg.remove();
+				e.data.me.chart.xcursorbg = "";
+			}
+
 			if(typeof xy==="object"){
-				e.data.me.cursorPosition.html(Math.round(xy[0])+' K,'+xy[1]+' Solar luminosities');
-			}else{
-				e.data.me.cursorPosition.html('');
+				e.data.me.chart.crosshair = e.data.me.chart.holder.path("M"+Math.max(x,e.data.me.chart.offset.left)+","+e.data.me.chart.offset.top+"L"+Math.max(x,e.data.me.chart.offset.left)+","+(e.data.me.chart.offset.top+e.data.me.chart.offset.height)+'M'+e.data.me.chart.offset.left+","+y+"L"+e.data.me.chart.offset.left+e.data.me.chart.offset.width+","+y).attr({'stroke':'#df0000'});
+				e.data.me.chart.ycursorbg = e.data.me.chart.holder.rect(e.data.me.chart.offset.left+0.5, y, 10, parseInt(e.data.me.chart.opts.yaxis['font-size'])+10);
+				e.data.me.chart.ycursor = e.data.me.chart.holder.text(e.data.me.chart.offset.left+5, y, (xy[1] < 100 ? xy[1].toPrecision(2) : Math.round(xy[1]))).attr({'text-anchor': 'start','fill': '#fff','font-size':e.data.me.chart.opts.yaxis['font-size']});
+				e.data.me.chart.ycursorbg.attr({'width':e.data.me.chart.ycursor.getBBox().width+10,'height':e.data.me.chart.ycursor.getBBox().height+10,'y':y-e.data.me.chart.ycursor.getBBox().height/2-5,'fill': '#df0000','border':'0px','stroke-width':0});
+				e.data.me.chart.xcursorbg = e.data.me.chart.holder.rect(x, e.data.me.chart.offset.top+e.data.me.chart.offset.height-parseInt(e.data.me.chart.opts.xaxis['font-size'])-10.5, 0, parseInt(e.data.me.chart.opts.xaxis['font-size'])+10);
+				e.data.me.chart.xcursor = e.data.me.chart.holder.text(x, e.data.me.chart.offset.top+e.data.me.chart.offset.height-10, Math.round(xy[0])).attr({'text-anchor': 'middle','fill': '#fff','font-size':e.data.me.chart.opts.xaxis['font-size']});
+				e.data.me.chart.xcursorbg.attr({'width':e.data.me.chart.xcursor.getBBox().width+10,'x':x-e.data.me.chart.xcursor.getBBox().width/2-5,'fill': '#df0000','border':'0px','stroke-width':0});
 			}
-		})
+		});
+		
 		this.sizeComparison = {
 			// Raphael Script for star comparison
 			'paper': Raphael("rCanvas", 280, 390),
@@ -837,11 +869,10 @@ $(document).ready(function () {
 				"stroke-width": 35,
 				"stroke-linecap" : "round"
 			});
-			this.chart.mainSequenceLabel = this.chart.holder.text(mid[0],mid[1],"Main Sequence").attr({ fill: "white",'font-size': '14px','text-anchor':'middle' }).rotate(Raphael.angle(p1[0],p1[1],p2[0],p2[1]));
+			this.chart.mainSequenceLabel = this.chart.holder.text(mid[0],mid[1],"Main Sequence").attr({ fill: "white",'font-size': this.chart.opts['font-size'],'text-anchor':'middle' }).rotate(Raphael.angle(p1[0],p1[1],p2[0],p2[1]));
 		}
-		//if(!this.chart.border) this.chart.border = this.chart.holder.rect(0,0,this.chart.width,this.chart.height).attr({stroke:'rgba(0,0,0,0.2)'});
 		if(!this.chart.axes) this.chart.axes = this.chart.holder.rect(this.chart.offset.left,this.chart.offset.top,this.chart.offset.width,this.chart.offset.height).attr({stroke:'rgb(0,0,0)','stroke-opacity': 0.5,'stroke-width':2});
-		if(!this.chart.yLabel) this.chart.yLabel = this.chart.holder.text(this.chart.offset.left - 10, this.chart.offset.top+(this.chart.offset.height/2), "Brightness (Solar luminosities)").attr({fill: (this.chart.opts.yaxis.label.color ? this.chart.opts.yaxis.label.color : this.chart.opts.color),'fill-opacity': (this.chart.opts.yaxis.label.opacity ? this.chart.opts.yaxis.label.opacity : 1),'font-size': '12px' }).rotate(270);
+		if(!this.chart.yLabel) this.chart.yLabel = this.chart.holder.text(this.chart.offset.left - 10, this.chart.offset.top+(this.chart.offset.height/2), "Brightness (Solar luminosities)").attr({fill: (this.chart.opts.yaxis.label.color ? this.chart.opts.yaxis.label.color : this.chart.opts.color),'fill-opacity': (this.chart.opts.yaxis.label.opacity ? this.chart.opts.yaxis.label.opacity : 1),'font-size': this.chart.opts['font-size'] }).rotate(270);
 		if(!this.chart.sub){
 			v = [2,3,4,5,6,7,8,9]
 			this.chart.sub = []
@@ -859,7 +890,7 @@ $(document).ready(function () {
 					'text-anchor': 'start',
 					'fill': (this.chart.opts.grid.label.color ? this.chart.opts.grid.label.color : this.chart.opts.color),
 					'fill-opacity': (this.chart.opts.grid.label.opacity ? this.chart.opts.grid.label.opacity : 0.5),
-					'font-size': '11px'
+					'font-size': this.chart.opts.yaxis['font-size']
 				}));
 				for(var j = 0; j < this.chart.sub.length ; j++){
 					if(i+this.chart.sub[j] < this.chart.opts.yaxis.max){
@@ -871,7 +902,7 @@ $(document).ready(function () {
 				}
 			}
 		}
-		if(!this.chart.xLabel) this.chart.xLabel = this.chart.holder.text(this.chart.offset.left+this.chart.offset.width/2, this.chart.height-this.chart.offset.bottom + 10, "Temperature (Kelvin)").attr({ fill: (this.chart.opts.xaxis.label.color ? this.chart.opts.xaxis.label.color : this.chart.opts.color), 'fill-opacity': (this.chart.opts.xaxis.label.opacity ? this.chart.opts.xaxis.label.opacity : 1),'font-size': '12px' });
+		if(!this.chart.xLabel) this.chart.xLabel = this.chart.holder.text(this.chart.offset.left+this.chart.offset.width/2, this.chart.height-this.chart.offset.bottom + 10, "Temperature (Kelvin)").attr({ fill: (this.chart.opts.xaxis.label.color ? this.chart.opts.xaxis.label.color : this.chart.opts.color), 'fill-opacity': (this.chart.opts.xaxis.label.opacity ? this.chart.opts.xaxis.label.opacity : 1),'font-size': this.chart.opts['font-size'] });
 		if(!this.chart.xaxis){
 			this.chart.xaxis = this.chart.holder.set();
 			for (var i = Math.ceil(this.chart.opts.xaxis.min); i <= Math.floor(this.chart.opts.xaxis.max); i++) {
@@ -882,7 +913,7 @@ $(document).ready(function () {
 					'text-anchor': (i == Math.ceil(this.chart.opts.xaxis.min)) ? "end" : 'middle',
 					'fill': (this.chart.opts.grid.label.color ? this.chart.opts.grid.label.color : this.chart.opts.color),
 					'fill-opacity': (this.chart.opts.grid.label.opacity ? this.chart.opts.grid.label.opacity : 0.5),
-					'font-size': '11px'
+					'font-size' : this.chart.opts.xaxis['font-size'],
 				}));
 				for(var j = 0; j < this.chart.sub.length ; j++){
 					if(i+this.chart.sub[j] < this.chart.opts.xaxis.max){
