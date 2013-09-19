@@ -151,7 +151,7 @@ $(document).ready(function () {
 			}
 
 			if(typeof xy==="object"){
-				e.data.me.chart.crosshair = e.data.me.chart.holder.path("M"+Math.max(x,e.data.me.chart.offset.left)+","+e.data.me.chart.offset.top+"L"+Math.max(x,e.data.me.chart.offset.left)+","+(e.data.me.chart.offset.top+e.data.me.chart.offset.height)+'M'+e.data.me.chart.offset.left+","+y+"L"+e.data.me.chart.offset.left+e.data.me.chart.offset.width+","+y).attr({'stroke':'#df0000'});
+				e.data.me.chart.crosshair = e.data.me.chart.holder.path("M"+Math.max(x,e.data.me.chart.offset.left)+","+e.data.me.chart.offset.top+"L"+Math.max(x,e.data.me.chart.offset.left)+","+(e.data.me.chart.offset.top+e.data.me.chart.offset.height)+'M'+e.data.me.chart.offset.left+","+(y-0.5)+"L"+(e.data.me.chart.offset.left+e.data.me.chart.offset.width)+","+(y-0.5)).attr({'stroke':'#df0000'});
 				e.data.me.chart.ycursorbg = e.data.me.chart.holder.rect(e.data.me.chart.offset.left+0.5, y, 10, parseInt(e.data.me.chart.opts.yaxis['font-size'])+10);
 				e.data.me.chart.ycursor = e.data.me.chart.holder.text(e.data.me.chart.offset.left+5, y, (xy[1] < 100 ? xy[1].toPrecision(2) : Math.round(xy[1]))).attr({'text-anchor': 'start','fill': '#fff','font-size':e.data.me.chart.opts.yaxis['font-size']});
 				e.data.me.chart.ycursorbg.attr({'width':e.data.me.chart.ycursor.getBBox().width+10,'height':e.data.me.chart.ycursor.getBBox().height+10,'y':y-e.data.me.chart.ycursor.getBBox().height/2-5,'fill': '#df0000','border':'0px','stroke-width':0});
