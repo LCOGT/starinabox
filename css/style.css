@@ -607,7 +607,7 @@ a#animateEvolveReset:active {
 	top:45px;
 	right:335px;
 	color: #000;
-	width: 400px;
+	width: auto;
 	text-align: right;
 }
 

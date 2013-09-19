@@ -126,39 +126,11 @@ $(document).ready(function () {
 			var off = $(this).offset();
 			var x = e.pageX-off.left;
 			var y = e.pageY-off.top;
-			var xy = e.data.me.getXYFromPix(x,y);
 
-			// Draw a crosshair to show current cursor position
-			if(e.data.me.chart.crosshair){
-				e.data.me.chart.crosshair.remove();
-				e.data.me.chart.crosshair = "";
-			}
-			if(e.data.me.chart.ycursor){
-				e.data.me.chart.ycursor.remove();
-				e.data.me.chart.ycursor = "";
-			}
-			if(e.data.me.chart.ycursorbg){
-				e.data.me.chart.ycursorbg.remove();
-				e.data.me.chart.ycursorbg = "";
-			}
-			if(e.data.me.chart.xcursor){
-				e.data.me.chart.xcursor.remove();
-				e.data.me.chart.xcursor = "";
-			}
-			if(e.data.me.chart.xcursorbg){
-				e.data.me.chart.xcursorbg.remove();
-				e.data.me.chart.xcursorbg = "";
-			}
-
-			if(typeof xy==="object"){
-				e.data.me.chart.crosshair = e.data.me.chart.holder.path("M"+Math.max(x,e.data.me.chart.offset.left)+","+e.data.me.chart.offset.top+"L"+Math.max(x,e.data.me.chart.offset.left)+","+(e.data.me.chart.offset.top+e.data.me.chart.offset.height)+'M'+e.data.me.chart.offset.left+","+(y-0.5)+"L"+(e.data.me.chart.offset.left+e.data.me.chart.offset.width)+","+(y-0.5)).attr({'stroke':'#df0000'});
-				e.data.me.chart.ycursorbg = e.data.me.chart.holder.rect(e.data.me.chart.offset.left+0.5, y, 10, parseInt(e.data.me.chart.opts.yaxis['font-size'])+10);
-				e.data.me.chart.ycursor = e.data.me.chart.holder.text(e.data.me.chart.offset.left+5, y, (xy[1] < 100 ? xy[1].toPrecision(2) : Math.round(xy[1]))).attr({'text-anchor': 'start','fill': '#fff','font-size':e.data.me.chart.opts.yaxis['font-size']});
-				e.data.me.chart.ycursorbg.attr({'width':e.data.me.chart.ycursor.getBBox().width+10,'height':e.data.me.chart.ycursor.getBBox().height+10,'y':y-e.data.me.chart.ycursor.getBBox().height/2-5,'fill': '#df0000','border':'0px','stroke-width':0});
-				e.data.me.chart.xcursorbg = e.data.me.chart.holder.rect(x, e.data.me.chart.offset.top+e.data.me.chart.offset.height-parseInt(e.data.me.chart.opts.xaxis['font-size'])-10.5, 0, parseInt(e.data.me.chart.opts.xaxis['font-size'])+10);
-				e.data.me.chart.xcursor = e.data.me.chart.holder.text(x, e.data.me.chart.offset.top+e.data.me.chart.offset.height-parseInt(e.data.me.chart.opts.xaxis['font-size']), Math.round(xy[0])).attr({'text-anchor': 'middle','fill': '#fff','font-size':e.data.me.chart.opts.xaxis['font-size']});
-				e.data.me.chart.xcursorbg.attr({'width':e.data.me.chart.xcursor.getBBox().width+10,'x':x-e.data.me.chart.xcursor.getBBox().width/2-5,'fill': '#df0000','border':'0px','stroke-width':0});
-			}
+			e.data.me.removeCrosshair();
+			e.data.me.drawCrosshair(x,y);
+		}).on('mouseleave',{me:this},function(e){
+			e.data.me.removeCrosshair();
 		});
 		
 		this.sizeComparison = {
@@ -193,6 +165,51 @@ $(document).ready(function () {
 
 
 	}
+
+	StarInABox.prototype.removeCrosshair = function(){
+
+		// Draw a crosshair to show current cursor position
+		if(this.chart.crosshair){
+			this.chart.crosshair.remove();
+			this.chart.crosshair = "";
+		}
+		if(this.chart.ycursor){
+			this.chart.ycursor.remove();
+			this.chart.ycursor = "";
+		}
+		if(this.chart.ycursorbg){
+			this.chart.ycursorbg.remove();
+			this.chart.ycursorbg = "";
+		}
+		if(this.chart.xcursor){
+			this.chart.xcursor.remove();
+			this.chart.xcursor = "";
+		}
+		if(this.chart.xcursorbg){
+			this.chart.xcursorbg.remove();
+			this.chart.xcursorbg = "";
+		}
+		return this;
+	}
+
+	// Draw a crosshair to show current cursor position
+	StarInABox.prototype.drawCrosshair = function(x,y){
+
+		var xy = this.getXYFromPix(x,y);
+
+		if(typeof xy==="object"){
+			this.chart.crosshair = this.chart.holder.path("M"+Math.max(x,this.chart.offset.left)+","+this.chart.offset.top+"L"+Math.max(x,this.chart.offset.left)+","+(this.chart.offset.top+this.chart.offset.height)+'M'+this.chart.offset.left+","+(y-0.5)+"L"+(this.chart.offset.left+this.chart.offset.width)+","+(y-0.5)).attr({'stroke':'#df0000'});
+			this.chart.ycursorbg = this.chart.holder.rect(this.chart.offset.left+0.5, y, 10, parseInt(this.chart.opts.yaxis['font-size'])+10);
+			this.chart.ycursor = this.chart.holder.text(this.chart.offset.left+5, y, (xy[1] < 100 ? xy[1].toPrecision(2) : Math.round(xy[1]))).attr({'text-anchor': 'start','fill': '#fff','font-size':this.chart.opts.yaxis['font-size']});
+			this.chart.ycursorbg.attr({'width':this.chart.ycursor.getBBox().width+10,'height':this.chart.ycursor.getBBox().height+10,'y':y-this.chart.ycursor.getBBox().height/2-5,'fill': '#df0000','border':'0px','stroke-width':0});
+			this.chart.xcursorbg = this.chart.holder.rect(x, this.chart.offset.top+this.chart.offset.height-parseInt(this.chart.opts.xaxis['font-size'])-10.5, 0, parseInt(this.chart.opts.xaxis['font-size'])+10);
+			this.chart.xcursor = this.chart.holder.text(x, this.chart.offset.top+this.chart.offset.height-parseInt(this.chart.opts.xaxis['font-size']), Math.round(xy[0])).attr({'text-anchor': 'middle','fill': '#fff','font-size':this.chart.opts.xaxis['font-size']});
+			this.chart.xcursorbg.attr({'width':this.chart.xcursor.getBBox().width+10,'x':x-this.chart.xcursor.getBBox().width/2-5,'fill': '#df0000','border':'0px','stroke-width':0});
+		}
+
+		return this;
+	}
+
 	StarInABox.prototype.findMassIndex = function(mass){
 		for(var i = 0; i < this.massVM.length; i++){
 			if(mass == this.massVM[i]) return i;
@@ -826,6 +843,7 @@ $(document).ready(function () {
 	StarInABox.prototype.getXYFromPix = function(x,y,type){
 
 		if(x < this.chart.offset.left || x > this.chart.offset.left+this.chart.offset.width) return;
+		if(y < this.chart.offset.top || y > this.chart.offset.top+this.chart.offset.height) return;
 
 		var x = this.chart.opts.xaxis.max - (x - this.chart.offset.left)*(this.chart.opts.xaxis.max-this.chart.opts.xaxis.min)/this.chart.offset.width;
 		var y = this.chart.opts.yaxis.min - (this.chart.opts.yaxis.max-this.chart.opts.yaxis.min)*((y - this.chart.height + this.chart.offset.bottom)/this.chart.offset.height);
@@ -837,9 +855,6 @@ $(document).ready(function () {
 			T = Math.pow(10,x);
 			L = Math.pow(10,y);
 		}
-
-		if(y < this.chart.opts.yaxis.min) return;
-		if(y > this.chart.opts.yaxis.max) return;
 
 		return [T,L];
 	}
