@@ -245,8 +245,13 @@ $(document).ready(function () {
 			if(code==32) box.play();
 			else if(code == 37 /* left */){ box.animateStep(-1); }
 			else if(code == 39 /* right */){ box.animateStep(1); }
-			else if(code == 38 /* up */){ e.preventDefault(); box.slidePanel(-1); }
-			else if(code == 40 /* down */){ e.preventDefault(); box.slidePanel(1); }
+			if(c == '-'){ e.preventDefault(); box.slidePanelBy(-1); }
+			if(c == '='){ e.preventDefault(); box.slidePanelBy(1); }
+			if(c == '1'){ e.preventDefault(); box.slidePanel(0); }
+			if(c == '2'){ e.preventDefault(); box.slidePanel(1); }
+			if(c == '3'){ e.preventDefault(); box.slidePanel(2); }
+			if(c == '4'){ e.preventDefault(); box.slidePanel(3); }
+			if(c == '5'){ e.preventDefault(); box.slidePanel(4); }
 			if(c == 'w'){ box.supernovaWarning(); }
 			if(c == 's'){ box.supernova(); }
 			if(c == 'l'){ box.toggleLid(); }
@@ -378,6 +383,10 @@ $(document).ready(function () {
 			e.data.box.animateStep(+1);
 		});
 
+		$("#evolveSpeed").on('change',{box:this},function(e){
+			e.data.box.changeSpeed($(this).find("option:selected").attr("value"));
+		});
+		 
 		//show summary
 		$('#summary').click({box:this},function (e) {
 			$('#welcome').removeClass('help').addClass('summary');
@@ -416,6 +425,7 @@ $(document).ready(function () {
 			$("a.control_play img.pause").removeClass('pause').addClass('play');
 			this.animating = false;
 		}else{
+			clearInterval(this.eAnim);
 			this.animating = true;
 			this.closeAnimatePanel();
 			if(this.inputopen) this.toggleInputPanel();
@@ -429,7 +439,12 @@ $(document).ready(function () {
 			this.eAnim = setInterval(function () { _obj.animateStep(1,_obj.reduction); }, this.duration);
 			$("a.control_play img.play").removeClass('play').addClass('pause');
 		}
-		return false;
+		return this;
+	}
+	StarInABox.prototype.changeSpeed = function(d){
+		this.duration = d;
+		// If we are already animating we need to pause and start the animation again
+		if(this.animating) this.play().play()
 	}
 	StarInABox.prototype.animateStep = function(delta,reduction){
 		duration = this.duration;
@@ -496,16 +511,21 @@ $(document).ready(function () {
 		else this.thermoLabel1.attr('text','60,000 '+this.lang.tempunit)
 
 	}
-	StarInABox.prototype.slidePanel = function(p){
+	StarInABox.prototype.slidePanelBy = function(p){
 
 		var selected = 0;
-		var items = $('#nav .item');
+		
 		// Get currently selected panel
-		items.each(function(i){
+		$('#nav .item').each(function(i){
 			if($(this).hasClass('active')) selected = i;
 		});
 
-		p = selected + p;
+		return this.slidePanel(selected + p);
+	}
+	StarInABox.prototype.slidePanel = function(p){
+
+		var items = $('#nav .item');
+
 		if(p >= items.length) p = items.length-1;
 		if(p < 0) p = 0;
 
@@ -518,6 +538,7 @@ $(document).ready(function () {
 		sliderID = p+1;
 		$("#slide").css({top:-((sliderID-1)*400)+"px"});
 
+		return this;
 	}
 	StarInABox.prototype.slideMassTo = function(p){
 		clearInterval(this.eAnim);
