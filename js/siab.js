@@ -789,7 +789,7 @@ $(document).ready(function () {
 		// Draw left-hand button
 		this.stopwatchleft = this.rStopwatch.set();
 		this.stopwatchleft.push(this.rStopwatch.rect(this.stopwatch.x-this.stopwatch.w*0.6,this.stopwatch.y-this.stopwatch.r-this.stopwatch.h2*2,this.stopwatch.w*1.2,this.stopwatch.h2*2).attr({'fill':'0-#999-#b3b3b3-#ccc-#b3b3b3-#ccc-#999','stroke-width':0}).transform('r-40,'+this.stopwatch.x+','+this.stopwatch.y));
-		this.stopwatchleft.push(this.rStopwatch.rect(this.stopwatch.x-this.stopwatch.w,this.stopwatch.y-this.stopwatch.r-this.stopwatch.h-this.stopwatch.h2*2,this.stopwatch.w*2,this.stopwatch.h*2).attr({'fill':'0-#b3b3b3-#ccc-#e6e6e6-#ccc-#e6e6e6-#b3b3b3','stroke-width':0,'cursor':'pointer'}).transform('r-40,'+this.stopwatch.x+','+this.stopwatch.y));
+		this.stopwatchleft.push(this.rStopwatch.rect(this.stopwatch.x-this.stopwatch.w,this.stopwatch.y-this.stopwatch.r-this.stopwatch.h-this.stopwatch.h2*2,this.stopwatch.w*2,this.stopwatch.h*2).attr({'fill':'0-#b3b3b3-#ccc-#e6e6e6-#ccc-#e6e6e6-#b3b3b3','stroke-width':0,'cursor':'pointer','title':'Reset'}).transform('r-40,'+this.stopwatch.x+','+this.stopwatch.y));
 		var _obj = this;
 		this.stopwatchleft.click(function(e){
 			_obj.reset();
@@ -798,7 +798,7 @@ $(document).ready(function () {
 		// Draw right-hand button
 		this.stopwatchright = this.rStopwatch.set();
 		this.stopwatchright.push(this.rStopwatch.rect(this.stopwatch.x-this.stopwatch.w*0.6,this.stopwatch.y-this.stopwatch.r-this.stopwatch.h2*2,this.stopwatch.w*1.2,this.stopwatch.h2*2).attr({'fill':'0-#999-#b3b3b3-#ccc-#b3b3b3-#ccc-#999','stroke-width':0}).transform('r40,'+this.stopwatch.x+','+this.stopwatch.y));
-		this.stopwatchright.push(this.rStopwatch.rect(this.stopwatch.x-this.stopwatch.w,this.stopwatch.y-this.stopwatch.r-this.stopwatch.h-this.stopwatch.h2*2,this.stopwatch.w*2,this.stopwatch.h*2).attr({'fill':'0-#b3b3b3-#ccc-#e6e6e6-#ccc-#e6e6e6-#b3b3b3','stroke-width':0,'cursor':'pointer'}).transform('r40,'+this.stopwatch.x+','+this.stopwatch.y));
+		this.stopwatchright.push(this.rStopwatch.rect(this.stopwatch.x-this.stopwatch.w,this.stopwatch.y-this.stopwatch.r-this.stopwatch.h-this.stopwatch.h2*2,this.stopwatch.w*2,this.stopwatch.h*2).attr({'fill':'0-#b3b3b3-#ccc-#e6e6e6-#ccc-#e6e6e6-#b3b3b3','stroke-width':0,'cursor':'pointer','title':'Play/Stop'}).transform('r40,'+this.stopwatch.x+','+this.stopwatch.y));
 		this.stopwatchright.click(function(e){
 			_obj.play();
 		});
@@ -813,6 +813,7 @@ $(document).ready(function () {
 		this.pie = this.rStopwatch.piechart(this.stopwatch.x,this.stopwatch.y,this.stopwatch.r*this.stopwatch.frac,{values:this.stopwatchData,labels:this.stopwatchLegend},{'colours':[this.chart.opts.mainsequence['background-color'],'#009d00','#df0000','#7ea0ee','#d6ccff','#ffcccc','#fff5cc','#ccffcc']},this);
 
 		var d = new Date();
+
 		// Draw label
 		this.dial.push(this.rStopwatch.text(this.stopwatch.x,this.stopwatch.y+this.stopwatch.r*0.3,"LCOGT").attr({'stroke-width':0,'fill':this.chart.opts.color,'text-anchor':'middle','font-style':'italic','font-family':'Times','font-size':'10px'}));
 		this.dial.push(this.rStopwatch.text(this.stopwatch.x,this.stopwatch.y+this.stopwatch.r*0.4,"CHRONOGRAPH").attr({'stroke-width':0,'fill':this.chart.opts.color,'text-anchor':'middle','font-style':'italic','font-family':'Times','font-size':'6px'}));
@@ -1278,14 +1279,18 @@ $(document).ready(function () {
 
 			pie[i] = this.set();
 			// Add the pie segment
-			pie.push(this.path("M "+x+" "+y+" L "+x1+" "+y1+" A "+radius+","+radius+" 0 "+((b-a >= Math.PI) ? 1 : 0)+" 1 "+x2+","+y2+" z").attr({stroke:c.stroke,fill:c.fill,'stroke-width':0}).mouseover(function(){
-					this.transform('s1.05,1.05,'+x+','+y);
+			pie.push(this.path("M "+x+" "+y+" L "+x1+" "+y1+" A "+radius+","+radius+" 0 "+((b-a >= Math.PI) ? 1 : 0)+" 1 "+x2+","+y2+" z").attr({stroke:c.stroke,fill:c.fill,'stroke-width':0}).data('i',i+1).data('box',box).mouseover(function(){
+					//this.transform('s1.05,1.05,'+x+','+y);
+					this.attr({'opacity':0.7});
 					this.next.transform('s1.2');	// key
 					this.next.next.attr({'font-weight':'bold'});	// key label
 				}).mouseout(function(){
-					this.transform('s1,1');
+					//this.transform('s1,1');
+					this.attr({'opacity':1});
 					this.next.transform('s1');	// key
 					this.next.next.attr({'font-weight':'normal'});	// key label
+				}).click(function(e){
+					this.data('box').resetStage.call(this.data('box'),this.data('i'))				
 				})
 			);
 			// Add the key box
