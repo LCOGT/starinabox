@@ -245,6 +245,8 @@ $(document).ready(function () {
 			if(code==32) box.play();
 			else if(code == 37 /* left */){ box.animateStep(-1); }
 			else if(code == 39 /* right */){ box.animateStep(1); }
+			else if(code == 38 /* up */){ e.preventDefault(); box.slidePanel(-1); }
+			else if(code == 40 /* down */){ e.preventDefault(); box.slidePanel(1); }
 			if(c == 'w'){ box.supernovaWarning(); }
 			if(c == 's'){ box.supernova(); }
 			if(c == 'l'){ box.toggleLid(); }
@@ -263,6 +265,7 @@ $(document).ready(function () {
 				$("#slide").css({top:-((sliderID-1)*400)+"px"});
 			}
 		});
+		
 		$("#right .info").click(function(){
 			var clickedI = $(this);
 			var clickedC = $(clickedI).siblings(".caption");
@@ -491,6 +494,29 @@ $(document).ready(function () {
 		this.thermoTemp.transform("s1,"+s+",0,343");
 		if(temp > 60000) this.thermoLabel1.attr('text',addCommas(temp)+' '+this.lang.tempunit)
 		else this.thermoLabel1.attr('text','60,000 '+this.lang.tempunit)
+
+	}
+	StarInABox.prototype.slidePanel = function(p){
+
+		var selected = 0;
+		var items = $('#nav .item');
+		// Get currently selected panel
+		items.each(function(i){
+			if($(this).hasClass('active')) selected = i;
+		});
+
+		p = selected + p;
+		if(p >= items.length) p = items.length-1;
+		if(p < 0) p = 0;
+
+		// Remove the active class from all panels
+		items.removeClass('active');
+		
+		// Make the requested panel the active one
+		items.eq(p).addClass('active');
+		
+		sliderID = p+1;
+		$("#slide").css({top:-((sliderID-1)*400)+"px"});
 
 	}
 	StarInABox.prototype.slideMassTo = function(p){
