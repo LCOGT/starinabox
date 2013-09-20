@@ -1278,7 +1278,7 @@ $(document).ready(function () {
 			);
 			// Add the key box
 			pie.push(
-				this.rect(x-radius+keysize/2,yoff+(i*yspace)-keysize/2,keysize,keysize).attr({cursor:'pointer',stroke:c.stroke,fill:c.fill,'stroke-width':1.2}).data('i',i+1).data('box',box).click(function(e){
+				this.rect(x-radius+Math.round(keysize/2)-0.5,yoff+(i*yspace)-Math.round(keysize/2)-0.5,keysize,keysize).attr({cursor:'pointer',stroke:c.stroke,fill:c.fill,'stroke-width':1.25}).data('i',i+1).data('box',box).click(function(e){
 					this.data('box').resetStage.call(this.data('box'),this.data('i'))
 				}).mouseover(function(){
 					this.transform('s1.2');	// key box
