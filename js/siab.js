@@ -773,18 +773,34 @@ $(document).ready(function () {
 		}
 		//raphael script for stopwatch chart...
 		if ($("#rStopwatch #stopwatch").length > 0) $("#rStopwatch #stopwatch").remove();
-		this.stopwatch = { x: 140, y: 140, r: 100, w: 12, h: 10, w2: 10, h2: 8, frac: 0.8 };
+		this.stopwatch = { x: 140, y: 160, r: 100, w: 15, h: 8, w2: 12, h2: 8, frac: 0.8 };
 		this.rStopwatch = Raphael("rStopwatch");
 		this.dial = this.rStopwatch.set();
+
+		// Draw top keyring
+		this.dial.push(this.rStopwatch.circle(this.stopwatch.x,this.stopwatch.y-this.stopwatch.r-this.stopwatch.h2*3.5,this.stopwatch.h2*3).attr({'stroke-width':3,'stroke':'#b3b3b3'}));
+
 		// Draw top button
 		this.dial.push(this.rStopwatch.rect(this.stopwatch.x-this.stopwatch.w2*0.6,this.stopwatch.y-this.stopwatch.r-this.stopwatch.h2*2,this.stopwatch.w2*1.2,this.stopwatch.h2*2).attr({'fill':'0-#999-#b3b3b3-#ccc-#b3b3b3-#ccc-#999','stroke-width':0}));
-		this.dial.push(this.rStopwatch.rect(this.stopwatch.x-this.stopwatch.w2,this.stopwatch.y-this.stopwatch.r-this.stopwatch.h-this.stopwatch.h2*2,this.stopwatch.w2*2,this.stopwatch.h2*2).attr({'fill':'0-#b3b3b3-#ccc-#e6e6e6-#ccc-#e6e6e6-#b3b3b3','stroke-width':0}));
-		// Draw right-hand button
-		this.dial.push(this.rStopwatch.rect(this.stopwatch.x-this.stopwatch.w2*0.6,this.stopwatch.y-this.stopwatch.r-this.stopwatch.h2*2,this.stopwatch.w2*1.2,this.stopwatch.h2*2).attr({'fill':'0-#999-#b3b3b3-#ccc-#b3b3b3-#ccc-#999','stroke-width':0}).transform('r40,'+this.stopwatch.x+','+this.stopwatch.y));
-		this.dial.push(this.rStopwatch.rect(this.stopwatch.x-this.stopwatch.w,this.stopwatch.y-this.stopwatch.r-this.stopwatch.h-this.stopwatch.h2*2,this.stopwatch.w*2,this.stopwatch.h*2).attr({'fill':'0-#b3b3b3-#ccc-#e6e6e6-#ccc-#e6e6e6-#b3b3b3','stroke-width':0}).transform('r40,'+this.stopwatch.x+','+this.stopwatch.y));
+		this.dial.push(this.rStopwatch.rect(this.stopwatch.x-this.stopwatch.w2,this.stopwatch.y-this.stopwatch.r-this.stopwatch.h2*3.5,this.stopwatch.w2*2,this.stopwatch.h2*2).attr({'fill':'0-#b3b3b3-#ccc-#e6e6e6-#ccc-#e6e6e6-#b3b3b3','stroke-width':0}));
+
 		// Draw left-hand button
-		this.dial.push(this.rStopwatch.rect(this.stopwatch.x-this.stopwatch.w2*0.6,this.stopwatch.y-this.stopwatch.r-this.stopwatch.h2*2,this.stopwatch.w2*1.2,this.stopwatch.h2*2).attr({'fill':'0-#999-#b3b3b3-#ccc-#b3b3b3-#ccc-#999','stroke-width':0}).transform('r-40,'+this.stopwatch.x+','+this.stopwatch.y));
-		this.dial.push(this.rStopwatch.rect(this.stopwatch.x-this.stopwatch.w,this.stopwatch.y-this.stopwatch.r-this.stopwatch.h-this.stopwatch.h2*2,this.stopwatch.w*2,this.stopwatch.h*2).attr({'fill':'0-#b3b3b3-#ccc-#e6e6e6-#ccc-#e6e6e6-#b3b3b3','stroke-width':0}).transform('r-40,'+this.stopwatch.x+','+this.stopwatch.y));
+		this.stopwatchleft = this.rStopwatch.set();
+		this.stopwatchleft.push(this.rStopwatch.rect(this.stopwatch.x-this.stopwatch.w*0.6,this.stopwatch.y-this.stopwatch.r-this.stopwatch.h2*2,this.stopwatch.w*1.2,this.stopwatch.h2*2).attr({'fill':'0-#999-#b3b3b3-#ccc-#b3b3b3-#ccc-#999','stroke-width':0}).transform('r-40,'+this.stopwatch.x+','+this.stopwatch.y));
+		this.stopwatchleft.push(this.rStopwatch.rect(this.stopwatch.x-this.stopwatch.w,this.stopwatch.y-this.stopwatch.r-this.stopwatch.h-this.stopwatch.h2*2,this.stopwatch.w*2,this.stopwatch.h*2).attr({'fill':'0-#b3b3b3-#ccc-#e6e6e6-#ccc-#e6e6e6-#b3b3b3','stroke-width':0,'cursor':'pointer'}).transform('r-40,'+this.stopwatch.x+','+this.stopwatch.y));
+		var _obj = this;
+		this.stopwatchleft.click(function(e){
+			_obj.reset();
+		});
+		
+		// Draw right-hand button
+		this.stopwatchright = this.rStopwatch.set();
+		this.stopwatchright.push(this.rStopwatch.rect(this.stopwatch.x-this.stopwatch.w*0.6,this.stopwatch.y-this.stopwatch.r-this.stopwatch.h2*2,this.stopwatch.w*1.2,this.stopwatch.h2*2).attr({'fill':'0-#999-#b3b3b3-#ccc-#b3b3b3-#ccc-#999','stroke-width':0}).transform('r40,'+this.stopwatch.x+','+this.stopwatch.y));
+		this.stopwatchright.push(this.rStopwatch.rect(this.stopwatch.x-this.stopwatch.w,this.stopwatch.y-this.stopwatch.r-this.stopwatch.h-this.stopwatch.h2*2,this.stopwatch.w*2,this.stopwatch.h*2).attr({'fill':'0-#b3b3b3-#ccc-#e6e6e6-#ccc-#e6e6e6-#b3b3b3','stroke-width':0,'cursor':'pointer'}).transform('r40,'+this.stopwatch.x+','+this.stopwatch.y));
+		this.stopwatchright.click(function(e){
+			_obj.play();
+		});
+
 		// Draw case
 		this.dial.push(this.rStopwatch.circle(this.stopwatch.x,this.stopwatch.y,this.stopwatch.r).attr({'stroke-width':0,'fill':'300-#fff-#ccc-#fff'}));
 		this.dial.push(this.rStopwatch.circle(this.stopwatch.x,this.stopwatch.y,this.stopwatch.r*0.89).attr({'stroke-width':0,'fill':'300-#999-#303030-#999'}));
@@ -1233,7 +1249,7 @@ $(document).ready(function () {
 		for (var i = 0; i < n; i++) total += d.values[i];
 		// Create each segment
 		var keysize = 12;			// Size of the key boxes in pixels
-		var yoff = y + radius*(1.6);
+		var yoff = y + radius*(1.5);
 		var yspace = Math.floor(keysize*1.4);
 		var pie = Array(n);
 		var f = attr.colours;
