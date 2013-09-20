@@ -356,9 +356,9 @@ body {
 #nav #therm { background: url(images/buttons.png) no-repeat 0px }
 #nav #therm:hover { background: url(images/buttons_hover.png) no-repeat 0px }
 #nav #therm.active { background: url(images/buttons_active.png) no-repeat 0px }
-#nav #pie { background: url(images/buttons.png) no-repeat -36px }
-#nav #pie:hover { background: url(images/buttons_hover.png) no-repeat -36px }
-#nav #pie.active { background: url(images/buttons_active.png) no-repeat -36px }
+#nav #stopwatch { background: url(images/buttons.png) no-repeat -36px }
+#nav #stopwatch:hover { background: url(images/buttons_hover.png) no-repeat -36px }
+#nav #stopwatch.active { background: url(images/buttons_active.png) no-repeat -36px }
 #nav #bulb { background: url(images/buttons.png) no-repeat -72px }
 #nav #bulb:hover { background: url(images/buttons_hover.png) no-repeat -72px }
 #nav #bulb.active { background: url(images/buttons_active.png) no-repeat -72px }
@@ -446,13 +446,13 @@ img.ff { background-position: -144px 0px!important; }
 #slide.nav-3 { top: -400px }
 #slide.nav-4 { top: 0 }
 
-#rCanvas,#thermometer,#rPie,#rlum,#rScales {
+#rCanvas,#thermometer,#rStopwatch,#rlum,#rScales {
 	background: rgba(0,0,0,0.5);
 }
 #rCanvas { top: 0; right: 0; }
 #thermometer { top: 400px; right: 0; }
 #rlum { top: 800px; }
-#rPie { top: 1200px; }
+#rStopwatch { top: 1200px; }
 #rScales { top: 1600px; }
 
 #starMass, #tevTime {

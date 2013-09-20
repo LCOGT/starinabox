@@ -469,7 +469,7 @@ $(document).ready(function () {
 						this.updateCurrentStage();
 					}
 				}
-				this.updatePie();
+				this.updateStopwatch();
 				this.updateScaleText();
 				this.displayTime(el.t);
 				// In the case of 0 luminosity the y-value is returned as negative.
@@ -691,7 +691,7 @@ $(document).ready(function () {
 			this.setComparisonStar(i);
 			this.eqLevel(p.lum);
 			this.setThermometer(p.temp);
-			this.updatePie();
+			this.updateStopwatch();
 			this.createScales();
 		}
 		this.chart.star.attr("cx", (this.eAnimPoints[this.timestep][0]));
@@ -701,27 +701,27 @@ $(document).ready(function () {
 
 	/**
 	 *
-	 *	Generate Pie Chart for selected mass and range of lifecycle stages.
+	 *	Generate Stopwatch for selected mass and range of lifecycle stages.
 	 *
 	 */
-	StarInABox.prototype.createPie = function(){
-		this.pieData = new Array();
-		this.pieLegend = new Array();
+	StarInABox.prototype.createStopwatch = function(){
+		this.stopwatchData = new Array();
+		this.stopwatchLegend = new Array();
 		for (var i = 1 ; i < this.stageIndex.length-1 ; i++){
 			var s = this.getData(this.stageIndex[i]);
 			var n = (i < this.stageIndex.length-1) ? this.stageIndex[i+1]-1 : this.data.data.length-1;
 			var e = this.getData(n);
-			this.pieLegend[i-1] = this.stages[s.type];
-			this.pieData[i-1] = (e.t-s.t);
+			this.stopwatchLegend[i-1] = this.stages[s.type];
+			this.stopwatchData[i-1] = (e.t-s.t);
 		}
-		//raphael script for pie chart...
-		if ($("#rPie #pie").length > 0) $("#rPie #pie").remove();
-		this.rPie = Raphael("rPie");
-		this.pie = this.rPie.piechart(140,130,100,{values:this.pieData,labels:this.pieLegend},{});
-		this.updatePie();
+		//raphael script for stopwatch chart...
+		if ($("#rStopwatch #stopwatch").length > 0) $("#rStopwatch #stopwatch").remove();
+		this.rStopwatch = Raphael("rStopwatch");
+		this.pie = this.rStopwatch.piechart(140,130,100,{values:this.stopwatchData,labels:this.stopwatchLegend},{});
+		this.updateStopwatch();
 	}
-	StarInABox.prototype.updatePie = function(){
-		radius = 100*0.7;
+	StarInABox.prototype.updateStopwatch = function(){
+		radius = 100*0.9;
 		total = 324;
 		t = this.data.data[this.timestep].t;
 		total = this.data.data[this.stageIndex[this.stageIndex.length-1]].t;
@@ -730,10 +730,17 @@ $(document).ready(function () {
 		a = -Math.PI/2 + Math.PI*2*t/total;
 		x = (radius * Math.cos(a));
 		y = (radius * Math.sin(a));
+		a2 = a + Math.PI*0.95;
+		x2 = (0.2 * radius * Math.cos(a2));
+		y2 = (0.2 * radius * Math.sin(a2));
+		a3 = a - Math.PI*0.95;
+		x3 = (0.2 * radius * Math.cos(a3));
+		y3 = (0.2 * radius * Math.sin(a3));
 		if(this.clockhand) this.clockhand.remove();
-		this.clockhand = this.rPie.set();
-		this.clockhand.push(this.rPie.path("M 140 130 l "+x+" "+y).attr({'stroke':'white','stroke-width':4,'stroke-linecap':'round'}));
-		this.clockhand.push(this.rPie.circle(140+x,130+y,6).attr({'fill':'white','stroke-width':0}));
+		this.clockhand = this.rStopwatch.set();
+console.log()
+		this.clockhand.push(this.rStopwatch.path("M 140 130 m "+x+" "+y+" l "+(x2-x)+" "+(y2-y)+" l "+(x3-x2)+" "+(y3-y2)+"Z").attr({'fill':'white','stroke':'white'}));
+		this.clockhand.push(this.rStopwatch.circle(140,130,6).attr({'fill':'white','stroke-width':0}));
 	}
 	StarInABox.prototype.createScales = function(){
 		if(!this.rScales) return;
@@ -803,7 +810,7 @@ $(document).ready(function () {
 		this.updateCurrentStage();
 		this.updateChart();
 		this.setComparisonStar(0);
-		this.createPie();
+		this.createStopwatch();
 		this.createScales();
 		this.doneLoadingStar();
 	}
@@ -1054,7 +1061,7 @@ $(document).ready(function () {
 		return p;
 	}
 	StarInABox.prototype.updateEvolve = function() {
-		this.createPie();
+		this.createStopwatch();
 		this.createScales();
 		this.updateCurrentStage();
 	}
