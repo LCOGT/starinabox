@@ -53,10 +53,12 @@ $(document).ready(function () {
 			'lum' : 'Brightness',
 			'lumunit' : 'Solar luminosities',
 			'temp' : 'Temperature',
-			'tempunit' : 'Kelvin'
+			'tempunit' : 'Kelvin',
+			'ms' : 'Main Sequence'
 		}
 
 		// Main Objects
+		this.stage = 0;
 		this.stageLife = [];
 		this.stageIndex = [];
 		// array for animation data points...
@@ -92,7 +94,8 @@ $(document).ready(function () {
 				'color': ($('#placeholder').length > 0 ? $('#placeholder').css('color') : "black"),
 				'font-size' : this.fs+'px',
 				'mainsequence' : {
-					'color' : "#ffcc00",
+					'color' : '#000000',
+					'background-color' : "#ffcc00",
 					'opacity' : 1
 				},
 				'grid': {
@@ -334,12 +337,6 @@ $(document).ready(function () {
 			this.xLed = this.xLed + 17;
 		}
 
-		//this.eq1[1].attr("opacity", "1");
-		//this.eq1[2].attr("opacity", "1");
-		//this.eq1[3].attr("opacity", "1");
-		//this.eq1[4].attr("opacity", "1");
-		//this.eq1[5].attr("opacity", "1");
-
 		var le1 = this.rLum.text(170, 30, "1,000,000").attr(txtprops);
 		var le2 = this.rLum.text(170, 115, "10,000").attr(txtprops);
 		var le3 = this.rLum.text(170, 202, "100").attr(txtprops);
@@ -348,7 +345,8 @@ $(document).ready(function () {
 		ll = this.rLum.text(0, 220, this.lang.lum+" ("+this.lang.lumunit+")").attr(txtprops2);
 		ll.rotate(-90);
 
-		this.createMassSlider();
+		
+		//this.createMassSlider();
 		
 
 		// animate evolution over selected stages
@@ -495,7 +493,7 @@ $(document).ready(function () {
 		else this.thermoLabel1.attr('text','60,000 '+this.lang.tempunit)
 
 	}
-	StarInABox.prototype.slideTo = function(p){
+	StarInABox.prototype.slideMassTo = function(p){
 		clearInterval(this.eAnim);
 		var sMass = this.massVM[p];
 		this.loadingStar();
@@ -517,7 +515,7 @@ $(document).ready(function () {
 			min: 0,
 			max: this.massVM.length - 1,
 			step: 1,
-			change: function (event, ui) { that.slideTo(ui.value); }
+			change: function (event, ui) { that.slideMassTo(ui.value); }
 		});
 
 		//add ticks
@@ -549,7 +547,7 @@ $(document).ready(function () {
 	}
 	StarInABox.prototype.toggleInputPanel = function(duration){
 		if(typeof duration!="number") duration = 300;
-		if(this.inputopen) $("#input").animate({"bottom": "-138px"}, duration).removeClass("open");
+		if(this.inputopen) $("#input").animate({"bottom": "-70px"}, duration).removeClass("open");
 		else $("#input").animate({"bottom": "0px"}, duration).addClass("open");
 		this.inputopen = !this.inputopen;
 	}
@@ -571,11 +569,12 @@ $(document).ready(function () {
 		if(!this.allstages["m"+mass]) return;
 		var data = this.allstages["m"+mass];
 		var that = this;
+/*
 		$("#stages").slider("destroy").html('').slider({
 			value: 0,
 			min: 0,
 			max: data.length-1,
-			change: function (event, ui) { that.slideStages(); }
+			change: function (event, ui) { that.slideStages(ui.value); }
 		});
 		//add ticks
 		$("#stages").append('<div class="ticks"></div>');
@@ -585,12 +584,12 @@ $(document).ready(function () {
 		for (var i = 0; i < data.length; i++) {
 			$("#stages .ticks").append("<p class='tick' style='left:"+((i * tickSpace) - 40)+"px;'>" + this.stages[data[i].type] + "</p>");
 		}
-
+*/
 		this.loadChartData(mass);
 	}
 	StarInABox.prototype.slideStages = function(p){
 		clearInterval(this.eAnim);
-		this.resetStage();
+		this.resetStage(p);
 		this.updateEvolve();
 		$("a#animateEvolve").text('Start');
 		$("a#animateEvolveReset").css('display', '');
@@ -646,15 +645,19 @@ $(document).ready(function () {
 	// Input:
 	//   i - the index of the life stage
 	StarInABox.prototype.resetStage = function(i){
+		this.stage = (typeof i==="number") ? i+1 : 1; //$('#stages').slider("value")+1;
 		this.assessStages();
 		if(i){
 			if(i < 1 || i > this.stageIndex.length) return;
-		}else i = this.stageIndex[this.sStart];
+		}else i = this.stage;
+		
+		i = this.stageIndex[i];
+
 		this.jumpTo(i);
 		return this;
 	}
 
-	StarInABox.prototype.assessStages = function() {
+	StarInABox.prototype.assessStages = function(){
 		if(!this.data.data) return;
 		if(!this.allstages["m"+this.data.mass]) return;
 		var that = this;
@@ -678,9 +681,9 @@ $(document).ready(function () {
 			this.stageLife[type[0]][ii] = [this.data.data[i].type, this.stages[this.data.data[i].type], this.data.data[i].t];
 			ii++;
 		}
-		this.sStart = 1;
 		this.sEnd = 11;
-		this.sStart = $('#stages').slider("value")+1;
+		this.sStart = this.stage;
+
 		if(typeof data=="object") this.sEnd = data[data.length - 1].type
 	}
 
@@ -724,7 +727,7 @@ $(document).ready(function () {
 		//raphael script for stopwatch chart...
 		if ($("#rStopwatch #stopwatch").length > 0) $("#rStopwatch #stopwatch").remove();
 		this.rStopwatch = Raphael("rStopwatch");
-		this.pie = this.rStopwatch.piechart(140,130,100,{values:this.stopwatchData,labels:this.stopwatchLegend},{});
+		this.pie = this.rStopwatch.piechart(140,130,100,{values:this.stopwatchData,labels:this.stopwatchLegend},{'colours':[this.chart.opts.mainsequence['background-color'],'#009d00','#df0000','#3366dd','#d6ccff','#ffcccc','#fff5cc','#ccffcc']},this);
 		this.updateStopwatch();
 	}
 	StarInABox.prototype.updateStopwatch = function(){
@@ -745,7 +748,6 @@ $(document).ready(function () {
 		y3 = (0.2 * radius * Math.sin(a3));
 		if(this.clockhand) this.clockhand.remove();
 		this.clockhand = this.rStopwatch.set();
-console.log()
 		this.clockhand.push(this.rStopwatch.path("M 140 130 m "+x+" "+y+" l "+(x2-x)+" "+(y2-y)+" l "+(x3-x2)+" "+(y3-y2)+"Z").attr({'fill':'white','stroke':'white'}));
 		this.clockhand.push(this.rStopwatch.circle(140,130,6).attr({'fill':'white','stroke-width':0}));
 	}
@@ -914,12 +916,12 @@ console.log()
 			p2 = this.getPixPos(50000,Math.pow(10,m*this.log10(50000)-c));
 			mid = this.getPixPos(12000,Math.pow(10,m*this.log10(12000)-c));
 			this.chart.mainSequence = this.chart.holder.path("M"+p1[0]+","+p1[1]+"L"+p2[0]+","+p2[1]).attr({
-				stroke : this.chart.opts.mainsequence.color,
+				stroke : this.chart.opts.mainsequence['background-color'],
 				"stroke-opacity": this.chart.opts.mainsequence.opacity,
 				"stroke-width": 35,
 				"stroke-linecap" : "round"
 			});
-			this.chart.mainSequenceLabel = this.chart.holder.text(mid[0],mid[1],"Main Sequence").attr({ fill: "white",'font-size': this.chart.opts['font-size'],'text-anchor':'middle' }).rotate(Raphael.angle(p1[0],p1[1],p2[0],p2[1]));
+			this.chart.mainSequenceLabel = this.chart.holder.text(mid[0],mid[1],this.lang.ms).attr({ fill: this.chart.opts.mainsequence.color,'font-size': this.chart.opts['font-size'],'text-anchor':'middle' }).rotate(Raphael.angle(p1[0],p1[1],p2[0],p2[1]));
 		}
 		if(!this.chart.axes) this.chart.axes = this.chart.holder.rect(this.chart.offset.left,this.chart.offset.top,this.chart.offset.width,this.chart.offset.height).attr({stroke:'rgb(0,0,0)','stroke-opacity': 0.5,'stroke-width':2});
 		if(!this.chart.yLabel) this.chart.yLabel = this.chart.holder.text(this.chart.offset.left - 10, this.chart.offset.top+(this.chart.offset.height/2), this.lang.lum+" ("+this.lang.lumunit+")").attr({fill: (this.chart.opts.yaxis.label.color ? this.chart.opts.yaxis.label.color : this.chart.opts.color),'fill-opacity': (this.chart.opts.yaxis.label.opacity ? this.chart.opts.yaxis.label.opacity : 1),'font-size': this.chart.opts['font-size'] }).rotate(270);
@@ -1029,24 +1031,23 @@ console.log()
 			s = this.stageIndex[this.sStart];
 			this.chart.star = this.chart.holder.circle((this.eAnimPoints[s][0]), (this.eAnimPoints[s][1]), 5).attr("fill", "#000000");
 
-			//print Solar Mass Value onto Graph!
-			if(this.massLabel) this.massLabel.remove();
-			$('#starMass').html(((this.data.mass==1) ? '<span class="value">'+this.data.mass+'</span> Solar mass' : '<span class="value">'+this.data.mass+'</span> Solar masses'));
-/*
-			this.massLabel = this.chart.holder.text((this.chart.offset.left + 8), (this.chart.offset.top + 22), this.data.mass).attr({
-				'text-anchor': 'start',
-				'fill': '#000',
-				'font-size': '40px',
-				'font-weight': 'bold'
-			});
-			var mlBB = this.massLabel.getBBox();
-			if(this.massLabel1) this.massLabel1.remove();
-			this.massLabel1 = this.chart.holder.text((mlBB.x + mlBB.width + 2), (this.chart.offset.top + 32), "Solar Mass" + ((this.data.mass != 1) ? 'es' : '')).attr({
-				'text-anchor': 'start',
-				'fill': '#000',
-				'font-size': '12px'
-			});
-*/
+			// Add to DOM if necessary
+			if($('#starMass .value').length==0) $('#starMass').append('<span class="value"></span>');
+			if($('#starMass .unit').length==0) $('#starMass').append(' <span class="unit"></span>');
+			if($('#starMass select').length==0){
+				var selector = '<select>';
+				for (var i = 0; i < this.massVM.length; i++) {
+					selector += '<option value="'+i+'"'+(this.data.mass==this.massVM[i] ? ' selected="selected"' : "")+'>'+this.massVM[i]+'</option>';
+				}
+				selector += '</select>';
+				$('#starMass .value').html(selector);
+				// Add a change event to the <select>
+				$('#starMass select').on('change',{box:this},function(e){
+					e.data.box.slideMassTo(parseFloat($(this).find("option:selected").attr("value")));
+				});
+			}
+			// Update the unit
+			$('#starMass .unit').html((this.data.mass==1) ? 'Solar mass' : 'Solar masses');
 		}
 	};
 	StarInABox.prototype.getStarShape = function(x,y,r,n){
@@ -1152,7 +1153,13 @@ console.log()
 	
 	
 	// functions to make the chart:
-	Raphael.fn.piechart = function(x,y,radius,d,attr){
+	// Input:
+	//   x - The centre x position
+	//   y - The centre y position
+	//   radius - Radius of the piechart in pixels
+	//   d - Data in the form { values: [], labels:[] }
+	//   attr - Attributes in the form { 'colours' : ['#396bad','#fac000',...] }
+	Raphael.fn.piechart = function(x,y,radius,d,attr,box){
 		// Set defauls
 		var TWO_PI = Math.PI * 2;
 		var offsetAngle = -Math.PI/2;	// The rotation from east to start at
@@ -1166,7 +1173,7 @@ console.log()
 		var yoff = y + radius*(1.2);
 		var yspace = Math.floor(keysize*1.4);
 		var pie = Array(n);
-		var f = ['#fac900','#009d00','#df0000','#3366dd','#d6ccff','#ffcccc','#fff5cc','#ccffcc'];
+		var f = attr.colours;
 		for (var i = 0; i < n; i++){
 			c = {'fill': (typeof attr.fill=="object" && attr.fill.length > i) ? attr.fill[i] : ((typeof attr.fill=="string") ? attr.fill : f[i % f.length]), 'stroke': (typeof attr.stroke=="object" && attr.stroke.length > i) ? attr.stroke[i] : ((typeof attr.stroke=="string") ? attr.stroke : "white")}
 			var a = offsetAngle;
@@ -1189,10 +1196,30 @@ console.log()
 					this.next.next.attr({'font-weight':'normal'});	// key label
 				})
 			);
-			// Add the key
-			pie.push(this.rect(x-radius+keysize/2,yoff+(i*yspace)-keysize/2,keysize,keysize).attr({stroke:c.stroke,fill:c.fill,'stroke-width':1.2}))
+			// Add the key box
+			pie.push(
+				this.rect(x-radius+keysize/2,yoff+(i*yspace)-keysize/2,keysize,keysize).attr({cursor:'pointer',stroke:c.stroke,fill:c.fill,'stroke-width':1.2}).data('i',i+1).data('box',box).click(function(e){
+					this.data('box').resetStage.call(this.data('box'),this.data('i'))
+				}).mouseover(function(){
+					this.transform('s1.2');	// key box
+					this.next.attr({'font-weight':'bold'});	// key label
+				}).mouseout(function(){
+					this.transform('s1');	// key
+					this.next.attr({'font-weight':'normal'});	// key label
+				})
+			)
 			// Add the key label
-			pie.push(this.text(x-radius+keysize*2,yoff+(i*yspace),t).attr({fill:'white','stroke-width':1,'font-size':keysize,'text-anchor':'start'}));
+			pie.push(
+				this.text(x-radius+keysize*2,yoff+(i*yspace),t).attr({cursor:'pointer',fill:'white','stroke-width':1,'font-size':keysize,'text-anchor':'start'}).data('i',i+1).data('box',box).click(function(e){
+					this.data('box').resetStage.call(this.data('box'),this.data('i'))
+				}).mouseover(function(){
+					this.prev.transform('s1.2');	// key box
+					this.attr({'font-weight':'bold'});	// key label
+				}).mouseout(function(){
+					this.prev.transform('s1');	// key
+					this.attr({'font-weight':'normal'});	// key label
+				})
+			);
 			offsetAngle = b;
 		}
 		return pie;

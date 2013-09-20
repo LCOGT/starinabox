@@ -36,7 +36,7 @@
 	<div id="shadow"></div>
 	<div id="vertical"></div>
 	<div id="container">
-		<div id="menu" class="jsonly"><a id="summary" href="#">Data table</a> | <a id="help" href="#help">Help</a></div>
+		<div id="menu" class="jsonly"><a id="summary" href="#">Data table</a> | <a id="help" href="#help">About</a></div>
 		<div id="box-lid">
 			<div id="welcome">
 				<div id="welcome-content">
@@ -63,9 +63,9 @@
 					</div>
 				</div>
 				<div id="help-content">
-					<h2>HELP!</h2>
+					<h2>About</h2>
 					<p>Star in a Box allows you to explore one of the most enigmatic tools in astronomy - the <a href="http://lcogt.net/book/h-r-diagram">Hertzsprung-Russell diagram</a>.</p>
-					<p>When you first open the box you start with a star with the same mass as the Sun. The tracks that you see on the diagram to the left map the lifecycle of the star. You can use the <em>Star Properties</em> tab to choose a star with a different starting mass or to jump to particular stages. You can play the animation of the star moving around the diagram, and see how its brightness, size, surface temperature, and mass change in the panels on the right.</p>
+					<p>When you first open the box you start with a star with the same mass as the Sun but you can change this to a different mass at any time. The tracks that you see on the graph (on the left) map the lifecycle of the star. You can play the animation of the star moving around the diagram, and see how its brightness, size, surface temperature, and mass change in the panels on the right.</p>
 					<p>Stars can take billions of years to go through their lives with the dramatic events taking place in relatively short periods of time. In the animation we speed up time when the star is not really changing much and slow things down for the dramatic phases of the star's life.</p>
 					<p><strong>Controls:</strong></p>
 					<ul>
@@ -74,8 +74,8 @@
 					    <li><strong>L</strong> - Opens/closes lid</li>
 					</ul>
 					<h3>Acknowledgments</h3>
-					<p><b>Design &amp; Development</b>: <a href="http://jyardley.co.uk">Jon Yardley</a>, <a href="http://lcogt.net/user/slowe">Stuart Lowe</a>, <a href="http://lcogt.net/user/egomez">Edward Gomez</a>; <b>Creative input</b>: <a href="http://www.astro.cf.ac.uk/contactsandpeople/?page=full&id=151">Haley Gomez</a></p>
-					<p>Supported by <a href="http://www.stfc.ac.uk/">STFC</a> and <a href="http://lcogt.net/">LCOGT</a></p>
+					<p><b>Design &amp; Development</b>: <a href="http://jyardley.co.uk">Jon Yardley</a>, <a href="http://lcogt.net/user/slowe">Stuart Lowe</a>, <a href="http://lcogt.net/user/egomez">Edward Gomez</a>, <a href="http://www.astro.cf.ac.uk/contactsandpeople/?page=full&id=151">Haley Gomez</a> &amp; Chris North</p>
+					<p>Supported by <a href="http://www.stfc.ac.uk/">STFC</a>, <a href="http://lcogt.net/">LCOGT</a> &amp; <a href="http://www.cf.ac.uk/">Cardiff University</a></p>
 				</div>
 				<div id="summary-content">
 				</div>
@@ -96,8 +96,9 @@
 			<div id="placeholder"></div>
 			<div id="current-stage"></div>
 			<div id="input">
-				<div class="tab-top">Star Properties</div>
+				<div class="tab-top">Help</div>
 
+				<!--
 				<div class="labels">
 					<p class="label">Mass:</p>
 					<p class="label">Stages:</p>
@@ -105,9 +106,8 @@
 
 				<div id="mass-slider"></div>
 
-				<div id="stages"><!--
-						<select class="stages" name="first-stage" id="first-stage"></select><select class="stages" name="last-stage" id="last-stage"></select>-->
-				</div>
+				<div id="stages"></div>
+				-->
             </div>
 
             <div id="animate">
@@ -173,7 +173,7 @@
 				</div>
 			</div>
 			<div id="tevTime">0 Myrs</div>
-			<div id="starMass"><span class="value">1</span> Solar mass</div>
+			<div id="starMass"><span class="value">1</span></div>
         </div>
 		<div class="caution">Caution: Supernova Imminent</div>
 

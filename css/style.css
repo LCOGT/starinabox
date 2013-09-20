@@ -215,7 +215,7 @@ body {
 
 #input {
     width: 860px;
-    height: 128px;
+    height: 60px;
     margin: 0 auto;
     color: #fff;
     padding: 10px 20px;
@@ -223,7 +223,7 @@ body {
     -moz-border-radius: 10px 10px 0 0;
     -webkit-border-radius: 10px 10px 0 0;
     position: absolute;
-    bottom: -138px;
+    bottom: -70px;
     z-index: 108;
     -webkit-box-shadow: -8px -4px 10px rgba(0,0,0,0.2);
     -moz-box-shadow: -8px -4px 10px rgba(0,0,0,0.2);
@@ -466,7 +466,7 @@ img.ff { background-position: -144px 0px!important; }
 #starMass { left: 60px; }
 
 #starMass .value {
-	font-size:2em;
+	font-size:1.2em;
 	font-weight: bold;
 }
 
