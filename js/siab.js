@@ -49,6 +49,13 @@ $(document).ready(function () {
 			"m40" : [{"type":1, "lum":5.6288, "t":4.8716, "radius":29.01, "temp":22695, "RGB":"#aabfff"}, {"type":2, "lum":5.6187, "t":4.878, "radius":1433.51, "temp":3892, "RGB":"#ffd29c"}, {"type":4, "lum":5.5568, "t":5.1816, "radius":1.41, "temp":56701, "RGB":"#9eb5ff"}, {"type":7, "lum":5.3259, "t":5.448, "radius":0.95, "temp":56701, "RGB":"#9eb5ff"}, {"type":8, "lum":5.4786, "t":5.4732, "radius":1.06, "temp":56701, "RGB":"#9eb5ff"}, {"type":14, "lum":5.4841, "t":5.474, "radius":0, "temp":56701, "RGB":"#9eb5ff"}]
 		}
 
+		this.lang = {
+			'lum' : 'Brightness',
+			'lumunit' : 'Solar luminosities',
+			'temp' : 'Temperature',
+			'tempunit' : 'Kelvin'
+		}
+
 		// Main Objects
 		this.stageLife = [];
 		this.stageIndex = [];
@@ -296,13 +303,13 @@ $(document).ready(function () {
 		var txtprops = {'text-anchor': 'start','fill': '#fff','font-size': this.chart.opts.yaxis['font-size']};
 		var txtprops2 = {'text-anchor': 'start','fill': '#fff','font-size': this.chart.opts['font-size']};
 		//labels
-		this.thermoLabel1 = this.thermo.text(150, 28, "60,000 K").attr(txtprops);
-		var l2 = this.thermo.text(150, 88, "48,000 K").attr(txtprops);
-		var l3 = this.thermo.text(150, 148, "36,000 K").attr(txtprops);
-		var l4 = this.thermo.text(150, 208, "24,000 K").attr(txtprops);
-		var l5 = this.thermo.text(150, 268, "12,000 K").attr(txtprops);
-		var l6 = this.thermo.text(150, 328, "0 K").attr(txtprops);
-		var ll = this.thermo.text(30, 200, "Temperature (Kelvin)").attr(txtprops2);
+		this.thermoLabel1 = this.thermo.text(150, 28, "60,000 "+this.lang.tempunit).attr(txtprops);
+		var l2 = this.thermo.text(150, 88, "48,000 "+this.lang.tempunit).attr(txtprops);
+		var l3 = this.thermo.text(150, 148, "36,000 "+this.lang.tempunit).attr(txtprops);
+		var l4 = this.thermo.text(150, 208, "24,000 "+this.lang.tempunit).attr(txtprops);
+		var l5 = this.thermo.text(150, 268, "12,000 "+this.lang.tempunit).attr(txtprops);
+		var l6 = this.thermo.text(150, 328, "0 "+this.lang.tempunit).attr(txtprops);
+		var ll = this.thermo.text(30, 200, this.lang.temp+" ("+this.lang.tempunit+")").attr(txtprops2);
 		ll.rotate(-90);
 
 		// Luminosity meter
@@ -338,7 +345,7 @@ $(document).ready(function () {
 		var le3 = this.rLum.text(170, 202, "100").attr(txtprops);
 		var le4 = this.rLum.text(170, 285, "1").attr(txtprops);
 		var le5 = this.rLum.text(170, 370, "0.001").attr(txtprops);
-		ll = this.rLum.text(0, 220, "Brightness (Solar luminosities)").attr(txtprops2);
+		ll = this.rLum.text(0, 220, this.lang.lum+" ("+this.lang.lumunit+")").attr(txtprops2);
 		ll.rotate(-90);
 
 		this.createMassSlider();
@@ -484,8 +491,8 @@ $(document).ready(function () {
 	StarInABox.prototype.setThermometer = function(temp){
 		s = Math.min(temp / 60000,1.05);
 		this.thermoTemp.transform("s1,"+s+",0,343");
-		if(temp > 60000) this.thermoLabel1.attr('text',addCommas(temp)+' K')
-		else this.thermoLabel1.attr('text','60,000 K')
+		if(temp > 60000) this.thermoLabel1.attr('text',addCommas(temp)+' '+this.lang.tempunit)
+		else this.thermoLabel1.attr('text','60,000 '+this.lang.tempunit)
 
 	}
 	StarInABox.prototype.slideTo = function(p){
@@ -915,7 +922,7 @@ console.log()
 			this.chart.mainSequenceLabel = this.chart.holder.text(mid[0],mid[1],"Main Sequence").attr({ fill: "white",'font-size': this.chart.opts['font-size'],'text-anchor':'middle' }).rotate(Raphael.angle(p1[0],p1[1],p2[0],p2[1]));
 		}
 		if(!this.chart.axes) this.chart.axes = this.chart.holder.rect(this.chart.offset.left,this.chart.offset.top,this.chart.offset.width,this.chart.offset.height).attr({stroke:'rgb(0,0,0)','stroke-opacity': 0.5,'stroke-width':2});
-		if(!this.chart.yLabel) this.chart.yLabel = this.chart.holder.text(this.chart.offset.left - 10, this.chart.offset.top+(this.chart.offset.height/2), "Brightness (Solar luminosities)").attr({fill: (this.chart.opts.yaxis.label.color ? this.chart.opts.yaxis.label.color : this.chart.opts.color),'fill-opacity': (this.chart.opts.yaxis.label.opacity ? this.chart.opts.yaxis.label.opacity : 1),'font-size': this.chart.opts['font-size'] }).rotate(270);
+		if(!this.chart.yLabel) this.chart.yLabel = this.chart.holder.text(this.chart.offset.left - 10, this.chart.offset.top+(this.chart.offset.height/2), this.lang.lum+" ("+this.lang.lumunit+")").attr({fill: (this.chart.opts.yaxis.label.color ? this.chart.opts.yaxis.label.color : this.chart.opts.color),'fill-opacity': (this.chart.opts.yaxis.label.opacity ? this.chart.opts.yaxis.label.opacity : 1),'font-size': this.chart.opts['font-size'] }).rotate(270);
 		if(!this.chart.sub){
 			v = [2,3,4,5,6,7,8,9]
 			this.chart.sub = []
