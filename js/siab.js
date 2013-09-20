@@ -10,6 +10,9 @@
 // have Javascript enabled. If we are here they obviously do have Javascript.
 document.write('<style type="text/css">.accessible { display: none; } .jsonly { display: block; }</style>');
 
+// A global variable for our star in a box
+var box;
+
 $(document).ready(function () {
 
 	$("body").queryLoader2();
@@ -129,6 +132,8 @@ $(document).ready(function () {
 
 			e.data.me.removeCrosshair();
 			e.data.me.drawCrosshair(x,y);
+			e.data.me.starPathClicker.toFront();
+
 		}).on('mouseleave',{me:this},function(e){
 			e.data.me.removeCrosshair();
 		});
@@ -224,7 +229,7 @@ $(document).ready(function () {
 		});
 		$(document).bind('keypress',{box:this},function(e){
 			if(!e) e=window.event;
-			box = e.data.box;
+			var box = e.data.box;
 			var code = e.keyCode || e.charCode || e.which || 0;
 			var c = String.fromCharCode(code).toLowerCase();
 			if(code==32) box.play();
@@ -628,27 +633,18 @@ $(document).ready(function () {
 		$("a#animateEvolve").text('Start');
 		this.updateCurrentStage();
 	}
+	// Jump to the start of a specific stage in the star's life
+	// Input:
+	//   i - the index of the life stage
 	StarInABox.prototype.resetStage = function(i){
 		this.assessStages();
 		if(i){
 			if(i < 1 || i > this.stageIndex.length) return;
 		}else i = this.stageIndex[this.sStart];
-		this.timestep = (typeof i=="number") ? i : this.data.data.length-1;
-		if(this.timestep == this.data.data.length) this.timestep = this.data.data.length - 1;
-
-		var first = this.getData(this.timestep);
-		if(typeof first=="object"){
-			this.displayTime(first.t);
-			this.sStarReset();
-			this.setComparisonStar(this.stageIndex[i]);
-			this.eqLevel(first.lum);
-			this.setThermometer(first.temp);
-			this.updatePie();
-			this.createScales();
-		}
-		this.chart.star.attr("cx", (this.eAnimPoints[this.timestep][0]));
-		this.chart.star.attr("cy", (this.eAnimPoints[this.timestep][1]));
+		this.jumpTo(i);
+		return this;
 	}
+
 	StarInABox.prototype.assessStages = function() {
 		if(!this.data.data) return;
 		if(!this.allstages["m"+this.data.mass]) return;
@@ -678,6 +674,29 @@ $(document).ready(function () {
 		this.sStart = $('#stages').slider("value")+1;
 		if(typeof data=="object") this.sEnd = data[data.length - 1].type
 	}
+
+	// Jump to a specific data point in the star's life
+	// Input:
+	//   i - the index of the data point
+	StarInABox.prototype.jumpTo = function(i) {
+		this.timestep = (typeof i=="number") ? i : this.data.data.length-1;
+		if(this.timestep == this.data.data.length) this.timestep = this.data.data.length - 1;
+
+		var p = this.getData(this.timestep);
+		if(typeof p=="object"){
+			this.displayTime(p.t);
+			this.sStarReset();
+			this.setComparisonStar(i);
+			this.eqLevel(p.lum);
+			this.setThermometer(p.temp);
+			this.updatePie();
+			this.createScales();
+		}
+		this.chart.star.attr("cx", (this.eAnimPoints[this.timestep][0]));
+		this.chart.star.attr("cy", (this.eAnimPoints[this.timestep][1]));
+		return this;	
+	}
+
 	/**
 	 *
 	 *	Generate Pie Chart for selected mass and range of lifecycle stages.
@@ -964,6 +983,31 @@ $(document).ready(function () {
 			if(this.starPathShadow) this.starPathShadow.remove();
 			if(strshadow) this.starPathShadow = this.chart.holder.path(strshadow).attr({stroke:'rgb(0,0,0)','stroke-opacity': 0.2,'stroke-width':3,'stroke-dasharray':'-'});
 			if(str) this.starPath = this.chart.holder.path(str).attr({stroke:'#ffcc00','stroke-width':2,'stroke-dasharray':'-'});
+			if(str) this.starPathClicker = this.chart.holder.path(str).attr({stroke:'black','stroke-width':8,'stroke-opacity':0});
+
+			var _obj = this;
+			// Use the Raphael click function
+			this.starPathClicker.click(function(e){
+				var off = $('#placeholder').offset();
+				var x = e.pageX-off.left;
+				var y = e.pageY-off.top;
+				var xy = _obj.getXYFromPix(x,y);
+				// The index for the nearest data point to where we click
+				var t = -1;
+				// r2 is the square of the distance (no need to sqrt it as we 
+				// just need to find the shortest distance and that would add
+				// unnecessary overhead
+				var r2;
+				var r2min = 10000;	
+				for(var i = 0 ; i < _obj.eAnimPoints.length ; i++){
+					r2 = Math.pow((x-_obj.eAnimPoints[i][0]),2) + Math.pow((y-_obj.eAnimPoints[i][1]),2);
+					if(r2 < r2min){
+						r2min = r2;
+						t = i;
+					}
+				}
+				if(t >= 0) _obj.jumpTo(t);
+			});
 
 			if(this.chart.star) this.chart.star.remove();
 			s = this.stageIndex[this.sStart];
@@ -1138,6 +1182,6 @@ $(document).ready(function () {
 		return pie;
 	}
 
-	var box = new StarInABox();
+	box = new StarInABox();
 
 }); //ready.function
