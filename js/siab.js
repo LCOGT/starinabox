@@ -293,7 +293,8 @@ $(document).ready(function () {
 		this.thermoTemp.attr("fill", "#CC0000");
 		this.thermoTemp.attr("stroke", "");
 		this.thermoImage = this.thermo.image("images/thermometer.png", 90, -12, 80, 400);
-		var txtprops = {'text-anchor': 'start','fill': '#fff','font-size': this.chart.opts['font-size']};
+		var txtprops = {'text-anchor': 'start','fill': '#fff','font-size': this.chart.opts.yaxis['font-size']};
+		var txtprops2 = {'text-anchor': 'start','fill': '#fff','font-size': this.chart.opts['font-size']};
 		//labels
 		var l1 = this.thermo.text(150, 28, "60,000 (K)").attr(txtprops);
 		var l2 = this.thermo.text(150, 88, "48,000 (K)").attr(txtprops);
@@ -301,7 +302,7 @@ $(document).ready(function () {
 		var l4 = this.thermo.text(150, 208, "24,000 (K)").attr(txtprops);
 		var l5 = this.thermo.text(150, 268, "12,000 (K)").attr(txtprops);
 		var l6 = this.thermo.text(150, 328, "0 (K)").attr(txtprops);
-		var ll = this.thermo.text(30, 200, "Temperature (Kelvin)").attr(txtprops);
+		var ll = this.thermo.text(30, 200, "Temperature (Kelvin)").attr(txtprops2);
 		ll.rotate(-90);
 
 		// Luminosity meter
@@ -337,7 +338,7 @@ $(document).ready(function () {
 		var le3 = this.rLum.text(170, 202, "100").attr(txtprops);
 		var le4 = this.rLum.text(170, 285, "1").attr(txtprops);
 		var le5 = this.rLum.text(170, 370, "0.001").attr(txtprops);
-		ll = this.rLum.text(0, 220, "Brightness (Solar luminosities)").attr(txtprops);
+		ll = this.rLum.text(0, 220, "Brightness (Solar luminosities)").attr(txtprops2);
 		ll.rotate(-90);
 
 		this.createMassSlider();
