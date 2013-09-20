@@ -684,6 +684,8 @@ $(document).ready(function () {
 	}
 	StarInABox.prototype.reset = function(){
 		clearInterval(this.eAnim);
+		this.animating = false;
+		$("a.control_play img.pause").removeClass('pause').addClass('play');
 		this.resetStage();
 		$("a#animateEvolve").text('Start');
 		this.updateCurrentStage();
@@ -805,6 +807,8 @@ $(document).ready(function () {
 		this.dial.push(this.rStopwatch.circle(this.stopwatch.x,this.stopwatch.y,this.stopwatch.r).attr({'stroke-width':0,'fill':'300-#fff-#ccc-#fff'}));
 		this.dial.push(this.rStopwatch.circle(this.stopwatch.x,this.stopwatch.y,this.stopwatch.r*0.89).attr({'stroke-width':0,'fill':'300-#999-#303030-#999'}));
 		this.dial.push(this.rStopwatch.circle(this.stopwatch.x,this.stopwatch.y,this.stopwatch.r*0.84).attr({'stroke-width':0,'fill':'300-#fff-#ccc-#fff'}));
+
+
 		// Draw pie chart
 		this.pie = this.rStopwatch.piechart(this.stopwatch.x,this.stopwatch.y,this.stopwatch.r*this.stopwatch.frac,{values:this.stopwatchData,labels:this.stopwatchLegend},{'colours':[this.chart.opts.mainsequence['background-color'],'#009d00','#df0000','#7ea0ee','#d6ccff','#ffcccc','#fff5cc','#ccffcc']},this);
 		this.updateStopwatch();
@@ -1080,7 +1084,8 @@ $(document).ready(function () {
 			if(this.starPathShadow) this.starPathShadow.remove();
 			if(strshadow) this.starPathShadow = this.chart.holder.path(strshadow).attr({stroke:'rgb(0,0,0)','stroke-opacity': 0.2,'stroke-width':3,'stroke-dasharray':'-'});
 			if(str) this.starPath = this.chart.holder.path(str).attr({stroke:'#ffcc00','stroke-width':2,'stroke-dasharray':'-'});
-			if(str) this.starPathClicker = this.chart.holder.path(str).attr({stroke:'black','stroke-width':8,'stroke-opacity':0});
+			if(str) this.starPathClicker = this.chart.holder.path(str).attr({stroke:'black','stroke-width':10,'stroke-opacity':0});
+
 
 			var _obj = this;
 			// Use the Raphael click function
@@ -1308,3 +1313,5 @@ $(document).ready(function () {
 	box = new StarInABox();
 
 }); //ready.function
+
+
