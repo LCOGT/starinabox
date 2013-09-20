@@ -775,7 +775,7 @@ $(document).ready(function () {
 		}
 		//raphael script for stopwatch chart...
 		if ($("#rStopwatch #stopwatch").length > 0) $("#rStopwatch #stopwatch").remove();
-		this.stopwatch = { x: 140, y: 160, r: 100, w: 18, h: 10, w2: 12, h2: 8, frac: 0.8 };
+		this.stopwatch = { x: 140, y: 160, r: 90, w: 18, h: 10, w2: 12, h2: 8, frac: 0.8 };
 		this.rStopwatch = Raphael("rStopwatch");
 		this.dial = this.rStopwatch.set();
 
@@ -1274,7 +1274,7 @@ $(document).ready(function () {
 			y1 = y+(radius * Math.sin(a));
 			x2 = x+(radius * Math.cos(b));
 			y2 = y+(radius * Math.sin(b));
-			t = (d.labels[i].length > 1.8*radius*2/keysize) ? d.labels[i].substring(0,Math.floor(1.75*radius*2/keysize))+'...' : d.labels[i];
+			t = (d.labels[i].length > 1.8*radius*1.1*2/keysize) ? d.labels[i].substring(0,Math.floor(1.75*radius*1.1*2/keysize))+'...' : d.labels[i];
 
 			pie[i] = this.set();
 			// Add the pie segment
@@ -1290,7 +1290,7 @@ $(document).ready(function () {
 			);
 			// Add the key box
 			pie.push(
-				this.rect(x-radius+Math.round(keysize/2)-0.5,yoff+(i*yspace)-Math.round(keysize/2)-0.5,keysize,keysize).attr({cursor:'pointer',stroke:c.stroke,fill:c.fill,'stroke-width':1.25}).data('i',i+1).data('box',box).click(function(e){
+				this.rect(x-radius*1.1+Math.round(keysize/2)-0.5,yoff+(i*yspace)-Math.round(keysize/2)-0.5,keysize,keysize).attr({cursor:'pointer',stroke:c.stroke,fill:c.fill,'stroke-width':1.25}).data('i',i+1).data('box',box).click(function(e){
 					this.data('box').resetStage.call(this.data('box'),this.data('i'))
 				}).mouseover(function(){
 					this.transform('s1.2');	// key box
@@ -1302,7 +1302,7 @@ $(document).ready(function () {
 			)
 			// Add the key label
 			pie.push(
-				this.text(x-radius+keysize*2,yoff+(i*yspace),t).attr({cursor:'pointer',fill:'white','stroke-width':1,'font-size':keysize,'text-anchor':'start'}).data('i',i+1).data('box',box).click(function(e){
+				this.text(x-radius*1.1+keysize*2,yoff+(i*yspace),t).attr({cursor:'pointer',fill:'white','stroke-width':1,'font-size':keysize,'text-anchor':'start'}).data('i',i+1).data('box',box).click(function(e){
 					this.data('box').resetStage.call(this.data('box'),this.data('i'))
 				}).mouseover(function(){
 					this.prev.transform('s1.2');	// key box
