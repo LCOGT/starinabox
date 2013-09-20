@@ -386,6 +386,7 @@ img.pause { background-position: -36px 0px!important; }
 img.reset { background-position: -72px 0px!important; }
 img.rewind { background-position: -108px 0px!important; }
 img.ff { background-position: -144px 0px!important; }
+a.control_rewind,a.control_ff { display: none; }
 #speedcontrol {
 	float:right;
 	color: #fff;
