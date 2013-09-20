@@ -773,7 +773,7 @@ $(document).ready(function () {
 		}
 		//raphael script for stopwatch chart...
 		if ($("#rStopwatch #stopwatch").length > 0) $("#rStopwatch #stopwatch").remove();
-		this.stopwatch = { x: 140, y: 160, r: 100, w: 15, h: 8, w2: 12, h2: 8, frac: 0.8 };
+		this.stopwatch = { x: 140, y: 160, r: 100, w: 18, h: 10, w2: 12, h2: 8, frac: 0.8 };
 		this.rStopwatch = Raphael("rStopwatch");
 		this.dial = this.rStopwatch.set();
 
@@ -806,7 +806,7 @@ $(document).ready(function () {
 		this.dial.push(this.rStopwatch.circle(this.stopwatch.x,this.stopwatch.y,this.stopwatch.r*0.89).attr({'stroke-width':0,'fill':'300-#999-#303030-#999'}));
 		this.dial.push(this.rStopwatch.circle(this.stopwatch.x,this.stopwatch.y,this.stopwatch.r*0.84).attr({'stroke-width':0,'fill':'300-#fff-#ccc-#fff'}));
 		// Draw pie chart
-		this.pie = this.rStopwatch.piechart(this.stopwatch.x,this.stopwatch.y,this.stopwatch.r*this.stopwatch.frac,{values:this.stopwatchData,labels:this.stopwatchLegend},{'colours':[this.chart.opts.mainsequence['background-color'],'#009d00','#df0000','#3366dd','#d6ccff','#ffcccc','#fff5cc','#ccffcc']},this);
+		this.pie = this.rStopwatch.piechart(this.stopwatch.x,this.stopwatch.y,this.stopwatch.r*this.stopwatch.frac,{values:this.stopwatchData,labels:this.stopwatchLegend},{'colours':[this.chart.opts.mainsequence['background-color'],'#009d00','#df0000','#7ea0ee','#d6ccff','#ffcccc','#fff5cc','#ccffcc']},this);
 		this.updateStopwatch();
 	}
 	StarInABox.prototype.updateStopwatch = function(){

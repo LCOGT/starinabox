@@ -8,6 +8,7 @@ body {
     background: url(images/bg-shadow.png) no-repeat center center;
     overflow: hidden;
     font-size: 0.9em;
+	color: #202020;
 }
 .jsonly { display: none; }
 
