@@ -1192,7 +1192,7 @@ $(document).ready(function () {
 		sOutput += '<div id="summary-table"><table border="1"><tr>';
 		sOutput += '<th>Stage</th>';
 		sOutput += '<th>Radius (R<sub>Sun</sub>)</th>';
-		sOutput += '<th>Luminosity (L<sub>Sun</sub>)</th>';
+		sOutput += '<th>'+this.lang.lum+' (L<sub>Sun</sub>)</th>';
 		sOutput += '<th>Temperature (K)</th>';
 		sOutput += '<th>Duration (Myr)</th>';
 		sOutput += '</tr>';
