@@ -773,20 +773,29 @@ $(document).ready(function () {
 		}
 		//raphael script for stopwatch chart...
 		if ($("#rStopwatch #stopwatch").length > 0) $("#rStopwatch #stopwatch").remove();
+		this.stopwatch = { x: 140, y: 130, r: 85, w: 10, h: 8 };
 		this.rStopwatch = Raphael("rStopwatch");
-		this.pie = this.rStopwatch.piechart(140,130,100,{values:this.stopwatchData,labels:this.stopwatchLegend},{'colours':[this.chart.opts.mainsequence['background-color'],'#009d00','#df0000','#3366dd','#d6ccff','#ffcccc','#fff5cc','#ccffcc']},this);
+		this.dial = this.rStopwatch.set();
+		this.dial.push(this.rStopwatch.rect(this.stopwatch.x-this.stopwatch.w*0.6,this.stopwatch.y-this.stopwatch.r*1.1-this.stopwatch.h*2,this.stopwatch.w*1.2,this.stopwatch.h*2).attr({'fill':'0-#999-#b3b3b3-#ccc-#b3b3b3-#ccc-#999','stroke-width':0}));
+		this.dial.push(this.rStopwatch.rect(this.stopwatch.x-this.stopwatch.w,this.stopwatch.y-this.stopwatch.r*1.2-this.stopwatch.h*2,this.stopwatch.w*2,this.stopwatch.h*2).attr({'fill':'0-#b3b3b3-#ccc-#e6e6e6-#ccc-#e6e6e6-#b3b3b3','stroke-width':0}));
+		this.dial.push(this.rStopwatch.rect(this.stopwatch.x-this.stopwatch.w*0.6,this.stopwatch.y-this.stopwatch.r*1.1-this.stopwatch.h*2,this.stopwatch.w*1.2,this.stopwatch.h*2).attr({'fill':'0-#999-#b3b3b3-#ccc-#b3b3b3-#ccc-#999','stroke-width':0}).transform('r40,'+this.stopwatch.x+','+this.stopwatch.y));
+		this.dial.push(this.rStopwatch.rect(this.stopwatch.x-this.stopwatch.w,this.stopwatch.y-this.stopwatch.r*1.2-this.stopwatch.h*2,this.stopwatch.w*2,this.stopwatch.h*2).attr({'fill':'0-#b3b3b3-#ccc-#e6e6e6-#ccc-#e6e6e6-#b3b3b3','stroke-width':0}).transform('r40,'+this.stopwatch.x+','+this.stopwatch.y));
+		this.dial.push(this.rStopwatch.rect(this.stopwatch.x-this.stopwatch.w*0.6,this.stopwatch.y-this.stopwatch.r*1.1-this.stopwatch.h*2,this.stopwatch.w*1.2,this.stopwatch.h*2).attr({'fill':'0-#999-#b3b3b3-#ccc-#b3b3b3-#ccc-#999','stroke-width':0}).transform('r-40,'+this.stopwatch.x+','+this.stopwatch.y));
+		this.dial.push(this.rStopwatch.rect(this.stopwatch.x-this.stopwatch.w,this.stopwatch.y-this.stopwatch.r*1.2-this.stopwatch.h*2,this.stopwatch.w*2,this.stopwatch.h*2).attr({'fill':'0-#b3b3b3-#ccc-#e6e6e6-#ccc-#e6e6e6-#b3b3b3','stroke-width':0}).transform('r-40,'+this.stopwatch.x+','+this.stopwatch.y));
+		this.dial.push(this.rStopwatch.circle(this.stopwatch.x,this.stopwatch.y,this.stopwatch.r*1.15).attr({'stroke-width':0,'fill':'300-#fff-#ccc-#fff'}));
+		this.pie = this.rStopwatch.piechart(this.stopwatch.x,this.stopwatch.y,this.stopwatch.r,{values:this.stopwatchData,labels:this.stopwatchLegend},{'colours':[this.chart.opts.mainsequence['background-color'],'#009d00','#df0000','#3366dd','#d6ccff','#ffcccc','#fff5cc','#ccffcc']},this);
 		this.updateStopwatch();
 	}
 	StarInABox.prototype.updateStopwatch = function(){
-		radius = 100*0.9;
+		radius = this.stopwatch.r*0.9;
 		total = 324;
 		t = this.data.data[this.timestep].t;
 		total = this.data.data[this.stageIndex[this.stageIndex.length-1]].t;
 		if(t > total) t = total;
 		if(t < 0) t = 0;
 		a = -Math.PI/2 + Math.PI*2*t/total;
-		x = (radius * Math.cos(a));
-		y = (radius * Math.sin(a));
+		x1 = (radius * Math.cos(a));
+		y1 = (radius * Math.sin(a));
 		a2 = a + Math.PI*0.95;
 		x2 = (0.2 * radius * Math.cos(a2));
 		y2 = (0.2 * radius * Math.sin(a2));
@@ -795,8 +804,8 @@ $(document).ready(function () {
 		y3 = (0.2 * radius * Math.sin(a3));
 		if(this.clockhand) this.clockhand.remove();
 		this.clockhand = this.rStopwatch.set();
-		this.clockhand.push(this.rStopwatch.path("M 140 130 m "+x+" "+y+" l "+(x2-x)+" "+(y2-y)+" l "+(x3-x2)+" "+(y3-y2)+"Z").attr({'fill':'white','stroke':'white'}));
-		this.clockhand.push(this.rStopwatch.circle(140,130,6).attr({'fill':'white','stroke-width':0}));
+		this.clockhand.push(this.rStopwatch.path("M "+this.stopwatch.x+" "+this.stopwatch.y+" m "+x1+" "+y1+" l "+(x2-x1)+" "+(y2-y1)+" l "+(x3-x2)+" "+(y3-y2)+"Z").attr({'fill':'white','stroke':'white'}));
+		this.clockhand.push(this.rStopwatch.circle(this.stopwatch.x,this.stopwatch.y,6).attr({'fill':'white','stroke-width':0}));
 	}
 	StarInABox.prototype.createScales = function(){
 		if(!this.rScales) return;
@@ -1217,10 +1226,11 @@ $(document).ready(function () {
 		for (var i = 0; i < n; i++) total += d.values[i];
 		// Create each segment
 		var keysize = 12;			// Size of the key boxes in pixels
-		var yoff = y + radius*(1.2);
+		var yoff = y + radius*(1.5);
 		var yspace = Math.floor(keysize*1.4);
 		var pie = Array(n);
 		var f = attr.colours;
+
 		for (var i = 0; i < n; i++){
 			c = {'fill': (typeof attr.fill=="object" && attr.fill.length > i) ? attr.fill[i] : ((typeof attr.fill=="string") ? attr.fill : f[i % f.length]), 'stroke': (typeof attr.stroke=="object" && attr.stroke.length > i) ? attr.stroke[i] : ((typeof attr.stroke=="string") ? attr.stroke : "white")}
 			var a = offsetAngle;
