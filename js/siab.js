@@ -817,7 +817,7 @@ $(document).ready(function () {
 		// Draw label
 		this.dial.push(this.rStopwatch.text(this.stopwatch.x,this.stopwatch.y+this.stopwatch.r*0.3,"LCOGT").attr({'stroke-width':0,'fill':this.chart.opts.color,'text-anchor':'middle','font-style':'italic','font-family':'Times','font-size':'10px'}));
 		this.dial.push(this.rStopwatch.text(this.stopwatch.x,this.stopwatch.y+this.stopwatch.r*0.4,"CHRONOGRAPH").attr({'stroke-width':0,'fill':this.chart.opts.color,'text-anchor':'middle','font-style':'italic','font-family':'Times','font-size':'6px'}));
-		this.dial.push(this.rStopwatch.text(this.stopwatch.x,this.stopwatch.y+this.stopwatch.r*0.4+8,d.getFullYear()).attr({'stroke-width':0,'fill':this.chart.opts.color,'text-anchor':'middle','font-style':'italic','font-family':'Times','font-size':'6px'}));
+		this.dial.push(this.rStopwatch.text(this.stopwatch.x,this.stopwatch.y+this.stopwatch.r*0.4+7,d.getFullYear()).attr({'stroke-width':0,'fill':this.chart.opts.color,'text-anchor':'middle','font-style':'italic','font-family':'Times','font-size':'6px'}));
 
 		this.updateStopwatch();
 	}
@@ -1279,7 +1279,7 @@ $(document).ready(function () {
 
 			pie[i] = this.set();
 			// Add the pie segment
-			pie.push(this.path("M "+x+" "+y+" L "+x1+" "+y1+" A "+radius+","+radius+" 0 "+((b-a >= Math.PI) ? 1 : 0)+" 1 "+x2+","+y2+" z").attr({stroke:c.stroke,fill:c.fill,'stroke-width':0}).data('i',i+1).data('box',box).mouseover(function(){
+			pie.push(this.path("M "+x+" "+y+" L "+x1+" "+y1+" A "+radius+","+radius+" 0 "+((b-a >= Math.PI) ? 1 : 0)+" 1 "+x2+","+y2+" z").attr({cursor:'pointer',stroke:c.stroke,fill:c.fill,'stroke-width':0}).data('i',i+1).data('box',box).mouseover(function(){
 					//this.transform('s1.05,1.05,'+x+','+y);
 					this.attr({'opacity':0.7});
 					this.next.transform('s1.2');	// key
