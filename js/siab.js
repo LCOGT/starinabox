@@ -85,7 +85,7 @@ $(document).ready(function () {
 				'color': ($('#placeholder').length > 0 ? $('#placeholder').css('color') : "black"),
 				'font-size' : this.fs+'px',
 				'mainsequence' : {
-					'color' : "#3366dd",
+					'color' : "#ffcc00",
 					'opacity' : 1
 				},
 				'grid': {
@@ -296,12 +296,12 @@ $(document).ready(function () {
 		var txtprops = {'text-anchor': 'start','fill': '#fff','font-size': this.chart.opts.yaxis['font-size']};
 		var txtprops2 = {'text-anchor': 'start','fill': '#fff','font-size': this.chart.opts['font-size']};
 		//labels
-		var l1 = this.thermo.text(150, 28, "60,000 (K)").attr(txtprops);
-		var l2 = this.thermo.text(150, 88, "48,000 (K)").attr(txtprops);
-		var l3 = this.thermo.text(150, 148, "36,000 (K)").attr(txtprops);
-		var l4 = this.thermo.text(150, 208, "24,000 (K)").attr(txtprops);
-		var l5 = this.thermo.text(150, 268, "12,000 (K)").attr(txtprops);
-		var l6 = this.thermo.text(150, 328, "0 (K)").attr(txtprops);
+		this.thermoLabel1 = this.thermo.text(150, 28, "60,000 K").attr(txtprops);
+		var l2 = this.thermo.text(150, 88, "48,000 K").attr(txtprops);
+		var l3 = this.thermo.text(150, 148, "36,000 K").attr(txtprops);
+		var l4 = this.thermo.text(150, 208, "24,000 K").attr(txtprops);
+		var l5 = this.thermo.text(150, 268, "12,000 K").attr(txtprops);
+		var l6 = this.thermo.text(150, 328, "0 K").attr(txtprops);
 		var ll = this.thermo.text(30, 200, "Temperature (Kelvin)").attr(txtprops2);
 		ll.rotate(-90);
 
@@ -483,9 +483,10 @@ $(document).ready(function () {
 	}
 	StarInABox.prototype.setThermometer = function(temp){
 		s = Math.min(temp / 60000,1.05);
-		//if(typeof duration=="number") this.thermoTemp.animate({ transform: "s1,"+s+",0,343" }, duration);
-		//else 
 		this.thermoTemp.transform("s1,"+s+",0,343");
+		if(temp > 60000) this.thermoLabel1.attr('text',addCommas(temp)+' K')
+		else this.thermoLabel1.attr('text','60,000 K')
+
 	}
 	StarInABox.prototype.slideTo = function(p){
 		clearInterval(this.eAnim);
@@ -1151,7 +1152,7 @@ $(document).ready(function () {
 		var yoff = y + radius*(1.2);
 		var yspace = Math.floor(keysize*1.4);
 		var pie = Array(n);
-		var f = ['#3366dd','#df0000','#fac900','#009d00','#d6ccff','#ffcccc','#fff5cc','#ccffcc'];
+		var f = ['#fac900','#009d00','#df0000','#3366dd','#d6ccff','#ffcccc','#fff5cc','#ccffcc'];
 		for (var i = 0; i < n; i++){
 			c = {'fill': (typeof attr.fill=="object" && attr.fill.length > i) ? attr.fill[i] : ((typeof attr.fill=="string") ? attr.fill : f[i % f.length]), 'stroke': (typeof attr.stroke=="object" && attr.stroke.length > i) ? attr.stroke[i] : ((typeof attr.stroke=="string") ? attr.stroke : "white")}
 			var a = offsetAngle;
