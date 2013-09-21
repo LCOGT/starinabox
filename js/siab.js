@@ -76,7 +76,8 @@ $(document).ready(function () {
 
 		// Get font-size
 		this.fs = ($('#placeholder').css('font-size') ? parseInt($('#placeholder').css('font-size')) : 12);
-		
+
+
 		/**
 		 *	Set Chart variables
 		 **/
@@ -97,6 +98,9 @@ $(document).ready(function () {
 					'color' : '#000000',
 					'background-color' : "#ffcc00",
 					'opacity' : 1
+				},
+				'path' : {
+					'color':'#ffcc00'
 				},
 				'grid': {
 					'color': "rgb(0,0,0)",
@@ -178,7 +182,6 @@ $(document).ready(function () {
 
 		this.updateChart();
 
-
 	}
 
 	StarInABox.prototype.removeCrosshair = function(){
@@ -237,6 +240,7 @@ $(document).ready(function () {
 		$("#box-lid").click({box:this},function(e){
 			if(e.data.box.canopen) e.data.box.toggleLid();
 		});
+
 		$(document).bind('keypress',{box:this},function(e){
 			if(!e) e=window.event;
 			var box = e.data.box;
@@ -398,6 +402,7 @@ $(document).ready(function () {
 			"time": $("#tevTime"),
 			"stagelabel": $('#current-stage')
 		}
+
 	}
 	StarInABox.prototype.supernova = function(){
 		c = $('#container');
@@ -418,6 +423,7 @@ $(document).ready(function () {
 		$('.caution').show().css({top:"0px"}).animate({top: "30px"},500,function(){ setTimeout("$('.caution').hide()",7000); });
 	}
 	StarInABox.prototype.play = function(e){
+		if($('#hinttext').length > 0) $('#hinttext').remove();
 		if(this.animating){
 			clearInterval(this.eAnim);
 			$("a#animateEvolve").text('Start');
@@ -1091,7 +1097,7 @@ $(document).ready(function () {
 			if(this.starPath) this.starPath.remove();
 			if(this.starPathShadow) this.starPathShadow.remove();
 			if(strshadow) this.starPathShadow = this.chart.holder.path(strshadow).attr({stroke:'rgb(0,0,0)','stroke-opacity': 0.2,'stroke-width':3,'stroke-dasharray':'-'});
-			if(str) this.starPath = this.chart.holder.path(str).attr({stroke:'#ffcc00','stroke-width':2,'stroke-dasharray':'-'});
+			if(str) this.starPath = this.chart.holder.path(str).attr({stroke:this.chart.opts.path.color,'stroke-width':2,'stroke-dasharray':'-'});
 			if(str) this.starPathClicker = this.chart.holder.path(str).attr({stroke:'black','stroke-width':10,'stroke-opacity':0});
 
 
@@ -1121,7 +1127,8 @@ $(document).ready(function () {
 
 			if(this.chart.star) this.chart.star.remove();
 			s = this.stageIndex[this.sStart];
-			this.chart.star = this.chart.holder.circle((this.eAnimPoints[s][0]), (this.eAnimPoints[s][1]), 5).attr("fill", "#000000");
+			this.chart.star = this.chart.holder.circle((this.eAnimPoints[s][0]), (this.eAnimPoints[s][1]), 5).attr({"fill":"#000000"});
+			this.chart.star.node.id = "chartstar";
 
 			// Add to DOM if necessary
 			if($('#starMass .value').length==0) $('#starMass').append('<span class="value"></span>');
@@ -1135,8 +1142,45 @@ $(document).ready(function () {
 				$('#starMass .value').html(selector);
 				// Add a change event to the <select>
 				$('#starMass select').on('change',{box:this},function(e){
+					if($('#hinttext').length > 0) $('#hinttext').click();
 					e.data.box.slideMassTo(parseFloat($(this).find("option:selected").attr("value")));
 				});
+				bubblePopup({
+					id: 'hinttext', 
+					el: $('#starMass select'), 
+					html: 'Welcome! At the moment you have a 1 solar mass star but you can change that here if you want to.',
+					align: 'auto',
+					context: this,
+					w: 190,
+					dismiss: true,
+					animate: true,
+					onpop:function(){
+						bubblePopup({ 
+							id: 'hinttext',
+							el: $('#chartstar'),
+							html: ('This is your star at the start of its life. The <span style="color:'+this.chart.opts.path.color+'">dashed line</span> shows how the star\'s '+this.lang.lum.toLowerCase()+' and temperature will change over its life.'),
+							align: 'auto',
+							context: this,
+							w: 200,
+							dismiss: true,
+							animate: true,
+							onpop:function(){
+								bubblePopup({ 
+									id: 'hinttext',
+									el: $('#controls .control_play img'),
+									html: 'Click the play button when you\'re ready to start animating your star.',
+									align: 'auto',
+									w: 200,
+									dismiss: true,
+									animate: true
+								});
+		
+							}
+						});
+
+					}
+				});
+
 			}
 			// Update the unit
 			$('#starMass .unit').html((this.data.mass==1) ? 'Solar mass' : 'Solar masses');
@@ -1321,6 +1365,108 @@ $(document).ready(function () {
 		}
 		return pie;
 	}
+
+	
+	/**
+	 * Create a popup bubble attached to an element. Requires an object with:
+	 * @param inp {Object}
+	 *		id = the name to use for the popup
+	 *		el = the jQuery element to attach a popup to
+	 *		html = the content
+	 *		animate = true, false
+	 *		align = how to attach the popup ("auto", "left", "right", "top", "bottom", "center")
+	 *		fade = ms to fade
+	 *		dismiss = true, false
+	 */
+	function bubblePopup(inp) {
+		// Setup - check for existence of values
+		if(typeof inp!="object") return;
+		if(typeof inp.id!="string")	return;
+		if(!inp.el) return;
+		if(typeof inp.el!="object" || inp.el.length == 0) return;
+
+		var w = inp.el.outerWidth();
+		var w2 = w/2;
+		var h = inp.el.outerHeight();
+		var h2 = h/2;
+		var x = inp.el.offset().left+w2;	// The centre of the element
+		var y = inp.el.offset().top+h2;	// The centre of the element
+	
+		var onpop = (typeof inp.onpop=="function") ? inp.onpop : "";
+		var context = (inp.context) ? inp.context : this;
+		var id = inp.id;
+		var el = $('#'+id);
+		if(el.length == 0){
+			$('body').append('<div id="'+id+'" class="poppitypin'+(style ? " "+style : "")+'"><div class="poppitypin-inner">'+inp.html+'</div><\/div>');
+			el = $('#'+id);
+		}else el.stop().attr('class','').addClass('poppitypin'+(style ? " "+style : "")).html('<div class="poppitypin-inner">'+(inp.html ? inp.html : el.html())+'</div>');
+		
+		var z = (typeof inp.z=="number") ? inp.z : 1000;	// The z-index
+
+		var animate = (typeof inp.animate=="boolean") ? inp.animate : false;
+		var dismiss = (typeof inp.dismiss=="boolean") ? inp.dismiss : false;
+		var triggers = (typeof inp.dismiss=="object") ? inp.triggers : false;
+		var fade = (typeof inp.fade=="number") ? inp.fade : -1;
+		var wide = (typeof inp.w=="number") ? inp.w : el.outerWidth();
+		var tall = (typeof inp.h=="number") ? inp.h : el.outerHeight();
+
+		el.css({'position':'absolute','z-index':z,'display':'inline-block','visibility':'visible','width':wide});
+	
+	
+		var arr = 0;
+		var padding = (typeof inp.padding=="number") ? inp.padding : parseInt(el.css('padding-left'));
+		var align = (typeof inp.align=="string") ? inp.align : "auto";
+		var talign = (typeof inp.textalign=="string") ? inp.textalign : "center";
+		var style = (typeof inp.style=="string") ? " "+inp.style : (el ? " "+el.attr('class') : "");
+	
+	
+		var y2 = (y - h2 - tall - arr - padding);
+	
+		if(align == "auto"){
+			align = "north";
+			if((y - h2 - tall - arr - padding) < window.scrollY || x + wide/2 > $(window).width() || x - wide/2 < 0){
+				align = "south";
+				if(x + wide/2 > $(window).width()) align = "west";
+				if(x - wide/2 < 0) align = "east";
+			}
+		}
+	
+		el.addClass('poppitypin-'+align);
+		if(align == "east"){
+			l = x + w2 + padding + arr/2;
+			lorig = l+w2;
+			t = y - tall/2;
+			torig = t;
+		}else if(align == "west"){
+			l = x - w2 - padding - wide - arr/2;
+			lorig = l-w2;
+			t = y - tall/2;
+			torig = t;
+		}else if(align == "north"){
+			l = x - wide/2;
+			lorig = l;
+			t = y - h2 - padding - tall - arr/2;
+			torig = t - h2;
+		}else if(align == "south"){
+			l = x - wide/2;
+			lorig = l;
+			t = y + h2 + padding + arr/2;
+			torig = t + h2;
+		}else if(align == "center" || align == "centre"){
+			l = x - wide/2;
+			lorig = l;
+			t = y - tall/2;
+			torig = t;
+		}else return;
+	
+		el.css({'text-align':talign});
+	
+		if(animate) el.css({'left':lorig,'top':torig,opacity: 0.0}).animate({opacity: 1,'left':l,'top':t},500)
+		else el.css({'left':l+'px','top':t+'px',opacity: 1}).show()
+		if(fade > 0) el.delay(fade).fadeOut(fade);
+		if(dismiss) el.on('click',{onpop:onpop,context:context},function(e){ $(this).remove(); if(e.data.onpop){ e.data.onpop.call(e.data.context); }});
+	}
+
 
 	box = new StarInABox();
 

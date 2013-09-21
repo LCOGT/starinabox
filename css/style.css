@@ -26,7 +26,6 @@ body {
 	clear: both;
 	overflow: visible;
 	position: relative;
-	z-index: 0;
 }
 
 #vertical {
@@ -504,6 +503,10 @@ a.control_rewind,a.control_ff { display: none; }
 	color: #fff;
 }
 
+#right .caption p {
+	margin-bottom: 0.6em;
+}
+
 a#animateEvolve,
 a#animateEvolveReset {
     border-top: 1px solid #fff;
@@ -762,4 +765,19 @@ a#animateEvolveReset:active {
 	display: block;
 	width: 100%;
 }
+
+.poppitypin{padding:8px;text-align:center;opacity:0.8;filter:alpha(opacity=80); background-repeat:no-repeat;white-space:nowrap;}
+.poppitypin-inner{padding:12px;background-color:black;color:white;max-width:200px;text-align:center;border-radius:4px;white-space:normal; }
+.poppitypin:before{content:"";display:block;width:0;height:0;border:8px solid #000;position:absolute;}
+.poppitypin-center:before{content:"";display:block;width:0;height:0;border:0px solid #000;position:absolute;}
+.poppitypin-south:before{left:50%;top:-8px;margin-left:-8px;border-color:transparent transparent #000;}
+.poppitypin-north:before{left:50%;bottom:-8px;margin-left:-8px;border-color:#000 transparent transparent;}
+.poppitypin-west:before{top:50%;right:-8px;margin-top:-8px;border-color:transparent transparent transparent #000;}
+.poppitypin-east:before{top:50%;left:-8px;margin-top:-8px;border-color:transparent #000 transparent transparent;}
+.poppitypin h2 { margin-bottom: 8px; }
+.poppitypin .button { margin-top: 8px; cursor: pointer; color: black; margin-left: 8px;}
+.ieold .poppitypin-north:before{_border-top-color: pink,_border-right-color: pink,_border-left-color:pink,_filter:chroma(color=pink);}
+.ieold .poppitypin-south:before{_border-bottom-color: pink,_border-right-color: pink,_border-left-color:pink,_filter:chroma(color=pink);}
+.ieold .poppitypin-east:before{_border-top-color: pink,_border-bottom-color: pink,_border-left-color:pink,_filter:chroma(color=pink);}
+.ieold .poppitypin-west:before{_border-top-color: pink,_border-bottom-color: pink,_border-right-color:pink,_filter:chroma(color=pink);}
 
