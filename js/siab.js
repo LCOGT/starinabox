@@ -181,7 +181,12 @@ $(document).ready(function () {
 		this.getStages(this.initStarMass);
 
 		this.updateChart();
+		
+		//jQuery.event.trigger({ type : 'keypress', which : ('l').charCodeAt(0)});
+		//jQuery.event.trigger({ type : 'keypress', which : ('2').charCodeAt(0)});
+		//setTimeout(function(ctx){ ctx.thermometer.setTemperature(10000) },1000,this);
 
+		return this;
 	}
 
 	StarInABox.prototype.removeCrosshair = function(){
@@ -309,23 +314,10 @@ $(document).ready(function () {
 		$("#animate .tab-bottom").click({box:this},function(e){ e.data.box.toggleAnimatePanel(); });
 
 		//thermometer
-		this.thermo = Raphael("thermometer", 280, 390);
-		//333px is bottom of thermometer...
-		this.thermoTemp = this.thermo.rect(123, 31, 10, 300);
-		this.thermoTemp.attr("fill", "#CC0000");
-		this.thermoTemp.attr("stroke", "");
-		this.thermoImage = this.thermo.image("images/thermometer.png", 90, -12, 80, 400);
 		var txtprops = {'text-anchor': 'start','fill': '#fff','font-size': this.chart.opts.yaxis['font-size']};
 		var txtprops2 = {'text-anchor': 'start','fill': '#fff','font-size': this.chart.opts['font-size']};
-		//labels
-		this.thermoLabel1 = this.thermo.text(150, 28, "60,000 "+this.lang.tempunit).attr(txtprops);
-		var l2 = this.thermo.text(150, 88, "48,000 "+this.lang.tempunit).attr(txtprops);
-		var l3 = this.thermo.text(150, 148, "36,000 "+this.lang.tempunit).attr(txtprops);
-		var l4 = this.thermo.text(150, 208, "24,000 "+this.lang.tempunit).attr(txtprops);
-		var l5 = this.thermo.text(150, 268, "12,000 "+this.lang.tempunit).attr(txtprops);
-		var l6 = this.thermo.text(150, 328, "0 "+this.lang.tempunit).attr(txtprops);
-		var ll = this.thermo.text(30, 200, this.lang.temp+" ("+this.lang.tempunit+")").attr(txtprops2);
-		ll.rotate(-90);
+
+		this.thermometer = new Thermometer({'id':'thermometer','lang':this.lang,'txt':txtprops2,'labeltxt':txtprops});
 
 		// Luminosity meter
 		this.rLum = Raphael("rlum", 280, 390);
@@ -340,6 +332,7 @@ $(document).ready(function () {
 		this.totalBars = 20;
 		this.initEqUp = '';
 		this.initEqDown = '';
+
 
 		for (var i = this.totalBars; i > 0; --i) {
 			//this.eq1[i] = this.rLum.image("images/eq-led.png", 40, this.xLed, 57, 29);
@@ -511,11 +504,7 @@ $(document).ready(function () {
 		}
 	}
 	StarInABox.prototype.setThermometer = function(temp){
-		s = Math.min(temp / 60000,1.05);
-		this.thermoTemp.transform("s1,"+s+",0,343");
-		if(temp > 60000) this.thermoLabel1.attr('text',addCommas(temp)+' '+this.lang.tempunit)
-		else this.thermoLabel1.attr('text','60,000 '+this.lang.tempunit)
-
+		this.thermometer.setTemperature(temp);
 	}
 	StarInABox.prototype.slidePanelBy = function(p){
 
@@ -763,6 +752,7 @@ $(document).ready(function () {
 		this.chart.star.attr("cy", (this.eAnimPoints[this.timestep][1]));
 		return this;	
 	}
+
 
 	/**
 	 *
@@ -1277,6 +1267,81 @@ $(document).ready(function () {
 	StarInABox.prototype.displayTime = function(t) {
 		if(typeof t== "number") this.el.time.text(t.toFixed(3) + " million years");
 	}
+
+	// Create a Thermometer
+	function Thermometer(inp){
+		
+		this.id = (typeof inp.id==="string") ? inp.id : 'thermometer';
+		this.lang = (inp.lang) ? inp.lang : { 'temp' : 'Temperature', 'tempunit': 'K' };
+		this.txt = (inp.txt) ? inp.txt : {'font':'12px'};
+		this.labeltxt = (inp.labeltxt) ? inp.labeltxt : {'font':'10px'};
+		this.colour = (typeof inp.color==="string") ? inp.color : '#df0000';
+		this.wide = 280;
+		this.tall = 390;
+		this.max = 60000;
+
+		// Properties of the thermometer SVG
+		this.w = 83;
+		this.h = 333;
+
+		// Position to draw the SVG image
+		this.x = (this.wide/2) - (this.w/2);
+		this.y = (this.tall/2) - (this.h/2);
+
+		// Scale
+		this.bulb = this.y+this.h-56
+		this.bottom = this.bulb-10;
+		this.top = this.y+33;
+		this.maxscale = Math.abs(this.y+10-this.bottom)/Math.abs(this.top-this.bottom);
+
+		// Create a canvas to draw on
+		this.thermo = Raphael(this.id, this.wide, this.tall);
+
+		this.mercurybase = this.thermo.rect((this.wide/2 - 25), this.bulb, 50, 40).attr({"fill": this.colour,"stroke":0});
+		this.mercuryzero = this.thermo.rect((this.wide/2 - 15), this.bottom-0.5, 30, Math.abs(this.bulb-this.bottom+1)).attr({"fill": this.colour,"stroke":0});
+		this.mercury = this.thermo.rect((this.wide/2 - 15), this.top, 30, Math.abs(this.top-this.bottom)).attr({"fill": this.colour,"stroke":0});
+		this.thermometer = this.thermo.path('M '+this.x+','+this.y+' m 41.5,1.5 c -20,0 -30,10 -30,20 0,9.96728 9.934984,188.79168 10,249.375 -11.953504,5.61993 -20,16.09695 -20,28.125 0,17.94927 17.90861,32.50007 40,32.50007 22.09139,0 40,-14.5508 40,-32.50007 0,-12.02805 -8.0465,-22.50507 -20,-28.125 0.0709,-50.81368 10,-239.41071 10,-249.375 0,-10 -10,-20 -30,-20 z m 0,20 c 10.04001,0 15.0625,6.19421 15.0625,12.375 0,6.01703 -4.80834,203.53327 -5.0625,242.625 8.80176,3.09568 15,11.81482 15,20 0,11.04569 -11.19288,20.00007 -25,20.00007 -13.807119,0 -25,-8.95438 -25,-20.00007 0,-8.18518 6.198243,-16.90432 15,-20 -0.226713,-43.69221 -5.0625,-236.58939 -5.0625,-242.625 0,-6.18079 5.022485,-12.375 15.0625,-12.375 z').attr({'fill':'#e4f6fe','fill-opacity':1,'stroke':'#000000','stroke-width':0.5,'stroke-opacity':1});
+		this.burst = this.thermo.path('M '+this.x+','+this.y+' m 38,-45 c -5.189184,0.2028506 -11.748983,4.3926725 -13.03125,17.375 -1.709691,17.30977 2.487121,25.46647 0,27.71875 -6.135971,5.5566 -9.503834,-1.70652 -13.59375,-4.6875 -5.366689,-3.91157 -12.056373,-5.2697 -19.75,-1.375 -7.693615,3.89468 -10.463775,11.23029 -3.625,15.125 6.838764,3.89468 7.880996,-4.31523 13.4375,-1.71875 5.556504,2.59647 11.548467,7.35801 3,8.65625 -8.548466,1.29823 -11.536236,-0.875 -18.375,-0.875 -6.838776,0 -12.40625,1.31929 -12.40625,4.78125 0,3.46195 4.702566,8.65625 11.96875,8.65625 7.266194,0 22.651156,-8.65625 29.0625,-8.65625 6.411343,0 11.987309,6.06386 11.987309,14.71875 8.412727,0.324884 29.900381,0.06758 29.900381,0.06758 0,0 1.39471,-11.169376 6.42481,-16.098826 7.87794,-7.72031 17.16555,-2.08174 19.40625,-6.84375 2.35944,-5.01435 -4.43036,-10.6709 -13.40625,-7.875 -9.70031,3.02155 -11.58647,6.7022 -15.46875,11 -3.32215,3.67773 -5.3207,4.77153 -10.1875,3.46875 -5.540608,-1.48315 -5.12751,-10.89425 -3.21875,-15.25 2.64734,-6.04119 4.08314,-7.029207 10.0625,-10.03125 4.95419,-2.487337 5.6182,-10.089577 0.35723,-11.619131 -9.33935,-2.715291 -10.208,9.475131 -14.48223,7.744131 -4.274233,-1.73097 1.716709,-8.23233 4.28125,-15.15625 2.56454,-6.92391 6.85791,-15.59104 2.15625,-18.1875 -1.17542,-0.6491175 -2.77027,-1.0051169 -4.5,-0.937504 z M 121,31.75 c -1.62871,0.04288 -3.40324,0.56884 -5.28125,1.46875 -7.10696,3.40554 -9.03125,15.90625 -9.03125,15.90625 0,0 3.39363,-5.05349 6.53125,-6.28125 4.10714,-1.60714 6.14119,-0.0455 10.53125,-2.125 3.39285,-1.60714 4.09375,-5.35715 1.59375,-7.5 C 124.09375,32.14732 122.62871,31.70712 121,31.75 z').attr({"fill": this.colour,"stroke":0,'opacity':0});
+		this.highlight = this.thermo.path('M '+this.x+','+this.y+' m 38.5,5.7 c -2.210204,0.0122 -4.805816,0.3542 -7.499997,1.09375 -7.184482,1.97213 -12.46767,5.89359 -11.78125,8.75 0.68642,2.85641 7.096768,3.56588 14.28125,1.59375 7.184487,-1.97213 12.436417,-5.86234 11.749997,-8.71875 -0.42901,-1.78526 -3.06632,-2.73916 -6.75,-2.71875 z m 2.40625,20.21875 c -0.85555,0.005 -1.78559,0.0667 -2.75,0.21875 -3.857621,0.60799 -6.810888,2.24728 -6.593747,3.625 0.217141,1.37772 3.517376,1.98299 7.374997,1.375 3.85763,-0.60799 6.81089,-2.21603 6.59375,-3.59375 -0.16285,-1.03329 -2.05834,-1.64142 -4.625,-1.625 z m -10.437497,12.84375 4.5625,238.875 2,0.53125 -4.03125,-238.9375 -2.53125,-0.46875 z m -7.90625,235.375 c 0,0 -13.027028,5.47669 -16.03125,18.46875 -3.004221,12.99206 14.34375,20.68749 14.34375,20.68749 0,0 -8.228079,-4.58486 -8.40625,-16.28124 -0.178171,-11.6964 14.6875,-22.0625 14.6875,-22.0625 l -4.59375,-0.8125 z m 9.15625,6.875 c 0,0 -4.582374,1.40844 -6.15625,5.625 -2.067315,5.53852 1.625,8.4375 1.625,8.4375 0,0 -0.64504,-3.33517 1.5625,-7.21875 2.20754,-3.88358 6.71875,-5.4375 6.71875,-5.4375 l -3.75,-1.40625 z').attr({'opacity':0.5,'fill':'#f7fcfe','fill-opacity':1,'stroke':0});
+		this.shade = this.thermo.path('M '+this.x+','+this.y+' m 52,35.7 c -2.15625,2.15625 -5,2.125 -2.84375,237.46875 c 0,0 1.2164,0.53999 2.96875,0 1.75235,-0.53999 2.71875,-1.75 2.71875,-1.75 l 4.3125,-240 z m -1.96875,243.46875 c 0,0 -1.34065,1.98971 -3.53125,2.5 -2.19059,0.51007 -4.59375,0.53125 -4.59375,0.53125 0,0 18.46638,10.85707 9.375,21.96875 -9.09137,11.11164 -20.937497,6.31254 -20.937497,6.31254 0,0 9.702907,4.5342 20.437497,0.5 10.7346,-4.03435 14.09247,-13.16717 9.84375,-22.21879 -4.24873,-9.05162 -10.59375,-9.59375 -10.59375,-9.59375 z').attr({'opacity':0.2,'fill':'#000000','fill-opacity':1,'stroke':'#000000','stroke-width':1});
+
+
+		//labels
+		this.major = 5;
+		this.minor = 6;
+		var step = this.max/this.major;
+		var steppx = (this.top-this.bottom)/this.major;
+		var steppxminor = steppx/this.minor;
+		this.labels = this.thermo.set();
+		this.ticks = this.thermo.set();
+		var x,y;
+		for(var i = 0 ; i <= this.major ; i++){
+			y = (this.bottom + (i*steppx));
+			this.labels.push(this.thermo.text((this.wide/2 + 22)+(i*2), y, addCommas(step*i)+" "+this.lang.tempunit).attr(this.labeltxt));
+			this.ticks.push(this.thermo.path("M "+(this.wide/2 + 2)+","+y+" l "+(14+i*2)+",0").attr({'stroke':'#000000','stroke-width':1.5}));
+			if(i < this.major){
+				for(var j = 1; j < this.minor ; j++) this.ticks.push(this.thermo.path("M "+(this.wide/2 + 8)+","+(y+j*steppxminor)+" l "+(6+i*2)+",0").attr({'stroke':'#000000','stroke-width':0.5}));
+			}
+		}
+		var ll = this.thermo.text(30, 200, this.lang.temp+" ("+this.lang.tempunit+")").attr(this.txt);
+		ll.rotate(-90);
+
+		return this;	
+	}
+
+	Thermometer.prototype.setTemperature = function(temp){
+		s = Math.min(temp / this.max,this.maxscale);
+		this.mercury.transform("s1,"+s+',0,'+this.bottom);
+		if(temp > this.max){
+			this.labels[this.labels.length-1].attr('text',addCommas(temp)+' '+this.lang.tempunit);
+			this.burst.attr('opacity',1);
+		}else{
+			this.labels[this.labels.length-1].attr('text',addCommas(this.max)+' '+this.lang.tempunit);
+			this.burst.attr('opacity',0);
+		}
+	}
+
+
 	function addCommas(nStr) {
 		nStr += '';
 		var x = nStr.split('.');
