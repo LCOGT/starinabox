@@ -1154,30 +1154,39 @@ $(document).ready(function () {
 					w: 190,
 					dismiss: true,
 					animate: true,
-					onpop:function(){
-						bubblePopup({ 
-							id: 'hinttext',
-							el: $('#chartstar'),
-							html: ('This is your star at the start of its life. The <span style="color:'+this.chart.opts.path.color+'">dashed line</span> shows how the star\'s '+this.lang.lum.toLowerCase()+' and temperature will change over its life.'),
-							align: 'auto',
-							context: this,
-							w: 200,
-							dismiss: true,
-							animate: true,
-							onpop:function(){
+					onpop: function(){
+						var test;
+						// If the user has changed the mass of the star it'll take a little 
+						// while until it loads and we need to wait until it has so that we
+						// know where to put the next bubble popup.
+						function nextstep(context){
+							if(!context.loading){
+								clearTimeout(test);
 								bubblePopup({ 
 									id: 'hinttext',
-									el: $('#controls .control_play img'),
-									html: 'Click the play button when you\'re ready to start animating your star.',
+									el: $('#chartstar'),
+									html: ('This is your star at the start of its life. The <span style="color:'+context.chart.opts.path.color+'">dashed line</span> shows how the star\'s '+context.lang.lum.toLowerCase()+' and temperature will change over its life.'),
 									align: 'auto',
+									context: this,
 									w: 200,
 									dismiss: true,
-									animate: true
+									animate: true,
+									onpop:function(){
+										bubblePopup({ 
+											id: 'hinttext',
+											el: $('#controls .control_play img'),
+											html: 'Click the play button when you\'re ready to start animating your star.',
+											align: 'auto',
+											w: 200,
+											dismiss: true,
+											animate: true
+										});
+				
+									}
 								});
-		
 							}
-						});
-
+						}
+						test = setInterval(nextstep,100,this);
 					}
 				});
 
@@ -1210,11 +1219,13 @@ $(document).ready(function () {
 		this.updateCurrentStage();
 	}
 	StarInABox.prototype.loadingStar = function() {
+		this.loading = true;
 		$('#loader').show().removeClass('done').addClass('loading').width($(window).width()).height($(window).height()).html('<div id="loading"><p>Your star is being prepared.</p><p>Please wait...</p></div>');
 	}
 	StarInABox.prototype.doneLoadingStar = function() {
 		$('#loader').html('').removeClass('loading').addClass('done').hide();
 		this.updateSummary();
+		this.loading = false;
 	}
 	StarInABox.prototype.getData = function(i) {
 		return this.data.data[i];
