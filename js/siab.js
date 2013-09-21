@@ -1152,6 +1152,7 @@ $(document).ready(function () {
 						function nextstep(context){
 							if(!context.loading){
 								clearTimeout(test);
+								if(context.timestep > 0) return;
 								bubblePopup({ 
 									id: 'hinttext',
 									el: $('#chartstar'),
