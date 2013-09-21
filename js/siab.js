@@ -1318,7 +1318,7 @@ $(document).ready(function () {
 		var x,y;
 		for(var i = 0 ; i <= this.major ; i++){
 			y = (this.bottom + (i*steppx));
-			this.labels.push(this.thermo.text((this.wide/2 + 22)+(i*2), y, addCommas(step*i)+" "+this.lang.tempunit).attr(this.labeltxt));
+			this.labels.push(this.thermo.text((this.wide/2 + 24)+(i*2), y, addCommas(step*i)+" K").attr(this.labeltxt));
 			this.ticks.push(this.thermo.path("M "+(this.wide/2 + 2)+","+y+" l "+(14+i*2)+",0").attr({'stroke':'#000000','stroke-width':1.5}));
 			if(i < this.major){
 				for(var j = 1; j < this.minor ; j++) this.ticks.push(this.thermo.path("M "+(this.wide/2 + 8)+","+(y+j*steppxminor)+" l "+(6+i*2)+",0").attr({'stroke':'#000000','stroke-width':0.5}));
@@ -1334,10 +1334,10 @@ $(document).ready(function () {
 		s = Math.min(temp / this.max,this.maxscale);
 		this.mercury.transform("s1,"+s+',0,'+this.bottom);
 		if(temp > this.max){
-			this.labels[this.labels.length-1].attr('text',addCommas(temp)+' '+this.lang.tempunit);
+			this.labels[this.labels.length-1].attr('text',addCommas(temp)+' K');
 			this.burst.attr('opacity',1);
 		}else{
-			this.labels[this.labels.length-1].attr('text',addCommas(this.max)+' '+this.lang.tempunit);
+			this.labels[this.labels.length-1].attr('text',addCommas(this.max)+' K');
 			this.burst.attr('opacity',0);
 		}
 	}
