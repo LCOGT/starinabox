@@ -994,21 +994,29 @@ $(document).ready(function () {
 		this.chart.offset.height = this.chart.height-this.chart.offset.bottom-this.chart.offset.top;
 	}
 	StarInABox.prototype.updateChart = function() {
-		var p1,p2,mid,m,c,v,s;
+		var p,p1,p2,mid,m,c,v,s,str,ms;
 		this.getChartOffset();
 		if(!this.chart.mainSequence){
 			m = 6.1;
 			c = 23.2;
-			p1 = this.getPixPos(3000,Math.pow(10,m*this.log10(3000)-c));
-			p2 = this.getPixPos(50000,Math.pow(10,m*this.log10(50000)-c));
-			mid = this.getPixPos(12000,Math.pow(10,m*this.log10(12000)-c));
-			this.chart.mainSequence = this.chart.holder.path("M"+p1[0]+","+p1[1]+"L"+p2[0]+","+p2[1]).attr({
-				stroke : this.chart.opts.mainsequence['background-color'],
-				"stroke-opacity": this.chart.opts.mainsequence.opacity,
-				"stroke-width": 35,
-				"stroke-linecap" : "round"
+			p1 = this.getPixPos(6194,3.4);
+			p2 = this.getPixPos(18000,1700);
+			mid = this.getPixPos(10600,94);
+			str = '';
+			// Build path to describe Main Sequence using [temp,lum] points marking out its border
+			ms = [[3000,0.001],[2700,0.0016],[6000,10],[10000,300],[15000,2200],[25000,30000],[40000,300000],[45000,130000],[28000,5000],[10000,20],[6200,1],[4000,0.02]];
+			for(var i = 0 ; i < ms.length ; i++){
+				p = this.getPixPos(ms[i][0],ms[i][1]);
+				str += p[0]+","+p[1]+" ";
+				if(i == 0) str += 'R';
+			}
+			this.chart.ms = this.chart.holder.path("M"+str+'Z').attr({
+				"fill" : this.chart.opts.mainsequence['background-color'],
+				"fill-opacity": this.chart.opts.mainsequence.opacity,
+				"stroke-width": 0
 			});
 			this.chart.mainSequenceLabel = this.chart.holder.text(mid[0],mid[1],this.lang.ms).attr({ fill: this.chart.opts.mainsequence.color,'font-size': this.chart.opts['font-size'],'text-anchor':'middle' }).rotate(Raphael.angle(p1[0],p1[1],p2[0],p2[1]));
+
 		}
 		if(!this.chart.axes) this.chart.axes = this.chart.holder.rect(this.chart.offset.left,this.chart.offset.top,this.chart.offset.width,this.chart.offset.height).attr({stroke:'rgb(0,0,0)','stroke-opacity': 0.5,'stroke-width':2});
 		if(!this.chart.yLabel) this.chart.yLabel = this.chart.holder.text(this.chart.offset.left - 10, this.chart.offset.top+(this.chart.offset.height/2), this.lang.lum+" ("+this.lang.lumunit+")").attr({fill: (this.chart.opts.yaxis.label.color ? this.chart.opts.yaxis.label.color : this.chart.opts.color),'fill-opacity': (this.chart.opts.yaxis.label.opacity ? this.chart.opts.yaxis.label.opacity : 1),'font-size': this.chart.opts['font-size'] }).rotate(270);
