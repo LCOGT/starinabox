@@ -319,36 +319,7 @@ $(document).ready(function () {
 
 		this.thermometer = new Thermometer({'id':'thermometer','lang':this.lang,'txt':txtprops2,'labeltxt':txtprops});
 
-		// Luminosity meter
-		this.rLum = Raphael("rlum", 280, 390);
-		//this.eqBg1 = this.rLum.image("images/eq-bg.png", 40, 20, 57, 354);
-		this.eqBg2 = this.rLum.image("images/eq-bg.png", 105, 20, 57, 354);
-		//add LEDs
-		//this.eq1 = [];
-		this.eq2 = [];
-		this.xLed = 22;
-		this.eqCurrentLevel = 0;
-		this.numBars = 0;
-		this.totalBars = 20;
-		this.initEqUp = '';
-		this.initEqDown = '';
-
-
-		for (var i = this.totalBars; i > 0; --i) {
-			//this.eq1[i] = this.rLum.image("images/eq-led.png", 40, this.xLed, 57, 29);
-			this.eq2[i] = this.rLum.image("images/eq-led.png", 105, this.xLed, 57, 29);
-			//this.eq1[i].attr("opacity", "0.3");
-			this.eq2[i].attr("opacity", "0.3");
-			this.xLed = this.xLed + 17;
-		}
-
-		var le1 = this.rLum.text(170, 30, "1,000,000").attr(txtprops);
-		var le2 = this.rLum.text(170, 115, "10,000").attr(txtprops);
-		var le3 = this.rLum.text(170, 202, "100").attr(txtprops);
-		var le4 = this.rLum.text(170, 285, "1").attr(txtprops);
-		var le5 = this.rLum.text(170, 370, "0.001").attr(txtprops);
-		ll = this.rLum.text(0, 220, this.lang.lum+" ("+this.lang.lumunit+")").attr(txtprops2);
-		ll.rotate(-90);
+		this.lightmeter = new LightMeter({'id':'rlum','lang':this.lang,'txt':txtprops2,'labeltxt':txtprops});
 
 		
 		//this.createMassSlider();
@@ -398,8 +369,8 @@ $(document).ready(function () {
 
 	}
 	StarInABox.prototype.supernova = function(){
-		c = $('#container');
-		b = $('#box-top');
+		var c = $('#container');
+		var b = $('#box-top');
 		if($('.supernova').length == 0) $('#container').append('<div class="supernova"></div>');
 		if(this.open){
 			if($('.supernovaflash').length == 0) $('body').append('<div class="supernovaflash"></div>');
@@ -487,7 +458,7 @@ $(document).ready(function () {
 							fill: el.RGB
 						}, (duration*reduction));
 						this.setThermometer(el.temp);
-						this.eqLevel(el.lum, true);
+						this.lightmeter.level(el.lum, true, el.RGB);
 						this.updateCurrentStage();
 					}
 				}
@@ -637,46 +608,6 @@ $(document).ready(function () {
 		$("a#animateEvolveReset").css('display', '');
 	}
 
-	StarInABox.prototype.eqLevel = function(num, anim) {
-		var zero = 5;
-		var units = 0.4;
-		var bars = 20;
-		var n;
-		if (num != null) {
-			n = Math.round(this.log10(num) / units) + zero;
-
-			if(this.numBars != n){
-				this.numBars = n;
-				if (anim == true) this.eqChange();
-				else {
-					if(this.numBars >= 0) this.eqCurrentLevel = this.numBars;
-					for (var i = 1; i <= this.totalBars; i++) {
-						if(i <= this.numBars) this.eq2[i].attr('opacity', 1);
-						else this.eq2[i].attr('opacity', 0.3);
-					}
-				}
-			}
-		}
-	}
-	StarInABox.prototype.eqChange = function() {
-		if(!this.eqCurrentLevel || this.eqCurrentLevel < 0) this.eqCurrentLevel = 0;
-		if(this.numBars == this.eqCurrentLevel) return;
-		if(this.numBars > this.eqCurrentLevel){
-			// eq2 is indexed from 1
-			if(this.eqCurrentLevel >= 0){
-				this.eq2[this.eqCurrentLevel+1].animate({ opacity: 1 }, 300);
-				this.eqCurrentLevel++;
-			}
-		}
-		if (this.numBars < this.eqCurrentLevel){
-			// eq2 is indexed from 1
-			if(this.eqCurrentLevel >= 0){
-				this.eq2[this.eqCurrentLevel+1].animate({ opacity: 0.3 }, 300);
-				this.eqCurrentLevel--;
-			}
-		}
-		if(this.numBars != this.eqCurrentLevel && this.eqCurrentLevel >= 0) window.setTimeout(function(box){ box.eqChange(); },100,this);
-	}
 	StarInABox.prototype.reset = function(){
 		clearInterval(this.eAnim);
 		this.animating = false;
@@ -743,7 +674,7 @@ $(document).ready(function () {
 			this.displayTime(p.t);
 			this.sStarReset();
 			this.setComparisonStar(i);
-			this.eqLevel(p.lum);
+			this.lightmeter.level(p.lum,false,p.RGB);
 			this.setThermometer(p.temp);
 			this.updateStopwatch();
 			this.createScales();
@@ -1347,6 +1278,110 @@ $(document).ready(function () {
 			this.labels[this.labels.length-1].attr('text',addCommas(this.max)+' K');
 			this.burst.attr('opacity',0);
 		}
+	}
+
+	// Create a logarithmic light meter
+	function LightMeter(inp){
+
+		this.id = (typeof inp.id==="string") ? inp.id : 'thermometer';
+		this.lang = (inp.lang) ? inp.lang : { 'temp' : 'Temperature', 'tempunit': 'K' };
+		this.txt = (inp.txt) ? inp.txt : {'font':'12px'};
+		this.labeltxt = (inp.labeltxt) ? inp.labeltxt : {'font':'10px'};
+		this.colour = (typeof inp.color==="string") ? inp.color : '#fac900';
+		this.on = { opacity: 1 };
+		this.off = { opacity: 0.1 };
+		this.wide = 280;
+		this.tall = 390;
+		this.w = 63;
+		this.h = 333;
+		this.max = 1000000; // The maximum value
+		this.min = 0.0001;  // The minimum value
+		this.step = 100;    // Factor by which each step is separated
+		this.minor = 4;     // Number of equalizer levels per step
+		this.padding = 10;	// The light meter padding in pixels
+		this.spacing = 2;	// The pixel spacing between equalizer levels
+
+
+		// Calculate some properties
+		this.maxlog = Math.round(this.log10(this.max));
+		this.minlog = Math.round(this.log10(this.min));
+		this.steplog = Math.round(this.log10(this.step));
+		this.levels = Math.round((this.maxlog-this.minlog)/this.steplog);
+		this.zero = Math.round(-this.minlog);	// Set the zero level at value of 1
+
+		// Position to draw the SVG image
+		this.x = (this.wide/2) - (this.w/2);
+		this.y = (this.tall/2) - (this.h/2);
+
+		this.totalBars = this.minor*this.levels;
+		this.eqCurrentLevel = 0;
+		this.numBars = 0;
+		this.eq = [];	// The equalizer steps
+
+		// Scale
+		this.bottom = this.y+this.h-this.padding+this.spacing;
+		this.top = this.y+this.padding;
+		var steppx = (Math.abs(this.top-this.bottom)/this.totalBars);
+
+
+		// Create a canvas to draw on
+		this.meter = Raphael(this.id, this.wide, this.tall);
+
+		this.bg = this.meter.rect(this.x,this.y,this.w,this.h).attr({'fill':'#999999'});
+		for(var i = 0 ; i < this.totalBars; i++) this.eq.push(this.meter.rect(this.x+this.padding,this.bottom-(i+1)*steppx,this.w-this.padding*2,steppx-this.spacing).attr({'fill':this.colour,'stroke':0}));
+		this.labels = this.meter.set();
+		for(var i = this.minlog ; i <= this.maxlog ; i+=this.steplog) this.labels.push(this.meter.text(this.x+this.w+this.padding, this.bottom-(i+this.zero)*this.minor*steppx/this.steplog, addCommas(Math.pow(10,i))).attr(this.labeltxt));
+		ll = this.meter.text(0, 220, this.lang.lum+" ("+this.lang.lumunit+")").attr(this.txt);
+		ll.rotate(-90);
+
+		return this;
+	}
+
+	LightMeter.prototype.log10 = function(v) {
+		return Math.log(v)/2.302585092994046;
+	}
+
+	LightMeter.prototype.level = function(num, anim, colour){
+		var n;
+		if(typeof colour==="string"){
+			for(var i = 0 ; i < this.totalBars; i++) this.eq[i].attr('fill',colour);
+		}
+		if (num != null) {
+			n = Math.round((this.log10(num)-this.minlog)*this.minor/this.steplog);
+			if(this.numBars != n){
+				this.numBars = n;
+				if(anim == true) this.eqChange();
+				else {
+					if(this.numBars >= 0) this.eqCurrentLevel = this.numBars;
+					for (var i = 0; i < this.totalBars; i++) {
+						if(i < this.numBars) this.eq[i].attr(this.on);
+						else this.eq[i].attr(this.off);
+					}
+				}
+			}
+		}
+		return this;
+	}
+	
+	LightMeter.prototype.eqChange = function() {
+		if(!this.eqCurrentLevel || this.eqCurrentLevel < 0) this.eqCurrentLevel = 0;
+		if(this.numBars == this.eqCurrentLevel) return;
+		if(this.numBars > this.eqCurrentLevel){
+			// eq is indexed from 1
+			if(this.eqCurrentLevel >= 0){
+				this.eq[this.eqCurrentLevel].animate(this.on, 200);
+				this.eqCurrentLevel++;
+			}
+		}
+		if(this.numBars < this.eqCurrentLevel){
+			// eq is indexed from 1
+			if(this.eqCurrentLevel >= 0){
+				this.eq[this.eqCurrentLevel].animate(this.off, 200);
+				this.eqCurrentLevel--;
+			}
+		}
+		if(this.numBars != this.eqCurrentLevel && this.eqCurrentLevel >= 0) window.setTimeout(function(box){ box.eqChange(); },50,this);
+		return this;
 	}
 
 
