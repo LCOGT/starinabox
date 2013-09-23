@@ -491,7 +491,7 @@ a.control_rewind,a.control_ff { display: none; }
     position: absolute;
     width: 260px;
     padding: 10px;
-    background: rgba(0,0,0,0.7);
+    background: rgba(0,0,0,0.85);
     top: 0;
     left: 0;
     text-align: left;
