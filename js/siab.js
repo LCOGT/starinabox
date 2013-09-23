@@ -1327,8 +1327,8 @@ $(document).ready(function () {
 		// Create a canvas to draw on
 		this.meter = Raphael(this.id, this.wide, this.tall);
 
-		this.bg = this.meter.rect(this.x,this.y,this.w,this.h).attr({'fill':'#999999'});
-		for(var i = 0 ; i < this.totalBars; i++) this.eq.push(this.meter.rect(this.x+this.padding,this.bottom-(i+1)*steppx,this.w-this.padding*2,steppx-this.spacing).attr({'fill':this.colour,'stroke':0}));
+		this.bg = this.meter.rect(this.x-0.5,this.y-0.5,this.w,this.h).attr({'fill':'#999999','stroke':0});
+		for(var i = 0 ; i < this.totalBars; i++) this.eq.push(this.meter.rect(this.x+this.padding-0.5,this.bottom-(i+1)*steppx,this.w-this.padding*2,steppx-this.spacing).attr({'fill':this.colour,'stroke':0}));
 		this.labels = this.meter.set();
 		for(var i = this.minlog ; i <= this.maxlog ; i+=this.steplog) this.labels.push(this.meter.text(this.x+this.w+this.padding, this.bottom-(i+this.zero)*this.minor*steppx/this.steplog, addCommas(Math.pow(10,i))).attr(this.labeltxt));
 		ll = this.meter.text(0, 220, this.lang.lum+" ("+this.lang.lumunit+")").attr(this.txt);
