@@ -755,6 +755,7 @@ $(document).ready(function () {
 			this.setThermometer(p.temp);
 			this.stopwatch.update();
 			this.createScales();
+			this.updateCurrentStage();
 		}
 		this.chart.star.attr("cx", (this.eAnimPoints[this.timestep][0]));
 		this.chart.star.attr("cy", (this.eAnimPoints[this.timestep][1]));
