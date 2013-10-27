@@ -1466,11 +1466,6 @@ $(document).ready(function () {
 
 		if(this.box.data.data) this.rebuild();
 
-		// Draw label
-		this.dial.push(this.rStopwatch.text(this.x,this.y+this.r*0.3,"LCOGT").attr({'stroke-width':0,'fill':this.box.chart.opts.color,'text-anchor':'middle','font-style':'italic','font-family':'Times','font-size':'10px'}));
-		this.dial.push(this.rStopwatch.text(this.x,this.y+this.r*0.4,"CHRONOGRAPH").attr({'stroke-width':0,'fill':this.box.chart.opts.color,'text-anchor':'middle','font-style':'italic','font-family':'Times','font-size':'6px'}));
-		this.dial.push(this.rStopwatch.text(this.x,this.y+this.r*0.4+7,(new Date()).getFullYear()).attr({'stroke-width':0,'fill':this.box.chart.opts.color,'text-anchor':'middle','font-style':'italic','font-family':'Times','font-size':'6px'}));
-
 		return this;
 	}
 	
@@ -1496,6 +1491,13 @@ $(document).ready(function () {
 			this.d = { values: this.data, labels:this.legend };
 			this.pie = this.rStopwatch.piechart(this.x,this.y,this.radius,this.d,this.attr,this.box);
 		}
+
+		// Draw label
+		this.dial.push(this.rStopwatch.text(this.x,this.y+this.r*0.3,"LCOGT").attr({'stroke-width':0,'fill':this.box.chart.opts.color,'text-anchor':'middle','font-style':'italic','font-family':'Times','font-size':'10px'}));
+		this.dial.push(this.rStopwatch.text(this.x,this.y+this.r*0.4,"CHRONOGRAPH").attr({'stroke-width':0,'fill':this.box.chart.opts.color,'text-anchor':'middle','font-style':'italic','font-family':'Times','font-size':'6px'}));
+		this.dial.push(this.rStopwatch.text(this.x,this.y+this.r*0.4+7,(new Date()).getFullYear()).attr({'stroke-width':0,'fill':this.box.chart.opts.color,'text-anchor':'middle','font-style':'italic','font-family':'Times','font-size':'6px'}));
+
+
 		this.update();
 
 		return this;
