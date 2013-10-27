@@ -158,14 +158,12 @@ $(document).ready(function () {
 		this.sizeComparison.star = this.sizeComparison.paper.circle(this.sizeComparison.starX+this.sizeComparison.starR, this.sizeComparison.starY, this.sizeComparison.starR).attr({"fill":"#fff3ea","stroke-width":"0"});
 		this.massComparison.star = this.rScales.circle(this.massComparison.x+this.massComparison.r, this.massComparison.y, this.massComparison.r).attr({"fill":"#fff3ea","stroke-width":"0"});
 
-		this.setupUI();
-		this.setupMode();
-		
 		// get default stages (1 solar mass)
 		this.getStages(this.initStarMass);
 
-		this.updateChart();
-		
+		this.setupUI();
+		this.setupMode();
+	
 		return this;
 	}
 
@@ -443,7 +441,7 @@ $(document).ready(function () {
 		}		
 		this.thermometer.updateLanguage(this.lang);
 		this.lightmeter.updateLanguage(this.lang);
-		this.stopwatch.update();
+		this.stopwatch.rebuild();
 
 		// Update info panels
 		for(var name in this.lang.captions){
@@ -831,7 +829,7 @@ $(document).ready(function () {
 		this.updateCurrentStage();
 		this.updateChart();
 		this.setComparisonStar(0);
-		this.stopwatch.update();
+		this.stopwatch.rebuild();
 		this.createScales();
 		this.doneLoadingStar();
 	}
@@ -919,6 +917,8 @@ $(document).ready(function () {
 		this.chart.offset.height = this.chart.height-this.chart.offset.bottom-this.chart.offset.top;
 	}
 	StarInABox.prototype.updateChart = function() {
+		var start = new Date();
+
 		var p,p1,p2,mid,m,c,v,s,str,ms;
 		this.getChartOffset();
 		if(!this.chart.mainSequence){
@@ -1141,7 +1141,7 @@ $(document).ready(function () {
 		return p;
 	}
 	StarInABox.prototype.updateEvolve = function() {
-		this.stopwatch.update();
+		this.stopwatch.rebuild();
 		this.createScales();
 		this.updateCurrentStage();
 	}
@@ -1464,7 +1464,7 @@ $(document).ready(function () {
 		this.radius = this.r*this.frac;
 		this.attr = {'colours':[this.box.chart.opts.mainsequence['background-color'],'#009d00','#df0000','#7ea0ee','#d6ccff','#ffcccc','#fff5cc','#ccffcc']};
 
-		if(this.box.data.data) this.update();
+		if(this.box.data.data) this.rebuild();
 
 		// Draw label
 		this.dial.push(this.rStopwatch.text(this.x,this.y+this.r*0.3,"LCOGT").attr({'stroke-width':0,'fill':this.box.chart.opts.color,'text-anchor':'middle','font-style':'italic','font-family':'Times','font-size':'10px'}));
@@ -1474,7 +1474,7 @@ $(document).ready(function () {
 		return this;
 	}
 	
-	Stopwatch.prototype.update = function(){
+	Stopwatch.prototype.rebuild = function(){
 		if(this.pie){
 			for(var i = 0 ; i < this.pie.length; i++){
 				this.pie[i].remove();
@@ -1495,7 +1495,15 @@ $(document).ready(function () {
 			}
 			this.d = { values: this.data, labels:this.legend };
 			this.pie = this.rStopwatch.piechart(this.x,this.y,this.radius,this.d,this.attr,this.box);
+		}
+		this.update();
 
+		return this;
+	}
+
+	Stopwatch.prototype.update = function(){
+
+		if(this.box.data.data){
 			var total = 324;
 			var t = this.box.data.data[this.box.timestep].t;
 			total = this.box.data.data[this.box.stageIndex[this.box.stageIndex.length-1]].t;
@@ -1518,7 +1526,6 @@ $(document).ready(function () {
 
 		return this;
 	}
-
 	// functions to make the chart:
 	// Input:
 	//   x - The centre x position
