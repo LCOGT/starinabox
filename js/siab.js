@@ -952,12 +952,12 @@ $(document).ready(function () {
 		if(!this.chart.mainSequence){
 			m = 6.1;
 			c = 23.2;
-			p1 = this.getPixPos(7000,7);
-			p2 = this.getPixPos(18000,770);
-			mid = this.getPixPos(12000,110);
+			p1 = this.getPixPos(7300,8.3);
+			p2 = this.getPixPos(20000,770);
+			mid = this.getPixPos(11000,50);
 			str = '';
 			// Build path to describe Main Sequence using [temp,lum] points marking out its border
-			ms = [[3000,0.001],[2700,0.0016],[6000,10],[12500,670],[20000,10000],[33000,300000],[42000,500000],[45000,130000],[25000,1000],[20000,250],[15000,50],[9000,5],[5000,0.13],[4000,0.02]];
+			ms = [[3000,0.001],[2700,0.0016],[6000,5],[7500,30],[9000,90],[15000,670],[20000,3000],[25000,17000],[30000,70000],[42000,500000],[45000,130000],[25000,1000],[20000,250],[15000,50],[9000,5],[5000,0.13],[4000,0.02]];
 			for(var i = 0 ; i < ms.length ; i++){
 				p = this.getPixPos(ms[i][0],ms[i][1]);
 				str += p[0]+","+p[1]+" ";
