@@ -437,9 +437,10 @@ $(document).ready(function () {
 
 	StarInABox.prototype.setupMode = function(){
 		$('#info .tab').text(this.lang.help.tab);
-		$('#infocontent').before('<div class="closer"><a href="#">&times;</a></div>').html(this.lang.help.content);
-		$('#info .closer a').on('click',{box:this},function(e){ e.data.box.toggleInfoPanel(); });
-				
+		if($('#info .closer').length == 0){
+			$('#infocontent').before('<div class="closer"><a href="#">&times;</a></div>').html(this.lang.help.content);
+			$('#info .closer a').on('click',{box:this},function(e){ e.data.box.toggleInfoPanel(); });
+		}		
 		this.thermometer.updateLanguage(this.lang);
 		this.lightmeter.updateLanguage(this.lang);
 		this.stopwatch.update();
