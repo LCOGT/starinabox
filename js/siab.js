@@ -1050,7 +1050,8 @@ $(document).ready(function () {
 			});
 
 			if(this.chart.star) this.chart.star.remove();
-			s = this.stageIndex[this.sStart];
+			//s = this.stageIndex[this.sStart];
+			s = this.timestep;
 			this.chart.star = this.chart.holder.circle((this.eAnimPoints[s][0]), (this.eAnimPoints[s][1]), 5).attr({"fill":"#000000"});
 			this.chart.star.node.id = "chartstar";
 
