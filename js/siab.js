@@ -201,7 +201,7 @@ $(document).ready(function () {
 		this.massVM = [0.2, 0.65, 1, 2, 4, 6, 10, 20, 30, 40];
 
 		// The stages indices must match indices used in the data
-		this.stages = ["Low mass MS star","Main Sequence star","Main Sequence star","Giant Branch","Giant Branch","Giant Branch","Giant Branch","Main Sequence star","Wolf-Rayet star","Giant Branch","White Dwarf","White Dwarf","White Dwarf","Neutron Star","Black Hole","Supernova"]
+		this.stages = ["Main Sequence star","Main Sequence star","Main Sequence star","Giant Branch","Giant Branch","Giant Branch","Giant Branch","Main Sequence star","Wolf-Rayet star","Giant Branch","White Dwarf","White Dwarf","White Dwarf","Neutron Star","Black Hole","Supernova"]
 		this.allstages = {
 			"m0.2" : [ {"type":0, "lum":-2.2399, "t":639800, "radius":0.27, "temp":2942, "RGB":"#ffb765"}, {"type":2, "lum":-2.0034, "t":914000, "radius":0.36, "temp":2942, "RGB":"#ffb765"}, {"type":3, "lum":-2.2407, "t":962100, "radius":0.21, "temp":3463, "RGB":"#ffc885"}, {"type":10, "lum":1.9434, "t":1080000, "radius":0.02, "temp":56701, "RGB":"#9eb5ff"} ],
 			"m0.65" : [{"type":0, "lum":-0.3403, "t":57610, "radius":0.97, "temp":4849, "RGB":"#ffe5c6"}, {"type":2, "lum":-0.0538, "t":60970, "radius":1.45, "temp":4664, "RGB":"#ffe2bf"}, {"type":3, "lum":0.3772, "t":61970, "radius":2.39, "temp":4664, "RGB":"#ffe2bf"}, {"type":10, "lum":2.3074, "t":62750, "radius":0.02, "temp":56701, "RGB":"#9eb5ff"} ],
@@ -224,7 +224,18 @@ $(document).ready(function () {
 			'ms' : 'Main Sequence',
 			'help' : {
 				'tab' : 'Help',
-				'content': 'This is some help text written for Key Stages 3-5.'
+				'content': {
+					"m0.2" : 'This is some help text written for Key Stages 3-5 for a 0.2 solar mass star.',
+					"m0.65" : 'This is some help text written for Key Stages 3-5 for a 0.65 solar mass star.',
+					"m1" : 'This is some help text written for Key Stages 3-5 for a 1 solar mass star.',
+					"m2" : 'This is some help text written for Key Stages 3-5 for a 2 solar mass star.',
+					"m4" : 'This is some help text written for Key Stages 3-5 for a 4 solar mass star.',
+					"m6" : 'This is some help text written for Key Stages 3-5 for a 6 solar mass star.',
+					"m10" : 'This is some help text written for Key Stages 3-5 for a 10 solar mass star.',
+					"m20" : 'This is some help text written for Key Stages 3-5 for a 20 solar mass star.',
+					"m30" : 'This is some help text written for Key Stages 3-5 for a 30 solar mass star.',
+					"m40" : 'This is some help text written for Key Stages 3-5 for a 40 solar mass star.'
+				}
 			},
 			'captions': {
 				rScales: '<h2>Mass</h2><p>This shows how the mass of your star varies over its life. Stars lose mass gradually by converting hydrogen into helium and heavier elements. They can also lose mass through winds blowing off their surface and at dramatic moments in their lives.</p><p>Stars are massive so, rather than measure this in kilograms, we measure this in comparison to our Sun which has 1 Solar Mass - which is about 2 million million million million million kg!</p>',
@@ -241,7 +252,18 @@ $(document).ready(function () {
 			this.stages = 		["Deeply or fully convective low mass MS star","Main Sequence star","Hertzsprung Gap","Red Giant Branch","Core Helium Burning","Asymptotic Giant Branch","Thermally-pulsing Asymptotic Giant Branch","Main Sequence Naked Helium star","Wolf-Rayet star","Giant Branch Wolf-Rayet star","Helium White Dwarf","Carbon/Oxygen White Dwarf","Oxygen/Neon White Dwarf","Neutron Star","Black Hole","Massless Supernova"];
 			this.lang.lum = 'Luminosity';
 			this.lang.lumunit = 'Solar luminosities';
-			this.lang.help.content = 'This is some help text written for A-level';
+			this.lang.help.content = {
+					"m0.2" : 'This is some help text written for A-level',
+					"m0.65" : 'This is some help text written for A-level',
+					"m1" : 'This is some help text written for A-level',
+					"m2" : 'This is some help text written for A-level',
+					"m4" : 'This is some help text written for A-level',
+					"m6" : 'This is some help text written for A-level',
+					"m10" : 'This is some help text written for A-level',
+					"m20" : 'This is some help text written for A-level',
+					"m30" : 'This is some help text written for A-level',
+					"m40" : 'This is some help text written for A-level'
+				};
 			this.lang.captions = {
 				rScales: '<h2>Mass</h2><p>This shows how the mass of your star varies over its life. Stars lose mass gradually by converting hydrogen into helium and heavier elements. They can also lose mass through winds blowing off their surface and at dramatic moments in their lives.</p><p>Stars are massive so, rather than measure this in kilograms, we measure this in comparison to our Sun which has 1 Solar Mass - which is about 2 million million million million million kg!</p>',
 				rStopwatch: '<h2>Stages in your star\'s life</h2><p>This stopwatch shows the relative time the star spends in each stage of its life. In the animation we speed up time when the star is not really changing much and slow things down for the dramatic phases of the star\'s life.</p>',
@@ -439,7 +461,7 @@ $(document).ready(function () {
 			$('#infocontent').before('<div class="closer"><a href="#">&times;</a></div>');
 			$('#info .closer a').on('click',{box:this},function(e){ e.data.box.toggleInfoPanel(); });
 		}
-		$('#infocontent').html(this.lang.help.content);
+		$('#infocontent').html(this.lang.help.content["m"+(this.mass ? this.mass : this.initStarMass)]);
 		this.thermometer.updateLanguage(this.lang);
 		this.lightmeter.updateLanguage(this.lang);
 		this.stopwatch.rebuild();
@@ -599,17 +621,20 @@ $(document).ready(function () {
 	StarInABox.prototype.slideMassTo = function(p){
 		clearInterval(this.eAnim);
 		var sMass = this.massVM[p];
+		this.mass = sMass;
 		this.loadingStar();
 		//on change get stages for the mass of star!
 		this.getStages(sMass);
 		this.stageLife = Array();
 		this.stageIndex = Array();
+		this.setupMode();
 		
 		$("a#animateEvolve").text('Start');
 		$("a#animateEvolveReset").css('display', '');
 		this.displayTime(0);
 		this.reset();
 	}
+/*
 	StarInABox.prototype.createMassSlider = function(){
 		//Add Mass Slider and set defaults
 		var that = this;
@@ -631,6 +656,7 @@ $(document).ready(function () {
 			$("#mass-slider .ticks p.tick:last").css('left', (i * tickSpace) - 20);
 		}
 	}
+*/
 	StarInABox.prototype.toggleLid = function(){
 		if(this.open){
 			$("#box-lid").animate({"left": "0px"},1000,function(){
@@ -926,12 +952,12 @@ $(document).ready(function () {
 		if(!this.chart.mainSequence){
 			m = 6.1;
 			c = 23.2;
-			p1 = this.getPixPos(6194,3.4);
-			p2 = this.getPixPos(18000,1700);
-			mid = this.getPixPos(10600,94);
+			p1 = this.getPixPos(7000,7);
+			p2 = this.getPixPos(18000,770);
+			mid = this.getPixPos(12000,110);
 			str = '';
 			// Build path to describe Main Sequence using [temp,lum] points marking out its border
-			ms = [[3000,0.001],[2700,0.0016],[6000,10],[10000,300],[15000,2200],[25000,30000],[40000,300000],[45000,130000],[28000,5000],[10000,20],[6200,1],[4000,0.02]];
+			ms = [[3000,0.001],[2700,0.0016],[6000,10],[12500,670],[20000,10000],[33000,300000],[42000,500000],[45000,130000],[25000,1000],[20000,250],[15000,50],[9000,5],[5000,0.13],[4000,0.02]];
 			for(var i = 0 ; i < ms.length ; i++){
 				p = this.getPixPos(ms[i][0],ms[i][1]);
 				str += p[0]+","+p[1]+" ";
@@ -1506,8 +1532,7 @@ $(document).ready(function () {
 	}
 
 	Stopwatch.prototype.update = function(){
-
-		if(this.box.data.data){
+		if(this.box.data.data && this.box.data.data.length > 0 && this.box.stageIndex.length > 0){
 			var total = 324;
 			var t = this.box.data.data[this.box.timestep].t;
 			total = this.box.data.data[this.box.stageIndex[this.box.stageIndex.length-1]].t;
