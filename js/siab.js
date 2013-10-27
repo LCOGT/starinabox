@@ -159,16 +159,13 @@ $(document).ready(function () {
 		this.massComparison.star = this.rScales.circle(this.massComparison.x+this.massComparison.r, this.massComparison.y, this.massComparison.r).attr({"fill":"#fff3ea","stroke-width":"0"});
 
 		this.setupUI();
-
+		this.setupMode();
+		
 		// get default stages (1 solar mass)
 		this.getStages(this.initStarMass);
 
 		this.updateChart();
 		
-		//jQuery.event.trigger({ type : 'keypress', which : ('l').charCodeAt(0)});
-		//jQuery.event.trigger({ type : 'keypress', which : ('2').charCodeAt(0)});
-		//setTimeout(function(ctx){ ctx.thermometer.setTemperature(10000) },1000,this);
-
 		return this;
 	}
 
@@ -334,6 +331,7 @@ $(document).ready(function () {
 			if(c == 'w'){ box.supernovaWarning(); }
 			if(c == 's'){ box.supernova(); }
 			if(c == 'l'){ box.toggleLid(); }
+			if(c == 'm'){ box.toggleMode(); }
 		});
 		
 		//make nav divs clickable
@@ -377,21 +375,11 @@ $(document).ready(function () {
 			$('#welcome #help-content').css({opacity: 0}).animate({opacity: 1},500);
 		});
 	
-		$('#info .tab').text(this.lang.help.tab);
-		$('#infocontent').before('<div class="closer"><a href="#">&times;</a></div>').html(this.lang.help.content);
-		$('#info .closer a').on('click',{box:this},function(e){ e.data.box.toggleInfoPanel(); });
-				
-	
 		// open/close info panel
 		$("#info .tab").click({box:this},function(e){ e.data.box.toggleInfoPanel(); });
 
 		// open/close animate panel
 		$("#animate .tab-bottom").click({box:this},function(e){ e.data.box.toggleAnimatePanel(); });
-
-		// Update info panels
-		for(var name in this.lang.captions){
-			if($('#'+name).length > 0) $('#'+name+' .caption').html(this.lang.captions[name])
-		}
 
 		//thermometer
 		var txtprops = {'text-anchor': 'start','fill': '#fff','font-size': this.chart.opts.yaxis['font-size']};
@@ -400,10 +388,6 @@ $(document).ready(function () {
 		this.thermometer = new Thermometer({'id':'thermometer','lang':this.lang,'txt':txtprops2,'labeltxt':txtprops});
 
 		this.lightmeter = new LightMeter({'id':'rlum','lang':this.lang,'txt':txtprops2,'labeltxt':txtprops});
-
-		
-		//this.createMassSlider();
-		
 
 		// animate evolution over selected stages
 		$("#evolve").change({box:this},function evolveStar(e) {
@@ -446,8 +430,31 @@ $(document).ready(function () {
 			"time": $("#tevTime"),
 			"stagelabel": $('#current-stage')
 		}
-
+		return this;
 	}
+
+	StarInABox.prototype.setupMode = function(){
+		$('#info .tab').text(this.lang.help.tab);
+		$('#infocontent').before('<div class="closer"><a href="#">&times;</a></div>').html(this.lang.help.content);
+		$('#info .closer a').on('click',{box:this},function(e){ e.data.box.toggleInfoPanel(); });
+				
+		this.thermometer.updateLanguage(this.lang);
+		this.lightmeter.updateLanguage(this.lang);
+
+		// Update info panels
+		for(var name in this.lang.captions){
+			if($('#'+name).length > 0) $('#'+name+' .caption').html(this.lang.captions[name])
+		}
+
+		this.updateChart();
+		return this;
+	}
+
+	StarInABox.prototype.toggleMode = function(){
+		this.mode = (this.mode=="advanced") ? "normal" : "advanced";
+		this.setup().setupMode();
+	}
+	
 	StarInABox.prototype.supernova = function(){
 		var c = $('#container');
 		var b = $('#box-top');
@@ -664,22 +671,7 @@ $(document).ready(function () {
 		if(!this.allstages["m"+mass]) return;
 		var data = this.allstages["m"+mass];
 		var that = this;
-/*
-		$("#stages").slider("destroy").html('').slider({
-			value: 0,
-			min: 0,
-			max: data.length-1,
-			change: function (event, ui) { that.slideStages(ui.value); }
-		});
-		//add ticks
-		$("#stages").append('<div class="ticks"></div>');
-		var i;
-		var msLength = 700;
-		var tickSpace = msLength / (data.length - 1);
-		for (var i = 0; i < data.length; i++) {
-			$("#stages .ticks").append("<p class='tick' style='left:"+((i * tickSpace) - 40)+"px;'>" + this.stages[data[i].type] + "</p>");
-		}
-*/
+
 		this.loadChartData(mass);
 	}
 	StarInABox.prototype.slideStages = function(p){
@@ -1034,7 +1026,8 @@ $(document).ready(function () {
 
 		}
 		if(!this.chart.axes) this.chart.axes = this.chart.holder.rect(this.chart.offset.left,this.chart.offset.top,this.chart.offset.width,this.chart.offset.height).attr({stroke:'rgb(0,0,0)','stroke-opacity': 0.5,'stroke-width':2});
-		if(!this.chart.yLabel) this.chart.yLabel = this.chart.holder.text(this.chart.offset.left - 10, this.chart.offset.top+(this.chart.offset.height/2), this.lang.lum+" ("+this.lang.lumunit+")").attr({fill: (this.chart.opts.yaxis.label.color ? this.chart.opts.yaxis.label.color : this.chart.opts.color),'fill-opacity': (this.chart.opts.yaxis.label.opacity ? this.chart.opts.yaxis.label.opacity : 1),'font-size': this.chart.opts['font-size'] }).rotate(270);
+		if(this.chart.yLabel) this.chart.yLabel.remove();
+		this.chart.yLabel = this.chart.holder.text(this.chart.offset.left - 10, this.chart.offset.top+(this.chart.offset.height/2), this.lang.lum+" ("+this.lang.lumunit+")").attr({fill: (this.chart.opts.yaxis.label.color ? this.chart.opts.yaxis.label.color : this.chart.opts.color),'fill-opacity': (this.chart.opts.yaxis.label.opacity ? this.chart.opts.yaxis.label.opacity : 1),'font-size': this.chart.opts['font-size'] }).rotate(270);
 		if(!this.chart.sub){
 			v = [2,3,4,5,6,7,8,9]
 			this.chart.sub = []
@@ -1064,7 +1057,8 @@ $(document).ready(function () {
 				}
 			}
 		}
-		if(!this.chart.xLabel) this.chart.xLabel = this.chart.holder.text(this.chart.offset.left+this.chart.offset.width/2, this.chart.height-this.chart.offset.bottom + 10, "Temperature (Kelvin)").attr({ fill: (this.chart.opts.xaxis.label.color ? this.chart.opts.xaxis.label.color : this.chart.opts.color), 'fill-opacity': (this.chart.opts.xaxis.label.opacity ? this.chart.opts.xaxis.label.opacity : 1),'font-size': this.chart.opts['font-size'] });
+		if(this.chart.xLabel) this.chart.xLabel.remove();
+		this.chart.xLabel = this.chart.holder.text(this.chart.offset.left+this.chart.offset.width/2, this.chart.height-this.chart.offset.bottom + 10, "Temperature (Kelvin)").attr({ fill: (this.chart.opts.xaxis.label.color ? this.chart.opts.xaxis.label.color : this.chart.opts.color), 'fill-opacity': (this.chart.opts.xaxis.label.opacity ? this.chart.opts.xaxis.label.opacity : 1),'font-size': this.chart.opts['font-size'] });
 		if(!this.chart.xaxis){
 			this.chart.xaxis = this.chart.holder.set();
 			for (var i = Math.ceil(this.chart.opts.xaxis.min); i <= Math.floor(this.chart.opts.xaxis.max); i++) {
@@ -1347,12 +1341,15 @@ $(document).ready(function () {
 				for(var j = 1; j < this.minor ; j++) this.ticks.push(this.thermo.path("M "+(this.wide/2 + 8)+","+(y+j*steppxminor)+" l "+(6+i*2)+",0").attr({'stroke':'#000000','stroke-width':0.5}));
 			}
 		}
-		var ll = this.thermo.text(this.x-this.padding-parseInt(this.txt['font-size'])/2, this.y+this.h/2, this.lang.temp+" ("+this.lang.tempunit+")").attr(this.txt);
-		ll.attr({'text-anchor':'middle',transform:"r-90"});
-
+		this.updateLanguage(this.lang);
 		return this;	
 	}
-
+	Thermometer.prototype.updateLanguage = function(lang){
+		this.lang = lang;
+		if(this.ll){ this.ll.remove(); }
+		this.ll = this.thermo.text(this.x-this.padding-parseInt(this.txt['font-size'])/2, this.y+this.h/2, this.lang.temp+" ("+this.lang.tempunit+")").attr(this.txt);
+		this.ll.attr({'text-anchor':'middle',transform:"r-90"});
+	}
 	Thermometer.prototype.setTemperature = function(temp){
 		s = Math.min(temp / this.max,this.maxscale);
 		this.mercury.transform("s1,"+s+',0,'+this.bottom);
@@ -1416,10 +1413,17 @@ $(document).ready(function () {
 		for(var i = 0 ; i < this.totalBars; i++) this.eq.push(this.meter.rect(this.x+this.padding-0.5,this.bottom-(i+1)*steppx,this.w-this.padding*2,steppx-this.spacing).attr({'fill':this.colour,'stroke':0}));
 		this.labels = this.meter.set();
 		for(var i = this.minlog ; i <= this.maxlog ; i+=this.steplog) this.labels.push(this.meter.text(this.x+this.w+this.padding, this.bottom-(i+this.zero)*this.minor*steppx/this.steplog, addCommas(Math.pow(10,i))).attr(this.labeltxt));
-		ll = this.meter.text(this.x-this.padding-parseInt(this.txt['font-size'])/2, this.y+this.h/2, this.lang.lum+" ("+this.lang.lumunit+")").attr(this.txt);
-		ll.attr({'text-anchor':'middle',transform:"r-90"});
+
+		this.updateLanguage(this.lang);
 
 		return this;
+	}
+
+	LightMeter.prototype.updateLanguage = function(lang){
+		this.lang = lang;
+		if(this.ll){ this.ll.remove(); }
+		this.ll = this.meter.text(this.x-this.padding-parseInt(this.txt['font-size'])/2, this.y+this.h/2, this.lang.lum+" ("+this.lang.lumunit+")").attr(this.txt);
+		this.ll.attr({'text-anchor':'middle',transform:"r-90"});
 	}
 
 	LightMeter.prototype.log10 = function(v) {
