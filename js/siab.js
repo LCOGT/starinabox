@@ -389,6 +389,8 @@ $(document).ready(function () {
 
 		this.lightmeter = new LightMeter({'id':'rlum','lang':this.lang,'txt':txtprops2,'labeltxt':txtprops});
 
+		this.stopwatch = new Stopwatch(this);
+
 		// animate evolution over selected stages
 		$("#evolve").change({box:this},function evolveStar(e) {
 			var el = e.data.box.getData(e.data.box.timestep);
@@ -440,6 +442,7 @@ $(document).ready(function () {
 				
 		this.thermometer.updateLanguage(this.lang);
 		this.lightmeter.updateLanguage(this.lang);
+		this.stopwatch.update();
 
 		// Update info panels
 		for(var name in this.lang.captions){
@@ -549,7 +552,7 @@ $(document).ready(function () {
 						this.updateCurrentStage();
 					}
 				}
-				this.updateStopwatch();
+				this.stopwatch.update();
 				this.updateScaleText();
 				this.displayTime(el.t);
 				// In the case of 0 luminosity the y-value is returned as negative.
@@ -750,7 +753,7 @@ $(document).ready(function () {
 			this.setComparisonStar(i);
 			this.lightmeter.level(p.lum,false,p.RGB);
 			this.setThermometer(p.temp);
-			this.updateStopwatch();
+			this.stopwatch.update();
 			this.createScales();
 		}
 		this.chart.star.attr("cx", (this.eAnimPoints[this.timestep][0]));
@@ -759,92 +762,6 @@ $(document).ready(function () {
 	}
 
 
-	/**
-	 *
-	 *	Generate Stopwatch for selected mass and range of lifecycle stages.
-	 *
-	 */
-	StarInABox.prototype.createStopwatch = function(){
-		this.stopwatchData = new Array();
-		this.stopwatchLegend = new Array();
-		// Don't include final state in calculation of the normal life of the star
-		// as it is usually very, very long compared to the rest of the star's life.
-		for (var i = 1 ; i < this.stageIndex.length-1 ; i++){
-			var s = this.getData(this.stageIndex[i]);
-			var n = (i < this.stageIndex.length-1) ? this.stageIndex[i+1]-1 : this.data.data.length-1;
-			var e = this.getData(n);
-			this.stopwatchLegend[i-1] = this.stages[s.type];
-			this.stopwatchData[i-1] = (e.t-s.t);
-		}
-		//raphael script for stopwatch chart...
-		if ($("#rStopwatch #stopwatch").length > 0) $("#rStopwatch #stopwatch").remove();
-		this.stopwatch = { x: 140, y: 160, r: 90, w: 18, h: 10, w2: 12, h2: 8, frac: 0.8 };
-		this.rStopwatch = Raphael("rStopwatch");
-		this.dial = this.rStopwatch.set();
-
-		// Draw top keyring
-		this.dial.push(this.rStopwatch.circle(this.stopwatch.x,this.stopwatch.y-this.stopwatch.r-this.stopwatch.h2*3.5,this.stopwatch.h2*3).attr({'stroke-width':3,'stroke':'#b3b3b3'}));
-
-		// Draw top button
-		this.dial.push(this.rStopwatch.rect(this.stopwatch.x-this.stopwatch.w2*0.6,this.stopwatch.y-this.stopwatch.r-this.stopwatch.h2*3,this.stopwatch.w2*1.2,this.stopwatch.h2*3).attr({'fill':'0-#999-#b3b3b3-#ccc-#b3b3b3-#ccc-#999','stroke-width':0}));
-		this.dial.push(this.rStopwatch.rect(this.stopwatch.x-this.stopwatch.w2,this.stopwatch.y-this.stopwatch.r-this.stopwatch.h2*4.5,this.stopwatch.w2*2,this.stopwatch.h2*2).attr({'fill':'0-#b3b3b3-#ccc-#e6e6e6-#ccc-#e6e6e6-#b3b3b3','stroke-width':0}));
-
-		// Draw left-hand button
-		this.stopwatchleft = this.rStopwatch.set();
-		this.stopwatchleft.push(this.rStopwatch.rect(this.stopwatch.x-this.stopwatch.w*0.6,this.stopwatch.y-this.stopwatch.r-this.stopwatch.h2*2,this.stopwatch.w*1.2,this.stopwatch.h2*2).attr({'fill':'0-#999-#b3b3b3-#ccc-#b3b3b3-#ccc-#999','stroke-width':0}).transform('r-40,'+this.stopwatch.x+','+this.stopwatch.y));
-		this.stopwatchleft.push(this.rStopwatch.rect(this.stopwatch.x-this.stopwatch.w,this.stopwatch.y-this.stopwatch.r-this.stopwatch.h-this.stopwatch.h2*2,this.stopwatch.w*2,this.stopwatch.h*2).attr({'fill':'0-#b3b3b3-#ccc-#e6e6e6-#ccc-#e6e6e6-#b3b3b3','stroke-width':0,'cursor':'pointer','title':'Reset'}).transform('r-40,'+this.stopwatch.x+','+this.stopwatch.y));
-		var _obj = this;
-		this.stopwatchleft.click(function(e){
-			_obj.reset();
-		});
-		
-		// Draw right-hand button
-		this.stopwatchright = this.rStopwatch.set();
-		this.stopwatchright.push(this.rStopwatch.rect(this.stopwatch.x-this.stopwatch.w*0.6,this.stopwatch.y-this.stopwatch.r-this.stopwatch.h2*2,this.stopwatch.w*1.2,this.stopwatch.h2*2).attr({'fill':'0-#999-#b3b3b3-#ccc-#b3b3b3-#ccc-#999','stroke-width':0}).transform('r40,'+this.stopwatch.x+','+this.stopwatch.y));
-		this.stopwatchright.push(this.rStopwatch.rect(this.stopwatch.x-this.stopwatch.w,this.stopwatch.y-this.stopwatch.r-this.stopwatch.h-this.stopwatch.h2*2,this.stopwatch.w*2,this.stopwatch.h*2).attr({'fill':'0-#b3b3b3-#ccc-#e6e6e6-#ccc-#e6e6e6-#b3b3b3','stroke-width':0,'cursor':'pointer','title':'Play/Stop'}).transform('r40,'+this.stopwatch.x+','+this.stopwatch.y));
-		this.stopwatchright.click(function(e){
-			_obj.play();
-		});
-
-		// Draw case
-		this.dial.push(this.rStopwatch.circle(this.stopwatch.x,this.stopwatch.y,this.stopwatch.r).attr({'stroke-width':0,'fill':'300-#fff-#b3b3b3-#fff'}));
-		this.dial.push(this.rStopwatch.circle(this.stopwatch.x,this.stopwatch.y,this.stopwatch.r*0.89).attr({'stroke-width':0,'fill':'300-#999-#303030-#999'}));
-		this.dial.push(this.rStopwatch.circle(this.stopwatch.x,this.stopwatch.y,this.stopwatch.r*0.84).attr({'stroke-width':0,'fill':'300-#fff-#ccc-#fff'}));
-
-
-		// Draw pie chart
-		this.pie = this.rStopwatch.piechart(this.stopwatch.x,this.stopwatch.y,this.stopwatch.r*this.stopwatch.frac,{values:this.stopwatchData,labels:this.stopwatchLegend},{'colours':[this.chart.opts.mainsequence['background-color'],'#009d00','#df0000','#7ea0ee','#d6ccff','#ffcccc','#fff5cc','#ccffcc']},this);
-
-		var d = new Date();
-
-		// Draw label
-		this.dial.push(this.rStopwatch.text(this.stopwatch.x,this.stopwatch.y+this.stopwatch.r*0.3,"LCOGT").attr({'stroke-width':0,'fill':this.chart.opts.color,'text-anchor':'middle','font-style':'italic','font-family':'Times','font-size':'10px'}));
-		this.dial.push(this.rStopwatch.text(this.stopwatch.x,this.stopwatch.y+this.stopwatch.r*0.4,"CHRONOGRAPH").attr({'stroke-width':0,'fill':this.chart.opts.color,'text-anchor':'middle','font-style':'italic','font-family':'Times','font-size':'6px'}));
-		this.dial.push(this.rStopwatch.text(this.stopwatch.x,this.stopwatch.y+this.stopwatch.r*0.4+7,d.getFullYear()).attr({'stroke-width':0,'fill':this.chart.opts.color,'text-anchor':'middle','font-style':'italic','font-family':'Times','font-size':'6px'}));
-
-		this.updateStopwatch();
-	}
-	StarInABox.prototype.updateStopwatch = function(){
-		radius = this.stopwatch.r*this.stopwatch.frac;
-		total = 324;
-		t = this.data.data[this.timestep].t;
-		total = this.data.data[this.stageIndex[this.stageIndex.length-1]].t;
-		if(t > total) t = total;
-		if(t < 0) t = 0;
-		a = -Math.PI/2 + Math.PI*2*t/total;
-		x1 = (radius * Math.cos(a));
-		y1 = (radius * Math.sin(a));
-		a2 = a + Math.PI*0.93;
-		x2 = (0.2 * radius * Math.cos(a2));
-		y2 = (0.2 * radius * Math.sin(a2));
-		a3 = a - Math.PI*0.93;
-		x3 = (0.2 * radius * Math.cos(a3));
-		y3 = (0.2 * radius * Math.sin(a3));
-		if(this.clockhand) this.clockhand.remove();
-		this.clockhand = this.rStopwatch.set();
-		this.clockhand.push(this.rStopwatch.path("M "+this.stopwatch.x+" "+this.stopwatch.y+" m "+x1+" "+y1+" l "+(x2-x1)+" "+(y2-y1)+" l "+(x3-x2)+" "+(y3-y2)+"Z").attr({'fill':'black','stroke-width':0}));
-		this.clockhand.push(this.rStopwatch.circle(this.stopwatch.x,this.stopwatch.y,6).attr({'fill':'black','stroke-width':0}));
-	}
 	StarInABox.prototype.createScales = function(){
 		if(!this.rScales) return;
 		if(!this.scales){
@@ -913,7 +830,7 @@ $(document).ready(function () {
 		this.updateCurrentStage();
 		this.updateChart();
 		this.setComparisonStar(0);
-		this.createStopwatch();
+		this.stopwatch.update();
 		this.createScales();
 		this.doneLoadingStar();
 	}
@@ -1222,7 +1139,7 @@ $(document).ready(function () {
 		return p;
 	}
 	StarInABox.prototype.updateEvolve = function() {
-		this.createStopwatch();
+		this.stopwatch.update();
 		this.createScales();
 		this.updateCurrentStage();
 	}
@@ -1495,7 +1412,111 @@ $(document).ready(function () {
     	return closest;
 	}
 	
+	function Stopwatch(box){
+		this.box = box;
+
+		//raphael script for stopwatch chart...
+		if ($("#rStopwatch #stopwatch").length > 0) $("#rStopwatch #stopwatch").remove();
+		this.x = 140;
+		this.y = 160;
+		this.r = 90;
+		this.w = 18;
+		this.h = 10;
+		this.w2 = 12;
+		this.h2 = 8;
+		this.frac = 0.8;
+		
+		this.rStopwatch = Raphael("rStopwatch");
+		this.dial = this.rStopwatch.set();
+
+		// Draw top keyring
+		this.dial.push(this.rStopwatch.circle(this.x,this.y-this.r-this.h2*3.5,this.h2*3).attr({'stroke-width':3,'stroke':'#b3b3b3'}));
+
+		// Draw top button
+		this.dial.push(this.rStopwatch.rect(this.x-this.w2*0.6,this.y-this.r-this.h2*3,this.w2*1.2,this.h2*3).attr({'fill':'0-#999-#b3b3b3-#ccc-#b3b3b3-#ccc-#999','stroke-width':0}));
+		this.dial.push(this.rStopwatch.rect(this.x-this.w2,this.y-this.r-this.h2*4.5,this.w2*2,this.h2*2).attr({'fill':'0-#b3b3b3-#ccc-#e6e6e6-#ccc-#e6e6e6-#b3b3b3','stroke-width':0}));
+
+		// Draw left-hand button
+		this.stopwatchleft = this.rStopwatch.set();
+		this.stopwatchleft.push(this.rStopwatch.rect(this.x-this.w*0.6,this.y-this.r-this.h2*2,this.w*1.2,this.h2*2).attr({'fill':'0-#999-#b3b3b3-#ccc-#b3b3b3-#ccc-#999','stroke-width':0}).transform('r-40,'+this.x+','+this.y));
+		this.stopwatchleft.push(this.rStopwatch.rect(this.x-this.w,this.y-this.r-this.h-this.h2*2,this.w*2,this.h*2).attr({'fill':'0-#b3b3b3-#ccc-#e6e6e6-#ccc-#e6e6e6-#b3b3b3','stroke-width':0,'cursor':'pointer','title':'Reset'}).transform('r-40,'+this.x+','+this.y));
+		var _obj = this;
+		this.stopwatchleft.click(function(e){
+			_obj.reset();
+		});
+		
+		// Draw right-hand button
+		this.stopwatchright = this.rStopwatch.set();
+		this.stopwatchright.push(this.rStopwatch.rect(this.x-this.w*0.6,this.y-this.r-this.h2*2,this.w*1.2,this.h2*2).attr({'fill':'0-#999-#b3b3b3-#ccc-#b3b3b3-#ccc-#999','stroke-width':0}).transform('r40,'+this.x+','+this.y));
+		this.stopwatchright.push(this.rStopwatch.rect(this.x-this.w,this.y-this.r-this.h-this.h2*2,this.w*2,this.h*2).attr({'fill':'0-#b3b3b3-#ccc-#e6e6e6-#ccc-#e6e6e6-#b3b3b3','stroke-width':0,'cursor':'pointer','title':'Play/Stop'}).transform('r40,'+this.x+','+this.y));
+		this.stopwatchright.click(function(e){
+			_obj.play();
+		});
+
+		// Draw case
+		this.dial.push(this.rStopwatch.circle(this.x,this.y,this.r).attr({'stroke-width':0,'fill':'300-#fff-#b3b3b3-#fff'}));
+		this.dial.push(this.rStopwatch.circle(this.x,this.y,this.r*0.89).attr({'stroke-width':0,'fill':'300-#999-#303030-#999'}));
+		this.dial.push(this.rStopwatch.circle(this.x,this.y,this.r*0.84).attr({'stroke-width':0,'fill':'300-#fff-#ccc-#fff'}));
+
+
+		this.radius = this.r*this.frac;
+		this.attr = {'colours':[this.box.chart.opts.mainsequence['background-color'],'#009d00','#df0000','#7ea0ee','#d6ccff','#ffcccc','#fff5cc','#ccffcc']};
+
+		if(this.box.data.data) this.update();
+
+		// Draw label
+		this.dial.push(this.rStopwatch.text(this.x,this.y+this.r*0.3,"LCOGT").attr({'stroke-width':0,'fill':this.box.chart.opts.color,'text-anchor':'middle','font-style':'italic','font-family':'Times','font-size':'10px'}));
+		this.dial.push(this.rStopwatch.text(this.x,this.y+this.r*0.4,"CHRONOGRAPH").attr({'stroke-width':0,'fill':this.box.chart.opts.color,'text-anchor':'middle','font-style':'italic','font-family':'Times','font-size':'6px'}));
+		this.dial.push(this.rStopwatch.text(this.x,this.y+this.r*0.4+7,(new Date()).getFullYear()).attr({'stroke-width':0,'fill':this.box.chart.opts.color,'text-anchor':'middle','font-style':'italic','font-family':'Times','font-size':'6px'}));
+
+		return this;
+	}
 	
+	Stopwatch.prototype.update = function(){
+		if(this.pie){
+			for(var i = 0 ; i < this.pie.length; i++){
+				this.pie[i].remove();
+			}
+			this.pie = [];
+		}
+		if(this.box.data.data){
+			this.data = new Array();
+			this.legend = new Array();
+			// Don't include final state in calculation of the normal life of the star
+			// as it is usually very, very long compared to the rest of the star's life.
+			for (var i = 1 ; i < this.box.stageIndex.length-1 ; i++){
+				var s = this.box.getData(this.box.stageIndex[i]);
+				var n = (i < this.box.stageIndex.length-1) ? this.box.stageIndex[i+1]-1 : this.box.data.data.length-1;
+				var e = this.box.getData(n);
+				this.legend[i-1] = this.box.stages[s.type];
+				this.data[i-1] = (e.t-s.t);
+			}
+			this.d = { values: this.data, labels:this.legend };
+			this.pie = this.rStopwatch.piechart(this.x,this.y,this.radius,this.d,this.attr,this.box);
+
+			var total = 324;
+			var t = this.box.data.data[this.box.timestep].t;
+			total = this.box.data.data[this.box.stageIndex[this.box.stageIndex.length-1]].t;
+			if(t > total) t = total;
+			if(t < 0) t = 0;
+			var a = -Math.PI/2 + Math.PI*2*t/total;
+			var x1 = (this.radius * Math.cos(a));
+			var y1 = (this.radius * Math.sin(a));
+			var a2 = a + Math.PI*0.93;
+			var x2 = (0.2 * this.radius * Math.cos(a2));
+			var y2 = (0.2 * this.radius * Math.sin(a2));
+			var a3 = a - Math.PI*0.93;
+			var x3 = (0.2 * this.radius * Math.cos(a3));
+			var y3 = (0.2 * this.radius * Math.sin(a3));
+			if(this.clockhand) this.clockhand.remove();
+			this.clockhand = this.rStopwatch.set();
+			this.clockhand.push(this.rStopwatch.path("M "+this.x+" "+this.y+" m "+x1+" "+y1+" l "+(x2-x1)+" "+(y2-y1)+" l "+(x3-x2)+" "+(y3-y2)+"Z").attr({'fill':'black','stroke-width':0}));
+			this.clockhand.push(this.rStopwatch.circle(this.x,this.y,6).attr({'fill':'black','stroke-width':0}));
+		}
+
+		return this;
+	}
+
 	// functions to make the chart:
 	// Input:
 	//   x - The centre x position
@@ -1504,10 +1525,17 @@ $(document).ready(function () {
 	//   d - Data in the form { values: [], labels:[] }
 	//   attr - Attributes in the form { 'colours' : ['#396bad','#fac000',...] }
 	Raphael.fn.piechart = function(x,y,radius,d,attr,box){
+		this.x = x;
+		this.y = y;
+		this.radius = radius;
+		this.attr = attr;
+		this.box = box;
+
 		// Set defauls
 		var TWO_PI = Math.PI * 2;
 		var offsetAngle = -Math.PI/2;	// The rotation from east to start at
 		var total = 0;			// A running total
+
 		if(typeof d.values!="object") d = { values: d, labels:[] }
 		var d2 = { values: [], labels:[], ids:[] };
 
@@ -1532,39 +1560,38 @@ $(document).ready(function () {
 			}
 		}
 		d = d2;
+		this.d = d2;
 
 		// Get the number of items to display
-		var n = d.values.length;		// Number of data points
+		var n = this.d.values.length;		// Number of data points
 
 		// Calculate the total of all values so we can normalize
 		for (var i = 0; i < n; i++) total += d.values[i];
 		// Create each segment
 		var keysize = 12;			// Size of the key boxes in pixels
-		var yoff = y + radius*(1.5);
+		var yoff = this.y + this.radius*(1.5);
 		var yspace = Math.floor(keysize*1.4);
 		var pie = Array(n);
-		var f = attr.colours;
+		var f = this.attr.colours;
 		var ending = 0;
 
 		for (var i = 0; i < n; i++){
-			c = {'fill': (typeof attr.fill=="object" && attr.fill.length > i) ? attr.fill[i] : ((typeof attr.fill=="string") ? attr.fill : f[i % f.length]), 'stroke': (typeof attr.stroke=="object" && attr.stroke.length > i) ? attr.stroke[i] : ((typeof attr.stroke=="string") ? attr.stroke : "white")}
+			c = {'fill': (typeof this.attr.fill=="object" && this.attr.fill.length > i) ? this.attr.fill[i] : ((typeof this.attr.fill=="string") ? this.attr.fill : f[i % f.length]), 'stroke': (typeof this.attr.stroke=="object" && this.attr.stroke.length > i) ? this.attr.stroke[i] : ((typeof this.attr.stroke=="string") ? this.attr.stroke : "white")}
 			var a = offsetAngle;
 			var b = a+(TWO_PI * (d.values[i]/total));
-			x1 = x+(radius * Math.cos(a));
-			y1 = y+(radius * Math.sin(a));
-			x2 = x+(radius * Math.cos(b));
-			y2 = y+(radius * Math.sin(b));
-			t = (d.labels[i].length > 1.8*radius*1.1*2/keysize) ? d.labels[i].substring(0,Math.floor(1.75*radius*1.1*2/keysize))+'...' : d.labels[i];
+			x1 = this.x+(this.radius * Math.cos(a));
+			y1 = this.y+(this.radius * Math.sin(a));
+			x2 = this.x+(this.radius * Math.cos(b));
+			y2 = this.y+(this.radius * Math.sin(b));
+			t = (d.labels[i].length > 1.8*this.radius*1.1*2/keysize) ? d.labels[i].substring(0,Math.floor(1.75*this.radius*1.1*2/keysize))+'...' : d.labels[i];
 
 			pie[i] = this.set();
 			// Add the pie segment
-			pie.push(this.path("M "+x+" "+y+" L "+x1+" "+y1+" A "+radius+","+radius+" 0 "+((b-a >= Math.PI) ? 1 : 0)+" 1 "+x2+","+y2+" z").attr({cursor:'pointer',stroke:c.stroke,fill:c.fill,'stroke-width':0}).data('i',d.ids[i]+1).data('box',box).mouseover(function(){
-					//this.transform('s1.05,1.05,'+x+','+y);
+			pie.push(this.path("M "+this.x+" "+this.y+" L "+x1+" "+y1+" A "+this.radius+","+this.radius+" 0 "+((b-a >= Math.PI) ? 1 : 0)+" 1 "+x2+","+y2+" z").attr({cursor:'pointer',stroke:c.stroke,fill:c.fill,'stroke-width':0}).data('i',d.ids[i]+1).data('box',this.box).mouseover(function(){
 					this.attr({'opacity':0.7});
 					this.next.transform('s1.2');	// key
 					this.next.next.attr({'font-weight':'bold'});	// key label
 				}).mouseout(function(){
-					//this.transform('s1,1');
 					this.attr({'opacity':1});
 					this.next.transform('s1');	// key
 					this.next.next.attr({'font-weight':'normal'});	// key label
@@ -1574,7 +1601,7 @@ $(document).ready(function () {
 			);
 			// Add the key box
 			pie.push(
-				this.rect(x-radius*1.1+Math.round(keysize/2)-0.5,yoff+(i*yspace)-Math.round(keysize/2)-0.5,keysize,keysize).attr({cursor:'pointer',stroke:c.stroke,fill:c.fill,'stroke-width':1.25}).data('i',d.ids[i]+1).data('box',box).click(function(e){
+				this.rect(this.x-this.radius*1.1+Math.round(keysize/2)-0.5,yoff+(i*yspace)-Math.round(keysize/2)-0.5,keysize,keysize).attr({cursor:'pointer',stroke:c.stroke,fill:c.fill,'stroke-width':1.25}).data('i',d.ids[i]+1).data('box',this.box).click(function(e){
 					this.data('box').resetStage.call(this.data('box'),this.data('i'));
 				}).mouseover(function(){
 					this.transform('s1.2');	// key box
@@ -1586,7 +1613,7 @@ $(document).ready(function () {
 			)
 			// Add the key label
 			pie.push(
-				this.text(x-radius*1.1+keysize*2,yoff+(i*yspace),t).attr({cursor:'pointer',fill:'white','stroke-width':1,'font-size':keysize,'text-anchor':'start'}).data('i',d.ids[i]+1).data('box',box).click(function(e){
+				this.text(this.x-this.radius*1.1+keysize*2,yoff+(i*yspace),t).attr({cursor:'pointer',fill:'white','stroke-width':1,'font-size':keysize,'text-anchor':'start'}).data('i',d.ids[i]+1).data('box',this.box).click(function(e){
 					this.data('box').resetStage.call(this.data('box'),this.data('i'))
 				}).mouseover(function(){
 					this.prev.transform('s1.2');	// key box
@@ -1598,6 +1625,7 @@ $(document).ready(function () {
 			);
 			offsetAngle = b;
 		}
+
 		return pie;
 	}
 
