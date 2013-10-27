@@ -436,9 +436,10 @@ $(document).ready(function () {
 	StarInABox.prototype.setupMode = function(){
 		$('#info .tab').text(this.lang.help.tab);
 		if($('#info .closer').length == 0){
-			$('#infocontent').before('<div class="closer"><a href="#">&times;</a></div>').html(this.lang.help.content);
+			$('#infocontent').before('<div class="closer"><a href="#">&times;</a></div>');
 			$('#info .closer a').on('click',{box:this},function(e){ e.data.box.toggleInfoPanel(); });
-		}		
+		}
+		$('#infocontent').html(this.lang.help.content);
 		this.thermometer.updateLanguage(this.lang);
 		this.lightmeter.updateLanguage(this.lang);
 		this.stopwatch.rebuild();
