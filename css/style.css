@@ -28,7 +28,7 @@ body {
 	position: relative;
 }
 
-#vertical {
+#shadow {
     float: left;
     height: 50%;
     margin-top: -307px;
@@ -88,7 +88,7 @@ body {
 
 #box-top-t, #box-top-r, #box-top-b {
 	position: absolute;
-	z-index: 1002;
+	z-index: 1010;
 }
 #box-top-t {
 	width: 1016px;
@@ -228,7 +228,7 @@ body {
 	-box-shadow: -8px -4px 10px rgba(0,0,0,0.2);
 	transition: bottom 0.2s ease 0s, top 0.2s ease 0s, height 0.2s ease 0s; 
 }
-#infoinner { margin: 0px 32px 32px 32px; height: 524px; overflow: hidden; text-overflow: ellipsis; }
+#infoinner { margin: 0px 32px 32px 32px; height: 524px; overflow: auto; }
 #info.open {
 	-webkit-box-shadow: -16px -20px 20px rgba(0,0,0,0.2);
 	-moz-box-shadow: -16px -20px 20px rgba(0,0,0,0.2);
@@ -237,7 +237,7 @@ body {
 	top: 0px;
 	height: 555px;
 }
-#info .closer a { padding: 0em 0.5em; margin-right: -0.5em; }
+#info .closer a { padding: 0 0 0 0.5em; }
 #info .closer { display: none; text-align: right; font-size: 2em; line-height: 2em; }
 #info.open .closer { display: block; }
 #info .labels {
@@ -649,6 +649,39 @@ a#animateEvolveReset:active {
 #help-content {
 	text-align: left;
 }
+#help-content ul {
+	list-style: none;
+	margin: 0px;
+}
+#help-content li {
+	line-height: 1.4em;
+	margin-bottom: 0.1em;
+}
+.key {
+	min-width: 1.2em;
+	display:inline-block;
+	text-align:center;
+	background:#f0f0f0;
+	background:-moz-linear-gradient(top,#f0f0f0,#fcfcfc);
+	background:-webkit-gradient(linear,center top,center bottom,from(#f0f0f0),to(#fcfcfc));
+	border-radius:3px;
+	-moz-border-radius:3px;
+	-webkit-border-radius:3px;
+	-webkit-background-clip:padding-box;
+	-moz-background-clip:padding;
+	background-clip:padding-box;
+	color:#303030;
+	border:1px solid #b0b0b0;
+	border-bottom-width:2px;
+	white-space:nowrap;
+	font-family:monospace;
+	padding: 0px 6px;
+	font-size:1.1em;
+	-moz-box-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+	-webkit-box-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+	box-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+}
+
 p, #welcome p {
 	margin-bottom: 8px;
 }
@@ -676,7 +709,7 @@ p, #welcome p {
 	position: absolute;
 	top:8px;
 	right: 35px;
-	z-index:1005;
+	z-index:1015;
 	color: #ddd;
 	letter-spacing: 1px;
 	font-weight: bold;
