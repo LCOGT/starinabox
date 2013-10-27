@@ -1,7 +1,7 @@
 Star in a Box
 =============
 
-Have you ever wondered what happens to the different stars in the night sky as they get older? This interactive web-app lets you explore the life-cycle of stars.
+Have you ever wondered what happens to the different stars in the night sky as they get older? This interactive web-app lets you explore the [life-cycle of stars](http://lcogt.net/book/life-cycle-stars).
 
 Interactive life-cycle
 ----------------------
@@ -27,4 +27,4 @@ The code requires Javascript and SVG so you just need a modern web browser to us
 Further reading
 ---------------
 
-If you would like to know more about how stars evolve, why not take a look at our [SpaceBook pages about the life-cycle of stars](http://lcogt.net/book/life-cycle-stars) or find out more about the [Hertzsprung-Russell diagram](http://lcogt.net/book/h-r-diagram).
+More about the [Hertzsprung-Russell diagram](http://lcogt.net/book/h-r-diagram) in LCOGT's [SpaceBook](http://lcogt.net/spacebook).
