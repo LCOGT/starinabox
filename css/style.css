@@ -217,8 +217,6 @@ body {
 	margin: 0 auto;
 	color: #fff;
 	background: #002e8a;
-	-moz-border-radius: 10px 10px 0 0;
-	-webkit-border-radius: 10px 10px 0 0;
 	position: absolute;
 	height: 550px;
 	top: -545px;
@@ -254,20 +252,21 @@ body {
     font-size: 90%;
 }
 #info .tab {
-    position: absolute;
-    right: 15px;
-    bottom: -2em;
-    height: 2em;
-    -moz-border-radius: 10px 10px 0 0;
-    -webkit-border-radius: 10px 10px 0 0;
-    background: #002e8a;
-    padding: 0 8px;
-    line-height: 2em;
-    font-weight: bold;
-    cursor: pointer;
-    -webkit-box-shadow: -16px -20px 20px rgba(0,0,0,0.2);
-    -moz-box-shadow: -16px -20px 20px rgba(0,0,0,0.2);
-    -box-shadow: -16px -20px 20px rgba(0,0,0,0.2);
+	position: absolute;
+	right: 15px;
+	bottom: -2em;
+	height: 2em;
+	border-radius: 0px 0px 10px 10px;
+	-moz-border-radius: 0px 0px 10px 10px;
+	-webkit-border-radius: 0px 0px 10px 10px;
+	background: #002e8a;
+	padding: 0 8px;
+	line-height: 2em;
+	font-weight: bold;
+	cursor: pointer;
+	-webkit-box-shadow: -16px -20px 20px rgba(0,0,0,0.2);
+	-moz-box-shadow: -16px -20px 20px rgba(0,0,0,0.2);
+	-box-shadow: -16px -20px 20px rgba(0,0,0,0.2);
 }
 
 .ui-slider,
