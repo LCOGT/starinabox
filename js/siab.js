@@ -1470,7 +1470,7 @@ $(document).ready(function () {
 		this.stopwatchleft = this.rStopwatch.set();
 		this.stopwatchleft.push(this.rStopwatch.rect(this.x-this.w*0.6,this.y-this.r-this.h2*2,this.w*1.2,this.h2*2).attr({'fill':'0-#999-#b3b3b3-#ccc-#b3b3b3-#ccc-#999','stroke-width':0}).transform('r-40,'+this.x+','+this.y));
 		this.stopwatchleft.push(this.rStopwatch.rect(this.x-this.w,this.y-this.r-this.h-this.h2*2,this.w*2,this.h*2).attr({'fill':'0-#b3b3b3-#ccc-#e6e6e6-#ccc-#e6e6e6-#b3b3b3','stroke-width':0,'cursor':'pointer','title':'Reset'}).transform('r-40,'+this.x+','+this.y));
-		var _obj = this;
+		var _obj = this.box;
 		this.stopwatchleft.click(function(e){
 			_obj.reset();
 		});
