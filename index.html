@@ -91,90 +91,88 @@
 			<div id="box-bottom"></div>
 		</div>
 
+		<div class="content-holder">
+			<div id="info">
+				<div id="infoinner">
+					<div class="tab">Help</div>
+					<div id="infocontent">
+					</div>
+				</div>
+			</div>
+		</div>
+
         <div id="content" class="closed">
-			<div id="placeholder"></div>
-			<div id="current-stage"></div>
-			<div id="input">
-				<div class="tab-top">Help</div>
-
-				<!--
-				<div class="labels">
-					<p class="label">Mass:</p>
-					<p class="label">Stages:</p>
+        	<div class="content-inner">
+				<div id="placeholder"></div>
+				<div id="current-stage"></div>
+	
+				<div id="animate">
+					<a href="" id="animateEvolve" class="control_play">Start</a> <a href="" id="animateEvolveReset" class="control_reset">Reset</a>
 				</div>
-
-				<div id="mass-slider"></div>
-
-				<div id="stages"></div>
-				-->
-            </div>
-
-            <div id="animate">
-				<a href="" id="animateEvolve" class="control_play">Start</a> <a href="" id="animateEvolveReset" class="control_reset">Reset</a>
-            </div>
-
-			<div id="nav">
-				<ul>
-					<li><a href="#rCanvas" class="item active" id="compare" title="Size Comparison"></a></li>
-					<li><a href="#thermometer" class="item" id="therm" title="Surface Temperature"></a></li>
-					<li><a href="#rlum" class="item" id="bulb" title="Brightness"></a></li>
-					<li><a href="#rStopwatch" class="item" id="stopwatch" title="Stages in your star's life"></a></li>
-					<li><a href="#rScales" class="item" id="mass" title="Mass"></a></li>
-				</ul>
-			</div>
-
-
-			<div id="control">
-				<div id="controls">
-					<a href="#" class="control_reset"><img src="css/images/cleardot.gif" class="icon reset" alt="reset" title="Reset" /></a><a href="#" class="control_play"><img src="css/images/cleardot.gif" class="icon play" alt="play" title="Start/Pause" /></a><a href="#" class="control_rewind"><img src="css/images/cleardot.gif" class="icon rewind" alt="rewind" title="Step backwards" /></a><a href="#" class="control_ff"><img src="css/images/cleardot.gif" class="icon ff" alt="fast-forward" title="Step forward" /></a><div id="speedcontrol"><label for="evolveSpeed">Speed:</label><select id="evolveSpeed" name="evolve"><option value="1">&gt;&gt;&gt;&gt;&gt;</option><option value="10">&gt;&gt;&gt;&gt;</option><option value="30">&gt;&gt;&gt;</option><option value="100">&gt;&gt;</option><option value="500">&gt;</option></select></div>
+	
+				<div id="nav">
+					<ul>
+						<li><a href="#rCanvas" class="item active" id="compare" title="Size Comparison"></a></li>
+						<li><a href="#thermometer" class="item" id="therm" title="Surface Temperature"></a></li>
+						<li><a href="#rlum" class="item" id="bulb" title="Brightness"></a></li>
+						<li><a href="#rStopwatch" class="item" id="stopwatch" title="Stages in your star's life"></a></li>
+						<li><a href="#rScales" class="item" id="mass" title="Mass"></a></li>
+					</ul>
 				</div>
-			</div>
-
-			<div id="right">
-				<div id="slide">
-					<div id="rScales" class="section 5">
-						<div id="scales"></div>
-						<div class="info"></div>
-						<div class="caption">
-							<h2>Mass</h2>
-							<p>This shows how the mass of your star varies over its life. Stars lose mass gradually by converting hydrogen into helium and heavier elements. They can also lose mass through winds blowing off their surface and at dramatic moments in their lives.</p>
-							<p>Stars are massive so, rather than measure this in kilograms, we measure this in comparison to our Sun which has 1 Solar Mass - which is about 2 million million million million million kg!</p>
-						</div>
+	
+	
+				<div id="control">
+					<div id="controls">
+						<a href="#" class="control_reset"><img src="css/images/cleardot.gif" class="icon reset" alt="reset" title="Reset" /></a><a href="#" class="control_play"><img src="css/images/cleardot.gif" class="icon play" alt="play" title="Start/Pause" /></a><a href="#" class="control_rewind"><img src="css/images/cleardot.gif" class="icon rewind" alt="rewind" title="Step backwards" /></a><a href="#" class="control_ff"><img src="css/images/cleardot.gif" class="icon ff" alt="fast-forward" title="Step forward" /></a><div id="speedcontrol"><label for="evolveSpeed">Speed:</label><select id="evolveSpeed" name="evolve"><option value="1">&gt;&gt;&gt;&gt;&gt;</option><option value="10">&gt;&gt;&gt;&gt;</option><option value="30">&gt;&gt;&gt;</option><option value="100">&gt;&gt;</option><option value="500">&gt;</option></select></div>
 					</div>
-					<div id="rStopwatch" class="section 4">
-						<div id="stopwatch"></div>
-						<div class="info"></div>
-						<div class="caption">
-							<h2>Stages in your star's life</h2>
-							<p>This stopwatch shows the relative time the star spends in each stage of its life. In the animation we speed up time when the star is not really changing much and slow things down for the dramatic phases of the star's life.</p>
+				</div>
+	
+				<div id="right">
+					<div id="slide">
+						<div id="rScales" class="section 5">
+							<div id="scales"></div>
+							<div class="info"></div>
+							<div class="caption">
+								<h2>Mass</h2>
+								<p>This shows how the mass of your star varies over its life. Stars lose mass gradually by converting hydrogen into helium and heavier elements. They can also lose mass through winds blowing off their surface and at dramatic moments in their lives.</p>
+								<p>Stars are massive so, rather than measure this in kilograms, we measure this in comparison to our Sun which has 1 Solar Mass - which is about 2 million million million million million kg!</p>
+							</div>
 						</div>
-					</div>
-					<div id="rlum" class="section 3">
-						<div class="info"></div>
-						<div class="caption">
-							<h2>Brightness</h2>
-							<p>How the brightness of your star changes, compared to the current brightness of our Sun (which has a value of 1 in this light meter).</p>
-							<p>This light meter also changes colour to match your star.</p>
+						<div id="rStopwatch" class="section 4">
+							<div id="stopwatch"></div>
+							<div class="info"></div>
+							<div class="caption">
+								<h2>Stages in your star's life</h2>
+								<p>This stopwatch shows the relative time the star spends in each stage of its life. In the animation we speed up time when the star is not really changing much and slow things down for the dramatic phases of the star's life.</p>
+							</div>
 						</div>
-					</div>
-					<div id="thermometer" class="section 2">
-						<div class="info"></div>
-						<div class="caption">
-                            <h2>Surface Temperature</h2>
-							<p>How the surface temperature of your star changes with time. The temperatures are given in Kelvin which is usually abbreviated to K. Remember that:</p><blockquote style="text-align:center;">0&deg;C = 273 K</blockquote>
-                        </div>
-                    </div>
-					<div id="rCanvas" class="section 1">
-						<div class="info"></div>
-						<div class="caption">
-							<h2>Size</h2>
-							<p>How your star changes in size and colour, compared to the current conditions of the Sun.</p>
+						<div id="rlum" class="section 3">
+							<div class="info"></div>
+							<div class="caption">
+								<h2>Brightness</h2>
+								<p>How the brightness of your star changes, compared to the current brightness of our Sun (which has a value of 1 in this light meter).</p>
+								<p>This light meter also changes colour to match your star.</p>
+							</div>
+						</div>
+						<div id="thermometer" class="section 2">
+							<div class="info"></div>
+							<div class="caption">
+								<h2>Surface Temperature</h2>
+								<p>How the surface temperature of your star changes with time. The temperatures are given in Kelvin which is usually abbreviated to K. Remember that:</p><blockquote style="text-align:center;">0&deg;C = 273 K</blockquote>
+							</div>
+						</div>
+						<div id="rCanvas" class="section 1">
+							<div class="info"></div>
+							<div class="caption">
+								<h2>Size</h2>
+								<p>How your star changes in size and colour, compared to the current conditions of the Sun.</p>
+							</div>
 						</div>
 					</div>
 				</div>
+				<div id="tevTime">0 Myrs</div>
+				<div id="starMass"><span class="value">1</span></div>
 			</div>
-			<div id="tevTime">0 Myrs</div>
-			<div id="starMass"><span class="value">1</span></div>
         </div>
 		<div class="caution">Caution: Supernova Imminent</div>
 

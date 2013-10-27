@@ -28,34 +28,17 @@ $(document).ready(function () {
 	// Page PreLoader
 
 	function StarInABox(inp){
-		this.canopen = true;
-		this.open = false;
-		this.inputopen = false;
+
+		// Some boolean properties
+		this.canopen = true;     // Can we open the box?
+		this.open = false;       // Is the box open?
+		this.infoopen = false;
 		this.animateopen = false;
 
-		this.massVM = [0.2, 0.65, 1, 2, 4, 6, 10, 20, 30, 40];
-		// The stages indices must match indices used in the data
-		this.stages = ["Deeply or fully convective low mass MS star","Main Sequence star","Hertzsprung Gap","Red Giant Branch","Core Helium Burning","Asymptotic Giant Branch","Thermally-pulsing Asymptotic Giant Branch","Main Sequence Naked Helium star","Wolf-Rayet star","Giant Branch Wolf-Rayet star","Helium White Dwarf","Carbon/Oxygen White Dwarf","Oxygen/Neon White Dwarf","Neutron Star","Black Hole","Massless Supernova"];
-		this.allstages = {
-			"m0.2" : [ {"type":0, "lum":-2.2399, "t":639800, "radius":0.27, "temp":2942, "RGB":"#ffb765"}, {"type":2, "lum":-2.0034, "t":914000, "radius":0.36, "temp":2942, "RGB":"#ffb765"}, {"type":3, "lum":-2.2407, "t":962100, "radius":0.21, "temp":3463, "RGB":"#ffc885"}, {"type":10, "lum":1.9434, "t":1080000, "radius":0.02, "temp":56701, "RGB":"#9eb5ff"} ],
-			"m0.65" : [{"type":0, "lum":-0.3403, "t":57610, "radius":0.97, "temp":4849, "RGB":"#ffe5c6"}, {"type":2, "lum":-0.0538, "t":60970, "radius":1.45, "temp":4664, "RGB":"#ffe2bf"}, {"type":3, "lum":0.3772, "t":61970, "radius":2.39, "temp":4664, "RGB":"#ffe2bf"}, {"type":10, "lum":2.3074, "t":62750, "radius":0.02, "temp":56701, "RGB":"#9eb5ff"} ],
-			"m1" : [{"type":1, "lum":0.4503, "t":8992.81, "radius":1.69, "temp":5722, "RGB":"#fff1e5"}, {"type":2, "lum":0.5034, "t":9485.59, "radius":2.29, "temp":5164, "RGB":"#ffe9d2"}, {"type":3, "lum":0.5118, "t":9562.25, "radius":2.4, "temp":5052, "RGB":"#ffe8ce"}, {"type":4, "lum":1.7386, "t":10171.4, "radius":10.3, "temp":4948, "RGB":"#ffe6ca"}, {"type":5, "lum":2.1813, "t":10297.2, "radius":22.19, "temp":4322, "RGB":"#ffdbb0"}, {"type":6, "lum":3.6019, "t":10301.8, "radius":203.47, "temp":3234, "RGB":"#ffc178"}, {"type":11, "lum":1.4459, "t":10302.4, "radius":0.01, "temp":56701, "RGB":"#9eb5ff"}],
-			"m2" : [{"type":1, "lum":1.5476, "t":1163.03, "radius":3.71, "temp":7218, "RGB":"#f3f2ff"}, {"type":2, "lum":1.3056, "t":1173.58, "radius":5.84, "temp":5052, "RGB":"#ffe8ce"}, {"type":3, "lum":2.3845, "t":1196.46, "radius":27.54, "temp":4322, "RGB":"#ffdbb0"}, {"type":4, "lum":2.1597, "t":1486.68, "radius":19.85, "temp":4489, "RGB":"#ffdfb8"}, {"type":5, "lum":3.6681, "t":1494.07, "radius":204.31, "temp":3463, "RGB":"#ffc885"}, {"type":6, "lum":1.6415, "t":1495.78, "radius":0.01, "temp":56701, "RGB":"#9eb5ff"}, {"type":11, "lum":-5.3886, "t":12000, "radius":0.01, "temp":2150, "RGB":"#ff9523"}],
-			"m4" : [{"type":1, "lum":2.7699, "t":178.906, "radius":5.94, "temp":11677, "RGB":"#c4d2ff"}, {"type":2, "lum":2.5541, "t":180.102, "radius":28.35, "temp":4755, "RGB":"#ffe3c3"}, {"type":3, "lum":3.1815, "t":180.774, "radius":76.17, "temp":4159, "RGB":"#ffd8a9"}, {"type":4, "lum":2.9481, "t":212.88, "radius":51.27, "temp":4405, "RGB":"#ffddb4"}, {"type":5, "lum":4.1509, "t":214.706, "radius":353.02, "temp":3463, "RGB":"#ffc885"}, {"type":6, "lum":1.7754, "t":215.382, "radius":0.01, "temp":56701, "RGB":"#9eb5ff"}, {"type":11, "lum":-5.3245, "t":12000, "radius":0.01, "temp":2942, "RGB":"#ffb765"}],
-			"m6" : [{"type":1, "lum":3.3591, "t":65.964, "radius":7.48, "temp":13674, "RGB":"#bbccff"}, {"type":2, "lum":3.2303, "t":68.6218, "radius":69.98, "temp":4489, "RGB":"#ffdfb8"}, {"type":3, "lum":3.7432, "t":68.7287, "radius":161.66, "temp":3892, "RGB":"#ffd29c"}, {"type":4, "lum":3.6142, "t":77.6749, "radius":121.23, "temp":4241, "RGB":"#ffdaad"}, {"type":5, "lum":4.3733, "t":78.2085, "radius":444.02, "temp":3463, "RGB":"#ffc885"}, {"type":6, "lum":1.8974, "t":78.7627, "radius":0.01, "temp":56701, "RGB":"#9eb5ff"}, {"type":11, "lum":-5.2134, "t":12000, "radius":0.01, "temp":3640, "RGB":"#ffcc8f"}],
-			"m10" : [{"type":1, "lum":4.2272, "t":24.4625, "radius":9.34, "temp":22695, "RGB":"#aabfff"}, {"type":2, "lum":3.9663, "t":24.5267, "radius":191.38, "temp":4076, "RGB":"#ffd6a5"}, {"type":3, "lum":4.3855, "t":24.5362, "radius":386.1, "temp":3640, "RGB":"#ffcc8f"}, {"type":4, "lum":4.3817, "t":27.3394, "radius":340.41, "temp":3892, "RGB":"#ffd29c"}, {"type":5, "lum":4.8097, "t":27.4616, "radius":748, "temp":3463, "RGB":"#ffc885"}, {"type":13, "lum":4.8124, "t":27.4621, "radius":0, "temp":3463, "RGB":"#ffc885"}],
-			"m20" : [{"type":1, "lum":5.0480, "t":8.8203, "radius":15.56, "temp":22695, "RGB":"#aabfff"}, {"type":2, "lum":5.0859, "t":8.8357, "radius":249.52, "temp":6967, "RGB":"#f8f6ff"}, {"type":4, "lum":5.1739, "t":9.8196, "radius":1222.08, "temp":3234, "RGB":"#ffc178"}, {"type":5, "lum":5.2799, "t":9.8441, "radius":1508.69, "temp":3234, "RGB":"#ffc178"}, {"type":13, "lum":5.2805, "t":9.8442, "radius":0, "temp":3234, "RGB":"#ffc178"}],
-			"m30" : [{"type":1, "lum":5.4128, "t":5.9496, "radius":22.18, "temp":22695, "RGB":"#aabfff"}, {"type":2, "lum":5.4158, "t":5.9582, "radius":1142.88, "temp":3892, "RGB":"#ffd29c"}, {"type":4, "lum":5.3705, "t":6.4737, "radius":1.2, "temp":56701, "RGB":"#9eb5ff"}, {"type":7, "lum":5.2557, "t":6.629, "radius":0.89, "temp":56701, "RGB":"#9eb5ff"}, {"type":8, "lum":5.4248, "t":6.6577, "radius":1.04, "temp":56701, "RGB":"#9eb5ff"}, {"type":14, "lum":5.4248, "t":6.6577, "radius":0, "temp":56701, "RGB":"#9eb5ff"}],
-			"m40" : [{"type":1, "lum":5.6288, "t":4.8716, "radius":29.01, "temp":22695, "RGB":"#aabfff"}, {"type":2, "lum":5.6187, "t":4.878, "radius":1433.51, "temp":3892, "RGB":"#ffd29c"}, {"type":4, "lum":5.5568, "t":5.1816, "radius":1.41, "temp":56701, "RGB":"#9eb5ff"}, {"type":7, "lum":5.3259, "t":5.448, "radius":0.95, "temp":56701, "RGB":"#9eb5ff"}, {"type":8, "lum":5.4786, "t":5.4732, "radius":1.06, "temp":56701, "RGB":"#9eb5ff"}, {"type":14, "lum":5.4841, "t":5.474, "radius":0, "temp":56701, "RGB":"#9eb5ff"}]
-		}
+		// Process the input parameters/query string
+		this.init(inp);
 
-		this.lang = {
-			'lum' : 'Brightness',
-			'lumunit' : 'Solar luminosities',
-			'temp' : 'Temperature',
-			'tempunit' : 'Kelvin',
-			'ms' : 'Main Sequence'
-		}
+		this.setup();
 
 		// Main Objects
 		this.stage = 0;
@@ -189,6 +172,93 @@ $(document).ready(function () {
 		return this;
 	}
 
+	StarInABox.prototype.init = function(d){
+		if(!d) d = {};
+		var q = location.search;
+		if(q && q != '#'){
+			var bits = q.replace(/^\?/,'').replace(/\&$/,'').split('&'); // remove the leading ? and trailing &
+			var key,val;
+			for(var i = 0; i < bits.length ; i++){
+				key = bits[i].split('=')[0], val = bits[i].split('=')[1];
+				// convert floats
+				if(/^[0-9.\-]+$/.test(val)) val = parseFloat(val);
+				if(val == "true") val = true;
+				if(val == "false") val = false;
+				if(typeof d[key]==="undefined") d[key] = val;
+			}
+		}
+		var n = "number";
+		var s = "string";
+		var b = "boolean";
+		var o = "object";
+		var f = "function";
+		// Overwrite defaults with variables passed to the function
+		if(typeof d.mode === s) this.mode = d.mode;
+
+		return this;
+	}
+
+	StarInABox.prototype.setup = function(){
+
+		// Set the defaults
+		
+		// The stellar masses that we have data for
+		this.massVM = [0.2, 0.65, 1, 2, 4, 6, 10, 20, 30, 40];
+
+		// The stages indices must match indices used in the data
+		this.stages = ["Low mass MS star","Main Sequence star","Main Sequence star","Giant Branch","Giant Branch","Giant Branch","Giant Branch","Main Sequence star","Wolf-Rayet star","Giant Branch","White Dwarf","White Dwarf","White Dwarf","Neutron Star","Black Hole","Supernova"]
+		this.allstages = {
+			"m0.2" : [ {"type":0, "lum":-2.2399, "t":639800, "radius":0.27, "temp":2942, "RGB":"#ffb765"}, {"type":2, "lum":-2.0034, "t":914000, "radius":0.36, "temp":2942, "RGB":"#ffb765"}, {"type":3, "lum":-2.2407, "t":962100, "radius":0.21, "temp":3463, "RGB":"#ffc885"}, {"type":10, "lum":1.9434, "t":1080000, "radius":0.02, "temp":56701, "RGB":"#9eb5ff"} ],
+			"m0.65" : [{"type":0, "lum":-0.3403, "t":57610, "radius":0.97, "temp":4849, "RGB":"#ffe5c6"}, {"type":2, "lum":-0.0538, "t":60970, "radius":1.45, "temp":4664, "RGB":"#ffe2bf"}, {"type":3, "lum":0.3772, "t":61970, "radius":2.39, "temp":4664, "RGB":"#ffe2bf"}, {"type":10, "lum":2.3074, "t":62750, "radius":0.02, "temp":56701, "RGB":"#9eb5ff"} ],
+			"m1" : [{"type":1, "lum":0.4503, "t":8992.81, "radius":1.69, "temp":5722, "RGB":"#fff1e5"}, {"type":2, "lum":0.5034, "t":9485.59, "radius":2.29, "temp":5164, "RGB":"#ffe9d2"}, {"type":3, "lum":0.5118, "t":9562.25, "radius":2.4, "temp":5052, "RGB":"#ffe8ce"}, {"type":4, "lum":1.7386, "t":10171.4, "radius":10.3, "temp":4948, "RGB":"#ffe6ca"}, {"type":5, "lum":2.1813, "t":10297.2, "radius":22.19, "temp":4322, "RGB":"#ffdbb0"}, {"type":6, "lum":3.6019, "t":10301.8, "radius":203.47, "temp":3234, "RGB":"#ffc178"}, {"type":11, "lum":1.4459, "t":10302.4, "radius":0.01, "temp":56701, "RGB":"#9eb5ff"}],
+			"m2" : [{"type":1, "lum":1.5476, "t":1163.03, "radius":3.71, "temp":7218, "RGB":"#f3f2ff"}, {"type":2, "lum":1.3056, "t":1173.58, "radius":5.84, "temp":5052, "RGB":"#ffe8ce"}, {"type":3, "lum":2.3845, "t":1196.46, "radius":27.54, "temp":4322, "RGB":"#ffdbb0"}, {"type":4, "lum":2.1597, "t":1486.68, "radius":19.85, "temp":4489, "RGB":"#ffdfb8"}, {"type":5, "lum":3.6681, "t":1494.07, "radius":204.31, "temp":3463, "RGB":"#ffc885"}, {"type":6, "lum":1.6415, "t":1495.78, "radius":0.01, "temp":56701, "RGB":"#9eb5ff"}, {"type":11, "lum":-5.3886, "t":12000, "radius":0.01, "temp":2150, "RGB":"#ff9523"}],
+			"m4" : [{"type":1, "lum":2.7699, "t":178.906, "radius":5.94, "temp":11677, "RGB":"#c4d2ff"}, {"type":2, "lum":2.5541, "t":180.102, "radius":28.35, "temp":4755, "RGB":"#ffe3c3"}, {"type":3, "lum":3.1815, "t":180.774, "radius":76.17, "temp":4159, "RGB":"#ffd8a9"}, {"type":4, "lum":2.9481, "t":212.88, "radius":51.27, "temp":4405, "RGB":"#ffddb4"}, {"type":5, "lum":4.1509, "t":214.706, "radius":353.02, "temp":3463, "RGB":"#ffc885"}, {"type":6, "lum":1.7754, "t":215.382, "radius":0.01, "temp":56701, "RGB":"#9eb5ff"}, {"type":11, "lum":-5.3245, "t":12000, "radius":0.01, "temp":2942, "RGB":"#ffb765"}],
+			"m6" : [{"type":1, "lum":3.3591, "t":65.964, "radius":7.48, "temp":13674, "RGB":"#bbccff"}, {"type":2, "lum":3.2303, "t":68.6218, "radius":69.98, "temp":4489, "RGB":"#ffdfb8"}, {"type":3, "lum":3.7432, "t":68.7287, "radius":161.66, "temp":3892, "RGB":"#ffd29c"}, {"type":4, "lum":3.6142, "t":77.6749, "radius":121.23, "temp":4241, "RGB":"#ffdaad"}, {"type":5, "lum":4.3733, "t":78.2085, "radius":444.02, "temp":3463, "RGB":"#ffc885"}, {"type":6, "lum":1.8974, "t":78.7627, "radius":0.01, "temp":56701, "RGB":"#9eb5ff"}, {"type":11, "lum":-5.2134, "t":12000, "radius":0.01, "temp":3640, "RGB":"#ffcc8f"}],
+			"m10" : [{"type":1, "lum":4.2272, "t":24.4625, "radius":9.34, "temp":22695, "RGB":"#aabfff"}, {"type":2, "lum":3.9663, "t":24.5267, "radius":191.38, "temp":4076, "RGB":"#ffd6a5"}, {"type":3, "lum":4.3855, "t":24.5362, "radius":386.1, "temp":3640, "RGB":"#ffcc8f"}, {"type":4, "lum":4.3817, "t":27.3394, "radius":340.41, "temp":3892, "RGB":"#ffd29c"}, {"type":5, "lum":4.8097, "t":27.4616, "radius":748, "temp":3463, "RGB":"#ffc885"}, {"type":13, "lum":4.8124, "t":27.4621, "radius":0, "temp":3463, "RGB":"#ffc885"}],
+			"m20" : [{"type":1, "lum":5.0480, "t":8.8203, "radius":15.56, "temp":22695, "RGB":"#aabfff"}, {"type":2, "lum":5.0859, "t":8.8357, "radius":249.52, "temp":6967, "RGB":"#f8f6ff"}, {"type":4, "lum":5.1739, "t":9.8196, "radius":1222.08, "temp":3234, "RGB":"#ffc178"}, {"type":5, "lum":5.2799, "t":9.8441, "radius":1508.69, "temp":3234, "RGB":"#ffc178"}, {"type":13, "lum":5.2805, "t":9.8442, "radius":0, "temp":3234, "RGB":"#ffc178"}],
+			"m30" : [{"type":1, "lum":5.4128, "t":5.9496, "radius":22.18, "temp":22695, "RGB":"#aabfff"}, {"type":2, "lum":5.4158, "t":5.9582, "radius":1142.88, "temp":3892, "RGB":"#ffd29c"}, {"type":4, "lum":5.3705, "t":6.4737, "radius":1.2, "temp":56701, "RGB":"#9eb5ff"}, {"type":7, "lum":5.2557, "t":6.629, "radius":0.89, "temp":56701, "RGB":"#9eb5ff"}, {"type":8, "lum":5.4248, "t":6.6577, "radius":1.04, "temp":56701, "RGB":"#9eb5ff"}, {"type":14, "lum":5.4248, "t":6.6577, "radius":0, "temp":56701, "RGB":"#9eb5ff"}],
+			"m40" : [{"type":1, "lum":5.6288, "t":4.8716, "radius":29.01, "temp":22695, "RGB":"#aabfff"}, {"type":2, "lum":5.6187, "t":4.878, "radius":1433.51, "temp":3892, "RGB":"#ffd29c"}, {"type":4, "lum":5.5568, "t":5.1816, "radius":1.41, "temp":56701, "RGB":"#9eb5ff"}, {"type":7, "lum":5.3259, "t":5.448, "radius":0.95, "temp":56701, "RGB":"#9eb5ff"}, {"type":8, "lum":5.4786, "t":5.4732, "radius":1.06, "temp":56701, "RGB":"#9eb5ff"}, {"type":14, "lum":5.4841, "t":5.474, "radius":0, "temp":56701, "RGB":"#9eb5ff"}]
+		}
+
+		// Text descriptions
+		this.lang = {
+			'lum' : 'Brightness',
+			'lumunit' : 'compared to the Sun',
+			'temp' : 'Temperature',
+			'tempunit' : 'Kelvin',
+			'ms' : 'Main Sequence',
+			'help' : {
+				'tab' : 'Help',
+				'content': 'This is some help text written for Key Stages 3-5.'
+			},
+			'captions': {
+				rScales: '<h2>Mass</h2><p>This shows how the mass of your star varies over its life. Stars lose mass gradually by converting hydrogen into helium and heavier elements. They can also lose mass through winds blowing off their surface and at dramatic moments in their lives.</p><p>Stars are massive so, rather than measure this in kilograms, we measure this in comparison to our Sun which has 1 Solar Mass - which is about 2 million million million million million kg!</p>',
+				rStopwatch: '<h2>Stages in your star\'s life</h2><p>This stopwatch shows the relative time the star spends in each stage of its life. In the animation we speed up time when the star is not really changing much and slow things down for the dramatic phases of the star\'s life.</p>',
+				rlum: '<h2>Brightness</h2><p>How the brightness of your star changes compared to the current brightness of our Sun (which has a value of 1 in this light meter).</p><p>This light meter also changes colour to match your star.</p>',
+				thermometer: '<h2>Surface Temperature</h2><p>How the surface temperature of your star changes with time. The temperatures are given in Kelvin which is usually abbreviated to K. Remember that:</p><blockquote style="text-align:center;">0&deg;C = 273 K</blockquote>',
+				rCanvas: '<h2>Size</h2><p>How your star changes in size and colour, compared to the current conditions of the Sun.</p>'
+			}
+		}	
+
+		// Over-ride the defaults
+		if(this.mode=="advanced"){
+			// The stages indices must match indices used in the data
+			this.stages = 		["Deeply or fully convective low mass MS star","Main Sequence star","Hertzsprung Gap","Red Giant Branch","Core Helium Burning","Asymptotic Giant Branch","Thermally-pulsing Asymptotic Giant Branch","Main Sequence Naked Helium star","Wolf-Rayet star","Giant Branch Wolf-Rayet star","Helium White Dwarf","Carbon/Oxygen White Dwarf","Oxygen/Neon White Dwarf","Neutron Star","Black Hole","Massless Supernova"];
+			this.lang.lum = 'Luminosity';
+			this.lang.lumunit = 'Solar luminosities';
+			this.lang.help.content = 'This is some help text written for A-level';
+			this.lang.captions = {
+				rScales: '<h2>Mass</h2><p>This shows how the mass of your star varies over its life. Stars lose mass gradually by converting hydrogen into helium and heavier elements. They can also lose mass through winds blowing off their surface and at dramatic moments in their lives.</p><p>Stars are massive so, rather than measure this in kilograms, we measure this in comparison to our Sun which has 1 Solar Mass - which is about 2 million million million million million kg!</p>',
+				rStopwatch: '<h2>Stages in your star\'s life</h2><p>This stopwatch shows the relative time the star spends in each stage of its life. In the animation we speed up time when the star is not really changing much and slow things down for the dramatic phases of the star\'s life.</p>',
+				rlum: '<h2>Luminosity</h2><p>How the luminosity of your star changes compared to the current luminosity of our Sun (which has a value of 1 in this light meter).</p><p>This light meter also changes colour to match your star.</p>',
+				thermometer: '<h2>Surface Temperature</h2><p>How the surface temperature of your star changes with time. The temperatures are given in Kelvin which is usually abbreviated to K. Remember that:</p><blockquote style="text-align:center;">0&deg;C = 273 K</blockquote>',
+				rCanvas: '<h2>Size</h2><p>How your star changes in size and colour, compared to the current conditions of the Sun.</p>'
+			}
+		}
+
+		return this;
+	}
+
 	StarInABox.prototype.removeCrosshair = function(){
 
 		// Draw a crosshair to show current cursor position
@@ -307,11 +377,21 @@ $(document).ready(function () {
 			$('#welcome #help-content').css({opacity: 0}).animate({opacity: 1},500);
 		});
 	
-		// open/close input panel
-		$("#input .tab-top").click({box:this},function(e){ e.data.box.toggleInputPanel(); });
+		$('#info .tab').text(this.lang.help.tab);
+		$('#infocontent').before('<div class="closer"><a href="#">&times;</a></div>').html(this.lang.help.content);
+		$('#info .closer a').on('click',{box:this},function(e){ e.data.box.toggleInfoPanel(); });
+				
+	
+		// open/close info panel
+		$("#info .tab").click({box:this},function(e){ e.data.box.toggleInfoPanel(); });
 
 		// open/close animate panel
 		$("#animate .tab-bottom").click({box:this},function(e){ e.data.box.toggleAnimatePanel(); });
+
+		// Update info panels
+		for(var name in this.lang.captions){
+			if($('#'+name).length > 0) $('#'+name+' .caption').html(this.lang.captions[name])
+		}
 
 		//thermometer
 		var txtprops = {'text-anchor': 'start','fill': '#fff','font-size': this.chart.opts.yaxis['font-size']};
@@ -398,7 +478,7 @@ $(document).ready(function () {
 			clearInterval(this.eAnim);
 			this.animating = true;
 			this.closeAnimatePanel();
-			if(this.inputopen) this.toggleInputPanel();
+			if(this.infoopen) this.toggleInfoPanel();
 			$("a#animateEvolveReset").css('display', 'none');
 			if(this.timestep == this.eAnimPoints.length-1) this.reset();
 
@@ -558,11 +638,13 @@ $(document).ready(function () {
 			this.open = true;
 		}
 	}
-	StarInABox.prototype.toggleInputPanel = function(duration){
-		if(typeof duration!="number") duration = 300;
-		if(this.inputopen) $("#input").animate({"bottom": "-70px"}, duration).removeClass("open");
-		else $("#input").animate({"bottom": "0px"}, duration).addClass("open");
-		this.inputopen = !this.inputopen;
+	StarInABox.prototype.toggleInfoPanel = function(duration){
+		//if(typeof duration!="number") duration = 300;
+		//if(this.infoopen) $("#info").animate({"bottom": "-70px"}, duration).removeClass("open");
+		//else $("#info").animate({"bottom": "0px"}, duration).addClass("open");
+		if(this.infoopen) $("#info").removeClass("open");
+		else $("#info").addClass("open");
+		this.infoopen = !this.infoopen;
 	}
 	// toggle panels
 	StarInABox.prototype.toggleAnimatePanel = function(duration){
@@ -693,6 +775,8 @@ $(document).ready(function () {
 	StarInABox.prototype.createStopwatch = function(){
 		this.stopwatchData = new Array();
 		this.stopwatchLegend = new Array();
+		// Don't include final state in calculation of the normal life of the star
+		// as it is usually very, very long compared to the rest of the star's life.
 		for (var i = 1 ; i < this.stageIndex.length-1 ; i++){
 			var s = this.getData(this.stageIndex[i]);
 			var n = (i < this.stageIndex.length-1) ? this.stageIndex[i+1]-1 : this.data.data.length-1;
@@ -1076,7 +1160,7 @@ $(document).ready(function () {
 				});
 				bubblePopup({
 					id: 'hinttext', 
-					el: $('#starMass select'), 
+					el: $('#starMass select'),
 					html: 'Welcome! At the moment you have a 1 solar mass star but you can change that here if you want to.',
 					align: 'auto',
 					context: this,
@@ -1219,6 +1303,7 @@ $(document).ready(function () {
 		this.wide = 280;
 		this.tall = 390;
 		this.max = 60000;
+		this.padding = 10;	// The light meter padding in pixels
 		this.major = 5; // Number of major tick marks
 		this.minor = 6; // Number of minor tick marks 
 
@@ -1232,9 +1317,9 @@ $(document).ready(function () {
 
 		// Scale
 		this.bulb = this.y+this.h-56
-		this.bottom = this.bulb-10;
+		this.bottom = this.bulb-this.padding;
 		this.top = this.y+33;
-		this.maxscale = Math.abs(this.y+10-this.bottom)/Math.abs(this.top-this.bottom);
+		this.maxscale = Math.abs(this.y+this.padding-this.bottom)/Math.abs(this.top-this.bottom);
 
 		// Create a canvas to draw on
 		this.thermo = Raphael(this.id, this.wide, this.tall);
@@ -1262,8 +1347,8 @@ $(document).ready(function () {
 				for(var j = 1; j < this.minor ; j++) this.ticks.push(this.thermo.path("M "+(this.wide/2 + 8)+","+(y+j*steppxminor)+" l "+(6+i*2)+",0").attr({'stroke':'#000000','stroke-width':0.5}));
 			}
 		}
-		var ll = this.thermo.text(30, 200, this.lang.temp+" ("+this.lang.tempunit+")").attr(this.txt);
-		ll.rotate(-90);
+		var ll = this.thermo.text(this.x-this.padding-parseInt(this.txt['font-size'])/2, this.y+this.h/2, this.lang.temp+" ("+this.lang.tempunit+")").attr(this.txt);
+		ll.attr({'text-anchor':'middle',transform:"r-90"});
 
 		return this;	
 	}
@@ -1331,8 +1416,8 @@ $(document).ready(function () {
 		for(var i = 0 ; i < this.totalBars; i++) this.eq.push(this.meter.rect(this.x+this.padding-0.5,this.bottom-(i+1)*steppx,this.w-this.padding*2,steppx-this.spacing).attr({'fill':this.colour,'stroke':0}));
 		this.labels = this.meter.set();
 		for(var i = this.minlog ; i <= this.maxlog ; i+=this.steplog) this.labels.push(this.meter.text(this.x+this.w+this.padding, this.bottom-(i+this.zero)*this.minor*steppx/this.steplog, addCommas(Math.pow(10,i))).attr(this.labeltxt));
-		ll = this.meter.text(0, 220, this.lang.lum+" ("+this.lang.lumunit+")").attr(this.txt);
-		ll.rotate(-90);
+		ll = this.meter.text(this.x-this.padding-parseInt(this.txt['font-size'])/2, this.y+this.h/2, this.lang.lum+" ("+this.lang.lumunit+")").attr(this.txt);
+		ll.attr({'text-anchor':'middle',transform:"r-90"});
 
 		return this;
 	}
@@ -1419,8 +1504,34 @@ $(document).ready(function () {
 		var TWO_PI = Math.PI * 2;
 		var offsetAngle = -Math.PI/2;	// The rotation from east to start at
 		var total = 0;			// A running total
-		if(typeof d.values!="object") d = {values: d,labels:[]}
+		if(typeof d.values!="object") d = { values: d, labels:[] }
+		var d2 = { values: [], labels:[], ids:[] };
+
+		// Compress the data if they have the same labels
+		var lastlabel = d.labels[0];
+		var sum = 0;
+		var j = 0;
+		for (var i = 0; i < d.values.length; i++){
+			if(d.labels[i] != lastlabel){
+				d2.values.push(sum);
+				d2.labels.push(d.labels[i-1]);
+				d2.ids.push(j);
+				lastlabel = d.labels[i];
+				sum = 0;
+				j = i;
+			}
+			sum += d.values[i];
+			if(i == d.values.length-1){
+				d2.values.push(sum);
+				d2.labels.push(d.labels[i]);
+				d2.ids.push(j);
+			}
+		}
+		d = d2;
+
+		// Get the number of items to display
 		var n = d.values.length;		// Number of data points
+
 		// Calculate the total of all values so we can normalize
 		for (var i = 0; i < n; i++) total += d.values[i];
 		// Create each segment
@@ -1429,6 +1540,7 @@ $(document).ready(function () {
 		var yspace = Math.floor(keysize*1.4);
 		var pie = Array(n);
 		var f = attr.colours;
+		var ending = 0;
 
 		for (var i = 0; i < n; i++){
 			c = {'fill': (typeof attr.fill=="object" && attr.fill.length > i) ? attr.fill[i] : ((typeof attr.fill=="string") ? attr.fill : f[i % f.length]), 'stroke': (typeof attr.stroke=="object" && attr.stroke.length > i) ? attr.stroke[i] : ((typeof attr.stroke=="string") ? attr.stroke : "white")}
@@ -1442,7 +1554,7 @@ $(document).ready(function () {
 
 			pie[i] = this.set();
 			// Add the pie segment
-			pie.push(this.path("M "+x+" "+y+" L "+x1+" "+y1+" A "+radius+","+radius+" 0 "+((b-a >= Math.PI) ? 1 : 0)+" 1 "+x2+","+y2+" z").attr({cursor:'pointer',stroke:c.stroke,fill:c.fill,'stroke-width':0}).data('i',i+1).data('box',box).mouseover(function(){
+			pie.push(this.path("M "+x+" "+y+" L "+x1+" "+y1+" A "+radius+","+radius+" 0 "+((b-a >= Math.PI) ? 1 : 0)+" 1 "+x2+","+y2+" z").attr({cursor:'pointer',stroke:c.stroke,fill:c.fill,'stroke-width':0}).data('i',d.ids[i]+1).data('box',box).mouseover(function(){
 					//this.transform('s1.05,1.05,'+x+','+y);
 					this.attr({'opacity':0.7});
 					this.next.transform('s1.2');	// key
@@ -1458,8 +1570,8 @@ $(document).ready(function () {
 			);
 			// Add the key box
 			pie.push(
-				this.rect(x-radius*1.1+Math.round(keysize/2)-0.5,yoff+(i*yspace)-Math.round(keysize/2)-0.5,keysize,keysize).attr({cursor:'pointer',stroke:c.stroke,fill:c.fill,'stroke-width':1.25}).data('i',i+1).data('box',box).click(function(e){
-					this.data('box').resetStage.call(this.data('box'),this.data('i'))
+				this.rect(x-radius*1.1+Math.round(keysize/2)-0.5,yoff+(i*yspace)-Math.round(keysize/2)-0.5,keysize,keysize).attr({cursor:'pointer',stroke:c.stroke,fill:c.fill,'stroke-width':1.25}).data('i',d.ids[i]+1).data('box',box).click(function(e){
+					this.data('box').resetStage.call(this.data('box'),this.data('i'));
 				}).mouseover(function(){
 					this.transform('s1.2');	// key box
 					this.next.attr({'font-weight':'bold'});	// key label
@@ -1470,7 +1582,7 @@ $(document).ready(function () {
 			)
 			// Add the key label
 			pie.push(
-				this.text(x-radius*1.1+keysize*2,yoff+(i*yspace),t).attr({cursor:'pointer',fill:'white','stroke-width':1,'font-size':keysize,'text-anchor':'start'}).data('i',i+1).data('box',box).click(function(e){
+				this.text(x-radius*1.1+keysize*2,yoff+(i*yspace),t).attr({cursor:'pointer',fill:'white','stroke-width':1,'font-size':keysize,'text-anchor':'start'}).data('i',d.ids[i]+1).data('box',box).click(function(e){
 					this.data('box').resetStage.call(this.data('box'),this.data('i'))
 				}).mouseover(function(){
 					this.prev.transform('s1.2');	// key box
@@ -1520,7 +1632,7 @@ $(document).ready(function () {
 			el = $('#'+id);
 		}else el.stop().attr('class','').addClass('poppitypin'+(style ? " "+style : "")).html('<div class="poppitypin-inner">'+(inp.html ? inp.html : el.html())+'</div>');
 		
-		var z = (typeof inp.z=="number") ? inp.z : 1000;	// The z-index
+		var z = (typeof inp.z=="number") ? inp.z : 980;	// The z-index
 
 		var animate = (typeof inp.animate=="boolean") ? inp.animate : false;
 		var dismiss = (typeof inp.dismiss=="boolean") ? inp.dismiss : false;
@@ -1579,7 +1691,7 @@ $(document).ready(function () {
 		}else return;
 	
 		el.css({'text-align':talign});
-	
+
 		if(animate) el.css({'left':lorig,'top':torig,opacity: 0.0}).animate({opacity: 1,'left':l,'top':t},500)
 		else el.css({'left':l+'px','top':t+'px',opacity: 1}).show()
 		if(fade > 0) el.delay(fade).fadeOut(fade);
