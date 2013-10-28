@@ -729,7 +729,6 @@ p, #welcome p {
 
 #welcome.help{
 	width: 800px;
-	height:400px;
 	-webkit-transition: all 1s ease-in-out;
 	-moz-transition: all 1s ease-in-out;
 	-o-transition: all 1s ease-in-out;

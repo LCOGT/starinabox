@@ -22,7 +22,7 @@
 			}
 		},
 		"intro": [
-			"Welcome advanced user! At the moment you have a 1 solar mass star but you can change that here if you want to.",
+			"Welcome! At the moment you have a 1 solar mass star but you can change that here if you want to.",
 			"This is your star at the start of its life. The <span style=\"color:%COLOR%\">dashed line</span> shows how the star's brightness and temperature will change over its life.",
 			"Click the play button when you're ready to start animating your star."
 		],
