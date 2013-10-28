@@ -531,6 +531,8 @@ a#animateEvolveReset:active {
 	position: absolute;
 	top: 0;
 	left: 0;
+	bottom: 0px;
+	right: 0px;
 	color: #fff;
 }
 
