@@ -1,0 +1,32 @@
+{
+	"stages": ["Deeply or fully convective low mass MS star","Main Sequence star","Hertzsprung Gap","Red Giant Branch","Core Helium Burning","Asymptotic Giant Branch","Thermally-pulsing Asymptotic Giant Branch","Main Sequence Naked Helium star","Wolf-Rayet star","Giant Branch Wolf-Rayet star","Helium White Dwarf","Carbon/Oxygen White Dwarf","Oxygen/Neon White Dwarf","Neutron Star","Black Hole","Massless Supernova"],
+	"phrasebook": {
+		"lum": "Luminosity",
+		"lumunit": "Solar luminosities",
+		"temp" : "Temperature",
+		"tempunit" : "Kelvin",
+		"ms" : "Main Sequence",
+		"help": {
+			"tab": "Help",
+			"content": {
+				"m0.2" : "This is some help text written for A-level",
+				"m0.65" : "This is some help text written for A-level",
+				"m1" : "This is some help text written for A-level",
+				"m2" : "This is some help text written for A-level",
+				"m4" : "This is some help text written for A-level",
+				"m6" : "This is some help text written for A-level",
+				"m10" : "This is some help text written for A-level",
+				"m20" : "This is some help text written for A-level",
+				"m30" : "This is some help text written for A-level",
+				"m40" : "This is some help text written for A-level"
+			}
+		},
+		"captions": {
+			"rScales": "<h2>Mass</h2><p>This shows how the mass of your star varies over its life. Stars lose mass gradually by converting hydrogen into helium and heavier elements. They can also lose mass through winds blowing off their surface and at dramatic moments in their lives.</p><p>Stars are massive so, rather than measure this in kilograms, we measure this in comparison to our Sun which has 1 Solar Mass - which is about 2 million million million million million kg!</p>",
+			"rStopwatch": "<h2>Stages in your star's life</h2><p>This stopwatch shows the relative time the star spends in each stage of its life. In the animation we speed up time when the star is not really changing much and slow things down for the dramatic phases of the star's life.</p>",
+			"rlum": "<h2>Luminosity</h2><p>How the luminosity of your star changes compared to the current luminosity of our Sun (which has a value of 1 in this light meter).</p><p>This light meter also changes colour to match your star.</p>",
+			"thermometer": "<h2>Surface Temperature</h2><p>How the surface temperature of your star changes with time. The temperatures are given in Kelvin which is usually abbreviated to K. Remember that:</p><blockquote style=\"text-align:center;\">0&deg;C = 273 K</blockquote>",
+			"rCanvas": "<h2>Size</h2><p>How your star changes in size and colour, compared to the current conditions of the Sun.</p>"
+		}
+	}
+}
