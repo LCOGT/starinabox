@@ -1,5 +1,5 @@
 {
-	"stages": ["Main Sequence star","Main Sequence star","Main Sequence star","Giant Branch","Giant Branch","Giant Branch","Giant Branch","Main Sequence star","Wolf-Rayet star","Giant Branch","White Dwarf","White Dwarf","White Dwarf","Neutron Star","Black Hole","Supernova"],
+	"stages": ["Main Sequence star","Main Sequence star","Red Giant","Red Giant","Red Giant","Red Giant","Red Giant","Blue Giant","Blue Giant","Blue Giant","White Dwarf","White Dwarf","White Dwarf","Neutron Star","Black Hole","Obliteration"],
 	"phrasebook": {
 		"lum": "Brightness",
 		"lumunit": "compared to the Sun",
