@@ -30,26 +30,29 @@ $(document).ready(function () {
 	function StarInABox(inp){
 
 		// Some boolean properties
-		this.canopen = true;     // Can we open the box?
-		this.open = false;       // Is the box open?
-		this.infoopen = false;
-		this.animateopen = false;
+		this.canopen = true;      // Can we open the box?
+		this.open = false;        // Is the box open?
+		this.infoopen = false;    // Is the info/help box open?
+		this.tutorialstep = 0;    // Which tutorial step are we on
 
+		// Languages - get the browser's language code e.g. "en-GB" and find the short version of it too e.g. "en"
 		this.langs = new Array();
 		// Country codes at http://en.wikipedia.org/wiki/List_of_ISO_639-1_codes
 		// First item in this array is the default language
-		this.langs[0] = {code:'en',name:'English'};
 		this.lang = (navigator) ? (navigator.userLanguage||navigator.systemLanguage||navigator.language||browser.language) : "";			// Set the user language
 		this.langshort = (this.lang.indexOf('-') > 0 ? this.lang.substring(0,this.lang.indexOf('-')) : this.lang.substring(0,2));
+
+		// Define the langauges that we have configuration options for
+		this.langs[0] = {code:'en',name:'English'};
 
 		// Process the input parameters/query string
 		this.init(inp);
 
 		// Set the defaults
-		
+		// =================
+
 		// The stellar masses that we have data for
 		this.massVM = [0.2, 0.65, 1, 2, 4, 6, 10, 20, 30, 40];
-
 		// The stages indices must match indices used in the data
 		this.stages = ["Main Sequence star","Main Sequence star","Main Sequence star","Giant Branch","Giant Branch","Giant Branch","Giant Branch","Main Sequence star","Wolf-Rayet star","Giant Branch","White Dwarf","White Dwarf","White Dwarf","Neutron Star","Black Hole","Supernova"]
 		this.allstages = {
@@ -64,7 +67,6 @@ $(document).ready(function () {
 			"m30" : [{"type":1, "lum":5.4128, "t":5.9496, "radius":22.18, "temp":22695, "RGB":"#aabfff"}, {"type":2, "lum":5.4158, "t":5.9582, "radius":1142.88, "temp":3892, "RGB":"#ffd29c"}, {"type":4, "lum":5.3705, "t":6.4737, "radius":1.2, "temp":56701, "RGB":"#9eb5ff"}, {"type":7, "lum":5.2557, "t":6.629, "radius":0.89, "temp":56701, "RGB":"#9eb5ff"}, {"type":8, "lum":5.4248, "t":6.6577, "radius":1.04, "temp":56701, "RGB":"#9eb5ff"}, {"type":14, "lum":5.4248, "t":6.6577, "radius":0, "temp":56701, "RGB":"#9eb5ff"}],
 			"m40" : [{"type":1, "lum":5.6288, "t":4.8716, "radius":29.01, "temp":22695, "RGB":"#aabfff"}, {"type":2, "lum":5.6187, "t":4.878, "radius":1433.51, "temp":3892, "RGB":"#ffd29c"}, {"type":4, "lum":5.5568, "t":5.1816, "radius":1.41, "temp":56701, "RGB":"#9eb5ff"}, {"type":7, "lum":5.3259, "t":5.448, "radius":0.95, "temp":56701, "RGB":"#9eb5ff"}, {"type":8, "lum":5.4786, "t":5.4732, "radius":1.06, "temp":56701, "RGB":"#9eb5ff"}, {"type":14, "lum":5.4841, "t":5.474, "radius":0, "temp":56701, "RGB":"#9eb5ff"}]
 		}
-
 		// Text descriptions
 		this.phrasebook = {
 			'lum' : 'Luminosity',
@@ -87,6 +89,11 @@ $(document).ready(function () {
 					"m40" : ''
 				}
 			},
+			"intro": [
+				"Welcome! At the moment you have a 1 solar mass star but you can change that here if you want to.",
+				"This is your star at the start of its life. The <span style=\"color:%COLOR%\">dashed line</span> shows how the star's brightness and temperature will change over its life.",
+				"Click the play button when you\'re ready to start animating your star."
+			],
 			'captions': {
 				rScales: '<h2>Mass</h2><p>This shows how the mass of your star varies over its life. Stars lose mass gradually by converting hydrogen into helium and heavier elements. They can also lose mass through winds blowing off their surface and at dramatic moments in their lives.</p><p>Stars are massive so, rather than measure this in kilograms, we measure this in comparison to our Sun which has 1 Solar Mass - which is about 2 million million million million million kg!</p>',
 				rStopwatch: '<h2>Stages in your star\'s life</h2><p>This stopwatch shows the relative time the star spends in each stage of its life. In the animation we speed up time when the star is not really changing much and slow things down for the dramatic phases of the star\'s life.</p>',
@@ -96,6 +103,8 @@ $(document).ready(function () {
 			}
 		}
 
+		// ==================
+		
 		// Now that we've set some defaults, load alternate config information
 		this.loadConfig();
 
@@ -119,10 +128,7 @@ $(document).ready(function () {
 		// Get font-size
 		this.fs = ($('#placeholder').css('font-size') ? parseInt($('#placeholder').css('font-size')) : 12);
 
-
-		/**
-		 *	Set Chart variables
-		 **/
+		// Set HR-diagram options
 		this.data = [];
 		this.chart = {
 			'offset' : {
@@ -177,7 +183,6 @@ $(document).ready(function () {
 			},
 			'holder': []
 		}
-
 		this.chart.holder = Raphael("placeholder", this.chart.width, this.chart.height),
 
 		// Add mousemove event to show cursor position on HR diagram
@@ -338,6 +343,7 @@ $(document).ready(function () {
 		// Define if we can open the box or not
 		$('#welcome').bind('mouseover',{box:this},function(e){ e.data.box.canopen = false; }).bind('mouseout',{box:this},function(e){ e.data.box.canopen = true; });
 		$("#box-lid").click({box:this},function(e){
+			e.preventDefault();
 			if(e.data.box.canopen) e.data.box.toggleLid();
 		});
 
@@ -391,7 +397,7 @@ $(document).ready(function () {
 			var mTop = $(this).outerHeight();
 			$(this).css("top",(0 - mTop));
 		});
-		$('#lid-open a').click({box:this},function(e){ e.data.box.toggleLid(); });
+		$('#lid-open a').click({box:this},function(e){ e.preventDefault(); e.data.box.toggleLid(); });
 		// add gradient to buttons after loading as it breaks the pre-loader!
 		if($.browser == "webkit" || $.browser == "safari") $("a#animateEvolve, a#animateEvolveReset").css("background","-webkit-gradient(linear, left top, left bottom, from(#ddd), to(#6b6b6b))");
 		if($.browser == "mozilla") $("a#animateEvolve, a#animateEvolveReset").css("background","-moz-linear-gradient(top, #ddd, #6b6b6b)");
@@ -405,9 +411,6 @@ $(document).ready(function () {
 	
 		// open/close info panel
 		$("#info .tab").click({box:this},function(e){ e.data.box.toggleInfoPanel(); });
-
-		// open/close animate panel
-		$("#animate .tab-bottom").click({box:this},function(e){ e.data.box.toggleAnimatePanel(); });
 
 		//thermometer
 		var txtprops = {'text-anchor': 'start','fill': '#fff','font-size': this.chart.opts.yaxis['font-size']};
@@ -473,6 +476,10 @@ $(document).ready(function () {
 		this.thermometer.updateLanguage(this.phrasebook);
 		this.lightmeter.updateLanguage(this.phrasebook);
 		this.stopwatch.rebuild();
+
+		if(this.tutorialstep < this.phrasebook.intro.length){
+			$('#hinttext .poppitypin-inner').html(this.phrasebook.intro[this.tutorialstep].replace('%COLOR%',this.chart.opts.path.color));
+		}
 
 		// Update info panels
 		for(var name in this.phrasebook.captions){
@@ -681,6 +688,56 @@ $(document).ready(function () {
 			$("#lid-open a").html('&rsaquo; Close the lid');
 			this.open = true;
 		}
+		if(this.tutorialstep == 0){
+			var context = this;
+			var bp = new bubblePopup({
+				id: 'hinttext', 
+				el: $('#starMass select'),
+				html: context.phrasebook.intro[0],
+				align: 'north',
+				context: this,
+				w: 190,
+				dismiss: true,
+				animate: true,
+				onpop: function(){
+					context.tutorialstep++;
+					var test;
+					// If the user has changed the mass of the star it'll take a little 
+					// while until it loads and we need to wait until it has so that we
+					// know where to put the next bubble popup.
+					function nextstep(context){
+						if(!context.loading){
+							clearTimeout(test);
+							if(context.timestep > 0) return;
+							var bp = new bubblePopup({ 
+								id: 'hinttext',
+								el: $('#chartstar'),
+								html: context.phrasebook.intro[1].replace('%COLOR%',context.chart.opts.path.color),
+								align: 'south',
+								context: this,
+								w: 200,
+								dismiss: true,
+								animate: true,
+								onpop:function(){
+									context.tutorialstep++;
+									var bp = new bubblePopup({ 
+										id: 'hinttext',
+										el: $('#controls .control_play img'),
+										html: context.phrasebook.intro[2],
+										align: 'north',
+										w: 200,
+										dismiss: true,
+										animate: true
+									});
+			
+								}
+							});
+						}
+					}
+					test = setInterval(nextstep,100,this);
+				}
+			});
+		}
 	}
 	StarInABox.prototype.toggleInfoPanel = function(duration){
 		//if(typeof duration!="number") duration = 300;
@@ -689,19 +746,6 @@ $(document).ready(function () {
 		if(this.infoopen) $("#info").removeClass("open");
 		else $("#info").addClass("open");
 		this.infoopen = !this.infoopen;
-	}
-	// toggle panels
-	StarInABox.prototype.toggleAnimatePanel = function(duration){
-		if(typeof duration!="number") duration = 300;
-		if(this.animateopen) $("#animate").animate({"top": "-60px"}, duration);
-		else $("#animate").animate({"top": "0px"}, duration);
-		this.animateopen = !this.animateopen;
-	}
-	StarInABox.prototype.closeAnimatePanel = function(duration){
-		if(typeof duration!="number") duration = 300;
-		if(!this.animateopen) return;
-		$("#animate").animate({"top": "-60px"}, duration);
-		this.animateopen = false;
 	}
 	// get stages for current mass function
 	StarInABox.prototype.getStages = function(mass){
@@ -1107,52 +1151,6 @@ $(document).ready(function () {
 					if($('#hinttext').length > 0) $('#hinttext').click();
 					e.data.box.slideMassTo(parseFloat($(this).find("option:selected").attr("value")));
 				});
-				bubblePopup({
-					id: 'hinttext', 
-					el: $('#starMass select'),
-					html: 'Welcome! At the moment you have a 1 solar mass star but you can change that here if you want to.',
-					align: 'auto',
-					context: this,
-					w: 190,
-					dismiss: true,
-					animate: true,
-					onpop: function(){
-						var test;
-						// If the user has changed the mass of the star it'll take a little 
-						// while until it loads and we need to wait until it has so that we
-						// know where to put the next bubble popup.
-						function nextstep(context){
-							if(!context.loading){
-								clearTimeout(test);
-								if(context.timestep > 0) return;
-								bubblePopup({ 
-									id: 'hinttext',
-									el: $('#chartstar'),
-									html: ('This is your star at the start of its life. The <span style="color:'+context.chart.opts.path.color+'">dashed line</span> shows how the star\'s '+context.phrasebook.lum.toLowerCase()+' and temperature will change over its life.'),
-									align: 'auto',
-									context: this,
-									w: 200,
-									dismiss: true,
-									animate: true,
-									onpop:function(){
-										bubblePopup({ 
-											id: 'hinttext',
-											el: $('#controls .control_play img'),
-											html: 'Click the play button when you\'re ready to start animating your star.',
-											align: 'auto',
-											w: 200,
-											dismiss: true,
-											animate: true
-										});
-				
-									}
-								});
-							}
-						}
-						test = setInterval(nextstep,100,this);
-					}
-				});
-
 			}
 			// Update the unit
 			$('#starMass .unit').html((this.data.mass==1) ? 'Solar mass' : 'Solar masses');
@@ -1689,10 +1687,10 @@ $(document).ready(function () {
 	 */
 	function bubblePopup(inp) {
 		// Setup - check for existence of values
-		if(typeof inp!="object") return;
-		if(typeof inp.id!="string")	return;
-		if(!inp.el) return;
-		if(typeof inp.el!="object" || inp.el.length == 0) return;
+		if(typeof inp!="object") return this;
+		if(typeof inp.id!="string")	return this;
+		if(!inp.el) return this;
+		if(typeof inp.el!="object" || inp.el.length == 0) return this;
 
 		var w = inp.el.outerWidth();
 		var w2 = w/2;
@@ -1716,67 +1714,103 @@ $(document).ready(function () {
 		var dismiss = (typeof inp.dismiss=="boolean") ? inp.dismiss : false;
 		var triggers = (typeof inp.dismiss=="object") ? inp.triggers : false;
 		var fade = (typeof inp.fade=="number") ? inp.fade : -1;
-		var wide = (typeof inp.w=="number") ? inp.w : el.outerWidth();
+		this.wide = (typeof inp.w=="number") ? inp.w : el.outerWidth();
 		var tall = (typeof inp.h=="number") ? inp.h : el.outerHeight();
 
-		el.css({'position':'absolute','z-index':z,'display':'inline-block','visibility':'visible','width':wide});
+		el.css({'position':'absolute','z-index':z,'display':'inline-block','visibility':'visible','width':this.wide});
 	
 	
-		var arr = 0;
-		var padding = (typeof inp.padding=="number") ? inp.padding : parseInt(el.css('padding-left'));
-		var align = (typeof inp.align=="string") ? inp.align : "auto";
+		this.arr = 8;
+		this.padding = (typeof inp.padding=="number") ? inp.padding : parseInt(el.css('padding-left'));
+		this.align = (typeof inp.align=="string") ? inp.align : "auto";
 		var talign = (typeof inp.textalign=="string") ? inp.textalign : "center";
 		var style = (typeof inp.style=="string") ? " "+inp.style : (el ? " "+el.attr('class') : "");
 	
 	
-		var y2 = (y - h2 - tall - arr - padding);
+		var y2 = (y - h2 - tall - this.arr - this.padding);
 	
-		if(align == "auto"){
-			align = "north";
-			if((y - h2 - tall - arr - padding) < window.scrollY || x + wide/2 > $(window).width() || x - wide/2 < 0){
-				align = "south";
-				if(x + wide/2 > $(window).width()) align = "west";
-				if(x - wide/2 < 0) align = "east";
+		if(this.align == "auto"){
+			this.align = "north";
+			if((y - h2 - tall - this.arr - this.padding) < window.scrollY || x + this.wide/2 > $(window).width() || x - this.wide/2 < 0){
+				this.align = "south";
+				if(x + this.wide/2 > $(window).width()) this.align = "west";
+				if(x - this.wide/2 < 0) this.align = "east";
 			}
 		}
 	
-		el.addClass('poppitypin-'+align);
-		if(align == "east"){
-			l = x + w2 + padding + arr/2;
+		el.addClass('poppitypin-'+this.align);
+		var css = {};
+		var css2 = {};
+		if(this.align == "east"){
+			l = x + w2 + this.padding + this.arr/2;
 			lorig = l+w2;
 			t = y - tall/2;
 			torig = t;
-		}else if(align == "west"){
-			l = x - w2 - padding - wide - arr/2;
+			css = {'left':l+'px','top':t+'px'};
+			css2 = {'left':lorig+'px','top':torig+'px'};
+		}else if(this.align == "west"){
+			l = x - w2 - this.padding - this.wide - this.arr/2;
 			lorig = l-w2;
 			t = y - tall/2;
 			torig = t;
-		}else if(align == "north"){
-			l = x - wide/2;
+			css = {'left':l+'px','top':t+'px'};
+			css2 = {'left':lorig+'px','top':torig+'px'};
+		}else if(this.align == "north"){
+			l = x - this.wide/2;
 			lorig = l;
-			t = y - h2 - padding - tall - arr/2;
+			t = y - h2 - this.padding - tall - this.arr/2;
 			torig = t - h2;
-		}else if(align == "south"){
-			l = x - wide/2;
+			css = {'left':l+'px','bottom':(($(window).height()-inp.el.offset().top) + this.arr/2)+'px'};
+			css2 = {'left':lorig+'px','bottom':(y - this.arr/2)+'px'};
+		}else if(this.align == "south"){
+			l = x - this.wide/2;
 			lorig = l;
-			t = y + h2 + padding + arr/2;
+			t = y + h2 + this.padding + this.arr;
 			torig = t + h2;
-		}else if(align == "center" || align == "centre"){
-			l = x - wide/2;
+			css = {'left':l+'px','top':t+'px'};
+			css2 = {'left':lorig+'px','top':torig+'px'};
+		}else if(this.align == "center" || this.align == "centre"){
+			l = x - this.wide/2;
 			lorig = l;
 			t = y - tall/2;
 			torig = t;
-		}else return;
+			css = {'left':l+'px','top':t+'px'};
+			css2 = {'left':lorig+'px','top':torig+'px'};
+		}else return this;
 	
 		el.css({'text-align':talign});
 
-		if(animate) el.css({'left':lorig,'top':torig,opacity: 0.0}).animate({opacity: 1,'left':l,'top':t},500)
-		else el.css({'left':l+'px','top':t+'px',opacity: 1}).show()
+		css.opacity = 1;
+		css2.opacity = 0;
+		
+		if(animate) el.css(css2).animate(css,500)
+		else el.css(css).show()
 		if(fade > 0) el.delay(fade).fadeOut(fade);
+		this.inp = inp;
+
 		if(dismiss) el.on('click',{onpop:onpop,context:context},function(e){ $(this).remove(); if(e.data.onpop){ e.data.onpop.call(e.data.context); }});
+		var _obj = this;
+		$(window).off('resize').on('resize',function(){ _obj.position(); });
+
+		return this;
 	}
-
-
+	bubblePopup.prototype.position = function(){
+		console.log(this,this.inp.el.offset().top,this.inp.el.outerHeight())
+		var l,t,b,r;
+		var css = {};
+		if(this.align=="north" || this.align=="south"){
+			l = (this.inp.el.offset().left+this.inp.el.outerWidth()/2 - this.wide/2);
+			css = { 'left': l+'px','top': t+'px' };
+		}
+		if(this.align=="north"){
+			css = { 'left': l+'px', 'bottom': (($(window).height()-this.inp.el.offset().top) + this.padding + this.arr/2)+'px' };
+		}else if(this.align=="south"){
+			css = { 'left': l+'px', 'top': ((this.inp.el.offset().top) + this.inp.el.outerHeight() + this.arr)+'px' };
+		}
+		css.display = "block";
+		$('#hinttext').css({display:"none"}).css(css);
+	}
+	
 	box = new StarInABox();
 
 }); //ready.function
