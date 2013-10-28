@@ -1496,7 +1496,7 @@ $(document).ready(function () {
 
 
 		this.radius = this.r*this.frac;
-		this.attr = {'colours':[this.box.chart.opts.mainsequence['background-color'],'#009d00','#df0000','#7ea0ee','#d6ccff','#ffcccc','#fff5cc','#ccffcc']};
+		this.attr = {'colours':[this.box.chart.opts.mainsequence['background-color'],'#df0000','#3366dd','#009d00','#7ea0ee','#d6ccff','#ffcccc','#fff5cc','#ccffcc']};
 
 		if(this.box.data.data) this.rebuild();
 
