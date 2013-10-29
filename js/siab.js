@@ -69,11 +69,28 @@ $(document).ready(function () {
 		}
 		// Text descriptions
 		this.phrasebook = {
-			'lum' : 'Luminosity',
-			'lumunit' : 'solar luminosities',
-			'temp' : 'Temperature',
-			'tempunit' : 'Kelvin',
-			'ms' : 'Main Sequence',
+			"open": "&lsaquo; Open the lid",
+			"close": "Close the lid &rsaquo;",
+			"preparing": "Your star is being prepared.<br />Please wait...",
+			"sun": "Sun",
+			"stage": "Stage",
+			"timescale": "Myrs",
+			"lum": "Luminosity",
+			"lumunit": "Solar luminosities",
+			"temp" : "Temperature",
+			"tempunit" : "Kelvin",
+			"mass": "Mass",
+			"massunit": "solar",
+			"ms" : "Main Sequence",
+			"buttons": {
+				"play": "Start/pause",
+				"reset": "Reset",
+				"size": "Size comparison",
+				"temperature": "Surface temperature",
+				"luminosity": "Brightness",
+				"stage": "Stages in your star's life",
+				"mass": "Mass"
+			},
 			'help' : {
 				'tab' : 'Help',
 				'content': {
@@ -481,6 +498,17 @@ $(document).ready(function () {
 		this.el.stagelabel.find('strong').html(this.phrasebook.stage+":");
 		this.el.time.find('.units').html(this.phrasebook.timescale);
 		$("#lid-open a").html(this.open ? this.phrasebook.close : this.phrasebook.open);
+
+		// Update panel buttons
+		$('#nav a').eq(0).attr('title',this.phrasebook.buttons.size);
+		$('#nav a').eq(1).attr('title',this.phrasebook.buttons.temperature);
+		$('#nav a').eq(2).attr('title',this.phrasebook.buttons.luminosity);
+		$('#nav a').eq(3).attr('title',this.phrasebook.buttons.stage);
+		$('#nav a').eq(4).attr('title',this.phrasebook.buttons.mass);
+
+		// 
+		$('#controls img.play').attr('title',this.phrasebook.buttons.play);
+		$('#controls img.reset').attr('title',this.phrasebook.buttons.reset);
 
 		if(this.tutorialstep < this.phrasebook.intro.length){
 			$('#hinttext .poppitypin-inner').html(this.phrasebook.intro[this.tutorialstep].replace('%COLOR%',this.chart.opts.path.color));

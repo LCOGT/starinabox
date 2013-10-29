@@ -14,6 +14,15 @@
 		"mass": "Mass",
 		"massunit": "solar",
 		"ms" : "Main Sequence",
+		"buttons": {
+			"play": "Start/pause",
+			"reset": "Reset",
+			"size": "Size comparison",
+			"temperature": "Surface temperature",
+			"luminosity": "Luminosity",
+			"stage": "Stages in your star's life",
+			"mass": "Mass"
+		},
 		"help": {
 			"tab": "Help",
 			"content": {
