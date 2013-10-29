@@ -480,6 +480,7 @@ $(document).ready(function () {
 		this.sizeComparison.sunLabel.attr('text',this.phrasebook.sun);
 		this.el.stagelabel.find('strong').html(this.phrasebook.stage+":");
 		this.el.time.find('.units').html(this.phrasebook.timescale);
+		$("#lid-open a").html(this.open ? this.phrasebook.close : this.phrasebook.open);
 
 		if(this.tutorialstep < this.phrasebook.intro.length){
 			$('#hinttext .poppitypin-inner').html(this.phrasebook.intro[this.tutorialstep].replace('%COLOR%',this.chart.opts.path.color));
@@ -676,19 +677,20 @@ $(document).ready(function () {
 	}
 */
 	StarInABox.prototype.toggleLid = function(){
+		var _obj = this;
 		if(this.open){
 			$("#box-lid").animate({"left": "0px"},1000,function(){
 				//move #content to top
 				$("#container").removeClass("open").addClass("closed");
 				$("#box-lid").removeClass("open");
-				$("#lid-open a").html('&lsaquo; Open the lid')
+				$("#lid-open a").html(_obj.phrasebook.open)
 			});
 			this.open = false;
 		}else{
 			//move content underneath lid then animate shut.
 			$("#container").removeClass("closed").addClass("open");
 			$("#box-lid").animate({"left": "-"+($('#box-lid').outerWidth()-30)+"px"},1000).addClass("open");
-			$("#lid-open a").html('&rsaquo; Close the lid');
+			$("#lid-open a").html(this.phrasebook.close);
 			this.open = true;
 		}
 		if(this.tutorialstep == 0){
@@ -1798,7 +1800,6 @@ $(document).ready(function () {
 		return this;
 	}
 	bubblePopup.prototype.position = function(){
-		console.log(this,this.inp.el.offset().top,this.inp.el.outerHeight())
 		var l,t,b,r;
 		var css = {};
 		if(this.align=="north" || this.align=="south"){

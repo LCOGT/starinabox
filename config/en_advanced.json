@@ -1,6 +1,8 @@
 {
 	"stages": ["Deeply or fully convective low mass MS star","Main Sequence star","Hertzsprung Gap","Red Giant Branch","Core Helium Burning","Asymptotic Giant Branch","Thermally-pulsing Asymptotic Giant Branch","Main Sequence Naked Helium star","Wolf-Rayet star","Giant Branch Wolf-Rayet star","Helium White Dwarf","Carbon/Oxygen White Dwarf","Oxygen/Neon White Dwarf","Neutron Star","Black Hole","Massless Supernova"],
 	"phrasebook": {
+		"open": "&lsaquo; Open the lid",
+		"close": "Close the lid &rsaquo;",
 		"sun": "Sun",
 		"stage": "Stage",
 		"timescale": "Myrs",
