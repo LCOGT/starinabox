@@ -187,15 +187,15 @@ $(document).ready(function () {
 				},
 				'xaxis': {
 					'invert': true,
-					'min': 3, // 3
-					'max': 5.85, // 6.4
+					'min': 3.25, // 3
+					'max': 5.75, //5.85, // 6.4
 					'label': {
 						'opacity': 1
 					},
 					'font-size' : Math.round(this.fs*0.9)+'px'
 				},
 				'yaxis': {
-					'min': -6.4, //-11
+					'min': -5.4, //-11
 					'max': 6.5, //8
 					'label': {
 						'opacity' : 1
@@ -1047,12 +1047,12 @@ $(document).ready(function () {
 		if(!this.chart.mainSequence){
 			m = 6.1;
 			c = 23.2;
-			p1 = this.getPixPos(7300,8.3);
-			p2 = this.getPixPos(20000,770);
-			mid = this.getPixPos(11000,50);
+			p1 = this.getPixPos(7352,6.3);
+			p2 = this.getPixPos(17731,941);
+			mid = this.getPixPos(11480,108);
 			str = '';
 			// Build path to describe Main Sequence using [temp,lum] points marking out its border
-			ms = [[3000,0.001],[2700,0.0016],[6000,5],[7500,30],[9000,90],[15000,670],[20000,3000],[25000,17000],[30000,70000],[42000,500000],[45000,130000],[25000,1000],[20000,250],[15000,50],[9000,5],[5000,0.13],[4000,0.02]];
+			ms = [[2700,0.0005],[2700,0.0016],[6000,5],[7500,30],[9000,90],[12500,630],[16367,2780],[21500,15000],[27000,107000],[33000,600000],[42000,500000],[45000,130000],[25000,1800],[19000,270],[15000,70],[9000,4.5],[5000,0.06],[3000,0.001]];
 			for(var i = 0 ; i < ms.length ; i++){
 				p = this.getPixPos(ms[i][0],ms[i][1]);
 				str += p[0]+","+p[1]+" ";
@@ -1102,12 +1102,12 @@ $(document).ready(function () {
 		this.chart.xLabel = this.chart.holder.text(this.chart.offset.left+this.chart.offset.width/2, this.chart.height-this.chart.offset.bottom + 10, "Temperature (Kelvin)").attr({ fill: (this.chart.opts.xaxis.label.color ? this.chart.opts.xaxis.label.color : this.chart.opts.color), 'fill-opacity': (this.chart.opts.xaxis.label.opacity ? this.chart.opts.xaxis.label.opacity : 1),'font-size': this.chart.opts['font-size'] });
 		if(!this.chart.xaxis){
 			this.chart.xaxis = this.chart.holder.set();
-			for (var i = Math.ceil(this.chart.opts.xaxis.min); i <= Math.floor(this.chart.opts.xaxis.max); i++) {
+			for (var i = Math.floor(this.chart.opts.xaxis.min); i <= Math.floor(this.chart.opts.xaxis.max); i++) {
 				p1 = this.getPixPos(i,this.chart.opts.yaxis.min,"log");
 				p2 = this.getPixPos(i,this.chart.opts.yaxis.max,"log");
 				this.chart.xaxis.push(this.chart.holder.path("M"+p1[0]+","+p1[1]+"L"+p2[0]+","+p2[1]).attr({ stroke: this.chart.opts.grid.color,'stroke-opacity':this.chart.opts.grid.opacity,'stroke-width':(this.chart.opts.grid.width ? this.chart.opts.grid.width : 0.5)}));
 				this.chart.xaxis.push(this.chart.holder.text(p1[0],p1[1]-10,addCommas(Math.pow(10, i))).attr({
-					'text-anchor': (i == Math.ceil(this.chart.opts.xaxis.min)) ? "end" : 'middle',
+					'text-anchor': (i == Math.floor(this.chart.opts.xaxis.min)) ? "end" : 'middle',
 					'fill': (this.chart.opts.grid.label.color ? this.chart.opts.grid.label.color : this.chart.opts.color),
 					'fill-opacity': (this.chart.opts.grid.label.opacity ? this.chart.opts.grid.label.opacity : 0.5),
 					'font-size' : this.chart.opts.xaxis['font-size'],
