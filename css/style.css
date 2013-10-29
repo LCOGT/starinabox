@@ -618,6 +618,7 @@ a#animateEvolveReset:active {
 	cursor: default;
 	z-index: 110;
 	overflow: auto;
+	max-height: 450px;
 }
 
 #welcome-content {
