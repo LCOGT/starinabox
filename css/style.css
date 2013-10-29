@@ -389,7 +389,7 @@ a.control_rewind,a.control_ff { display: none; }
 	text-align: right;
 	color: white;
 }
-.units {
+#scaletext .units {
 	font-size: 0.35em;
 	color: #bbb;
 }

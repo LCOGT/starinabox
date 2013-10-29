@@ -217,7 +217,7 @@ $(document).ready(function () {
 		this.rScales = Raphael("rScales");
 		//draw sun
 		this.sizeComparison.sun = this.sizeComparison.paper.circle(25, 200, 5).attr({"fill":"#fff3ea","stroke-width":"0"});
-		this.sizeComparison.sunLabel = this.sizeComparison.paper.text(25, 220, "Sun").attr("fill", "#fff3ea");
+		this.sizeComparison.sunLabel = this.sizeComparison.paper.text(25, 220, this.phrasebook.sun).attr("fill", "#fff3ea");
 		//draw comparison star
 		this.sizeComparison.star = this.sizeComparison.paper.circle(this.sizeComparison.starX+this.sizeComparison.starR, this.sizeComparison.starY, this.sizeComparison.starR).attr({"fill":"#fff3ea","stroke-width":"0"});
 		this.massComparison.star = this.rScales.circle(this.massComparison.x+this.massComparison.r, this.massComparison.y, this.massComparison.r).attr({"fill":"#fff3ea","stroke-width":"0"});
@@ -476,6 +476,10 @@ $(document).ready(function () {
 		this.thermometer.updateLanguage(this.phrasebook);
 		this.lightmeter.updateLanguage(this.phrasebook);
 		this.stopwatch.rebuild();
+		$(this.scaletext).find('.units').html(this.phrasebook.massunit);
+		this.sizeComparison.sunLabel.attr('text',this.phrasebook.sun);
+		this.el.stagelabel.find('strong').html(this.phrasebook.stage+":");
+		this.el.time.find('.units').html(this.phrasebook.timescale);
 
 		if(this.tutorialstep < this.phrasebook.intro.length){
 			$('#hinttext .poppitypin-inner').html(this.phrasebook.intro[this.tutorialstep].replace('%COLOR%',this.chart.opts.path.color));
@@ -524,7 +528,6 @@ $(document).ready(function () {
 		}else{
 			clearInterval(this.eAnim);
 			this.animating = true;
-			this.closeAnimatePanel();
 			if(this.infoopen) this.toggleInfoPanel();
 			$("a#animateEvolveReset").css('display', 'none');
 			if(this.timestep == this.eAnimPoints.length-1) this.reset();
@@ -880,7 +883,7 @@ $(document).ready(function () {
 			var s = this.getData(this.timestep);
 			var v = parseFloat(s.mass);
 		}
-		this.scaletext.html(v.toFixed(3)+'<span class="units">solar</span>');
+		this.scaletext.html(v.toFixed(3)+'<span class="units">'+this.phrasebook.massunit+'</span>');
 	}
 	StarInABox.prototype.fileName = function(mass) {
 		return "db/star_"+mass+"_solar_mass";
@@ -1193,7 +1196,7 @@ $(document).ready(function () {
 	}
 	StarInABox.prototype.updateCurrentStage = function() {
 		var el = this.getData(this.timestep);
-		if(typeof el=="object") this.el.stagelabel.html('<strong>Stage:</strong> ' + this.stages[el.type]);
+		if(typeof el=="object") this.el.stagelabel.html('<strong>'+this.phrasebook.stage+':</strong> ' + this.stages[el.type]);
 	}
 	StarInABox.prototype.updateSummary = function() {
 		$('#welcome #summary-content').html(this.generateSummary());
@@ -1236,7 +1239,7 @@ $(document).ready(function () {
 		return sOutput;
 	}
 	StarInABox.prototype.displayTime = function(t) {
-		if(typeof t== "number") this.el.time.text(t.toFixed(3) + " million years");
+		if(typeof t== "number") this.el.time.html(t.toFixed(3) + " <span class=\"units\">"+this.phrasebook.timescale+"</span>");
 	}
 
 	// Create a Thermometer
