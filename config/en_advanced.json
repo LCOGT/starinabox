@@ -3,6 +3,7 @@
 	"phrasebook": {
 		"open": "&lsaquo; Open the lid",
 		"close": "Close the lid &rsaquo;",
+		"preparing": "Your star is being prepared. <br /><br />Please wait...",
 		"sun": "Sun",
 		"stage": "Stage",
 		"timescale": "Myrs",

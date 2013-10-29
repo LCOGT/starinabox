@@ -541,20 +541,17 @@ a#animateEvolveReset:active {
     margin: 250px auto 0;
     display: block;
     width: 200px;
-    border: 1px solid #aaa;
     padding: 20px;
-    font-weight: 700;
     background: rgba(0,0,0,0.8);
-    text-shadow: #000 2px 2px 10px;
-    -webkit-border-radius: 15px;
-    -moz-border-radius: 15px;
-    border-radius: 15px;
-    -webkit-box-shadow: rgba(0,0,0,0.8) 1px 1px 10px;
-    -moz-box-shadow: rgba(0,0,0,0.8) 1px 1px 10px;
-    box-shadow: rgba(0,0,0,0.8) 1px 1px 10px;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    -webkit-box-shadow: rgba(0,0,0,0.2) 1px 1px 10px;
+    -moz-box-shadow: rgba(0,0,0,0.2) 1px 1px 10px;
+    box-shadow: rgba(0,0,0,0.2) 1px 1px 10px;
 }
 #loader #loading {
-    padding-top: 60px;
+    padding-top: 64px;
     background-image: url('images/ajax-loader.gif');
     background-position: center 20px;
     background-repeat: no-repeat;

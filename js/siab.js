@@ -1186,7 +1186,7 @@ $(document).ready(function () {
 	}
 	StarInABox.prototype.loadingStar = function() {
 		this.loading = true;
-		$('#loader').show().removeClass('done').addClass('loading').width($(window).width()).height($(window).height()).html('<div id="loading"><p>Your star is being prepared.</p><p>Please wait...</p></div>');
+		$('#loader').show().removeClass('done').addClass('loading').html('<div id="loading">'+this.phrasebook.preparing+'</div>').width($(window).width()).height($(document).height());
 	}
 	StarInABox.prototype.doneLoadingStar = function() {
 		$('#loader').html('').removeClass('loading').addClass('done').hide();
