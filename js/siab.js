@@ -1518,16 +1518,16 @@ $(document).ready(function () {
 		// Draw left-hand button
 		this.stopwatchleft = this.rStopwatch.set();
 		this.stopwatchleft.push(this.rStopwatch.rect(this.x-this.w*0.6,this.y-this.r-this.h2*2,this.w*1.2,this.h2*2).attr({'fill':'0-#999-#b3b3b3-#ccc-#b3b3b3-#ccc-#999','stroke-width':0}).transform('r-40,'+this.x+','+this.y));
-		this.stopwatchleft.push(this.rStopwatch.rect(this.x-this.w,this.y-this.r-this.h-this.h2*2,this.w*2,this.h*2).attr({'fill':'0-#b3b3b3-#ccc-#e6e6e6-#ccc-#e6e6e6-#b3b3b3','stroke-width':0,'cursor':'pointer','title':'Reset'}).transform('r-40,'+this.x+','+this.y));
+		this.stopwatchleft.push(this.rStopwatch.rect(this.x-this.w,this.y-this.r-this.h-this.h2*2,this.w*2,this.h*2).attr({'fill':'0-#b3b3b3-#ccc-#e6e6e6-#ccc-#e6e6e6-#b3b3b3','stroke-width':0,'cursor':'pointer','title':""}).transform('r-40,'+this.x+','+this.y));
 		var _obj = this.box;
 		this.stopwatchleft.click(function(e){
 			_obj.reset();
 		});
-		
+
 		// Draw right-hand button
 		this.stopwatchright = this.rStopwatch.set();
 		this.stopwatchright.push(this.rStopwatch.rect(this.x-this.w*0.6,this.y-this.r-this.h2*2,this.w*1.2,this.h2*2).attr({'fill':'0-#999-#b3b3b3-#ccc-#b3b3b3-#ccc-#999','stroke-width':0}).transform('r40,'+this.x+','+this.y));
-		this.stopwatchright.push(this.rStopwatch.rect(this.x-this.w,this.y-this.r-this.h-this.h2*2,this.w*2,this.h*2).attr({'fill':'0-#b3b3b3-#ccc-#e6e6e6-#ccc-#e6e6e6-#b3b3b3','stroke-width':0,'cursor':'pointer','title':'Play/Stop'}).transform('r40,'+this.x+','+this.y));
+		this.stopwatchright.push(this.rStopwatch.rect(this.x-this.w,this.y-this.r-this.h-this.h2*2,this.w*2,this.h*2).attr({'fill':'0-#b3b3b3-#ccc-#e6e6e6-#ccc-#e6e6e6-#b3b3b3','stroke-width':0,'cursor':'pointer','title':""}).transform('r40,'+this.x+','+this.y));
 		this.stopwatchright.click(function(e){
 			_obj.play();
 		});
@@ -1545,7 +1545,7 @@ $(document).ready(function () {
 
 		return this;
 	}
-	
+
 	Stopwatch.prototype.rebuild = function(){
 		if(this.pie){
 			for(var i = 0 ; i < this.pie.length; i++){
@@ -1574,6 +1574,11 @@ $(document).ready(function () {
 		this.dial.push(this.rStopwatch.text(this.x,this.y+this.r*0.4,"CHRONOGRAPH").attr({'stroke-width':0,'fill':this.box.chart.opts.color,'text-anchor':'middle','font-style':'italic','font-family':'Times','font-size':'6px'}));
 		this.dial.push(this.rStopwatch.text(this.x,this.y+this.r*0.4+7,(new Date()).getFullYear()).attr({'stroke-width':0,'fill':this.box.chart.opts.color,'text-anchor':'middle','font-style':'italic','font-family':'Times','font-size':'6px'}));
 
+		this.stopwatchleft[1].attr('title',(this.box.phrasebook && this.box.phrasebook.buttons.reset ? this.box.phrasebook.buttons.reset:""));
+		this.stopwatchright[1].attr('title',(this.box.phrasebook && this.box.phrasebook.buttons.play ? this.box.phrasebook.buttons.play:""));
+		
+		//: this.stopwatchright[1]);
+		//el.attr('text',txt);
 
 		this.update();
 
