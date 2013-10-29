@@ -1,6 +1,10 @@
 {
 	"stages": ["Main Sequence star","Main Sequence star","Red Giant","Red Giant","Red Giant","Red Giant","Red Giant","Blue Giant","Blue Giant","Blue Giant","White Dwarf","White Dwarf","White Dwarf","Neutron Star","Black Hole","Obliteration"],
 	"phrasebook": {
+		"intro": {
+			"title": "Welcome!",
+			"content": "<p>You are now the proud owner of Star In A Box.</p><p>Inside this box you can animate the different stages in a star's life and see how its brightness, size, and mass change with time.</p><p>Once you've opened the box just <strong>click the play button</strong> to start animating.</p>"
+		},
 		"open": "&lsaquo; Open the lid",
 		"close": "Close the lid &rsaquo;",
 		"preparing": "Your star is being prepared.<br />Please wait...",
@@ -38,7 +42,7 @@
 				"m40" : "This is some help text written for Key Stages 3-5 for a 40 solar mass star."
 			}
 		},
-		"intro": [
+		"tutorial": [
 			"Welcome! At the moment you have a 1 solar mass star but you can change that here if you want to.",
 			"This is your star at the start of its life. The <span style=\"color:%COLOR%\">dashed line</span> shows how the star's brightness and temperature will change over its life.",
 			"Click the play button when you're ready to start animating your star."

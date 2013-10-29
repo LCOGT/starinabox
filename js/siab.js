@@ -69,6 +69,11 @@ $(document).ready(function () {
 		}
 		// Text descriptions
 		this.phrasebook = {
+			"intro": {
+				"title": "Welcome! Bienvenue",
+				"content": "Hello"
+				//"content": "<p>You are now the proud owner of Star In A Box.</p><p>Inside this box you can animate the different stages in a star's life and see how its brightness, size, and mass change with time.</p><p>Once you've opened the box just <strong>click the play button</strong> to start animating.</p>"
+			},
 			"open": "&lsaquo; Open the lid",
 			"close": "Close the lid &rsaquo;",
 			"preparing": "Your star is being prepared.<br />Please wait...",
@@ -106,7 +111,7 @@ $(document).ready(function () {
 					"m40" : ''
 				}
 			},
-			"intro": [
+			"tutorial": [
 				"Welcome! At the moment you have a 1 solar mass star but you can change that here if you want to.",
 				"This is your star at the start of its life. The <span style=\"color:%COLOR%\">dashed line</span> shows how the star's brightness and temperature will change over its life.",
 				"Click the play button when you\'re ready to start animating your star."
@@ -484,6 +489,11 @@ $(document).ready(function () {
 	}
 
 	StarInABox.prototype.setupMode = function(){
+
+		// Update intro message
+		if(this.phrasebook.intro) $('#welcome-content h1').html(this.phrasebook.intro.title);
+		if(this.phrasebook.intro) $('#welcome-content .jsonly').html(this.phrasebook.intro.content);
+
 		$('#info .tab').text(this.phrasebook.help.tab);
 		if($('#info .closer').length == 0){
 			$('#infocontent').before('<div class="closer"><a href="#">&times;</a></div>');
@@ -506,12 +516,12 @@ $(document).ready(function () {
 		$('#nav a').eq(3).attr('title',this.phrasebook.buttons.stage);
 		$('#nav a').eq(4).attr('title',this.phrasebook.buttons.mass);
 
-		// 
-		$('#controls img.play').attr('title',this.phrasebook.buttons.play);
-		$('#controls img.reset').attr('title',this.phrasebook.buttons.reset);
+		// Update control buttons
+		if(this.phrasebook.buttons.play) $('#controls img.play').attr('title',this.phrasebook.buttons.play);
+		if(this.phrasebook.buttons.reset) $('#controls img.reset').attr('title',this.phrasebook.buttons.reset);
 
-		if(this.tutorialstep < this.phrasebook.intro.length){
-			$('#hinttext .poppitypin-inner').html(this.phrasebook.intro[this.tutorialstep].replace('%COLOR%',this.chart.opts.path.color));
+		if(this.tutorialstep < this.phrasebook.tutorial.length){
+			$('#hinttext .poppitypin-inner').html(this.phrasebook.tutorial[this.tutorialstep].replace('%COLOR%',this.chart.opts.path.color));
 		}
 
 		// Update info panels
@@ -726,7 +736,7 @@ $(document).ready(function () {
 			var bp = new bubblePopup({
 				id: 'hinttext', 
 				el: $('#starMass select'),
-				html: context.phrasebook.intro[0],
+				html: context.phrasebook.tutorial[0],
 				align: 'north',
 				context: this,
 				w: 190,
@@ -745,7 +755,7 @@ $(document).ready(function () {
 							var bp = new bubblePopup({ 
 								id: 'hinttext',
 								el: $('#chartstar'),
-								html: context.phrasebook.intro[1].replace('%COLOR%',context.chart.opts.path.color),
+								html: context.phrasebook.tutorial[1].replace('%COLOR%',context.chart.opts.path.color),
 								align: 'south',
 								context: this,
 								w: 200,
@@ -756,7 +766,7 @@ $(document).ready(function () {
 									var bp = new bubblePopup({ 
 										id: 'hinttext',
 										el: $('#controls .control_play img'),
-										html: context.phrasebook.intro[2],
+										html: context.phrasebook.tutorial[2],
 										align: 'north',
 										w: 200,
 										dismiss: true,
