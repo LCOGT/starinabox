@@ -649,13 +649,17 @@ a#animateEvolveReset:active {
 #help-content {
 	text-align: left;
 }
-#help-content ul {
+#help-content ul.keyboard-controls {
 	list-style: none;
 	margin: 0px;
+	padding: 0px;
+	margin-left: 0px;
 }
-#help-content li {
+#help-content ul.keyboard-controls li {
 	line-height: 1.4em;
 	margin-bottom: 0.1em;
+	display: inline-block;
+	margin-right: 1em;
 }
 .key {
 	min-width: 1.2em;
@@ -796,7 +800,7 @@ p, #welcome p {
 .ieold .poppitypin-east:before{_border-top-color: pink,_border-bottom-color: pink,_border-left-color:pink,_filter:chroma(color=pink);}
 .ieold .poppitypin-west:before{_border-top-color: pink,_border-bottom-color: pink,_border-right-color:pink,_filter:chroma(color=pink);}
 
-#modeform { position:relative;line-height: 30px; }
+#modeform { position:relative;line-height: 30px; text-align: left; }
 .toggle-bg{
 	background: #cccccc;
 	 -khtml-border-radius: 20px;

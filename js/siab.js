@@ -50,7 +50,7 @@ $(document).ready(function () {
 
 		// Set the defaults
 		// =================
-
+		this.keys = new Array();
 		// The stellar masses that we have data for
 		this.massVM = [0.2, 0.65, 1, 2, 4, 6, 10, 20, 30, 40];
 		// The stages indices must match indices used in the data
@@ -369,9 +369,29 @@ $(document).ready(function () {
 			if(e.data.box.canopen) e.data.box.toggleLid();
 		});
 
-		$('#welcome-content .jsonly').after('<form id="modeform" action=""><label class="toggle-label1" for="optnormal">'+this.phrasebook.modes.normal+'</label><div class="toggle-bg"><input type="radio" value="" id="optnormal" name="togglemode"'+(this.mode=="advanced" ? "" : ' checked="checked"')+' title="'+this.phrasebook.modes.toggle+'"><input type="radio" value="advanced" id="optadvanced" name="togglemode"'+(this.mode=="advanced" ? ' checked="checked"' : '')+' title="'+this.phrasebook.modes.toggle+'"><span class="switch"></span><label for="optadvanced">'+this.phrasebook.modes.advanced+'</label></div></form>');
-		$('#welcome-content input[name=togglemode]').on('change',{box:this},function(e){ e.data.box.toggleMode($(this).val()); });
+		$('#welcome-content').after('<form id="modeform" action=""><label class="toggle-label1" for="optnormal">'+this.phrasebook.modes.normal+'</label><div class="toggle-bg"><input type="radio" value="" id="optnormal" name="togglemode"'+(this.mode=="advanced" ? "" : ' checked="checked"')+' title="'+this.phrasebook.modes.toggle+'"><input type="radio" value="advanced" id="optadvanced" name="togglemode"'+(this.mode=="advanced" ? ' checked="checked"' : '')+' title="'+this.phrasebook.modes.toggle+'"><span class="switch"></span><label for="optadvanced">'+this.phrasebook.modes.advanced+'</label></div></form>');
+		$('#modeform input[name=togglemode]').on('change',{box:this},function(e){ e.data.box.toggleMode($(this).val()); });
 
+		this.registerKey('w',function(){ this.supernovaWarning() });
+		this.registerKey('s',function(){ this.supernova() });
+		this.registerKey('l',function(){ this.toggleLid() },'lid');
+		this.registerKey('m',function(){ this.toggleMode() },'mode');
+		this.registerKey('1',function(){ e.preventDefault(); this.slidePanel(0); },'size');
+		this.registerKey('2',function(){ e.preventDefault(); this.slidePanel(1); },'temperature');
+		this.registerKey('3',function(){ e.preventDefault(); this.slidePanel(2); },'luminosity');
+		this.registerKey('4',function(){ e.preventDefault(); this.slidePanel(3); },'stage');
+		this.registerKey('5',function(){ e.preventDefault(); this.slidePanel(4); },'mass');
+		this.registerKey('-',function(){ e.preventDefault(); this.slidePanelBy(-1); });
+		this.registerKey('=',function(){ e.preventDefault(); this.slidePanelBy(1); });
+		this.registerKey(32,function(){ this.play(); },"play");
+
+		$(document).bind('keypress',{box:this},function(e){
+			if(!e) e = window.event;
+			var code = e.keyCode || e.charCode || e.which || 0;
+			e.data.box.keypress(code,e);
+		});
+
+/*
 		$(document).bind('keypress',{box:this},function(e){
 			if(!e) e=window.event;
 			var box = e.data.box;
@@ -391,10 +411,10 @@ $(document).ready(function () {
 				if(c == 'w'){ box.supernovaWarning(); }
 				if(c == 's'){ box.supernova(); }
 				if(code==32) box.play();
-				else if(code == 37 /* left */){ box.animateStep(-1); }
-				else if(code == 39 /* right */){ box.animateStep(1); }
+				else if(code == 37){ box.animateStep(-1); }
+				else if(code == 39){ box.animateStep(1); }
 			}
-		});
+		});*/
 		
 		//make nav divs clickable
 		$("#nav .item").click(function(e){
@@ -540,6 +560,15 @@ $(document).ready(function () {
 		for(var name in this.phrasebook.captions){
 			if($('#'+name).length > 0) $('#'+name+' .caption').html(this.phrasebook.captions[name])
 		}
+
+		// Update About
+		if($('#help-content').length > 0 && $('#help-content').text().length > 0 && typeof this.phrasebook.about==="string"){
+			var o = "";
+			for(var i = 0; i < this.keys.length ; i++){ if(this.keys[i].txt && this.phrasebook.keys[this.keys[i].txt]) o += '<li><strong class="key">'+this.keys[i].str+'</strong> &rarr; '+(this.phrasebook.keys ? this.phrasebook.keys[this.keys[i].txt] : '')+'</li>'; }
+			if(o) o = "<ul class=\"keyboard-controls\">"+o+"</ul>";
+			$('#help-content').html(this.phrasebook.about.replace("%CONTROLLIST%",o));
+		}
+		
 
 		this.updateChart();
 		return this;
@@ -1304,6 +1333,45 @@ $(document).ready(function () {
 	StarInABox.prototype.displayTime = function(t) {
 		if(typeof t== "number") this.el.time.html(t.toFixed(3) + " <span class=\"units\">"+this.phrasebook.timescale+"</span>");
 	}
+	StarInABox.prototype.keypress = function(charCode,event){
+		if(!event) event = { altKey: false };
+		for(var i = 0 ; i < this.keys.length ; i++){
+			if(this.keys[i].charCode == charCode && event.altKey == this.keys[i].altKey){
+				this.keys[i].fn.call(this,{event:event});
+				break;
+			}
+		}
+	}
+	// Register keyboard commands and associated functions
+	StarInABox.prototype.registerKey = function(charCode,fn,txt){
+		if(typeof fn!="function") return this;
+		if(typeof charCode!="object") charCode = [charCode];
+		var aok, ch, c, i, alt, str;
+		for(c = 0 ; c < charCode.length ; c++){
+			alt = false;
+			if(typeof charCode[c]=="string"){
+				if(charCode[c].indexOf('alt')==0){
+					str = charCode[c];
+					alt = true;
+					charCode[c] = charCode[c].substring(4);
+				}else str = charCode[c];
+				ch = charCode[c].charCodeAt(0);
+			}else{
+				ch = charCode[c];
+				if(ch==37) str = "&larr;";
+				else if(ch==32) str = "space";
+				else if(ch==38) str = "up";
+				else if(ch==39) str = "&rarr;";
+				else if(ch==40) str = "down";
+				else str = String.fromCharCode(ch);
+			}
+			aok = true;
+			for(i = 0 ; i < this.keys.length ; i++){ if(this.keys.charCode == ch && this.keys.altKey == alt) aok = false; }
+			if(aok) this.keys.push({'str':str,'charCode':ch,'char':String.fromCharCode(ch),'fn':fn,'txt':txt,'altKey':alt});
+		}
+		return this;
+	}
+
 
 	// Create a Thermometer
 	function Thermometer(inp){
