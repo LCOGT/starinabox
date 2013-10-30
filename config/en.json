@@ -1,7 +1,7 @@
 {
 	"stages": ["Main Sequence star","Main Sequence star","Red Giant","Red Giant","Red Giant","Red Giant","Red Giant","Blue Giant","Blue Giant","Blue Giant","White Dwarf","White Dwarf","White Dwarf","Neutron Star","Black Hole","Obliteration"],
 	"phrasebook": {
-		"modes": { "normal": "Normal","advanced": "Advanced" },
+		"modes": { "normal": "Normal","advanced": "Advanced", "toggle": "Toggle mode" },
 		"intro": {
 			"title": "Welcome!",
 			"content": "<p>You are now the proud owner of Star In A Box.</p><p>Inside this box you can animate the different stages in a star's life and see how its brightness, size, and mass change with time.</p><p>Once you've opened the box just <strong>click the play button</strong> to start animating.</p>"
@@ -19,6 +19,7 @@
 		"mass": "Mass",
 		"massunit": "&times;Sun",
 		"ms": "Main Sequence",
+		"speeds": ["fastest","fast","normal","slow","slowest"],
 		"buttons": {
 			"play": "Start/pause",
 			"reset": "Back to the start of your star's life",

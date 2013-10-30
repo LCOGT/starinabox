@@ -19,6 +19,7 @@
 		"mass": "Mass",
 		"massunit": "solar",
 		"ms" : "Main Sequence",
+		"speeds": [">>>>>",">>>>",">>>",">>",">"],
 		"buttons": {
 			"play": "Start/pause",
 			"reset": "Reset",

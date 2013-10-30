@@ -69,7 +69,7 @@ $(document).ready(function () {
 		}
 		// Text descriptions
 		this.phrasebook = {
-			"modes": { "normal": "Normal","advanced": "Advanced" },
+			"modes": { "normal": "Normal","advanced": "Advanced", "toggle": "Toggle mode" },
 			"intro": {
 				"title": "Welcome!",
 				"content": "Hello"
@@ -87,6 +87,7 @@ $(document).ready(function () {
 			"mass": "Mass",
 			"massunit": "solar",
 			"ms" : "Main Sequence",
+			"speeds": ["&gt;&gt;&gt;&gt;&gt;","&gt;&gt;&gt;&gt;","&gt;&gt;&gt;","&gt;&gt;","&gt;"],
 			"buttons": {
 				"play": "Start/pause",
 				"reset": "Reset",
@@ -368,7 +369,7 @@ $(document).ready(function () {
 			if(e.data.box.canopen) e.data.box.toggleLid();
 		});
 
-		$('#welcome-content .jsonly').after('<form id="modeform" action=""><label class="toggle-label1" for="optnormal">'+this.phrasebook.modes.normal+'</label><div class="toggle-bg"><input type="radio" value="" id="optnormal" name="togglemode"'+(this.mode=="advanced" ? "" : ' checked="checked"')+'><input type="radio" value="advanced" id="optadvanced" name="togglemode"'+(this.mode=="advanced" ? ' checked="checked"' : '')+'><span class="switch"></span><label for="optadvanced">'+this.phrasebook.modes.advanced+'</label></div></form>');
+		$('#welcome-content .jsonly').after('<form id="modeform" action=""><label class="toggle-label1" for="optnormal">'+this.phrasebook.modes.normal+'</label><div class="toggle-bg"><input type="radio" value="" id="optnormal" name="togglemode"'+(this.mode=="advanced" ? "" : ' checked="checked"')+' title="'+this.phrasebook.modes.toggle+'"><input type="radio" value="advanced" id="optadvanced" name="togglemode"'+(this.mode=="advanced" ? ' checked="checked"' : '')+' title="'+this.phrasebook.modes.toggle+'"><span class="switch"></span><label for="optadvanced">'+this.phrasebook.modes.advanced+'</label></div></form>');
 		$('#welcome-content input[name=togglemode]').on('change',{box:this},function(e){ e.data.box.toggleMode($(this).val()); });
 
 		$(document).bind('keypress',{box:this},function(e){
@@ -521,9 +522,15 @@ $(document).ready(function () {
 		$('#nav a').eq(3).attr('title',this.phrasebook.buttons.stage);
 		$('#nav a').eq(4).attr('title',this.phrasebook.buttons.mass);
 
+		// Update speed dropdown
+		var _obj = this;
+		$('#evolveSpeed option').each(function(i){
+			$(this).text(_obj.phrasebook.speeds[i]);
+		})
+		
 		// Update control buttons
-		if(this.phrasebook.buttons.play) $('#controls img.play').attr('title',this.phrasebook.buttons.play);
-		if(this.phrasebook.buttons.reset) $('#controls img.reset').attr('title',this.phrasebook.buttons.reset);
+		if(this.phrasebook.buttons.play) $('#controls img.play').attr('alt','').parent('a').attr('title',this.phrasebook.buttons.play);
+		if(this.phrasebook.buttons.reset) $('#controls img.reset').attr('alt','').parent('a').attr('title',this.phrasebook.buttons.reset);
 
 		if(this.tutorialstep < this.phrasebook.tutorial.length){
 			$('#hinttext .poppitypin-inner').html(this.phrasebook.tutorial[this.tutorialstep].replace('%COLOR%',this.chart.opts.path.color));
