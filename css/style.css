@@ -836,7 +836,7 @@ p, #welcome p {
 	cursor: pointer;
 }
 /* As we are hiding the radio buttons we will make the switch glow when the radio button receives focus. We need to use some sibling selectors. */
-.toggle-bg input:focus + .switch, .toggle-bg input:focus + input + .switch {
+.toggle-bg input:focus + .switch, .toggle-bg input:focus + input + .switch, .toggle-bg input:hover + .switch, .toggle-bg input:hover + input + .switch {
 	box-shadow: 0 1px 1px #65727b, 0 0 1px #b6bdc2, 0 0 4px 1px #3366dd;
 }
 .switch{
