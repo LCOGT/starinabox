@@ -23,6 +23,7 @@ Code
 The code requires Javascript and SVG so you just need a modern web browser to use it.
 
 Note that the Chrome browser has extra security when running locally. This stops Star in a Box getting the language or star property JS files. You will need to start Chrome with the option "--allow-file-access-from-files". On a Mac you can open a terminal and run:
+
     open /Applications/Google\ Chrome.app --args --allow-file-access-from-files
 
 Further reading
