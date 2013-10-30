@@ -369,7 +369,7 @@ $(document).ready(function () {
 			if(e.data.box.canopen) e.data.box.toggleLid();
 		});
 
-		$('#welcome-content').after('<form id="modeform" action=""><label class="toggle-label1" for="optnormal">'+this.phrasebook.modes.normal+'</label><div class="toggle-bg"><input type="radio" value="" id="optnormal" name="togglemode"'+(this.mode=="advanced" ? "" : ' checked="checked"')+' title="'+this.phrasebook.modes.toggle+'"><input type="radio" value="advanced" id="optadvanced" name="togglemode"'+(this.mode=="advanced" ? ' checked="checked"' : '')+' title="'+this.phrasebook.modes.toggle+'"><span class="switch"></span><label for="optadvanced">'+this.phrasebook.modes.advanced+'</label></div></form>');
+		$('#lid-open').before('<form id="modeform" action=""><label class="toggle-label1" for="optnormal">'+this.phrasebook.modes.normal+'</label><div class="toggle-bg"><input type="radio" value="" id="optnormal" name="togglemode"'+(this.mode=="advanced" ? "" : ' checked="checked"')+' title="'+this.phrasebook.modes.toggle+'"><input type="radio" value="advanced" id="optadvanced" name="togglemode"'+(this.mode=="advanced" ? ' checked="checked"' : '')+' title="'+this.phrasebook.modes.toggle+'"><span class="switch"></span><label for="optadvanced">'+this.phrasebook.modes.advanced+'</label></div></form>');
 		$('#modeform input[name=togglemode]').on('change',{box:this},function(e){ e.data.box.toggleMode($(this).val()); });
 
 		this.registerKey('w',function(){ this.supernovaWarning() });
