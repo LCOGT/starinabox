@@ -376,13 +376,13 @@ $(document).ready(function () {
 		this.registerKey('s',function(){ this.supernova() });
 		this.registerKey('l',function(){ this.toggleLid() },'lid');
 		this.registerKey('m',function(){ this.toggleMode() },'mode');
-		this.registerKey('1',function(){ e.preventDefault(); this.slidePanel(0); },'size');
-		this.registerKey('2',function(){ e.preventDefault(); this.slidePanel(1); },'temperature');
-		this.registerKey('3',function(){ e.preventDefault(); this.slidePanel(2); },'luminosity');
-		this.registerKey('4',function(){ e.preventDefault(); this.slidePanel(3); },'stage');
-		this.registerKey('5',function(){ e.preventDefault(); this.slidePanel(4); },'mass');
-		this.registerKey('-',function(){ e.preventDefault(); this.slidePanelBy(-1); });
-		this.registerKey('=',function(){ e.preventDefault(); this.slidePanelBy(1); });
+		this.registerKey('1',function(){ this.slidePanel(0); },'size');
+		this.registerKey('2',function(){ this.slidePanel(1); },'temperature');
+		this.registerKey('3',function(){ this.slidePanel(2); },'luminosity');
+		this.registerKey('4',function(){ this.slidePanel(3); },'stage');
+		this.registerKey('5',function(){ this.slidePanel(4); },'mass');
+		this.registerKey('-',function(){ this.slidePanelBy(-1); });
+		this.registerKey('=',function(){ this.slidePanelBy(1); });
 		this.registerKey(32,function(){ this.play(); },"play");
 
 		$(document).bind('keypress',{box:this},function(e){
