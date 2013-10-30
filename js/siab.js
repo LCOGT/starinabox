@@ -551,6 +551,10 @@ $(document).ready(function () {
 		}else{
 			this.mode = mode;
 		}
+		if($('input#optadvanced').length > 0){
+			if(this.mode=="advanced") $('input#optadvanced').attr('checked','checked');
+			else $('input#optnormal').attr('checked','checked');
+		}
 		this.loadConfig();
 	}
 	

@@ -4,7 +4,7 @@
 		"modes": { "normal": "Normal","advanced": "Advanced" },
 		"intro": {
 			"title": "Welcome!",
-			"content": "<p>You are now the proud owner of Star In A Box.</p><p>Inside this box you can animate the different stages in a star's life and see how its brightness, size, and mass change with time.</p><p>Once you've opened the box just <strong>click the play button</strong> to start animating.</p>"
+			"content": "<p>You are now the proud owner of Star In A Box.</p><p>Inside this box you can animate the different stages in a star's life and see how its luminosity, size, and mass change with time.</p><p>Once you've opened the box just <strong>click the play button</strong> to start animating.</p>"
 		},
 		"open": "&lsaquo; Open the lid",
 		"close": "Close the lid &rsaquo;",
