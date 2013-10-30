@@ -1,6 +1,7 @@
 {
 	"stages": ["Deeply or fully convective low mass MS star","Main Sequence star","Hertzsprung Gap","Red Giant Branch","Core Helium Burning","Asymptotic Giant Branch","Thermally-pulsing Asymptotic Giant Branch","Main Sequence Naked Helium star","Wolf-Rayet star","Giant Branch Wolf-Rayet star","Helium White Dwarf","Carbon/Oxygen White Dwarf","Oxygen/Neon White Dwarf","Neutron Star","Black Hole","Massless Supernova"],
 	"phrasebook": {
+		"modes": { "normal": "Normal","advanced": "Advanced" },
 		"intro": {
 			"title": "Welcome!",
 			"content": "<p>You are now the proud owner of Star In A Box.</p><p>Inside this box you can animate the different stages in a star's life and see how its brightness, size, and mass change with time.</p><p>Once you've opened the box just <strong>click the play button</strong> to start animating.</p>"

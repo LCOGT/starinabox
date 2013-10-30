@@ -736,7 +736,6 @@ p, #welcome p {
 }
 
 #lid-open a {
-	position: absolute;
 	bottom:10px;
 	right: 10px;
 	font-family: 'SecretTypewriterRegular';
@@ -797,3 +796,79 @@ p, #welcome p {
 .ieold .poppitypin-east:before{_border-top-color: pink,_border-bottom-color: pink,_border-left-color:pink,_filter:chroma(color=pink);}
 .ieold .poppitypin-west:before{_border-top-color: pink,_border-bottom-color: pink,_border-right-color:pink,_filter:chroma(color=pink);}
 
+#modeform { position:relative;line-height: 30px; }
+.toggle-bg{
+	background: #cccccc;
+	 -khtml-border-radius: 20px;
+	   -moz-border-radius: 20px;
+		-ms-border-radius: 20px;
+		 -o-border-radius: 20px;
+	-webkit-border-radius: 20px;
+			border-radius: 20px;	
+	-khtml-box-shadow: inset 0 0 3px rgba(0,0,0,0.4), inset 0 10px 0px rgba(0,0,0,0.05);
+	   -moz-box-shadow: inset 0 0 3px rgba(0,0,0,0.4), inset 0 10px 0px rgba(0,0,0,0.05);
+		-ms-box-shadow: inset 0 0 3px rgba(0,0,0,0.4), inset 0 10px 0px rgba(0,0,0,0.05);
+		 -o-box-shadow: inset 0 0 3px rgba(0,0,0,0.4), inset 0 10px 0px rgba(0,0,0,0.05);
+	-webkit-box-shadow: inset 0 0 3px rgba(0,0,0,0.4), inset 0 10px 0px rgba(0,0,0,0.05);
+			box-shadow: inset 0 0 3px rgba(0,0,0,0.4), inset 0 10px 0px rgba(0,0,0,0.05);
+	display: inline-block;
+	height: 20px;
+	position: relative;
+	width: 40px;
+	cursor: pointer;
+}
+
+.toggle-label1 { display: inline-block; margin-right: 5px; }
+.toggle-bg label { line-height: 20px; margin-left: 46px; display: inline-block; }
+.toggle-bg input {
+	height: 20px;
+	left: 0;
+	margin: 0; /* Reset the margins and padding */
+	opacity: 0.0; /* Invisible! */
+	padding: 0;
+	position: absolute;
+	top: 0;
+	width: 40px;
+	z-index: 2;
+		/*IE*/
+		zoom: 1;
+		filter: alpha(opacity=0);
+	cursor: pointer;
+}
+/* As we are hiding the radio buttons we will make the switch glow when the radio button receives focus. We need to use some sibling selectors. */
+.toggle-bg input:focus + .switch, .toggle-bg input:focus + input + .switch {
+	box-shadow: 0 1px 1px #65727b, 0 0 1px #b6bdc2, 0 0 4px 1px #3366dd;
+}
+.switch{
+	cursor: pointer;
+	background: #ffffff;
+
+	 -khtml-border-radius: 20px;
+	   -moz-border-radius: 20px;
+		-ms-border-radius: 20px;
+		 -o-border-radius: 20px;
+	-webkit-border-radius: 20px;
+			border-radius: 20px;
+	 -khtml-box-shadow: 0 1px 1px #65727b, 0 0 1px #b6bdc2;
+	   -moz-box-shadow: 0 1px 1px #65727b, 0 0 1px #b6bdc2;
+		-ms-box-shadow: 0 1px 1px #65727b, 0 0 1px #b6bdc2;
+		 -o-box-shadow: 0 1px 1px #65727b, 0 0 1px #b6bdc2;
+	-webkit-box-shadow: 0 1px 1px #65727b, 0 0 1px #b6bdc2;
+			box-shadow: 0 1px 1px #65727b, 0 0 1px #b6bdc2;
+	display: inline-block;
+	height: 20px;
+	left: -1px; /* This is the starting point. When adding a border radius, a small bit of the background is shown if we use left: 0;, so -1px is best.*/
+	position: absolute;
+	top: 0; /* ...To keep it centered vertically */
+	 -khtml-transition: left .2s ease;
+	   -moz-transition: left .2s ease;
+		-ms-transition: left .2s ease;
+		 -o-transition: left .2s ease;
+	-webkit-transition: left .2s ease;
+			transition: left .2s ease;
+	width: 20px;
+	z-index: 1; /* Remember, it must be below the invisible inputs */
+}
+.toggle-bg input:checked~.switch{left: -1px; } /* initial toggle position */
+.toggle-bg input~:checked~.switch{left: 21px;} /* final relative toggle position */
+.toggle-bg input:checked{ z-index: 0; }

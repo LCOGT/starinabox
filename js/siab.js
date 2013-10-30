@@ -69,10 +69,10 @@ $(document).ready(function () {
 		}
 		// Text descriptions
 		this.phrasebook = {
+			"modes": { "normal": "Normal","advanced": "Advanced" },
 			"intro": {
-				"title": "Welcome! Bienvenue",
+				"title": "Welcome!",
 				"content": "Hello"
-				//"content": "<p>You are now the proud owner of Star In A Box.</p><p>Inside this box you can animate the different stages in a star's life and see how its brightness, size, and mass change with time.</p><p>Once you've opened the box just <strong>click the play button</strong> to start animating.</p>"
 			},
 			"open": "&lsaquo; Open the lid",
 			"close": "Close the lid &rsaquo;",
@@ -287,7 +287,6 @@ $(document).ready(function () {
 				lang = this.langs[i];
 				continue;
 			}
-			console.log(this.langs[i])
 		}
 		lang = this.langs[0];
 		if(!lang) return this;
@@ -364,30 +363,36 @@ $(document).ready(function () {
 	StarInABox.prototype.setupUI = function(){
 		// Define if we can open the box or not
 		$('#welcome').bind('mouseover',{box:this},function(e){ e.data.box.canopen = false; }).bind('mouseout',{box:this},function(e){ e.data.box.canopen = true; });
-		$("#box-lid").click({box:this},function(e){
-			e.preventDefault();
+		$("#box-lid").on('click',{box:this},function(e){
+			//e.preventDefault();
 			if(e.data.box.canopen) e.data.box.toggleLid();
 		});
+
+		$('#welcome-content .jsonly').after('<form id="modeform" action=""><label class="toggle-label1" for="optnormal">'+this.phrasebook.modes.normal+'</label><div class="toggle-bg"><input type="radio" value="" id="optnormal" name="togglemode"'+(this.mode=="advanced" ? "" : ' checked="checked"')+'><input type="radio" value="advanced" id="optadvanced" name="togglemode"'+(this.mode=="advanced" ? ' checked="checked"' : '')+'><span class="switch"></span><label for="optadvanced">'+this.phrasebook.modes.advanced+'</label></div></form>');
+		$('#welcome-content input[name=togglemode]').on('change',{box:this},function(e){ e.data.box.toggleMode($(this).val()); });
 
 		$(document).bind('keypress',{box:this},function(e){
 			if(!e) e=window.event;
 			var box = e.data.box;
 			var code = e.keyCode || e.charCode || e.which || 0;
 			var c = String.fromCharCode(code).toLowerCase();
-			if(code==32) box.play();
-			else if(code == 37 /* left */){ box.animateStep(-1); }
-			else if(code == 39 /* right */){ box.animateStep(1); }
-			if(c == '-'){ e.preventDefault(); box.slidePanelBy(-1); }
-			if(c == '='){ e.preventDefault(); box.slidePanelBy(1); }
-			if(c == '1'){ e.preventDefault(); box.slidePanel(0); }
-			if(c == '2'){ e.preventDefault(); box.slidePanel(1); }
-			if(c == '3'){ e.preventDefault(); box.slidePanel(2); }
-			if(c == '4'){ e.preventDefault(); box.slidePanel(3); }
-			if(c == '5'){ e.preventDefault(); box.slidePanel(4); }
-			if(c == 'w'){ box.supernovaWarning(); }
-			if(c == 's'){ box.supernova(); }
+
 			if(c == 'l'){ box.toggleLid(); }
 			if(c == 'm'){ box.toggleMode(); }
+			if(box.open){
+				if(c == '-'){ e.preventDefault(); box.slidePanelBy(-1); }
+				if(c == '='){ e.preventDefault(); box.slidePanelBy(1); }
+				if(c == '1'){ e.preventDefault(); box.slidePanel(0); }
+				if(c == '2'){ e.preventDefault(); box.slidePanel(1); }
+				if(c == '3'){ e.preventDefault(); box.slidePanel(2); }
+				if(c == '4'){ e.preventDefault(); box.slidePanel(3); }
+				if(c == '5'){ e.preventDefault(); box.slidePanel(4); }
+				if(c == 'w'){ box.supernovaWarning(); }
+				if(c == 's'){ box.supernova(); }
+				if(code==32) box.play();
+				else if(code == 37 /* left */){ box.animateStep(-1); }
+				else if(code == 39 /* right */){ box.animateStep(1); }
+			}
 		});
 		
 		//make nav divs clickable
@@ -533,8 +538,12 @@ $(document).ready(function () {
 		return this;
 	}
 
-	StarInABox.prototype.toggleMode = function(){
-		this.mode = (this.mode=="advanced") ? "" : "advanced";
+	StarInABox.prototype.toggleMode = function(mode){
+		if(!mode){
+			this.mode = (this.mode=="advanced") ? "" : "advanced";
+		}else{
+			this.mode = mode;
+		}
 		this.loadConfig();
 	}
 	
@@ -716,18 +725,21 @@ $(document).ready(function () {
 */
 	StarInABox.prototype.toggleLid = function(){
 		var _obj = this;
+		if(this.transitioning) return this;
+		this.transitioning = true;
 		if(this.open){
 			$("#box-lid").animate({"left": "0px"},1000,function(){
 				//move #content to top
 				$("#container").removeClass("open").addClass("closed");
 				$("#box-lid").removeClass("open");
-				$("#lid-open a").html(_obj.phrasebook.open)
+				$("#lid-open a").html(_obj.phrasebook.open);
+				_obj.transitioning = false;
 			});
 			this.open = false;
 		}else{
 			//move content underneath lid then animate shut.
 			$("#container").removeClass("closed").addClass("open");
-			$("#box-lid").animate({"left": "-"+($('#box-lid').outerWidth()-30)+"px"},1000).addClass("open");
+			$("#box-lid").animate({"left": "-"+($('#box-lid').outerWidth()-30)+"px"},1000,function(){ _obj.transitioning = false; }).addClass("open");
 			$("#lid-open a").html(this.phrasebook.close);
 			this.open = true;
 		}
