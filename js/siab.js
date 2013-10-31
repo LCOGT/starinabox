@@ -389,8 +389,8 @@ $(document).ready(function () {
 		this.registerKey(32,function(){ this.play(); },"play");
 		this.registerKey(37,function(){ if(this.open) this.animateStep(-1); });
 		this.registerKey(39,function(){ if(this.open) this.animateStep(1); });
-		this.registerKey('>',function(){ $('#starMass select option:selected').removeAttr('selected').next('option').attr('selected', 'selected'); });
-		this.registerKey('<',function(){ $('#starMass select option:selected').removeAttr('selected').prev('option').attr('selected', 'selected'); });
+		this.registerKey('>',function(){ $('#starMass select option:selected').removeAttr('selected').next('option').attr('selected', 'selected'); $('#starMass select').trigger('change'); });
+		this.registerKey('<',function(){ $('#starMass select option:selected').removeAttr('selected').prev('option').attr('selected', 'selected'); $('#starMass select').trigger('change'); });
 
 		$(document).bind('keypress',{box:this},function(e){
 			if(!e) e = window.event;
