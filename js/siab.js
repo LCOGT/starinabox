@@ -558,6 +558,10 @@ $(document).ready(function () {
 			$('#hinttext .poppitypin-inner').html(this.phrasebook.tutorial[this.tutorialstep].replace('%COLOR%',this.chart.opts.path.color));
 		}
 
+		// Update box border options
+		if(this.phrasebook.about) $('#summary').text(this.phrasebook.data.title);
+		if(this.phrasebook.about) $('#help').text(this.phrasebook.about.title);
+
 		// Update info panels
 		for(var name in this.phrasebook.captions){
 			if($('#'+name).length > 0) $('#'+name+' .caption').html(this.phrasebook.captions[name])
