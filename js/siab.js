@@ -288,7 +288,7 @@ $(document).ready(function () {
 		for(var i = 0; i < this.langs.length; i++){
 			if(this.langs[i].code==this.langshort || this.langs[i].code==this.lang){
 				lang = this.langs[i];
-				continue;
+				break;
 			}
 		}
 		lang = this.langs[0];
@@ -389,6 +389,8 @@ $(document).ready(function () {
 		this.registerKey(32,function(){ this.play(); },"play");
 		this.registerKey(37,function(){ if(this.open) this.animateStep(-1); });
 		this.registerKey(39,function(){ if(this.open) this.animateStep(1); });
+		this.registerKey('>',function(){ $('#starMass select option:selected').removeAttr('selected').next('option').attr('selected', 'selected'); });
+		this.registerKey('<',function(){ $('#starMass select option:selected').removeAttr('selected').prev('option').attr('selected', 'selected'); });
 
 		$(document).bind('keypress',{box:this},function(e){
 			if(!e) e = window.event;
