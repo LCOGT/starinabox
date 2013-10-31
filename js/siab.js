@@ -70,6 +70,8 @@ $(document).ready(function () {
 		// Text descriptions
 		this.phrasebook = {
 			"modes": { "normal": "Normal","advanced": "Advanced", "toggle": "Toggle mode" },
+			"about": { "title": "About", "content": "<p>Star in a Box allows you to explore one of the most enigmatic tools in astronomy - the <a href=\"http://lcogt.net/book/h-r-diagram\">Hertzsprung-Russell diagram</a>.</p><p>When you first open the box you start with a star with the same mass as the Sun but you can change this to a different mass at any time. The tracks that you see on the graph (on the left) map the lifecycle of the star. You can play the animation of the star moving around the diagram, and see how its brightness, size, surface temperature, and mass change in the panels on the right.</p><p>Stars can take billions of years to go through their lives with the dramatic events taking place in relatively short periods of time. In the animation we speed up time when the star is not really changing much and slow things down for the dramatic phases of the star's life.</p><h3>Keyboard controls:</h3>%CONTROLLIST%<h3>Acknowledgments</h3><p><b>Design &amp; Development</b>: <a href=\"http://jyardley.co.uk\">Jon Yardley</a>, <a href=\"http://www.strudel.org.uk/\">Stuart Lowe</a>, <a href=\"http://lcogt.net/user/egomez\">Edward Gomez</a>, <a href=\"http://www.astro.cf.ac.uk/contactsandpeople/?page=full&id=151\">Haley Gomez</a> &amp; Chris North</p><p>Supported by <a href=\"http://www.stfc.ac.uk/\">STFC</a>, <a href=\"http://lcogt.net/\">LCOGT</a> &amp; <a href=\"http://www.cf.ac.uk/\">Cardiff University</a></p>" },
+			"data": { "title": "Data Table", "content": "This is a summary of the star that is currently selected.</p><p>Mass: %MASS%</p>%TABLE%<p>Download data as %CSV%</p>" },
 			"intro": {
 				"title": "Welcome!",
 				"content": "Hello"
@@ -561,12 +563,17 @@ $(document).ready(function () {
 			if($('#'+name).length > 0) $('#'+name+' .caption').html(this.phrasebook.captions[name])
 		}
 
+		// Update Data Table
+		this.updateSummary();
+		
 		// Update About
-		if($('#help-content').length > 0 && $('#help-content').text().length > 0 && typeof this.phrasebook.about==="string"){
+		if($('#help-content').length > 0 && $('#help-content').text().length > 0 && typeof this.phrasebook.about==="object"){
 			var o = "";
-			for(var i = 0; i < this.keys.length ; i++){ if(this.keys[i].txt && this.phrasebook.keys[this.keys[i].txt]) o += '<li><strong class="key">'+this.keys[i].str+'</strong> &rarr; '+(this.phrasebook.keys ? this.phrasebook.keys[this.keys[i].txt] : '')+'</li>'; }
+			if(this.phrasebook.keys){
+				for(var i = 0; i < this.keys.length ; i++){ if(this.keys[i].txt && this.phrasebook.keys[this.keys[i].txt]) o += '<li><strong class="key">'+this.keys[i].str+'</strong> &rarr; '+(this.phrasebook.keys ? this.phrasebook.keys[this.keys[i].txt] : '')+'</li>'; }
+			}
 			if(o) o = "<ul class=\"keyboard-controls\">"+o+"</ul>";
-			$('#help-content').html(this.phrasebook.about.replace("%CONTROLLIST%",o));
+			$('#help-content').html('<h2>'+this.phrasebook.about.title+'</h2>'+this.phrasebook.about.content.replace("%CONTROLLIST%",o));
 		}
 		
 
@@ -1120,7 +1127,7 @@ $(document).ready(function () {
 		}
 		if(!this.chart.axes) this.chart.axes = this.chart.holder.rect(this.chart.offset.left,this.chart.offset.top,this.chart.offset.width,this.chart.offset.height).attr({stroke:'rgb(0,0,0)','stroke-opacity': 0.5,'stroke-width':2});
 		if(this.chart.yLabel) this.chart.yLabel.remove();
-		this.chart.yLabel = this.chart.holder.text(this.chart.offset.left - 10, this.chart.offset.top+(this.chart.offset.height/2), this.phrasebook.lum+" ("+this.phrasebook.lumunit+")").attr({fill: (this.chart.opts.yaxis.label.color ? this.chart.opts.yaxis.label.color : this.chart.opts.color),'fill-opacity': (this.chart.opts.yaxis.label.opacity ? this.chart.opts.yaxis.label.opacity : 1),'font-size': this.chart.opts['font-size'] }).rotate(270);
+		this.chart.yLabel = this.chart.holder.text(this.chart.offset.left - 10, this.chart.offset.top+(this.chart.offset.height/2), htmlDecode(this.phrasebook.lum+" ("+this.phrasebook.lumunit+")")).attr({fill: (this.chart.opts.yaxis.label.color ? this.chart.opts.yaxis.label.color : this.chart.opts.color),'fill-opacity': (this.chart.opts.yaxis.label.opacity ? this.chart.opts.yaxis.label.opacity : 1),'font-size': this.chart.opts['font-size'] }).rotate(270);
 		if(!this.chart.sub){
 			v = [2,3,4,5,6,7,8,9]
 			this.chart.sub = []
@@ -1298,37 +1305,71 @@ $(document).ready(function () {
 		$('#welcome #summary-content').css({opacity: 0}).animate({opacity: 1},500);
 	}
 	StarInABox.prototype.generateSummary = function() {
-		var sOutput = "<h2>Summary</h2>";
-		sOutput += "<p>This is a summary of the star that is currently selected.</p>"
-		sOutput += '<p><span class="label">Mass: </span><span class="result">' + this.data.mass + ' Solar mass'+((this.data.mass==1) ? '':'es')+'</span></p>';
-		sOutput += '<div id="summary-table"><table border="1"><tr>';
-		sOutput += '<th>Stage</th>';
-		sOutput += '<th>Radius (R<sub>Sun</sub>)</th>';
-		sOutput += '<th>'+this.phrasebook.lum+' (L<sub>Sun</sub>)</th>';
-		sOutput += '<th>Temperature (K)</th>';
-		sOutput += '<th>Duration (Myr)</th>';
-		sOutput += '</tr>';
-		var s,t,n,m,e;
+		var o = "<h2>"+this.phrasebook.data.title+"</h2>";
+		var table = "";
+		table += '<div id="summary-table"><table border="1"><tr>';
+		table += '<th>'+this.phrasebook.stage+'</th>';
+		table += '<th>'+this.phrasebook.radius+' ('+this.phrasebook.radiusunit+')</th>';
+		table += '<th>'+this.phrasebook.lum+' ('+this.phrasebook.lumunit+')</th>';
+		table += '<th>'+this.phrasebook.temp+' ('+this.phrasebook.tempunit+')</th>';
+		table += '<th>'+this.phrasebook.duration+' ('+this.phrasebook.timescale+')</th>';
+		table += '</tr>';
+		var s,t,n,e,r,l,d;
+		var data = new Array();
+
+		// Loop over stages creating summary data
 		for (var i = 1 ; i < this.stageIndex.length ; i++){
 			//var sValue = sEnd - sStart;
 			s = this.getData(this.stageIndex[i]);
 			n = (i < this.stageIndex.length-1) ? this.stageIndex[i+1]-1 : this.data.data.length-1;
-			m = this.getData(Math.floor(this.stageIndex[i]+(n-this.stageIndex[i])/2));
 			e = this.getData(n);
 			t = e.t-s.t;
-			if(typeof e=="object"){
-				sOutput += '<tr>';
-				sOutput += '<td>' + this.stages[s.type] + '</td>'; //Stage Name
-				sOutput += '<td>' + ((e.radius >= 0.01) ? parseFloat(e.radius).toFixed(2) : ((s.type==14) ? "&lt;&lt; 0.01" : "&lt; 0.01")) + '</td>';
-				sOutput += '<td>' + ((e.lum < 0.01 && e.lum!= 0) ? ((e.lum < 0.0001) ? "&lt;&lt; 0.01" : "&lt; 0.01") : parseFloat(e.lum).toFixed(2)) + '</td>';
-				sOutput += '<td>' + ((i == this.stageIndex.length-1 && e.type!=14) ? ((s.temp > 1e6) ? 'Cool down from '+parseFloat(s.temp) : "Cooling") : ((e.temp >= 1) ? parseFloat(e.temp) : "&lt;&lt; 1")) + '</td>';
-				sOutput += '<td>' + ((i < this.stageIndex.length-1) ? t.toFixed(2) : "A very long time") + '</td>';
-				sOutput += '</tr>';
+			if(typeof e=="object") data.push([this.stages[s.type],s.type,e.type,e.radius,e.lum,s.temp,t]);
+		}
+		// We now loop over the summary data rationalising the stages with the same name
+		if(data.length > 0){
+			for(var i = 0; i <= data.length ; i++){
+				if(i == 0){
+					s = data[i][1];
+					e = data[i][2];
+					r = data[i][3];
+					l = data[i][4];
+					t = data[i][5];
+					d = data[i][6];
+				}else{
+					if(i < data.length && data[i][0]==data[i-1][0]){
+						// Find the maximum
+						r = Math.max(r,data[i][3]);
+						l = Math.max(l,data[i][4]);
+						t = Math.max(t,data[i][5]);
+						// Find the sum
+						d += data[i][6];
+					}else{
+						table += '<tr>';
+						table += '<td>' + this.stages[s] + '</td>'; //Stage Name
+						table += '<td>' + ((r >= 0.01) ? parseFloat(r).toFixed(2) : ((s==14) ? "&lt;&lt; 0.01" : "&lt; 0.01")) + '</td>';
+						table += '<td>' + ((l < 0.01 && l!= 0) ? ((l < 0.0001) ? "&lt;&lt; 0.01" : "&lt; 0.01") : parseFloat(l).toFixed(2)) + '</td>';
+						table += '<td>' + ((i == this.stageIndex.length-1 && e!=14) ? ((t > 1e6) ? this.phrasebook.cooldown.replace("%TEMP%",parseFloat(t)) : this.phrasebook.cooling) : ((t >= 1) ? parseFloat(t) : "&lt;&lt; 1")) + '</td>';
+						table += '<td>' + ((i < this.stageIndex.length-1) ? d.toFixed(2) : this.phrasebook.longtime) + '</td>';
+						table += '</tr>';
+						if(i < data.length){
+							// Reset the values
+							s = data[i][1];
+							e = data[i][2];
+							r = data[i][3];
+							l = data[i][4];
+							t = data[i][5];
+							d = data[i][6];
+						}
+					}
+				}
 			}
 		}
-		sOutput += '</table></div>';
-		sOutput += '<div id="downloads">Download data as: <a href="'+this.fileName(this.data.mass)+'.csv">CSV</a></div>';
-		return sOutput;
+		table += '</table></div>';
+
+		o += this.phrasebook.data.content.replace("%MASS%",this.data.mass+' '+this.phrasebook.massunit).replace("%TABLE%",table).replace("%CSV%",'<a href="'+this.fileName(this.data.mass)+'.csv">CSV</a>');
+
+		return o;
 	}
 	StarInABox.prototype.displayTime = function(t) {
 		if(typeof t== "number") this.el.time.html(t.toFixed(3) + " <span class=\"units\">"+this.phrasebook.timescale+"</span>");
@@ -1371,7 +1412,6 @@ $(document).ready(function () {
 		}
 		return this;
 	}
-
 
 	// Create a Thermometer
 	function Thermometer(inp){
@@ -1509,7 +1549,7 @@ $(document).ready(function () {
 	LightMeter.prototype.updateLanguage = function(lang){
 		this.phrasebook = lang;
 		if(this.ll){ this.ll.remove(); }
-		this.ll = this.meter.text(this.x-this.padding-parseInt(this.txt['font-size'])/2, this.y+this.h/2, this.phrasebook.lum+" ("+this.phrasebook.lumunit+")").attr(this.txt);
+		this.ll = this.meter.text(this.x-this.padding-parseInt(this.txt['font-size'])/2, this.y+this.h/2, htmlDecode(this.phrasebook.lum+" ("+this.phrasebook.lumunit+")")).attr(this.txt);
 		this.ll.attr({'text-anchor':'middle',transform:"r-90"});
 	}
 
@@ -1812,7 +1852,13 @@ $(document).ready(function () {
 		return pie;
 	}
 
-	
+	function htmlDecode(input){
+		var e = document.createElement('div');
+		e.innerHTML = input;
+		return e.childNodes[0].nodeValue;
+	}
+
+
 	/**
 	 * Create a popup bubble attached to an element. Requires an object with:
 	 * @param inp {Object}
