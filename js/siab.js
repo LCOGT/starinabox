@@ -387,37 +387,14 @@ $(document).ready(function () {
 		this.registerKey('-',function(){ this.slidePanelBy(-1); });
 		this.registerKey('=',function(){ this.slidePanelBy(1); });
 		this.registerKey(32,function(){ this.play(); },"play");
+		this.registerKey(37,function(){ if(this.open) this.animateStep(-1); });
+		this.registerKey(39,function(){ if(this.open) this.animateStep(1); });
 
 		$(document).bind('keypress',{box:this},function(e){
 			if(!e) e = window.event;
 			var code = e.keyCode || e.charCode || e.which || 0;
 			e.data.box.keypress(code,e);
 		});
-
-/*
-		$(document).bind('keypress',{box:this},function(e){
-			if(!e) e=window.event;
-			var box = e.data.box;
-			var code = e.keyCode || e.charCode || e.which || 0;
-			var c = String.fromCharCode(code).toLowerCase();
-
-			if(c == 'l'){ box.toggleLid(); }
-			if(c == 'm'){ box.toggleMode(); }
-			if(box.open){
-				if(c == '-'){ e.preventDefault(); box.slidePanelBy(-1); }
-				if(c == '='){ e.preventDefault(); box.slidePanelBy(1); }
-				if(c == '1'){ e.preventDefault(); box.slidePanel(0); }
-				if(c == '2'){ e.preventDefault(); box.slidePanel(1); }
-				if(c == '3'){ e.preventDefault(); box.slidePanel(2); }
-				if(c == '4'){ e.preventDefault(); box.slidePanel(3); }
-				if(c == '5'){ e.preventDefault(); box.slidePanel(4); }
-				if(c == 'w'){ box.supernovaWarning(); }
-				if(c == 's'){ box.supernova(); }
-				if(code==32) box.play();
-				else if(code == 37){ box.animateStep(-1); }
-				else if(code == 39){ box.animateStep(1); }
-			}
-		});*/
 		
 		//make nav divs clickable
 		$("#nav .item").click(function(e){
@@ -432,7 +409,6 @@ $(document).ready(function () {
 				$("#slide").css({top:-((sliderID-1)*400)+"px"});
 			}
 			$(this).focus();
-
 		});
 		
 		$("#right .info").click(function(){
