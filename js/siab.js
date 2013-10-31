@@ -430,6 +430,8 @@ $(document).ready(function () {
 				var sliderID = (el.attr("class").split(" "))[1];
 				$("#slide").css({top:-((sliderID-1)*400)+"px"});
 			}
+			$(this).focus();
+
 		});
 		
 		$("#right .info").click(function(){
@@ -507,6 +509,7 @@ $(document).ready(function () {
 			$('#welcome').removeClass('help').addClass('summary');
 			if(e.data.box.open) e.data.box.toggleLid();
 			e.data.box.displaySummary();
+			$('#summary-content').focus();
 		});
 
 		this.el = {
@@ -561,6 +564,9 @@ $(document).ready(function () {
 		// Update box border options
 		if(this.phrasebook.about) $('#summary').text(this.phrasebook.data.title);
 		if(this.phrasebook.about) $('#help').text(this.phrasebook.about.title);
+
+		// Update title attribute for mass selector
+		if(this.phrasebook.massunit) $('#starMass select').attr('title',htmlDecode(this.phrasebook.mass+' ('+this.phrasebook.massunit+')'));
 
 		// Update info panels
 		for(var name in this.phrasebook.captions){
@@ -796,6 +802,8 @@ $(document).ready(function () {
 		}
 		if(this.tutorialstep == 0){
 			var context = this;
+			var orig = $('#starMass select').attr('title');
+			$('#starMass select').attr('title',context.phrasebook.tutorial[0]).focus();
 			var bp = new bubblePopup({
 				id: 'hinttext', 
 				el: $('#starMass select'),
@@ -807,6 +815,7 @@ $(document).ready(function () {
 				animate: true,
 				onpop: function(){
 					context.tutorialstep++;
+					$('#starMass select').attr('title',orig);
 					var test;
 					// If the user has changed the mass of the star it'll take a little 
 					// while until it loads and we need to wait until it has so that we
@@ -826,6 +835,7 @@ $(document).ready(function () {
 								animate: true,
 								onpop:function(){
 									context.tutorialstep++;
+									$('#controls .control_play').focus();
 									var bp = new bubblePopup({ 
 										id: 'hinttext',
 										el: $('#controls .control_play img'),
@@ -1246,7 +1256,7 @@ $(document).ready(function () {
 			if($('#starMass .value').length==0) $('#starMass').append('<span class="value"></span>');
 			if($('#starMass .unit').length==0) $('#starMass').append(' <span class="unit"></span>');
 			if($('#starMass select').length==0){
-				var selector = '<select>';
+				var selector = '<strong>'+this.phrasebook.mass+':</strong> <select title="'+this.phrasebook.massunit+'">';
 				for (var i = 0; i < this.massVM.length; i++) {
 					selector += '<option value="'+i+'"'+(this.data.mass==this.massVM[i] ? ' selected="selected"' : "")+'>'+this.massVM[i]+'</option>';
 				}
@@ -1259,7 +1269,7 @@ $(document).ready(function () {
 				});
 			}
 			// Update the unit
-			$('#starMass .unit').html((this.data.mass==1) ? 'Solar mass' : 'Solar masses');
+			$('#starMass .unit').html(this.phrasebook.massunit);
 		}
 	};
 	StarInABox.prototype.getStarShape = function(x,y,r,n){
