@@ -377,6 +377,8 @@ $(document).ready(function () {
 
 		this.registerKey('w',function(){ this.supernovaWarning() });
 		this.registerKey('s',function(){ this.supernova() });
+		this.registerKey('t',function(){ $('#summary').trigger('click'); });
+		this.registerKey('a',function(){ $('#help').trigger('click'); });
 		this.registerKey('l',function(){ this.toggleLid() },'lid');
 		this.registerKey('m',function(){ this.toggleMode() },'mode');
 		this.registerKey('1',function(){ this.slidePanel(0); },'size');
