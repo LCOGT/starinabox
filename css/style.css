@@ -233,7 +233,7 @@ body {
 #infoinner h1 { font-size: 1.5em; margin-bottom: 0.25em; }
 #infoinner h2 { font-size: 1.3em; margin: 1em 0 0.25em 0; }
 #infoinner h3 { font-size: 1.2em; margin: 1em 0 0.25em 0; }
-#infocontent { height: 490px; margin: 8px; padding: 24px; overflow: auto; }
+#infocontent { height: 472px; margin: 8px; padding: 32px; overflow: auto; }
 #info.open {
 	-webkit-box-shadow: -16px -20px 20px rgba(0,0,0,0.2);
 	-moz-box-shadow: -16px -20px 20px rgba(0,0,0,0.2);
