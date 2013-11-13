@@ -229,7 +229,8 @@ body {
 	transition: bottom 0.2s ease 0s, top 0.2s ease 0s, height 0.2s ease 0s; 
 }
 #infoinner { height: 524px; }
-#infocontent { height: 472px; margin: 8px; padding: 32px; overflow: auto; }
+#infocontent { height: 472px; margin: 8px; padding: 32px; overflow: hidden; }
+#info.open #infocontent { overflow: auto; }
 #infocontent img { max-width: 100%; }
 #infocontent h1 { font-size: 1.5em; margin-bottom: 0.25em; }
 #infocontent h2 { font-size: 1.3em; margin: 1em 0 0.25em 0; }
