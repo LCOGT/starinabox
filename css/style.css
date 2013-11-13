@@ -229,11 +229,12 @@ body {
 	transition: bottom 0.2s ease 0s, top 0.2s ease 0s, height 0.2s ease 0s; 
 }
 #infoinner { height: 524px; }
-#infoinner img { max-width: 100%; }
-#infoinner h1 { font-size: 1.5em; margin-bottom: 0.25em; }
-#infoinner h2 { font-size: 1.3em; margin: 1em 0 0.25em 0; }
-#infoinner h3 { font-size: 1.2em; margin: 1em 0 0.25em 0; }
 #infocontent { height: 472px; margin: 8px; padding: 32px; overflow: auto; }
+#infocontent img { max-width: 100%; }
+#infocontent h1 { font-size: 1.5em; margin-bottom: 0.25em; }
+#infocontent h2 { font-size: 1.3em; margin: 1em 0 0.25em 0; }
+#infocontent h3 { font-size: 1.2em; margin: 1em 0 0.25em 0; }
+#infocontent p { margin: 0.5em 0; }
 #info.open {
 	-webkit-box-shadow: -16px -20px 20px rgba(0,0,0,0.2);
 	-moz-box-shadow: -16px -20px 20px rgba(0,0,0,0.2);
