@@ -983,7 +983,15 @@ $(document).ready(function () {
 		return "db/star_"+mass+"_solar_mass";
 	}
 	StarInABox.prototype.loadChartData = function(mass) {
+	
 		var dataurl = this.fileName(mass)+".json";
+		console.log('loading ',mass,' solar mass star');
+		console.log(this.mode,this.phrasebook.modes.normal);
+		if (mass==1){
+			if(this.mode!=this.phrasebook.modes.advanced){
+			    dataurl = this.fileName(mass)+"_adj.json";
+			};
+		};
 
 		$.ajax({
 			url: dataurl,
