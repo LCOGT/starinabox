@@ -51,6 +51,7 @@ $(document).ready(function () {
 		// Set the defaults
 		// =================
 		this.keys = new Array();
+		this.mass = 1;
 		// The stellar masses that we have data for
 		this.massVM = [0.2, 0.65, 1, 2, 4, 6, 10, 20, 30, 40];
 		// The stages indices must match indices used in the data
@@ -583,6 +584,7 @@ $(document).ready(function () {
 			else $('input#optnormal').attr('checked','checked');
 		}
 		this.loadConfig();
+		this.loadChartData(this.mass);
 	}
 	
 	StarInABox.prototype.supernova = function(){
@@ -980,18 +982,13 @@ $(document).ready(function () {
 		this.scaletext.html(v.toFixed(3)+'<span class="units">'+this.phrasebook.massunit+'</span>');
 	}
 	StarInABox.prototype.fileName = function(mass) {
-		return "db/star_"+mass+"_solar_mass";
+		// Only the 1 solar mass star has a different path at the moment
+		return "db/star_"+mass+"_solar_mass"+(mass==1 && this.mode ? "_"+this.mode : "");
 	}
 	StarInABox.prototype.loadChartData = function(mass) {
 	
 		var dataurl = this.fileName(mass)+".json";
-		console.log('loading ',mass,' solar mass star');
-		console.log(this.mode,this.phrasebook.modes.normal);
-		if (mass==1){
-			if(this.mode!=this.phrasebook.modes.advanced){
-			    dataurl = this.fileName(mass)+"_adj.json";
-			};
-		};
+		//console.log('loading '+mass+' solar mass star from '+dataurl);
 
 		$.ajax({
 			url: dataurl,
