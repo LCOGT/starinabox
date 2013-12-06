@@ -1182,7 +1182,7 @@ $(document).ready(function () {
 			}
 		}
 
-		if(this.data.data) {
+		if(this.data.data){
 			this.eAnimPoints = [];
 			var str = "";
 			var strshadow = "";
@@ -1206,7 +1206,6 @@ $(document).ready(function () {
 			if(strshadow) this.starPathShadow = this.chart.holder.path(strshadow).attr({stroke:'rgb(0,0,0)','stroke-opacity': 0.2,'stroke-width':3,'stroke-dasharray':'-'});
 			if(str) this.starPath = this.chart.holder.path(str).attr({stroke:this.chart.opts.path.color,'stroke-width':2,'stroke-dasharray':'-'});
 			if(str) this.starPathClicker = this.chart.holder.path(str).attr({stroke:'black','stroke-width':10,'stroke-opacity':0});
-
 
 			var _obj = this;
 			// Use the Raphael click function
