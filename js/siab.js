@@ -141,6 +141,7 @@ $(document).ready(function () {
 		// array for animation data points...
 		this.eAnimPoints = [];
 		this.timestep = 0;
+		this.time = 0;
 		this.temperature = 0;
 		this.animating = false;
 		this.reduction = 5;	// A slower framerate for the size/thermometer animations
@@ -629,6 +630,30 @@ $(document).ready(function () {
 		}
 		return this;
 	}
+	StarInABox.prototype.setTime = function(t){
+		var old = this.timestep;
+		t = (typeof t=="number") ? t : 0;
+		if(this.data && this.data.data){
+			for(var i = 0; i < this.data.data.length ; i++){
+				if(this.data.data[i].t <= this.time){
+					this.timestep = i;
+					continue;
+				}
+			}
+		}
+
+		return this;
+	}
+	StarInABox.prototype.setTimeStep = function(i){
+		var old = this.timestep;
+
+		this.timestep = (typeof i=="number") ? i : l-1;
+		if(this.data && this.data.data && this.timestep > this.data.data.length-1 && this.data.data[this.data.data.length-1].t < this.time) this.timestep = this.data.data.length-1;
+
+		this.time = this.data.data[this.timestep].t;
+
+		return this;
+	}
 	StarInABox.prototype.changeSpeed = function(d){
 		this.duration = d;
 		// If we are already animating we need to pause and start the animation again
@@ -637,7 +662,7 @@ $(document).ready(function () {
 	StarInABox.prototype.animateStep = function(delta,reduction){
 		duration = this.duration;
 		if(!reduction) reduction = 1;
-		if(!this.timestep){ this.timestep = 0; }
+		if(!this.timestep){ this.setTimeStep(0); }
 		this.timestep += delta;
 
 		if(this.timestep >= this.eAnimPoints.length){
@@ -646,11 +671,10 @@ $(document).ready(function () {
 			$("a#animateEvolveReset").css('display', '');
 			$("a#animateEvolveReset").css('display', 'n');
 			$("a.control_play img.pause").removeClass('pause').addClass('play');
-			if(delta > 0) this.timestep = this.eAnimPoints.length-1;
-			//this.timestep = this.stageIndex[this.sStart];
+			if(delta > 0) this.setTimeStep(this.eAnimPoints.length-1);
 			this.animating = false;
 		} else {
-			if(this.timestep < 0) this.timestep = 0;
+			if(this.timestep < 0) this.setTimeStep(0);
 			el = this.getData(this.timestep);
 			if(typeof el=="object"){
 				if(this.data.data[this.timestep].type > 10){
@@ -920,8 +944,8 @@ $(document).ready(function () {
 	// Input:
 	//   i - the index of the data point
 	StarInABox.prototype.jumpTo = function(i) {
-		this.timestep = (typeof i=="number") ? i : this.data.data.length-1;
-		if(this.timestep == this.data.data.length) this.timestep = this.data.data.length - 1;
+
+		this.setTimeStep(i);
 
 		var p = this.getData(this.timestep);
 		if(typeof p=="object"){
@@ -1000,9 +1024,8 @@ $(document).ready(function () {
 			},
 			success: function(data){
 				this.data = data;
+				this.setTime(this.time);
 				this.rebuildCharts();
-				this.resetStage();
-				this.timestep = 0;
 			}
 		});
 	}
@@ -1184,6 +1207,8 @@ $(document).ready(function () {
 
 		if(this.data.data){
 			this.eAnimPoints = [];
+			//this.setTimeStep(this.timestep);
+
 			var str = "";
 			var strshadow = "";
 			for (var i in this.data.data) {
@@ -1232,7 +1257,7 @@ $(document).ready(function () {
 			});
 
 			if(this.chart.star) this.chart.star.remove();
-			//s = this.stageIndex[this.sStart];
+
 			s = this.timestep;
 			this.chart.star = this.chart.holder.circle((this.eAnimPoints[s][0]), (this.eAnimPoints[s][1]), 5).attr({"fill":"#000000"});
 			this.chart.star.node.id = "chartstar";
