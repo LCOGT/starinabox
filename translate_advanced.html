@@ -1,0 +1,62 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>Translation | Star In A Box</title>
+	<link rel="stylesheet" href="css/style.css" type="text/css">
+	<!--[if lt IE 9]><link rel="stylesheet" type="text/css" href="css/IE8.css" /><![endif]-->
+	<!--[if lt IE 8]><link rel="stylesheet" type="text/css" href="css/IE7.css" /><![endif]-->
+	<link rel="stylesheet" href="css/translate.css" type="text/css" />
+	<script src="js/jquery-1.7.1.min.js"></script>
+	<script src="js/translate.js"></script>
+	<script type="text/javascript">
+		$(document).ready(function(){
+			trans = $.translator({
+				'id':'form',
+				'master':'config/master.json',
+				'json':'config/%LANG%_advanced.json',
+				'langs': {
+					'en':'English',
+					'af':'Afrikaans',
+					'ar':'&#1575;&#1604;&#1593;&#1585;&#1576;&#1610;&#1577;',
+					'cs':'&#268;e&#353;tina',
+					'cy':'Cymraeg',
+					'de':'Deutsch',
+					'dk':'Dansk',
+					'el':'&#917;&#955;&#955;&#951;&#957;&#953;&#954;&#940;',
+					'es':'Espa&#241;ol',
+					'fa':'&#1601;&#1575;&#1585;&#1587;&#1740;',
+					'fi':'Suomi',
+					'fr':'Fran&#231;ais',
+					'ga':'Gaeilge',
+					'gu':'&#2711;&#2753;&#2716;&#2736;&#2750;&#2724;&#2752;',
+					'he':'&#1506;&#1489;&#1512;&#1497;&#1514;',
+					'hi':'&#2350;&#2366;&#2344;&#2325; &#2361;&#2367;&#2344;&#2381;&#2342;&#2368;',
+					'it':'Italiano',
+					'ja':'&#26085;&#26412;&#35486;',
+					'ko':'&#54620;&#44397;&#50612;',
+					'nl':'Nederlands',
+					'pl':'Polski',
+					'pt':'Portugu&#234;s',
+					'ru':'&#1088;&#1091;&#1089;&#1089;&#1082;&#1080;&#1081;',
+					'sv':'svenska',
+					'tr':'T&#252;rk&#231;e',
+					'zh':'&#20013;&#25991;',
+					'zh-yue':'&#31925;&#35486;'
+				}
+			});
+		});
+	</script>
+</head>
+<body>
+	<div class="holder">
+		<h1>Star In A Box Translation Page</h1>
+		<div id="page">
+			<p>The form below contains all the language fields used in <a href="index.html">Star In A Box</a> (<a href="index.html?lang=" class="langlink">view Star In A Box in <span class="langname"></span></a>). The fields are split into sections. If you'd like to start translating a language that isn't on the drop down list please contact <a href="http://lcogt.net/user/egomez/">Edward Gomez</a>.</p>
+			<p style="font-size:1.2em;"><strong>If you want your changes to be applied you'll have to copy/paste the <a href="#output">output</a> from the bottom into an email to Edward. This form does not automatically save!</strong></p>
+		</div>
+		<div id="form"></div>
+		<h2>Output</h2>
+		<p>Here is the output. You should copy and paste this into an email and send it to Edward.</p>
+		<div id="output"></div>
+	</div>
+</body>
+</html>
