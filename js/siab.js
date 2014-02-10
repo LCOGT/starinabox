@@ -27,6 +27,24 @@ $(document).ready(function () {
 	@*/
 	// Page PreLoader
 
+	// Get the URL query string and parse it
+	jQuery.query = function() {
+			var r = {length:0};
+			var q = location.search;
+		if(q && q != '#'){
+			// remove the leading ? and trailing &
+			q = q.replace(/^\?/,'').replace(/\&$/,'');
+			jQuery.each(q.split('&'), function(){
+				var key = this.split('=')[0];
+				var val = this.split('=')[1];
+				if(/^[0-9.]+$/.test(val)) val = parseFloat(val);	// convert floats
+				r[key] = val;
+				r['length']++;
+			});
+		}
+		return r;
+	};
+
 	function StarInABox(inp){
 
 		// Some boolean properties
@@ -35,15 +53,46 @@ $(document).ready(function () {
 		this.infoopen = false;    // Is the info/help box open?
 		this.tutorialstep = 0;    // Which tutorial step are we on
 
+		// Get query string
+		this.q = $.query();
+
 		// Languages - get the browser's language code e.g. "en-GB" and find the short version of it too e.g. "en"
-		this.langs = new Array();
 		// Country codes at http://en.wikipedia.org/wiki/List_of_ISO_639-1_codes
+		this.langs = {
+			'en':'English',
+			'af':'Afrikaans',
+			'ar':'&#1575;&#1604;&#1593;&#1585;&#1576;&#1610;&#1577;',
+			'cs':'&#268;e&#353;tina',
+			'cy':'Cymraeg',
+			'de':'Deutsch',
+			'dk':'Dansk',
+			'el':'&#917;&#955;&#955;&#951;&#957;&#953;&#954;&#940;',
+			'es':'Espa&#241;ol',
+			'fa':'&#1601;&#1575;&#1585;&#1587;&#1740;',
+			'fi':'Suomi',
+			'fr':'Fran&#231;ais',
+			'ga':'Gaeilge',
+			'gu':'&#2711;&#2753;&#2716;&#2736;&#2750;&#2724;&#2752;',
+			'he':'&#1506;&#1489;&#1512;&#1497;&#1514;',
+			'hi':'&#2350;&#2366;&#2344;&#2325; &#2361;&#2367;&#2344;&#2381;&#2342;&#2368;',
+			'it':'Italiano',
+			'ja':'&#26085;&#26412;&#35486;',
+			'ko':'&#54620;&#44397;&#50612;',
+			'nl':'Nederlands',
+			'pl':'Polski',
+			'pt':'Portugu&#234;s',
+			'ru':'&#1088;&#1091;&#1089;&#1089;&#1082;&#1080;&#1081;',
+			'sv':'svenska',
+			'tr':'T&#252;rk&#231;e',
+			'zh':'&#20013;&#25991;',
+			'zh-yue':'&#31925;&#35486;'
+		};
 		// First item in this array is the default language
 		this.lang = (navigator) ? (navigator.userLanguage||navigator.systemLanguage||navigator.language||browser.language) : "";			// Set the user language
+		// Over-ride with query string set value
+		if(typeof this.q.lang=="string") this.lang = this.q.lang;
 		this.langshort = (this.lang.indexOf('-') > 0 ? this.lang.substring(0,this.lang.indexOf('-')) : this.lang.substring(0,2));
 
-		// Define the langauges that we have configuration options for
-		this.langs[0] = {code:'en',name:'English'};
 
 		// Process the input parameters/query string
 		this.init(inp);
@@ -103,8 +152,8 @@ $(document).ready(function () {
 			'help' : {
 				'tab' : 'Help',
 				'content': {
-					"m0.2" : '',
-					"m0.65" : '',
+					"m0_2" : '',
+					"m0_65" : '',
 					"m1" : '',
 					"m2" : '',
 					"m4" : '',
@@ -259,42 +308,22 @@ $(document).ready(function () {
 	}
 
 	StarInABox.prototype.init = function(d){
-		if(!d) d = {};
-		var q = location.search;
-		if(q && q != '#'){
-			var bits = q.replace(/^\?/,'').replace(/\&$/,'').split('&'); // remove the leading ? and trailing &
-			var key,val;
-			for(var i = 0; i < bits.length ; i++){
-				key = bits[i].split('=')[0], val = bits[i].split('=')[1];
-				// convert floats
-				if(/^[0-9.\-]+$/.test(val)) val = parseFloat(val);
-				if(val == "true") val = true;
-				if(val == "false") val = false;
-				if(typeof d[key]==="undefined") d[key] = val;
-			}
-		}
+
 		var n = "number";
 		var s = "string";
 		var b = "boolean";
 		var o = "object";
 		var f = "function";
 		// Overwrite defaults with variables passed to the function
-		if(typeof d.mode === s) this.mode = d.mode;
+		if(typeof this.q.mode === s) this.mode = this.q.mode;
 
 		return this;
 	}
 
-	StarInABox.prototype.loadConfig = function(){
-		var lang;
-		// Loop over to see if the current language shortcode is valid
-		for(var i = 0; i < this.langs.length; i++){
-			if(this.langs[i].code==this.langshort || this.langs[i].code==this.lang){
-				lang = this.langs[i];
-				break;
-			}
-		}
-		lang = this.langs[0];
-		if(!lang) return this;
+	StarInABox.prototype.loadConfig = function(lang){
+
+		if(lang) lang = { 'code': lang };
+		else lang = {'code': this.langshort };
 
 		var dataurl = "config/"+lang.code+(this.mode ? "_"+this.mode : "")+".json";
 
@@ -304,10 +333,18 @@ $(document).ready(function () {
 			dataType: 'json',
 			context: this,
 			error: function(){
-				$('#loader').show().removeClass('done').addClass('loading').html('<div class="error">Error: couldn\'t load the language/mode at '+dataurl+'.</div>').delay(3000).fadeOut();
+				if(lang == "en"){
+					if(console && typeof console.log==="function") console.log("Error: Couldn't load English language");
+					$('#loader').show().removeClass('done').addClass('loading').html('<div class="error">Error: couldn\'t load the language/mode at '+dataurl+'.</div>').delay(3000).fadeOut();
+				}else{
+					// Loop over to see if the current language shortcode is in our list
+					var n = (this.langs[lang.code]) ? this.langs[lang.code] : lang.code
+					if(console && typeof console.log==="function") console.log("Warning: Couldn't load "+n+". Attempting to load English instead");
+					this.loadConfig("en");
+				}
 			},
 			success: function(data){
-				this.stages = data.stages;
+				this.stages = data.phrasebook.stages;
 				$.extend(this.phrasebook, data.phrasebook);
 				this.setupMode();
 			}
@@ -513,7 +550,8 @@ $(document).ready(function () {
 			$('#infocontent').before('<div class="closer"><a href="#">&times;</a></div>');
 			$('#info .closer a').on('click',{box:this},function(e){ e.data.box.toggleInfoPanel(); });
 		}
-		$('#infocontent').html(this.phrasebook.help.content["m"+(this.mass ? this.mass : this.initStarMass)]);
+		// The keys in the help use underscores rather than dots to avoid confusion with dot notation
+		$('#infocontent').html(this.phrasebook.help.content["m"+((this.mass ? this.mass : this.initStarMass)+"").replace('.','_')]);
 		this.thermometer.updateLanguage(this.phrasebook);
 		this.lightmeter.updateLanguage(this.phrasebook);
 		this.stopwatch.rebuild();

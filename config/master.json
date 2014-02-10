@@ -1,0 +1,427 @@
+{
+	"language" : { 
+		"_title": "About the language",
+		"code" : { "_title": "Language Code", "_text": "The two letter language code", "_type": "string" },
+		"name" : { "_title": "Language Name", "_text": "This is the name of the language in that language e.g. English, Fran&#231;ais, Espa&#241;ol, and &#2350;&#2366;&#2344;&#2325; &#2361;&#2367;&#2344;&#2381;&#2342;&#2368;. It appears in the language menu.", "_type": "string" },
+		"translator" : { "_title": "Translator", "_text": "This is the name of the translator. It can contain a hyperlink. Not currently displayed but may be in the future.", "_type": "string" },
+		"alignment" : { "_title": "Language Direction", "_text": "The direction that the language goes.", "_type": "select", "_options": [{"name":"left to right","value":"left"},{"name":"right to left","value":"right"}] },
+		"mode" : { "_title": "Mode", "_text": "Is this the default or advanced mode.", "_type": "select", "_options": [{"name":"Default","value":"normal"},{"name":"Advanced","value":"advanced"}] }
+	},
+	"phrasebook": {
+		"_title": "Phrasebook",
+		"stages": [{
+			"_title": "Stage: Deeply or fully convective low mass MS star",
+			"_text": "The label",
+			"_type": "string"
+		},{
+			"_title": "Stage: Main Sequence",
+			"_text": "The label",
+			"_type": "string"
+		},{
+			"_title": "Stage: Hertzsprung Gap",
+			"_text": "The label",
+			"_type": "string"
+		},{
+			"_title": "Stage: Red Giant Branch",
+			"_text": "The label",
+			"_type": "string"
+		},{
+			"_title": "Stage: Core Helium Burning",
+			"_text": "The label",
+			"_type": "string"
+		},{
+			"_title": "Stage: Asymptotic Giant Branch",
+			"_text": "The label",
+			"_type": "string"
+		},{
+			"_title": "Stage: Thermally-pulsing Asymptotic Giant Branch",
+			"_text": "The label",
+			"_type": "string"
+		},{
+			"_title": "Stage: Main Sequence Naked Helium star",
+			"_text": "The label",
+			"_type": "string"
+		},{
+			"_title": "Stage: Wolf-Rayet star",
+			"_text": "The label",
+			"_type": "string"
+		},{
+			"_title": "Stage: Giant Branch Wolf-Rayet star",
+			"_text": "The label",
+			"_type": "string"
+		},{
+			"_title": "Stage: Helium White Dwarf",
+			"_text": "The label",
+			"_type": "string"
+		},{
+			"_title": "Stage: Carbon/Oxygen White Dwarf",
+			"_text": "The label",
+			"_type": "string"
+		},{
+			"_title": "Stage: Oxygen/Neon White Dwarf",
+			"_text": "The label",
+			"_type": "string"
+		},{
+			"_title": "Stage: Neutron Star",
+			"_text": "The label",
+			"_type": "string"
+		},{
+			"_title": "Stage: Black Hole",
+			"_text": "The label",
+			"_type": "string"
+		},{
+			"_title": "Stage: Massless Supernova",
+			"_text": "The label",
+			"_type": "string"
+		}],
+		"intro": {
+			"_title": "Introduction",
+			"title": { "_title": "Title", "_text": "The title", "_type": "string" },
+			"content": {
+				"_title": "Text",
+				"_text": "The start text. This can contain HTML.",
+				"_type": "textarea",
+				"_height": "8em"
+			}
+		},
+		"modes": { 
+			"_title" : "The Modes",
+			"normal": { "_title": "Normal", "_text": "Name of the default mode", "_type": "string" },
+			"advanced": { "_title": "Advanced", "_text": "Name for the advanced mode", "_type": "string" }
+		},
+		"about": {
+			"_title": "About Star in a Box",
+			"title": {
+				"_title": "About",
+				"_text": "The title",
+				"_type": "string"
+			},
+			"content" : {
+				"_title": "Intro",
+				"_text": "The about text. This can contain HTML. Use the <code>%CONTROLLIST%</code> key at the place where the keyboard command list will be inserted.",
+				"_type": "textarea",
+				"_height": "28em"
+			}
+		},
+		"tutorial": [{
+				"_title": "Tutorial step 1",
+				"_text": "The first step of the introductory tutorial. This highlights the mass selector and points out that it can be changed.",
+				"_type": "textarea",
+				"_height": "4em"
+			},{
+				"_title": "Tutorial step 2",
+				"_text": "The second step of the introductory tutorial. This highlights the star on the HR diagram and explains that the dashed line shows how the star's luminosity and temperature will change over its life. Use the key <code>%COLOR%</code> to insert the CSS colour of the dashed line.",
+				"_type": "textarea",
+				"_height": "4em"
+			},{
+				"_title": "Tutorial step 3",
+				"_text": "The last step of the introductory tutorial. This highlights the play button.",
+				"_type": "textarea",
+				"_height": "4em"
+			}
+		],
+		"data": {
+			"_title": "Data Table",
+			"title": {
+				"_title": "Title",
+				"_text": "Title of the data table screen",
+				"_type": "string"
+			},
+			"content": {
+				"_title": "Text",
+				"_text": "Use the keys <code>%MASS%</code> for the mass, <code>%TABLE%</code> for the table, and <code>%CSV%</code> for the CSV file link.",
+				"_type": "textarea",
+				"_height": "6em"
+			}
+		},
+		"open": {
+			"_title": "Open",
+			"_text": "The label on the button to open the lid of the box",
+			"_type": "string"
+		},
+		"close": {
+			"_title": "Close",
+			"_text": "The label on the button to close the lid of the box",
+			"_type": "string"
+		},
+		"preparing": {
+			"_title": "Preparing",
+			"_text": "The text shown whilst the star's properties are loading",
+			"_type": "string"
+		},
+		"sun": {
+			"_title": "Sun",
+			"_text": "The name for the Sun",
+			"_type": "string"
+		},
+		"stage": {
+			"_title": "Stage",
+			"_text": "A label",
+			"_type": "string"
+		},
+		"radius": {
+			"_title": "Radius",
+			"_text": "A label for the data table",
+			"_type": "string"
+		},
+		"radiusunit": {
+			"_title": "Radius Unit",
+			"_text": "The unit for the star's radius",
+			"_type": "string"
+		},
+		"duration": {
+			"_title": "Duration",
+			"_text": "A label for the data table",
+			"_type": "string"
+		},
+		"timescale": {
+			"_title": "Timescale",
+			"_text": "The label for millions of years",
+			"_type": "string"
+		},
+		"longtime": {
+			"_title": "Long time",
+			"_text": "Text to replace crazily large times",
+			"_type": "string"
+		},
+		"lum": {
+			"_title": "Luminosity",
+			"_text": "Word to describe luminosity (e.g. brightness/luminosity)",
+			"_type": "string"
+		},
+		"lumunit": {
+			"_title": "Luminosity unit",
+			"_text": "The unit label for luminosity",
+			"_type": "string"
+		},
+		"temp" : {
+			"_title": "Temperature",
+			"_text": "The word for temperature",
+			"_type": "string"
+		},
+		"tempunit" : {
+			"_title": "Temperature unit",
+			"_text": "The label to describe degrees Kelvin",
+			"_type": "string"
+		},
+		"cooldown": {
+			"_title": "Cool down",
+			"_text": "A string to describe the very long cooling from a temperature specified by the key <code>%TEMP%</code>.",
+			"_type": "string"
+		},
+		"cooling": {
+			"_title": "Cooling",
+			"_text": "A word to describe the fact that the star is cooling",
+			"_type": "string"
+		},
+		"mass": {
+			"_title": "Mass",
+			"_text": "A word to describe mass",
+			"_type": "string"
+		},
+		"massunit": {
+			"_title": "Mass unit",
+			"_text": "A label for the unit of 1 solar mass",
+			"_type": "string"
+		},
+		"ms" : {
+			"_title": "Main Sequence",
+			"_text": "A label for the main sequence on the HR diagram",
+			"_type": "string"
+		},
+		"speeds": [{
+			"_title": "Speeds: fastest",
+			"_text": "Label that appears in the drop-down list.",
+			"_type": "string"
+		},{
+			"_title": "Speeds: fast",
+			"_text": "Label that appears in the drop-down list.",
+			"_type": "string"
+		},{
+			"_title": "Speeds: normal",
+			"_text": "Label that appears in the drop-down list.",
+			"_type": "string"
+		},{
+			"_title": "Speeds: slow",
+			"_text": "Label that appears in the drop-down list.",
+			"_type": "string"
+		},{
+			"_title": "Speeds: slowest",
+			"_text": "Label that appears in the drop-down list.",
+			"_type": "string"
+		}],
+		"captions": {
+			"rScales": {
+				"_title": "Captions: Scales",
+				"_text": "The caption text",
+				"_type": "textarea",
+				"_height": "8em"
+			},
+			"rStopwatch": {
+				"_title": "Captions: Stopwatch",
+				"_text": "The caption text",
+				"_type": "textarea",
+				"_height": "8em"
+			},
+			"rlum": {
+				"_title": "Captions: Luminosity",
+				"_text": "The caption text",
+				"_type": "textarea",
+				"_height": "8em"
+			},
+			"thermometer": {
+				"_title": "Captions: Thermometer",
+				"_text": "The caption text",
+				"_type": "textarea",
+				"_height": "8em"
+			},
+			"rCanvas": {
+				"_title": "Captions: Size",
+				"_text": "The caption text",
+				"_type": "textarea",
+				"_height": "8em"
+			}
+		},
+		"buttons": {
+			"_title": "Buttons",
+			"play": {
+				"_title": "Start/pause",
+				"_text": "Button label (appears in mouseover)",
+				"_type": "string"
+			},
+			"reset": {
+				"_title": "Reset",
+				"_text": "Button label (appears in mouseover)",
+				"_type": "string"
+			},
+			"size": {
+				"_title": "Size comparison",
+				"_text": "Button label (appears in mouseover)",
+				"_type": "string"
+			},
+			"temperature": {
+				"_title": "Surface temperature",
+				"_text": "Button label (appears in mouseover)",
+				"_type": "string"
+			},
+			"luminosity": {
+				"_title": "Luminosity",
+				"_text": "Button label (appears in mouseover)",
+				"_type": "string"
+			},
+			"stage": {
+				"_title": "Stages in your star's life",
+				"_text": "Button label (appears in mouseover)",
+				"_type": "string"
+			},
+			"mass": {
+				"_title": "Mass",
+				"_text": "Button label (appears in mouseover)",
+				"_type": "string"
+			}
+		},
+		"keys": {
+			"_title": "Keyboard commands",
+			"play" : {
+				"_title": "Play",
+				"_text": "Start the star",
+				"_type": "string"
+			},
+			"lid" : {
+				"_title": "Lid",
+				"_text": "Open the lid",
+				"_type": "string"
+			},
+			"mode" : {
+				"_title": "Toggle mode",
+				"_text": "Toggle the mode",
+				"_type": "string"
+			},
+			"size" : {
+				"_title": "Size Panel",
+				"_text": "Show the size comparison panel",
+				"_type": "string"
+			},
+			"temperature" : {
+				"_title": "Temperature Panel",
+				"_text": "Show the temperature comparison panel",
+				"_type": "string"
+			},
+			"luminosity" : {
+				"_title": "Luminosity Panel",
+				"_text": "Show the luminosity comparison panel",
+				"_type": "string"
+			},
+			"stage" : {
+				"_title": "Stage Panel",
+				"_text": "Show the stage stopwatch panel",
+				"_type": "string"
+			},
+			"mass" : {
+				"_title": "Mass Panel",
+				"_text": "Show the mass scales panel",
+				"_type": "string"
+			}
+		},
+		"help": {
+			"_title": "Help",
+			"tab": {
+				"_title": "Information",
+				"_text": "The label used on information tab",
+				"_type": "string"
+			},
+			"content": {
+				"m0_2" : {
+					"_title": "0.2 solar masses",
+					"_text": "The help screen about this mass of star. Can contain HTML.",
+					"_type": "textarea"
+				},
+				"m0_65" : {
+					"_title": "0.65 solar masses",
+					"_text": "The help screen about this mass of star. Can contain HTML.",
+					"_type": "textarea"
+				},
+				"m1" : {
+					"_title": "1 solar mass",
+					"_text": "The help screen about this mass of star. Can contain HTML.",
+					"_type": "textarea"
+				},
+				"m2" : {
+					"_title": "2 solar masses",
+					"_text": "The help screen about this mass of star. Can contain HTML.",
+					"_type": "textarea"
+				},
+				"m4" : {
+					"_title": "4 solar masses",
+					"_text": "The help screen about this mass of star. Can contain HTML.",
+					"_type": "textarea"
+				},
+				"m6" : {
+					"_title": "6 solar masses",
+					"_text": "The help screen about this mass of star. Can contain HTML.",
+					"_type": "textarea"
+				},
+				"m10" : {
+					"_title": "10 solar masses",
+					"_text": "The help screen about this mass of star. Can contain HTML.",
+					"_type": "textarea"
+				},
+				"m20" : {
+					"_title": "20 solar masses",
+					"_text": "The help screen about this mass of star. Can contain HTML.",
+					"_type": "textarea"
+				},
+				"m30" : {
+					"_title": "30 solar masses",
+					"_text": "The help screen about this mass of star. Can contain HTML.",
+					"_type": "textarea"
+				},
+				"m40" : {
+					"_title": "40 solar masses",
+					"_text": "The help screen about this mass of star. Can contain HTML.",
+					"_type": "textarea"
+				}
+			}
+		}
+	}
+}
