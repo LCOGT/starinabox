@@ -117,14 +117,19 @@ $(document).ready(function () {
 			"m30" : [{"type":1, "lum":5.4128, "t":5.9496, "radius":22.18, "temp":22695, "RGB":"#aabfff"}, {"type":2, "lum":5.4158, "t":5.9582, "radius":1142.88, "temp":3892, "RGB":"#ffd29c"}, {"type":4, "lum":5.3705, "t":6.4737, "radius":1.2, "temp":56701, "RGB":"#9eb5ff"}, {"type":7, "lum":5.2557, "t":6.629, "radius":0.89, "temp":56701, "RGB":"#9eb5ff"}, {"type":8, "lum":5.4248, "t":6.6577, "radius":1.04, "temp":56701, "RGB":"#9eb5ff"}, {"type":14, "lum":5.4248, "t":6.6577, "radius":0, "temp":56701, "RGB":"#9eb5ff"}],
 			"m40" : [{"type":1, "lum":5.6288, "t":4.8716, "radius":29.01, "temp":22695, "RGB":"#aabfff"}, {"type":2, "lum":5.6187, "t":4.878, "radius":1433.51, "temp":3892, "RGB":"#ffd29c"}, {"type":4, "lum":5.5568, "t":5.1816, "radius":1.41, "temp":56701, "RGB":"#9eb5ff"}, {"type":7, "lum":5.3259, "t":5.448, "radius":0.95, "temp":56701, "RGB":"#9eb5ff"}, {"type":8, "lum":5.4786, "t":5.4732, "radius":1.06, "temp":56701, "RGB":"#9eb5ff"}, {"type":14, "lum":5.4841, "t":5.474, "radius":0, "temp":56701, "RGB":"#9eb5ff"}]
 		}
-		// Text descriptions
+		// Text descriptions - default phrasebook
 		this.phrasebook = {
+			"title": "Star in a Box",
 			"modes": { "normal": "Normal","advanced": "Advanced", "toggle": "Toggle mode" },
+			"error": {
+				"langload": "Couldn't load the language from %FILE%",
+				"starload": "The star failed to form. Please try again later."
+			},
 			"about": { "title": "About", "content": "<p>Star in a Box allows you to explore one of the most enigmatic tools in astronomy - the <a href=\"http://lcogt.net/book/h-r-diagram\">Hertzsprung-Russell diagram</a>.</p><p>When you first open the box you start with a star with the same mass as the Sun but you can change this to a different mass at any time. The tracks that you see on the graph (on the left) map the lifecycle of the star. You can play the animation of the star moving around the diagram, and see how its brightness, size, surface temperature, and mass change in the panels on the right.</p><p>Stars can take billions of years to go through their lives with the dramatic events taking place in relatively short periods of time. In the animation we speed up time when the star is not really changing much and slow things down for the dramatic phases of the star's life.</p><h3>Keyboard controls:</h3>%CONTROLLIST%<h3>Acknowledgments</h3><p><b>Design &amp; Development</b>: <a href=\"http://jyardley.co.uk\">Jon Yardley</a>, <a href=\"http://www.strudel.org.uk/\">Stuart Lowe</a>, <a href=\"http://lcogt.net/user/egomez\">Edward Gomez</a>, <a href=\"http://www.astro.cf.ac.uk/contactsandpeople/?page=full&id=151\">Haley Gomez</a> &amp; Chris North</p><p>Supported by <a href=\"http://lcogt.net/\">LCOGT</a> &amp; <a href=\"http://www.cf.ac.uk/\">Cardiff University</a></p><p>Based on the stellar evolution research of <a href=\"http://astronomy.swin.edu.au/~jhurley/\">Jarrod Hurley</a>, <a href=\"https://www.astro.ru.nl/wiki/general/people/onno_pols\">Onno Pols</a>, and <a href=\"http://www.ast.cam.ac.uk/~cat/\">Christopher Tout</a></p>" },
 			"data": { "title": "Data Table", "content": "This is a summary of the star that is currently selected.</p><p>Mass: %MASS%</p>%TABLE%<p>Download data as %CSV%</p>" },
 			"intro": {
 				"title": "Welcome!",
-				"content": "Hello"
+				"content": "Welcome to Star in a Box."
 			},
 			"open": "&lsaquo; Open the lid",
 			"close": "Close the lid &rsaquo;",
@@ -322,10 +327,9 @@ $(document).ready(function () {
 
 	StarInABox.prototype.loadConfig = function(lang){
 
-		if(lang) lang = { 'code': lang };
-		else lang = {'code': this.langshort };
+		if(!lang) lang = this.lang;
 
-		var dataurl = "config/"+lang.code+(this.mode ? "_"+this.mode : "")+".json";
+		var dataurl = "config/"+lang+(this.mode ? "_"+this.mode : "")+".json";
 
 		$.ajax({
 			url: dataurl,
@@ -334,16 +338,23 @@ $(document).ready(function () {
 			context: this,
 			error: function(){
 				if(lang == "en"){
-					if(console && typeof console.log==="function") console.log("Error: Couldn't load English language");
-					$('#loader').show().removeClass('done').addClass('loading').html('<div class="error">Error: couldn\'t load the language/mode at '+dataurl+'.</div>').delay(3000).fadeOut();
+					this.error((this.phrasebook && this.phrasebook.error && this.phrasebook.error.langload) ? this.phrasebook.error.langload.replace('%FILE%',dataurl) : "Couldn't load language from "+dataurl);
 				}else{
 					// Loop over to see if the current language shortcode is in our list
-					var n = (this.langs[lang.code]) ? this.langs[lang.code] : lang.code
-					if(console && typeof console.log==="function") console.log("Warning: Couldn't load "+n+". Attempting to load English instead");
-					this.loadConfig("en");
+					var n = (this.langs[lang]) ? this.langs[lang] : lang;
+					this.warn("Couldn't load "+n+".");
+					if(lang!=this.langshort){
+						// We couldn't find the long version of the language e.g. "en-GB" so try the short version
+						this.warn('Attempting to load '+this.langshort+'.');
+						this.loadConfig(this.langshort);
+					}else{
+						// Couldn't find anything so default to basic English
+						this.loadConfig("en");
+					}
 				}
 			},
 			success: function(data){
+				this.langcurrent = lang;
 				this.stages = data.phrasebook.stages;
 				$.extend(this.phrasebook, data.phrasebook);
 				this.setupMode();
@@ -352,6 +363,19 @@ $(document).ready(function () {
 		return this;
 	}
 
+	StarInABox.prototype.warn = function(msg){
+		if(console && typeof console.log==="function") console.log('Warning: '+msg)
+		return this;
+	}
+	
+	StarInABox.prototype.error = function(msg){
+		if($('#loader #loaderror').length==0) $('#loader').append('<div id="loaderror"></div>');
+		$('#loader #loaderror').html(msg);
+		$('#loader').addClass('error').show().delay(5000).fadeOut();
+		if(console && typeof console.log==="function") console.log('Error: '+msg)
+		return this;
+	}
+	
 	StarInABox.prototype.removeCrosshair = function(){
 
 		// Draw a crosshair to show current cursor position
@@ -540,6 +564,20 @@ $(document).ready(function () {
 	}
 
 	StarInABox.prototype.setupMode = function(){
+
+		// Update page title
+		if(this.phrasebook.title) $('html title').text(this.phrasebook.title);
+		
+		// Update lid image with one for this language
+		// We'll try to load it in the background and if that is successful we replace it.
+		// This allows for the non-existence of the appropriate file
+		if($('#box-lid #lid').length == 0) $('#box-lid').prepend('<div id="lid"><img src="css/images/lid_en.jpg" /></div>');
+		var cache = new Image();
+		var fn = function(){ $('#box-lid #lid img').attr('src',cache.src); }
+		cache.onload = fn;
+		cache.src = 'css/images/lid_'+this.langcurrent+'.jpg';
+		if(cache.complete) fn();
+
 
 		// Update intro message
 		if(this.phrasebook.intro) $('#welcome-content h1').html(this.phrasebook.intro.title);
@@ -1050,7 +1088,6 @@ $(document).ready(function () {
 	StarInABox.prototype.loadChartData = function(mass) {
 	
 		var dataurl = this.fileName(mass)+".json";
-		//console.log('loading '+mass+' solar mass star from '+dataurl);
 
 		$.ajax({
 			url: dataurl,
@@ -1058,7 +1095,7 @@ $(document).ready(function () {
 			dataType: 'json',
 			context: this,
 			error: function(blah){
-				$('#loader').show().removeClass('done').addClass('loading').html('<div class="error">Error: The star failed to form. Please try again later.</div>').delay(3000).fadeOut();
+				this.error((this.phrasebook && this.phrasebook.error && this.phrasebook.error.starload) ? this.phrasebook.error.starload : "The star failed to form. Sorry.");
 			},
 			success: function(data){
 				this.data = data;
@@ -1345,10 +1382,10 @@ $(document).ready(function () {
 	}
 	StarInABox.prototype.loadingStar = function() {
 		this.loading = true;
-		$('#loader').show().removeClass('done').addClass('loading').html('<div id="loading">'+this.phrasebook.preparing+'</div>').width($(window).width()).height($(document).height());
+		$('#loader').removeClass('done').addClass('loading').html('<div id="loading">'+this.phrasebook.preparing+'</div>').width($(window).width()).height($(document).height());
 	}
 	StarInABox.prototype.doneLoadingStar = function() {
-		$('#loader').html('').removeClass('loading').addClass('done').hide();
+		$('#loader').removeClass('loading').addClass('done').find('.loading').html('');
 		this.updateSummary();
 		this.loading = false;
 	}

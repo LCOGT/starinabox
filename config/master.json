@@ -9,6 +9,7 @@
 	},
 	"phrasebook": {
 		"_title": "Phrasebook",
+		"title": { "_title": "Star in a Box", "_text": "The title", "_type": "string" },
 		"stages": [{
 			"_title": "Stage: Deeply or fully convective low mass MS star",
 			"_text": "The label",

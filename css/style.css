@@ -147,7 +147,6 @@ body {
 }
 #box-lid {
     z-index: 1001;
-    background: url(images/box-lid_s1.jpg) no-repeat center center;
     width: 993px;
     height: 573px;
     position: absolute;
@@ -156,7 +155,14 @@ body {
     cursor: pointer;
     overflow: visible!important;
 }
-
+#lid {
+	position: relative;
+	left: 0px;
+	top: 0px;
+	width: 993px;
+	height: 573px;
+	z-index: 109;
+}
 #inner-box {
     overflow: hidden;
     width: 900px;
@@ -529,9 +535,10 @@ a#animateEvolveReset:active {
 
 #evolveSpeedDiv { margin-bottom: 10px }
 
-#loader.done { display: none }
+#loader.done { display: none; }
+#loader.error { display: block; }
 
-#loader.loading {
+#loader {
 	z-index: 1100;
 	background-color: rgba(0,0,0,0.5);
 	position: absolute;
@@ -542,7 +549,7 @@ a#animateEvolveReset:active {
 	color: #fff;
 }
 
-#loader #loading,#loader .error {
+#loader #loading,#loader #loaderror {
     position: relative;
     margin: 250px auto 0;
     display: block;

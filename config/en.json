@@ -1,6 +1,7 @@
 {
 	"language" : { "code" : "en", "name" : "English", "alignment": "left", "mode": "normal" },
 	"phrasebook": {
+		"title": "Star in a Box",
 		"stages": ["Main Sequence","Main Sequence","Red Giant","Red Giant","Red Giant","Red Giant","Red Giant","Blue Giant","Blue Giant","Blue Giant","White Dwarf","White Dwarf","White Dwarf","Neutron Star","Black Hole","Obliteration"],
 		"modes": { "normal": "Normal","advanced": "Advanced", "toggle": "Toggle mode" },
 		"about": { "title": "About", "content" : "<p>Star in a Box allows you to explore one of the most enigmatic tools in astronomy - the <a href=\"http://lcogt.net/book/h-r-diagram\">Hertzsprung-Russell diagram</a>.</p><p>When you first open the box you start with a star with the same mass as the Sun but you can change this to a different mass at any time. The tracks that you see on the graph (on the left) map the lifecycle of the star. You can play the animation of the star moving around the diagram, and see how its brightness, size, surface temperature, and mass change in the panels on the right.</p><p>Stars can take billions of years to go through their lives with the dramatic events taking place in relatively short periods of time. In the animation we speed up time when the star is not really changing much and slow things down for the dramatic phases of the star's life.</p><h3>Keyboard controls:</h3>%CONTROLLIST%<h3>Acknowledgments</h3><p><b>Design &amp; <a href=\"https://github.com/zemogle/starinabox\">Development</a></b>: <a href=\"http://jyardley.co.uk\">Jon Yardley</a>, <a href=\"http://www.strudel.org.uk/\">Stuart Lowe</a>, <a href=\"http://lcogt.net/user/egomez\">Edward Gomez</a>, <a href=\"http://www.astro.cf.ac.uk/contactsandpeople/?page=full&id=151\">Haley Gomez</a> &amp; Chris North</p><p>Supported by <a href=\"http://lcogt.net/\">LCOGT</a> &amp; <a href=\"http://www.cf.ac.uk/\">Cardiff University</a></p><p>Based on the stellar evolution research of <a href=\"http://astronomy.swin.edu.au/~jhurley/\">Jarrod Hurley</a>, <a href=\"https://www.astro.ru.nl/wiki/general/people/onno_pols\">Onno Pols</a>, and <a href=\"http://www.ast.cam.ac.uk/~cat/\">Christopher Tout</a></p>" },
@@ -74,6 +75,10 @@
 			"rlum": "<h2>Brightness</h2><p>How the brightness of your star changes compared to the current brightness of our Sun (which has a value of 1 in this light meter).</p><p>This light meter also changes colour to match your star.</p>",
 			"thermometer": "<h2>Surface Temperature</h2><p>How the surface temperature of your star changes with time. The temperatures are given in Kelvin which is usually abbreviated to K. Remember that:</p><blockquote style=\"text-align:center;\">0&deg;C = 273 K</blockquote>",
 			"rCanvas": "<h2>Size</h2><p>How your star changes in size and colour, compared to the current conditions of the Sun.</p>"
+		},
+		"error": {
+			"langload": "Couldn't load the language from %FILE%",
+			"starload": "The star failed to form. Please try again later."
 		}
 	}
 }
