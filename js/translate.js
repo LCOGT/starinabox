@@ -219,7 +219,8 @@
 	Translator.prototype.getOutput = function(){
 		var json = sanitize($("form#language").formToJSON(this));
 		//json = json.substring(0,json.length-4).substring(17).replace(/\n\t\t/g,'\n\t')+'}';
-		var output = "<pre>"+json+"</pre>";
+		var css = (json) ? ' style="height:'+(json.split("\n").length + 5)+'em;font-family:monospace;"' : ''
+		var output = '<textarea onfocus="this.select()"'+css+' wrap="off">'+json+"</textarea>";
 
 		if($('#output').length == 0) $('#translation').after('<div id="output"></div>')
 

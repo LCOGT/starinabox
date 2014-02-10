@@ -81,7 +81,7 @@ textarea {
 ul i {
 	color: #999;
 }
-pre { overflow-x: auto; width: 100%; }
+pre, #output textarea { overflow-x: auto; width: 100%; }
 pre.code {
 	border-bottom-right-radius: 1em;
 	border-top-right-radius: 1em;
