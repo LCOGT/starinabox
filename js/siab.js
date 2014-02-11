@@ -560,13 +560,15 @@ $(document).ready(function () {
 			$('#summary-content').focus();
 		});
 
-		//show summary
-		$('#lang').click({box:this},function (e) {
-			$('#welcome').removeClass('help summary').addClass('lang');
-			if(e.data.box.open) e.data.box.toggleLid();
-			$('#lang-content').focus();
-		});
-
+		if(this.langs.length > 1){
+			$('#menu ul').prepend('<li><a id="lang" href="#selectlang">['+this.langcurrent+']</a></li>');
+			//show summary
+			$('#lang').click({box:this},function (e) {
+				$('#welcome').removeClass('help summary').addClass('lang');
+				if(e.data.box.open) e.data.box.toggleLid();
+				$('#lang-content').focus();
+			});
+		}
 
 		this.el = {
 			"time": $("#tevTime"),
@@ -635,7 +637,7 @@ $(document).ready(function () {
 		// Update box border options
 		if(this.phrasebook.data) $('#summary').text(this.phrasebook.data.title);
 		if(this.phrasebook.about) $('#help').text(this.phrasebook.about.title);
-		$('#lang').text('['+this.langcurrent+']');
+		if(this.langs.length > 1) $('#lang').text('['+this.langcurrent+']');
 
 		// Update title attribute for mass selector
 		if(this.phrasebook.massunit) $('#starMass select').attr('title',htmlDecode(this.phrasebook.mass+' ('+this.phrasebook.massunit+')'));
