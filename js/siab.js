@@ -637,7 +637,7 @@ $(document).ready(function () {
 		// Update box border options
 		if(this.phrasebook.data) $('#summary').text(this.phrasebook.data.title);
 		if(this.phrasebook.about) $('#help').text(this.phrasebook.about.title);
-		if(this.langs.length > 1) $('#lang').text('['+this.langcurrent+']');
+		if(this.langs.length > 1) $('#lang').text('['+this.langcurrent+']').attr('title',(this.phrasebook.language ? this.phrasebook.language : ''));
 
 		// Update title attribute for mass selector
 		if(this.phrasebook.massunit) $('#starMass select').attr('title',htmlDecode(this.phrasebook.mass+' ('+this.phrasebook.massunit+')'));
