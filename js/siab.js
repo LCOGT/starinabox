@@ -56,9 +56,11 @@ $(document).ready(function () {
 		// Get query string
 		this.q = $.query();
 
-		// Languages - get the browser's language code e.g. "en-GB" and find the short version of it too e.g. "en"
+		// Define which languages will appear in the language menu
+		this.langs = ["en","cy"];
+		// Create a lookup table for language codes and names
 		// Country codes at http://en.wikipedia.org/wiki/List_of_ISO_639-1_codes
-		this.langs = {
+		this.langlookup = {
 			'en':'English',
 			'af':'Afrikaans',
 			'ar':'&#1575;&#1604;&#1593;&#1585;&#1576;&#1610;&#1577;',
@@ -87,10 +89,12 @@ $(document).ready(function () {
 			'zh':'&#20013;&#25991;',
 			'zh-yue':'&#31925;&#35486;'
 		};
-		// First item in this array is the default language
+		// See if there is a preferred language
+		// Get the browser's language code e.g. "en-GB" and find the short version of it too e.g. "en"
 		this.lang = (navigator) ? (navigator.userLanguage||navigator.systemLanguage||navigator.language||browser.language) : "";			// Set the user language
-		// Over-ride with query string set value
+		// Over-ride with query string value if it exists
 		if(typeof this.q.lang=="string") this.lang = this.q.lang;
+		// Get the short version (2 characters) of the language code
 		this.langshort = (this.lang.indexOf('-') > 0 ? this.lang.substring(0,this.lang.indexOf('-')) : this.lang.substring(0,2));
 
 
@@ -341,7 +345,7 @@ $(document).ready(function () {
 					this.error((this.phrasebook && this.phrasebook.error && this.phrasebook.error.langload) ? this.phrasebook.error.langload.replace('%FILE%',dataurl) : "Couldn't load language from "+dataurl);
 				}else{
 					// Loop over to see if the current language shortcode is in our list
-					var n = (this.langs[lang]) ? this.langs[lang] : lang;
+					var n = (this.langlookup[lang]) ? this.langlookup[lang] : lang;
 					this.warn("Couldn't load "+n+".");
 					if(lang!=this.langshort){
 						// We couldn't find the long version of the language e.g. "en-GB" so try the short version
@@ -500,7 +504,7 @@ $(document).ready(function () {
 
 		// help
 		$('#help').click({box:this},function(e){
-			$('#welcome').removeClass('summary').addClass('help');
+			$('#welcome').removeClass('summary lang').addClass('help');
 			if(e.data.box.open) e.data.box.toggleLid();
 			$('#welcome #help-content').css({opacity: 0}).animate({opacity: 1},500);
 		});
@@ -550,11 +554,19 @@ $(document).ready(function () {
 		 
 		//show summary
 		$('#summary').click({box:this},function (e) {
-			$('#welcome').removeClass('help').addClass('summary');
+			$('#welcome').removeClass('help lang').addClass('summary');
 			if(e.data.box.open) e.data.box.toggleLid();
 			e.data.box.displaySummary();
 			$('#summary-content').focus();
 		});
+
+		//show summary
+		$('#lang').click({box:this},function (e) {
+			$('#welcome').removeClass('help summary').addClass('lang');
+			if(e.data.box.open) e.data.box.toggleLid();
+			$('#lang-content').focus();
+		});
+
 
 		this.el = {
 			"time": $("#tevTime"),
@@ -621,8 +633,9 @@ $(document).ready(function () {
 		}
 
 		// Update box border options
-		if(this.phrasebook.about) $('#summary').text(this.phrasebook.data.title);
+		if(this.phrasebook.data) $('#summary').text(this.phrasebook.data.title);
 		if(this.phrasebook.about) $('#help').text(this.phrasebook.about.title);
+		$('#lang').text('['+this.langcurrent+']');
 
 		// Update title attribute for mass selector
 		if(this.phrasebook.massunit) $('#starMass select').attr('title',htmlDecode(this.phrasebook.mass+' ('+this.phrasebook.massunit+')'));
@@ -645,6 +658,20 @@ $(document).ready(function () {
 			$('#help-content').html('<h2>'+this.phrasebook.about.title+'</h2>'+this.phrasebook.about.content.replace("%CONTROLLIST%",o));
 		}
 		
+		$('#lang-content ul a').off('click');
+		// Build the language selector
+		var html = '<h2>'+this.phrasebook.language+'</h2><ul>';
+		var css;
+		for(var i = 0; i < this.langs.length ; i++){
+			css = (this.langs[i]==this.langcurrent) ? ' class="selected"' : '';
+			html += '<li'+css+'><a href="#" data="'+this.langs[i]+'">'+this.langlookup[this.langs[i]]+' ['+this.langs[i]+']</a></li>';
+		}
+		html += '</ul>';
+		$('#lang-content').html(html);
+		// Add the events
+		$('#lang-content ul a').on('click',{me:this},function(e){
+			e.data.me.loadConfig($(this).attr('data'));
+		});
 
 		this.updateChart();
 		return this;

@@ -653,15 +653,19 @@ a#animateEvolveReset:active {
 	top:-15px;
 	right:30px;
 }
-#welcome #help-content,#welcome #summary-content { display: none; }
-#welcome.help #welcome-content,#welcome.help #summary-content { display: none; }
+#welcome #help-content,#welcome #summary-content,#welcome #lang-content { display: none; }
+#welcome.help #welcome-content,#welcome.help #summary-content, #welcome.help #lang-content { display: none; }
 #welcome.summary #welcome-content,#welcome.help #help-content { display: none; }
+#welcome.lang #welcome-content,#welcome.lang #help-content { display: none; }
 #welcome.help #summary-content,#welcome.help #help-content { display: none; }
-#welcome.help #help-content,#welcome.summary #summary-content { display: block; }
+#welcome.help #help-content,#welcome.summary #summary-content, #welcome.lang #lang-content { display: block; }
 
-#help-content {
-	text-align: left;
-}
+#lang-content { text-align: left; }
+#lang-content ul { list-style: none; margin: 0px 0px 1em 0px; }
+#lang-content li { display: block; }
+#lang-content li.selected { font-weight: bold; }
+#lang-content li a { display: inline-block; padding: 0.5em 0; text-decoration: none; }
+#help-content { text-align: left; }
 #help-content ul.keyboard-controls {
 	list-style: none;
 	margin: 0px;
@@ -732,6 +736,10 @@ p, #welcome p {
 	font-weight: bold;
 }
 
+#menu ul { list-style: none; padding: 0px; margin: 0px; }
+#menu li { display: inline-block; border-left: 2px solid #ddd; }
+#menu li:first-child { border-left: 0px; }
+#menu a { display: inline-block; padding: 0 0.5em; }
 #menu a,#info a {
 	color: #ddd;
 	text-decoration: none;
