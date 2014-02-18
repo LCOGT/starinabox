@@ -231,6 +231,11 @@
 			"_text": "A label for the main sequence on the HR diagram",
 			"_type": "string"
 		},
+		"caution" : {
+			"_title": "Warning",
+			"_text": "A label warning that a supernova is about to occur",
+			"_type": "string"
+		},
 		"speeds": [{
 			"_title": "Speeds: fastest",
 			"_text": "Label that appears in the drop-down list.",

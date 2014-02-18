@@ -617,6 +617,8 @@ $(document).ready(function () {
 		this.sizeComparison.sunLabel.attr('text',this.phrasebook.sun);
 		this.el.stagelabel.find('strong').html(this.phrasebook.stage+":");
 		this.el.time.find('.units').html(this.phrasebook.timescale);
+		if(this.phrasebook.caution) $('.caution').html(this.phrasebook.caution);
+
 		$("#lid-open a").html(this.open ? this.phrasebook.close : this.phrasebook.open);
 
 		// Update panel buttons
