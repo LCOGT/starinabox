@@ -614,8 +614,8 @@ a#animateEvolveReset:active {
 
 #welcome{
 	position: absolute;
-	top:48px;
-	right: 48px;
+	top: 32px;
+	right: 32px;
 	width: 320px;
 	min-height: 210px;
 	text-align: right;
@@ -628,7 +628,7 @@ a#animateEvolveReset:active {
 	cursor: default;
 	z-index: 110;
 	overflow: auto;
-	max-height: 450px;
+	max-height: 460px;
 }
 
 #welcome-content {
@@ -751,7 +751,7 @@ p, #welcome p {
 }
 
 #welcome.help{
-	width: 800px;
+	width: 850px;
 	-webkit-transition: all 1s ease-in-out;
 	-moz-transition: all 1s ease-in-out;
 	-o-transition: all 1s ease-in-out;
