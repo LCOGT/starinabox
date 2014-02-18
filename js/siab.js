@@ -592,6 +592,11 @@ $(document).ready(function () {
 		cache.src = 'css/images/lid_'+this.langcurrent+'.jpg';
 		if(cache.complete) fn();
 
+		// Update mode labels
+		if(this.phrasebook.modes){
+			if(this.phrasebook.modes.normal) $('#modeform label').eq(0).text(this.phrasebook.modes.normal);
+			if(this.phrasebook.modes.advanced) $('#modeform label').eq(1).text(this.phrasebook.modes.advanced);
+		}
 
 		// Update intro message
 		if(this.phrasebook.intro) $('#welcome-content h1').html(this.phrasebook.intro.title);
@@ -607,6 +612,7 @@ $(document).ready(function () {
 		this.thermometer.updateLanguage(this.phrasebook);
 		this.lightmeter.updateLanguage(this.phrasebook);
 		this.stopwatch.rebuild();
+		if(this.phrasebook.mass) $('#starMass .value strong').text(this.phrasebook.mass);
 		$(this.scaletext).find('.units').html(this.phrasebook.massunit);
 		this.sizeComparison.sunLabel.attr('text',this.phrasebook.sun);
 		this.el.stagelabel.find('strong').html(this.phrasebook.stage+":");
