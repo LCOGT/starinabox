@@ -17,6 +17,14 @@ Are you a teacher? Do you want to use Star in a Box in your classroom lessons? T
 * Beginners level -  [worksheet](https://docs.google.com/a/lcogt.net/document/d/1yPAWqjH8DxE-ZC4VIFZ8sLlhnmeyQl0nwvDixCiSoKs/edit) and [solutions](https://docs.google.com/a/lcogt.net/document/d/1mW_LjPX9wUMvwH_ZkGnYtkxO4h4WYFS8Uo1hre43538/edit)
 * Intermediate level - [worksheet](https://docs.google.com/document/d/18h5U27n_337Dj5Gx0GM2GaErgcoL81G80XpHKrkq0jE/edit) and [solutions](https://docs.google.com/document/d/15RtYlmsvhiFlaWVzgBRc-BvVVaAnb544t73i1mO9_xk/edit)
 
+Translations
+----
+
+Star in a Box can handle multiple languages. The simplest way to translate this app is:
+* Fill out the translation forms [normal](http://lcogt.net/siab/translate.html) and [advanced](http://lcogt.net/siab/translate_advanced.html),
+* Copy the JSON output at the bottom of the page
+* Then either email them to me (contact details on the translation page) or submit a pull request with the language file included.
+
 Code
 ----
 
