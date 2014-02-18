@@ -594,8 +594,8 @@ $(document).ready(function () {
 
 		// Update mode labels
 		if(this.phrasebook.modes){
-			if(this.phrasebook.modes.normal) $('#modeform label').eq(0).text(this.phrasebook.modes.normal);
-			if(this.phrasebook.modes.advanced) $('#modeform label').eq(1).text(this.phrasebook.modes.advanced);
+			if(this.phrasebook.modes.normal) $('#modeform label').eq(0).html(this.phrasebook.modes.normal);
+			if(this.phrasebook.modes.advanced) $('#modeform label').eq(1).html(this.phrasebook.modes.advanced);
 		}
 
 		// Update intro message
@@ -612,7 +612,7 @@ $(document).ready(function () {
 		this.thermometer.updateLanguage(this.phrasebook);
 		this.lightmeter.updateLanguage(this.phrasebook);
 		this.stopwatch.rebuild();
-		if(this.phrasebook.mass) $('#starMass .value strong').text(this.phrasebook.mass);
+		if(this.phrasebook.mass) $('#starMass .value strong').html(this.phrasebook.mass);
 		$(this.scaletext).find('.units').html(this.phrasebook.massunit);
 		this.sizeComparison.sunLabel.attr('text',this.phrasebook.sun);
 		this.el.stagelabel.find('strong').html(this.phrasebook.stage+":");
