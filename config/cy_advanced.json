@@ -3,8 +3,8 @@
   "code": "cy",
   "name": "Cymraeg",
   "alignment": "left",
-  "mode": "normal",
-  "translator": ""
+  "mode": "advanced",
+  "translator": "Jake Hughes"
  },
  "phrasebook": {
   "title": "Seren Mewn Bocs",
@@ -34,7 +34,7 @@
   },
   "about": {
    "title": "Amdanynt",
-   "content": "<p>Mae Seren Mewn Bocs yn eich galluogi i archwilio un o'r offerynnau mwyaf enigmatig mewn seryddiaeth - y <a href=\"http://lcogt.net/book/h-r-diagram\">diagram Hertzsprung-Russell</a>.</p><p>Pan fyddwch yn agor y blwch byddwch yn dechrau gyda seren &#226;'r un m&#224;s &#226;'r Haul ond gallwch newid hyn i m&#224;s gwahanol ar unrhyw adeg. Mae'r traciau a welwch ar y graff (ar y chwith) yn mapio'r cylch bywyd o'r seren. Gallwch chwarae yr animeiddiad o'r seren yn symud o gwmpas y diagram, a gweld sut y mae ei disgleirdeb, maint, tymheredd wyneb, a m&#224;s yn newid yn y paneli ar y dde.</p><p>Gall s&#234;r cymryd biliynau o flynyddoedd i fynd drwy eu bywydau gyda digwyddiadau dramatig yn digwydd mewn cyfnodau cymharol fyr o amser. Yn yr animeiddiad rydym yn cyflymu'r amser pan nad yw'r seren yn newid yn wirioneddol ac yn arafu lawr ar gyfer y cyfnodau dramatig yn fywyd y seren.</p><h3>Cyfarwyddiadau bysellfwrdd:</h3>%CONTROLLIST%<h3>Cydnabyddiaethau</h3><p><b>Design & <a href=\"https://github.com/zemogle/starinabox\">Development</a></b>: <a href=\"http://jyardley.co.uk\">Jon Yardley</a>, <a href=\"http://www.strudel.org.uk/\">Stuart Lowe</a>, <a href=\"http://lcogt.net/user/egomez\">Edward Gomez</a>, <a href=\"http://www.astro.cf.ac.uk/contactsandpeople/?page=full&id=151\">Haley Gomez</a> & Chris North</p><p>Supported by <a href=\"http://lcogt.net/\">LCOGT</a> & <a href=\"http://www.cf.ac.uk/\">Cardiff University</a></p><p>Yn seiliedig ar yr ymchwil esblygiad serol o <a href=\"http://astronomy.swin.edu.au/~jhurley/\">Jarrod Hurley</a>, <a href=\"https://www.astro.ru.nl/wiki/general/people/onno_pols\">Onno Pols</a>, a <a href=\"http://www.ast.cam.ac.uk/~cat/\">Christopher Tout</a></p>"
+   "content": "<p>Mae Seren Mewn Bocs yn eich galluogi i archwilio un o'r offerynnau mwyaf enigmatig mewn seryddiaeth - y <a href=\"http://lcogt.net/book/h-r-diagram\">diagram Hertzsprung-Russell</a>.</p><p>Pan fyddwch yn agor y blwch byddwch yn dechrau gyda seren &#226;'r un m&#224;s &#226;'r Haul ond gallwch newid hyn i m&#224;s gwahanol ar unrhyw adeg. Mae'r traciau a welwch ar y graff (ar y chwith) yn mapio'r cylch bywyd o'r seren. Gallwch chwarae yr animeiddiad o'r seren yn symud o gwmpas y diagram, a gweld sut y mae ei goleuedd, maint, tymheredd wyneb, a m&#224;s yn newid yn y paneli ar y dde.</p><p>Gall s&#234;r cymryd biliynau o flynyddoedd i fynd drwy eu bywydau gyda digwyddiadau dramatig yn digwydd mewn cyfnodau cymharol fyr o amser. Yn yr animeiddiad rydym yn cyflymu'r amser pan nad yw'r seren yn newid yn wirioneddol ac yn arafu lawr ar gyfer y cyfnodau dramatig yn fywyd y seren.</p><h3>Cyfarwyddiadau bysellfwrdd:</h3>%CONTROLLIST%<h3>Cydnabyddiaethau</h3><p><b>Design & <a href=\"https://github.com/zemogle/starinabox\">Development</a></b>: <a href=\"http://jyardley.co.uk\">Jon Yardley</a>, <a href=\"http://www.strudel.org.uk/\">Stuart Lowe</a>, <a href=\"http://lcogt.net/user/egomez\">Edward Gomez</a>, <a href=\"http://www.astro.cf.ac.uk/contactsandpeople/?page=full&id=151\">Haley Gomez</a> & Chris North</p><p>Supported by <a href=\"http://lcogt.net/\">LCOGT</a> & <a href=\"http://www.cf.ac.uk/\">Cardiff University</a></p><p>Yn seiliedig ar yr ymchwil esblygiad serol o <a href=\"http://astronomy.swin.edu.au/~jhurley/\">Jarrod Hurley</a>, <a href=\"https://www.astro.ru.nl/wiki/general/people/onno_pols\">Onno Pols</a>, a <a href=\"http://www.ast.cam.ac.uk/~cat/\">Christopher Tout</a></p>"
   },
   "data": {
    "title": "Tabl Data",
@@ -46,13 +46,13 @@
    "mode": "Switsh eiliw",
    "size": "Panel maint",
    "temperature": "Panel tymheredd",
-   "luminosity": "Panel disgleirdeb",
+   "luminosity": "Panel goleuedd",
    "stage": "Panel cyfnod",
    "mass": "Panel m&#224;s"
   },
   "intro": {
    "title": "Croeso!",
-   "content": "<p>Rydych nawr yn berchennog balch Seren Mewn Bocs.</p><p>Tu mewn y blwch hwn, gallwch animeiddio y gwahanol gyfnodau ym mywyd seren a gweld sut y mae ei disgleirdeb, maint, a m&#224;s yn newid gydag amser.</p><p>Unwaith y byddwch wedi agor y blwch<strong>cliciwch y botwm chwarae</strong> i ddechrau animeiddio.</p>"
+   "content": "<p>Rydych nawr yn berchennog balch Seren Mewn Bocs.</p><p>Tu mewn y blwch hwn, gallwch animeiddio y gwahanol gyfnodau ym mywyd seren a gweld sut y mae ei goleuedd, maint, a m&#224;s yn newid gydag amser.</p><p>Unwaith y byddwch wedi agor y blwch<strong>cliciwch y botwm chwarae</strong> i ddechrau animeiddio.</p>"
   },
   "open": "&#8249; Agor y caead",
   "close": "Cae'r caead &#8250;",
@@ -75,18 +75,18 @@
   "ms": "Prif Dilyniant",
   "caution": "Rhybudd: Uwchnofa Gerllaw",
   "speeds": [
-   ">>>>>",
-   ">>>>",
-   ">>>",
-   ">>",
-   ">"
+   "cyflymaf",
+   "cyflym",
+   "aferol",
+   "araf",
+   "arafaf"
   ],
   "buttons": {
    "play": "Dechrau/Saib",
    "reset": "N&#244;l i'r dechrau o bywyd eich seren",
    "size": "Cymharu y maint",
    "temperature": "Tymheredd arwyneb",
-   "luminosity": "Disgleirdeb",
+   "luminosity": "Goleuedd",
    "stage": "Cyfnodau yn bywyd eich seren",
    "mass": "M&#224;s"
   },
@@ -107,13 +107,13 @@
   },
   "tutorial": [
    "Croeso! Ar hyn o bryd mae gennych seren 1 m&#224;s solar ond gallwch newid hynny yma, os ydych yn dymuno.",
-   "Dyma eich seren ar ddechrau ei bywyd. Mae'r <span style=\"color:%COLOR%\">llinell doredig</span> yn dangos sut y bydd disgleirdeb y seren a thymheredd yn newid yn ystod ei fywyd.",
+   "Dyma eich seren ar ddechrau ei bywyd. Mae'r <span style=\"color:%COLOR%\">llinell doredig</span> yn dangos sut y bydd goleuedd y seren a thymheredd yn newid yn ystod ei fywyd.",
    "Cliciwch ar y botwm chwarae pan fyddwch yn barod i ddechrau animeiddio eich seren."
   ],
   "captions": {
    "rScales": "<h2>M&#224;s</h2><p>Mae hyn yn dangos sut y m&#224;s eich seren yn amrywio yn ystod ei fywyd. Mae s&#234;r yn colli m&#224;s yn raddol trwy ffiwsio hydrogen i mewn i heliwm ac elfennau trymach. Gallant hefyd yn colli mas trwy gwyntoedd chwythu oddi ar eu wyneb ac ar adegau dramatig yn eu bywydau.</p><p>Mae s&#234;r yn enfawr, felly, yn hytrach na mesur hyn mewn cilogramau, rydym yn mesur hyn o gymharu &#226; ein Haul sydd 1 M&#224;s yr Haul - sydd tua 2 filiwn miliwn miliwn miliwn miliwn kg!</p>",
    "rStopwatch": "<h2>Camau ym mywyd eich seren</h2><p>Mae'r stopwats yn dangos yr amser cymharol y seren yn treulio ym mhob cam o'i bywyd. Yn yr animeiddiad ydym yn cyflymu'r amser pan nad yw'r seren yn newid yn wirioneddol, ac yn arafu lawr ar gyfer y cyfnodau dramatig yn fywyd y seren.</p>",
-   "rlum": "<h2>Disgleirdeb</h2><p>Sut mae ddisgleirdeb eich seren yn newid i gymharu a ddisgleirdeb presennol yr Haul (sydd &#226; gwerth o 1 ar raddfa hyn).</p><p>Mae'r raddfa hefyd yn newid i gyd-fynd gyda'ch seren</p>",
+   "rlum": "<h2>Goleuedd</h2><p>Sut mae goleuedd eich seren yn newid i gymharu a goleuedd presennol yr Haul (sydd &#226; gwerth o 1 ar raddfa hyn).</p><p>Mae'r raddfa hefyd yn newid i gyd-fynd gyda'ch seren</p>",
    "thermometer": "<h2>Tymheredd Arwyneb</h2><p>Sut mae'r tymheredd arwyneb eich seren yn newid gyda amser. Mae'r tymheredd yn cael eu rhoi yn Kelvin sydd fel arfer yn cael ei dalfyrru i K. Cofio fod:</p><blockquote style=\"text-align:center;\">0&#176;C = 273 K</blockquote>",
    "rCanvas": "<h2>Maint</h2><p>Sut mae eich seren yn newid mewn maint a lliw i gymharu'r &#226; amodau presennol y Haul.</p>"
   }
