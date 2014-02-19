@@ -1,5 +1,5 @@
 ﻿{
-	"language" : { "code" : "en", "name" : "English", "alignment": "left", "mode": "advanced" },
+	"language" : { "code" : "en-GB", "name" : "English", "alignment": "left", "mode": "advanced" },
 	"phrasebook": {
 		"title": "Star in a Box",
 		"language": "Select a language",
