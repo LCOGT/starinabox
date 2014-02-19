@@ -41,7 +41,7 @@
 		"massunit": "M&#9737;",
 		"ms" : "Main Sequence",
 		"caution": "Caution: Supernova Imminent",
-		"speeds": [">>>>>",">>>>",">>>",">>",">"],
+		"speeds": ["fastest","fast","normal","slow","slowest"],
 		"buttons": {
 			"play": "Start/pause",
 			"reset": "Reset",
