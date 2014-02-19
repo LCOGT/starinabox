@@ -579,8 +579,8 @@ $(document).ready(function () {
 
 	StarInABox.prototype.setupMode = function(){
 
-		// Update page title
-		if(this.phrasebook.title) $('html title').text(this.phrasebook.title);
+		// Update page title (make sure we encode the HTML entities)
+		if(this.phrasebook.title) $('html title').text($('<div />').html(this.phrasebook.title).text());
 		
 		// Update lid image with one for this language
 		// We'll try to load it in the background and if that is successful we replace it.

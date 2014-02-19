@@ -1,5 +1,10 @@
 #!/usr/bin/perl
 
+# If you need to install HTML::Entities:
+# perl -MCPAN -e 'install HTML::Entities'
+use HTML::Entities;
+
+
 $dir = "../../config/";
 opendir my($dh), $dir or die "Couldn't open dir '$dir': $!";
 my @f = readdir $dh;
@@ -27,8 +32,8 @@ foreach $file (@files){
 
 foreach $my (keys(%langs)){
 	$langs{$my} =~ /^([^\s]+) (.*)$/;
-	$a = $1;
-	$b = $2;
+	$a = decode_entities($1);
+	$b = decode_entities($2);
 	print "Processing $my: $a/$b\n";
 	@output = `convert -fill blue -kerning 0 -channel RGBA -background none -size 340 -font Nimbus-Sans-L-Bold \\( label:"$a" -trim \\) \\( label:"$b" -trim +repage -splice 0x10+0+0 -gravity North \\) -append label_$my.png`;
 	@output = `convert brackets.png label_$my.png +level-colors blue -alpha on -gravity center -composite logo_$my.png`;
