@@ -57,11 +57,12 @@ $(document).ready(function () {
 		this.q = $.query();
 
 		// Define which languages will appear in the language menu
-		this.langs = ["en","cy"];
+		this.langs = ["en","en-GB","cy"];
 		// Create a lookup table for language codes and names
 		// Country codes at http://en.wikipedia.org/wiki/List_of_ISO_639-1_codes
 		this.langlookup = {
 			'en':'English',
+			'en-GB':'British English',
 			'af':'Afrikaans',
 			'ar':'&#1575;&#1604;&#1593;&#1585;&#1576;&#1610;&#1577;',
 			'cs':'&#268;e&#353;tina',
