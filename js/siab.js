@@ -576,11 +576,11 @@ $(document).ready(function () {
 		}
 		return this;
 	}
-
+	
 	StarInABox.prototype.setupMode = function(){
 
 		// Update page title (make sure we encode the HTML entities)
-		if(this.phrasebook.title) $('html title').text($('<div />').html(this.phrasebook.title).text());
+		if(this.phrasebook.title) $('html title').text(htmlDecode(this.phrasebook.title));
 		
 		// Update lid image with one for this language
 		// We'll try to load it in the background and if that is successful we replace it.
@@ -622,11 +622,11 @@ $(document).ready(function () {
 		$("#lid-open a").html(this.open ? this.phrasebook.close : this.phrasebook.open);
 
 		// Update panel buttons
-		$('#nav a').eq(0).attr('title',this.phrasebook.buttons.size);
-		$('#nav a').eq(1).attr('title',this.phrasebook.buttons.temperature);
-		$('#nav a').eq(2).attr('title',this.phrasebook.buttons.luminosity);
-		$('#nav a').eq(3).attr('title',this.phrasebook.buttons.stage);
-		$('#nav a').eq(4).attr('title',this.phrasebook.buttons.mass);
+		$('#nav a').eq(0).attr('title',htmlDecode(this.phrasebook.buttons.size));
+		$('#nav a').eq(1).attr('title',htmlDecode(this.phrasebook.buttons.temperature));
+		$('#nav a').eq(2).attr('title',htmlDecode(this.phrasebook.buttons.luminosity));
+		$('#nav a').eq(3).attr('title',htmlDecode(this.phrasebook.buttons.stage));
+		$('#nav a').eq(4).attr('title',htmlDecode(this.phrasebook.buttons.mass));
 
 		// Update speed dropdown
 		var _obj = this;
@@ -635,8 +635,8 @@ $(document).ready(function () {
 		})
 		
 		// Update control buttons
-		if(this.phrasebook.buttons.play) $('#controls img.play').attr('alt','').parent('a').attr('title',this.phrasebook.buttons.play);
-		if(this.phrasebook.buttons.reset) $('#controls img.reset').attr('alt','').parent('a').attr('title',this.phrasebook.buttons.reset);
+		if(this.phrasebook.buttons.play) $('#controls img.play').attr('alt','').parent('a').attr('title',htmlDecode(this.phrasebook.buttons.play));
+		if(this.phrasebook.buttons.reset) $('#controls img.reset').attr('alt','').parent('a').attr('title',htmlDecode(this.phrasebook.buttons.reset));
 
 		if(this.tutorialstep < this.phrasebook.tutorial.length){
 			$('#hinttext .poppitypin-inner').html(this.phrasebook.tutorial[this.tutorialstep].replace('%COLOR%',this.chart.opts.path.color));
@@ -645,7 +645,7 @@ $(document).ready(function () {
 		// Update box border options
 		if(this.phrasebook.data) $('#summary').text(this.phrasebook.data.title);
 		if(this.phrasebook.about) $('#help').text(this.phrasebook.about.title);
-		if(this.langs.length > 1) $('#lang').text('['+this.langcurrent+']').attr('title',(this.phrasebook.language ? this.phrasebook.language : ''));
+		if(this.langs.length > 1) $('#lang').text('['+this.langcurrent+']').attr('title',htmlDecode((this.phrasebook.language ? this.phrasebook.language : '')));
 
 		// Update title attribute for mass selector
 		if(this.phrasebook.massunit) $('#starMass select').attr('title',htmlDecode(this.phrasebook.mass+' ('+this.phrasebook.massunit+')'));
