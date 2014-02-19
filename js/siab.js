@@ -1990,11 +1990,8 @@ $(document).ready(function () {
 	}
 
 	function htmlDecode(input){
-		var e = document.createElement('div');
-		e.innerHTML = input;
-		return e.childNodes[0].nodeValue;
+		return $('<div />').html(input).text();
 	}
-
 
 	/**
 	 * Create a popup bubble attached to an element. Requires an object with:
