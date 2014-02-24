@@ -97,7 +97,7 @@ $(document).ready(function () {
 		if(typeof this.q.lang=="string") this.lang = this.q.lang;
 		// Get the short version (2 characters) of the language code
 		this.langshort = (this.lang.indexOf('-') > 0 ? this.lang.substring(0,this.lang.indexOf('-')) : this.lang.substring(0,2));
-
+		this.langdir = "left";
 
 		// Process the input parameters/query string
 		this.init(inp);
@@ -360,6 +360,7 @@ $(document).ready(function () {
 			},
 			success: function(data){
 				this.langcurrent = lang;
+				this.langdir = data.language.alignment;
 				this.stages = data.phrasebook.stages;
 				$.extend(this.phrasebook, data.phrasebook);
 				this.setupMode();
@@ -583,6 +584,9 @@ $(document).ready(function () {
 		// Update page title (make sure we encode the HTML entities)
 		if(this.phrasebook.title) $('html title').text(htmlDecode(this.phrasebook.title));
 		
+		// Set language direction via attribute and a CSS class
+		$('#container').attr('dir',(this.langdir=="right" ? 'rtl' : 'ltr')).removeClass('ltr rtl').addClass((this.langdir=="right" ? 'rtl' : 'ltr'));
+
 		// Update lid image with one for this language
 		// We'll try to load it in the background and if that is successful we replace it.
 		// This allows for the non-existence of the appropriate file
