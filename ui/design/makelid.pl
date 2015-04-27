@@ -35,7 +35,7 @@ foreach $my (keys(%langs)){
 	$a = decode_entities($1);
 	$b = decode_entities($2);
 	print "Processing $my: $a/$b\n";
-	@output = `convert -fill blue -kerning 0 -channel RGBA -background none -size 340 -font Nimbus-Sans-L-Bold \\( label:"$a" -trim \\) \\( label:"$b" -trim +repage -splice 0x10+0+0 -gravity North \\) -append label_$my.png`;
+	@output = `convert -fill blue -kerning 0 -channel RGBA -background none -size 340 -font Nimbus-Sans-Bold \\( label:"$a" -trim \\) \\( label:"$b" -trim +repage -splice 0x10+0+0 -gravity North \\) -append label_$my.png`;
 	@output = `convert brackets.png label_$my.png +level-colors blue -alpha on -gravity center -composite logo_$my.png`;
 	@output = `convert lid_overlay.png \\( -alpha on -rotate -14 -background none logo_$my.png \\) -alpha on -compose dissolve -define compose:args='100,100' -geometry -160-60 -gravity Center +level-colors blue, -composite lid_overlay_final.png`;
 	@output = `composite lid_alpha.png lid_overlay_final.png -alpha on -gravity center -channel A -compose Multiply lid_overlay_final2.png`;
