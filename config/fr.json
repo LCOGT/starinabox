@@ -1,0 +1,134 @@
+{
+    "language": {
+        "code": "fr",
+        "name": "Français",
+        "alignment": "left",
+        "mode": "normal",
+        "translator": "FPhung pour SAR"
+    },
+    "phrasebook": {
+        "title": "Etoile en boîte",
+        "language": "Choisir la langue",
+        "stages": [
+            "Séquence principale",
+            "Séquence principale",
+            "Géante rouge",
+            "Géante rouge",
+            "Géante rouge",
+            "Géante rouge",
+            "Géante rouge",
+            "Géante bleue",
+            "Géante bleue",
+            "Géante bleue",
+            "Naine blanche",
+            "Naine blanche",
+            "Naine blanche",
+            "Etoile à neutrons",
+            "Trou noir",
+            "Oblitération"
+        ],
+        "modes": {
+            "normal": "Normal",
+            "advanced": "Avancé",
+            "toggle": "Basculer mode"
+        },
+        "about": {
+            "title": "A propos",
+            "content": "<p>Etoile en boîte vous permet d'explorer l'un des outils les plus énigmatiques de l'astronomie - le <a href=\"http://lcogt.net/book/h-r-diagram\">diagramme d'Hertzsprung-Russell</a>.</p><p>En ouvrant la boîte, vous démarrez avec une étoile de la même masse que le Soleil, mais vous pouvez choisir une autre masse à tout moment. Les lignes que vous voyez sur le graphique (partie gauche de l'écran) représentent le cycle de la vie de l'étoile. Vous pouvez lancer l'animation, voir l'étoile se déplacer sur le diagramme, et voir sur les panneaux à droite comment sa luminosité, sa taille, sa température de surface et sa masse évoluent.</p><p>Si les étoiles peuvent vivre pendant des milliards d'années, certains événements spectaculaires surviennent sur un temps relativement court. Dans l'animation, nous accélérons le temps lorsque l'étoile n'évolue pas beaucoup, et le ralentissons pour les stades spectaculaires de la vie de l'étoile.</p><h3>Contrôles clavier:</h3>%CONTROLLIST%<h3>Crédits</h3><p><b>Design & <a href=\"https://github.com/zemogle/starinabox\">Développement</a></b>: <a href=\"http://jyardley.co.uk\">Jon Yardley</a>, <a href=\"http://www.strudel.org.uk/\">Stuart Lowe</a>, <a href=\"http://lcogt.net/user/egomez\">Edward Gomez</a>, <a href=\"http://www.astro.cf.ac.uk/contactsandpeople/?page=full&id=151\">Haley Gomez</a> & Chris North</p><p>Supporté par <a href=\"http://lcogt.net/\">LCOGT</a> & <a href=\"http://www.cf.ac.uk/\">Cardiff University</a></p><p>Basé sur les recherches en évolution stellaire de <a href=\"http://astronomy.swin.edu.au/~jhurley/\">Jarrod Hurley</a>, <a href=\"https://www.astro.ru.nl/wiki/general/people/onno_pols\">Onno Pols</a>, et <a href=\"http://www.ast.cam.ac.uk/~cat/\">Christopher Tout</a></p>"
+        },
+        "data": {
+            "title": "Tableau de données",
+            "content": "Ceci est un résumé de l'étoile actuellement sélectionnée. Masse: <strong>%MASS%</strong>.</p>%TABLE%<p>Télécharger les données en %CSV%.</p>"
+        },
+        "keys": {
+            "play": "Lancer",
+            "lid": "Ouvrir couvercle",
+            "mode": "Basculer mode",
+            "size": "Panneau taille",
+            "temperature": "Panneau température",
+            "luminosity": "Panneau luminosité",
+            "stage": "Panneau stade",
+            "mass": "Panneau masse"
+        },
+        "intro": {
+            "title": "Bienvenue!",
+            "content": "<p>Vous êtes maintenant l'heureux possesseur d'une étoile en boîte.</p><p>Dans cette boîte, vous pouvez voir les différents stades de la vie d'une étoile et constater comment sa luminosité, sa taille et sa masse évoluent au cours du temps.</p><p>Une fois la boîte ouverte, <strong>cliquez sur le bouton lancer</strong> pour démarrer l'animation.</p>"
+        },
+        "open": "&#8249; Ouvrir le couvercle",
+        "close": "Fermer couvercle",
+        "preparing": "Votre étoile est en préparation.<br />Patientez...",
+        "sun": "Soleil",
+        "stage": "Stade",
+        "radius": "Rayon",
+        "radiusunit": "comparé au Soleil",
+        "duration": "Durée",
+        "timescale": "millions d'années",
+        "longtime": "Très très longtemps",
+        "lum": "Luminosité",
+        "lumunit": "comparée au Soleil",
+        "temp": "Température",
+        "tempunit": "Kelvin",
+        "cooldown": "Refroidissement depuis %TEMP%",
+        "cooling": "Refroidissement",
+        "mass": "Masse",
+        "massunit": "x Soleil",
+        "ms": "Séquence principale",
+        "caution": "Attention: supernova imminente",
+        "speeds": [
+            "très rapide",
+            "rapide",
+            "normal",
+            "lent",
+            "très lent"
+        ],
+        "buttons": {
+            "play": "Lancer/pause",
+            "reset": "Revenir au début de la vie de votre étoile",
+            "size": "Comparer la taille",
+            "temperature": "Température de surface",
+            "luminosity": "Luminosité",
+            "stage": "Stades de la vie de votre étoile",
+            "mass": "Masse"
+        },
+        "help": {
+            "tab": "Information",
+            "content": {
+                "m0_2": "<h1>0.2 fois la masse du Soleil</h1><h3>Séquence principale</h3><p>Les étoiles d'une masse inférieure à la moitié de la masse du Soleil débutent sur la séquence principale des étoiles de faible masse. Elles sont dans des états très stables, tirant leur énergie de la fusion d'atomes d'hydrogène en hélium.</p><img src='http://www.spaceanswers.com/wp-content/uploads/2013/01/Red-dwarf-main-image.jpg'/><h3>Géante rouge </h3><p>Lorsque le coeur de l'étoile est à cours d'hydrogène, les couches externes de l'étoile commencent à gonfler et la température de surface de l'étoile diminue. L'étoile change d'apparence et devient plus rouge. Comme les étoiles de cette masse sont trop petites pour initier la fusion de l'hélium dans le coeur, l'étoile brûlera toute sa réserve d'hydrogène, ne conservera que le coeur d'hélium et deviendra ainsi une 'Naine blanche d'hélium'.</p><img src='http://www.dailygalaxy.com/.a/6a00d8341bf7f753ef017ee8bb15b8970d-500wi'/>",
+                   
+                "m0_65": "<h1>0.65 fois la masse du Soleil</h1><h3>Séquence principale</h3><p>Les étoiles d'une masse inférieure à la moitié de la masse du Soleil débutent sur la séquence principale des étoiles de faible masse. Elles sont dans des états très stables, tirant leur énergie de la fusion d'atomes d'hydrogène en hélium.</p><img src='http://www.spaceanswers.com/wp-content/uploads/2013/01/Red-dwarf-main-image.jpg'/><h3>Géante rouge </h3><p>Lorsque le coeur de l'étoile est à cours d'hydrogène, les couches externes de l'étoile commencent à gonfler et la température de surface de l'étoile diminue. L'étoile change d'apparence et devient plus rouge. Comme les étoiles de cette masse sont trop petites pour initier la fusion de l'hélium dans le coeur, l'étoile brûlera toute sa réserve d'hydrogène, ne conservera que le coeur d'hélium et deviendra ainsi une 'Naine blanche d'hélium'.</p><img src='http://www.dailygalaxy.com/.a/6a00d8341bf7f753ef017ee8bb15b8970d-500wi'/>",
+                   
+                "m1": "<h1>Etoiles de la masse du Soleil</h1><h3> Séquence principale </h3><p>La séquence principale est le stade le plus long pour une étoile. L'étoile y demeure stable pendant des millions, voire des milliards d'années, fusionnant les atomes d'hydrogène en atomes d'hélium.</p><h3>Géante rouge</h3><div style='width:100%'><div style='float:left;width:200px'><img src='config/images/RedGiant.jpeg' style='width:95%'/></div><p>Lorsque tout l'hydrogène du coeur a été converti en hélium, les couches externes de l'étoile commencent à gonfler et deviennent plus rouges, comme pour les étoiles d'environ 0.2-0.65 fois la masse du Soleil. Pour les étoiles de même masse que le Soleil et jusqu'à 8 fois cette masse, le coeur devient suffisamment chaud pour fusionner l'hélium en éléments plus lourds comme le carbone et l'oxygène. Il n'y a cependant pas suffisamment de masse pour fusionner dans ce coeur le carbone et l'oxygène en éléments encore plus lourds.</p></div><div style='clear:both'></div><h3>Naine blanche</h3><div style='width:100%'><div style='float:left;width:200px'> <img src='http://www.dailygalaxy.com/.a/6a00d8341bf7f753ef017ee8bb15b8970d-500wi' style='width:95%'/></div>A la fin, les couches d'hydrogène et d'hélium de l'étoile se dispersent. Demeure une 'Naine blanche' similaire aux étoiles de faible masse.</p></div>",
+                   
+                "m2": "<h1>2 fois la masse du Soleil</h1><h3> Séquence principale </h3><p>La séquence principale est le stade le plus long pour une étoile. L'étoile y demeure stable pendant des millions à des milliards d'années, fusionnant les atomes d'hydrogène en atomes d'hélium.</p><h3>Géante rouge</h3><img src='http://en.es-static.us/upl/2009/06/antares_m4_stargazerbob_300.jpg'/><p>Lorsque tout l'hydrogène du coeur a été converti en hélium, les couches externes de l'étoile commencent à gonfler et deviennent plus rouges, comme pour les étoiles d'environ 0.2-0.65 fois la masse du Soleil. Pour les étoiles de même masse que le Soleil et jusqu'à 8 fois cette masse, le coeur devient suffisamment chaud pour fusionner l'hélium en éléments plus lourds comme le carbone et l'oxygène. Il n'y a toujours pas suffisamment de masse pour fusionner dans ce coeur le carbone et l'oxygène en éléments encore plus lourds. A la fin, les couches d'hydrogène et d'hélium de l'étoile se dispersent. Demeure une 'Naine blanche carbone/oxygène' similaire aux étoiles de faible masse.</p><img src='http://www.dailygalaxy.com/.a/6a00d8341bf7f753ef017ee8bb15b8970d-500wi'/>",
+                   
+                "m4": "<h1>4 fois la masse du Soleil</h1><h3> Séquence principale </h3><p>La séquence principale est le stade le plus long pour une étoile. L'étoile y demeure stable pendant des millions à des milliards d'années, fusionnant les atomes d'hydrogène en atomes d'hélium.</p><h3>Géante rouge</h3><img src='http://en.es-static.us/upl/2009/06/antares_m4_stargazerbob_300.jpg'/><p>Lorsque tout l'hydrogène du coeur a été converti en hélium, les couches externes de l'étoile commencent à gonfler et deviennent plus rouges, comme pour les étoiles d'environ 0.2-0.65 fois la masse du Soleil. Pour les étoiles de même masse que le Soleil et jusqu'à 8 fois cette masse, le coeur devient suffisamment chaud pour fusionner l'hélium en éléments plus lourds comme le carbone et l'oxygène. Il n'y a toujours pas suffisamment de masse pour fusionner dans ce coeur le carbone et l'oxygène en éléments encore plus lourds. A la fin, les couches d'hydrogène et d'hélium de l'étoile se dispersent. Demeure une 'Naine blanche carbone/oxygène' similaire aux étoiles de faible masse.</p><img src='http://www.dailygalaxy.com/.a/6a00d8341bf7f753ef017ee8bb15b8970d-500wi'/>",
+                   
+                "m6": "<h1>6 fois la masse du Soleil</h1><h3> Séquence principale </h3><p>La séquence principale est le stade le plus long pour une étoile. L'étoile y demeure stable pendant des millions à des milliards d'années, fusionnant les atomes d'hydrogène en atomes d'hélium.</p><h3>Géante rouge</h3><img src='http://en.es-static.us/upl/2009/06/antares_m4_stargazerbob_300.jpg'/><p>Lorsque tout l'hydrogène du coeur a été converti en hélium, les couches externes de l'étoile commencent à gonfler et deviennent plus rouges, comme pour les étoiles d'environ 0.2-0.65 fois la masse du Soleil. Pour les étoiles de même masse que le Soleil et jusqu'à 8 fois cette masse, le coeur devient suffisamment chaud pour fusionner l'hélium en éléments plus lourds comme le carbone et l'oxygène. Il n'y a toujours pas suffisamment de masse pour fusionner dans ce coeur le carbone et l'oxygène en éléments encore plus lourds. A la fin, les couches d'hydrogène et d'hélium de l'étoile se dispersent. Demeure une 'Naine blanche carbone/oxygène' similaire aux étoiles de faible masse.</p><img src='http://www.dailygalaxy.com/.a/6a00d8341bf7f753ef017ee8bb15b8970d-500wi'/>",
+                   
+                "m10": "<h1>10 fois la masse du Soleil</h1><h3> Séquence principale </h3><p>La séquence principale est le stade le plus long pour une étoile. L'étoile y demeure stable pendant des millions d'années, fusionnant les atomes d'hydrogène en atomes d'hélium.</p><img src='http://cdn.spacetelescope.org/archives/images/screen/heic0516b.jpg'/><h3>Géante rouge</h3><p>Lorsque tout l'hydrogène du coeur a été converti en hélium, les couches externes de l'étoile commencent à gonfler et deviennent plus rouges, comme pour les étoiles d'environ 1-6 masses solaires. Pour les étoiles de masse égale ou supérieure à celle du Soleil, le coeur devient suffisamment chaud pour fusionner l'hélium en éléments plus lourds comme le carbone et l'oxygène. Les étoiles de 10 à 20 fois la masse du Soleil pourront initier dans le coeur la fusion d'atomes comme l'oxygène et le carbone. L'étoile adoptera une structure en peau d'oignon avec des éléments différents dans les différentes couches: hydrogène, hélium, carbone, oxygène et néon, et ceci s'arrêtera avec le fer. Une fois la fusion bloquée sur le fer, il n'y a plus de réactions nucléaires pour empêcher le coeur de s'effondrer; alors une supernova se produit. Tout ce qui reste est une étoile à neutrons.</p><img src='http://www.nasa.gov/images/content/283511main_fermigrop_pulsarmodel_HI.jpg'/>",
+                   
+                "m20": "<h1>20 fois la masse du Soleil</h1><h3> Séquence principale </h3><p>La séquence principale est le stade le plus long pour une étoile. L'étoile y demeure stable pendant des millions d'années, fusionnant les atomes d'hydrogène en atomes d'hélium.</p><img src='http://cdn.spacetelescope.org/archives/images/screen/heic0516b.jpg'/><h3>Géante rouge</h3><p>Lorsque tout l'hydrogène du coeur a été converti en hélium, les couches externes de l'étoile commencent à gonfler et deviennent plus rouges, comme pour les étoiles d'environ 1-6 masses solaires. Pour les étoiles de masse égale ou supérieure à celle du Soleil, le coeur devient suffisamment chaud pour fusionner l'hélium en éléments plus lourds comme le carbone et l'oxygène. Les étoiles de 10 à 20 fois la masse du Soleil pourront initier dans le coeur la fusion d'atomes comme l'oxygène et le carbone. L'étoile adoptera une structure en peau d'oignon avec des éléments différents dans les différentes couches: hydrogène, hélium, carbone, oxygène et néon, et ceci s'arrêtera avec le fer. Une fois la fusion bloquée sur le fer, il n'y a plus de réaction nucléaire pour empêcher le coeur de s'effondrer; alors une supernova se produit. Tout ce qui reste est une étoile à neutrons.</p><img src='http://www.nasa.gov/images/content/283511main_fermigrop_pulsarmodel_HI.jpg'/>",
+                   
+                "m30": "<h1>30 fois la masse du Soleil</h1><h3> Séquence principale </h3><p>La séquence principale est le stade le plus long pour une étoile. L'étoile y demeure stable pendant des millions d'années, fusionnant les atomes d'hydrogène en atomes d'hélium.</p><img src='http://cdn.spacetelescope.org/archives/images/screen/heic0516b.jpg'/><h3> Géante rouge </h3><img src='http://www.eso.org/public/archives/images/screen/wr124.jpg'/><p>Lorsque tout l'hydrogène du coeur a été converti en hélium, les couches externes de l'étoile commencent à gonfler et deviennent plus rouges, comme pour les étoiles d'environ 1-6 masses solaires. Les étoiles 30 fois plus massives que le Soleil et celles plus lourdes encore sont capables d'entamer dans le coeur la fusion d'éléments beaucoup plus lourds, comme l'hélium, le carbone, l'oxygène et le néon.</p><h3> Géante bleue</h3><p>Les étoiles très massives génèrent des vents stellaires puissants qui soufflent les couches externes de l'étoile, dénudant l'intérieur plus chaud. Du fait de cette surface beaucoup plus chaude, l'étoile apparaît comme une géante bleue. Le coeur va s'effondrer, donnant une grande supernova. Au final demeurera un trou noir, un objet possédant un champ gravitationnel tel que même la lumière ne peut s'en échapper (d'où son qualificatif 'noir').</p><img src='http://www.spacetimetravel.org/galerie/sl218.jpg'/>",
+                   
+                "m40": "<h1>40 fois la masse du Soleil</h1><h3> Séquence principale </h3><p>La séquence principale est le stade le plus long pour une étoile. L'étoile y demeure stable pendant des millions d'années, fusionnant les atomes d'hydrogène en atomes d'hélium.</p><img src='http://cdn.spacetelescope.org/archives/images/screen/heic0516b.jpg'/><h3> Géante rouge </h3><img src='http://www.eso.org/public/archives/images/screen/wr124.jpg'/><p>Lorsque tout l'hydrogène du coeur a été converti en hélium, les couches externes de l'étoile commencent à gonfler et deviennent plus rouges, comme pour les étoiles d'environ 1-6 masses solaires. Les étoiles 30 fois plus massives que le Soleil et celles plus lourdes encore sont capables d'entamer dans le coeur la fusion d'éléments beaucoup plus lourds, comme l'hélium, le carbone, l'oxygène et le néon.</p><h3> Géante bleue</h3><p>Les étoiles très massives génèrent des vents stellaires puissants qui soufflent les couches externes de l'étoile, dénudant l'intérieur plus chaud. Du fait de la surface beaucoup plus chaude, l'étoile apparaît comme une géante bleue. Le coeur va s'effondrer, donnant une grande supernova. Au final demeurera un trou noir, un objet possédant un champ gravitationnel tel que même la lumière ne peut s'en échapper (d'où son qualificatif 'noir').</p><img src='http://www.spacetimetravel.org/galerie/sl218.jpg'/>"
+            }
+        },
+        "tutorial": [
+            "Bienvenue! Pour le moment vous avez une étoile de 1 masse solaire mais vous pouvez changer cela ici si vous le souhaitez.",
+            "Ceci est votre étoile au début de sa vie. La <span style=\"color:%COLOR%\">ligne pointillée</span> montre comment la luminosité et la température de l'étoile évoluent au cours de sa vie.",
+            "Cliquez sur le bouton lancer lorsque vous êtes prêt à animer votre étoile."
+        ],
+        "captions": {
+            "rScales": "<h2>Mass</h2><p>Ceci montre comment la masse de l'étoile varie au cours de sa vie. Les étoiles perdent graduellement leur masse en fusionnant l'hydrogène en hélium et en éléments plus lourds. Elles peuvent aussi en perdre par les vents éjectés de leur surface, et lors d'événements dramatiques.</p><p>Les étoiles sont massives: au lieu d'exprimer leur masse en kg, nous la comparons à notre Soleil d'1 Masse Solaire - environ 2 millions de millions de millions de millions de millions de kg!</p>",
+            "rStopwatch": "<h2>Stades de la vie de votre étoile</h2><p>Ce chronomètre montre les durées relatives que l'étoile passe pour chaque stade de sa vie. Lorsque l'étoile n'évolue pas beaucoup, nous accélérons l'animation , et la ralentissons lorsque surviennent les phases dramatiques de la vie de l'étoile.</p>",
+            "rlum": "<h2>Luminosité</h2><p>Comment la luminosité de l'étoile change par rapport à la luminosité actuelle de notre Soleil (qui a une luminosité de 1 sur cet indicateur).</p><p>L'indicateur de lumière change de couleur pour refléter celle de l'étoile.</p>",
+            "thermometer": "<h2>Température de surface</h2><p>Comment la température de surface de votre étoile change avec le temps. Les températures sont indiquées en Kelvin, abrégé en K. Souvenez-vous:</p><blockquote style=\"text-align:center;\">0&#176;C = 273 K</blockquote>",
+            "rCanvas": "<h2>Taille</h2><p>Comment votre étoile change de taille et de couleur, par rapport à l'état actuel du Soleil.</p>"
+        },
+        "error": {
+            "langload": "N'a pas pu charger la langue depuis %FILE%",
+            "starload": "La formation de l'étoile a échoué. Merci d'essayer plus tard."
+        }
+    }
+}
