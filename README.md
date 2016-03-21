@@ -1,6 +1,8 @@
 Star in a Box
 =============
 
+[![DOI](https://zenodo.org/badge/19468/zemogle/starinabox.svg)](https://zenodo.org/badge/latestdoi/19468/zemogle/starinabox)
+
 Have you ever wondered what happens to the different stars in the night sky as they get older? This interactive web-app lets you explore the [life-cycle of stars](http://lcogt.net/book/life-cycle-stars).
 
 Interactive life-cycle
