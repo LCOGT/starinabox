@@ -6,7 +6,7 @@
  *
  */
 
-// Elements with the class "accessible" are intended for people who don't 
+// Elements with the class "accessible" are intended for people who don't
 // have Javascript enabled. If we are here they obviously do have Javascript.
 document.write('<style type="text/css">.accessible { display: none; } .jsonly { display: block; }</style>');
 
@@ -57,7 +57,7 @@ $(document).ready(function () {
 		this.q = $.query();
 
 		// Define which languages will appear in the language menu
-		this.langs = ["en","en-GB","cy","ar","pt","es"];
+		this.langs = ["en","en-GB","cy","ar","pt","es","zh"];
 		// Create a lookup table for language codes and names
 		// Country codes at http://en.wikipedia.org/wiki/List_of_ISO_639-1_codes
 		this.langlookup = {
@@ -189,7 +189,7 @@ $(document).ready(function () {
 		}
 
 		// ==================
-		
+
 		// Now that we've set some defaults, load alternate config information
 		this.loadConfig();
 
@@ -284,7 +284,7 @@ $(document).ready(function () {
 		}).on('mouseleave',{me:this},function(e){
 			e.data.me.removeCrosshair();
 		});
-		
+
 		this.sizeComparison = {
 			// Raphael Script for star comparison
 			'paper': Raphael("rCanvas", 280, 390),
@@ -293,7 +293,7 @@ $(document).ready(function () {
 			'starR': 5,
 			'starOffset': 45
 		}
-		this.massComparison = { 
+		this.massComparison = {
 			'r': this.sizeComparison.starR,
 			'x': 140,
 			'y': 250,
@@ -313,7 +313,7 @@ $(document).ready(function () {
 
 		this.setupUI();
 		this.setupMode();
-	
+
 		return this;
 	}
 
@@ -373,7 +373,7 @@ $(document).ready(function () {
 		if(console && typeof console.log==="function") console.log('Warning: '+msg)
 		return this;
 	}
-	
+
 	StarInABox.prototype.error = function(msg){
 		if($('#loader #loaderror').length==0) $('#loader').append('<div id="loaderror"></div>');
 		$('#loader #loaderror').html(msg);
@@ -381,7 +381,7 @@ $(document).ready(function () {
 		if(console && typeof console.log==="function") console.log('Error: '+msg)
 		return this;
 	}
-	
+
 	StarInABox.prototype.removeCrosshair = function(){
 
 		// Draw a crosshair to show current cursor position
@@ -440,7 +440,10 @@ $(document).ready(function () {
 			if(e.data.box.canopen) e.data.box.toggleLid();
 		});
 
-		$('#lid-open').before('<form id="modeform" action=""><label class="toggle-label1" for="optnormal">'+this.phrasebook.modes.normal+'</label><div class="toggle-bg"><input type="radio" value="" id="optnormal" name="togglemode"'+(this.mode=="advanced" ? "" : ' checked="checked"')+' title="'+this.phrasebook.modes.toggle+'"><input type="radio" value="advanced" id="optadvanced" name="togglemode"'+(this.mode=="advanced" ? ' checked="checked"' : '')+' title="'+this.phrasebook.modes.toggle+'"><span class="switch"></span><label for="optadvanced">'+this.phrasebook.modes.advanced+'</label></div></form>');
+		var lid_text = '<form id="modeform" action=""><label class="toggle-label1" for="optnormal">'+this.phrasebook.modes.normal+'</label>';
+		lid_text += '<div class="toggle-bg"><input type="radio" value="" id="optnormal" name="togglemode"'+(this.mode=="advanced" ? "" : ' checked="checked"')+' title="'+this.phrasebook.modes.toggle+'"><input type="radio" value="advanced" id="optadvanced" name="togglemode"'+(this.mode=="advanced" ? ' checked="checked"' : '')+' title="'+this.phrasebook.modes.toggle+'"><span class="switch"></span></div>';
+		lid_text += '<label for="optadvanced">'+this.phrasebook.modes.advanced+'</label></form>';
+		$('#lid-open').before(lid_text);
 		$('#modeform input[name=togglemode]').on('change',{box:this},function(e){ e.data.box.toggleMode($(this).val()); });
 		$('#modeform input').on('click',function(){ $(this).focus(); });
 
@@ -468,7 +471,7 @@ $(document).ready(function () {
 			var code = e.keyCode || e.charCode || e.which || 0;
 			e.data.box.keypress(code,e);
 		});
-		
+
 		//make nav divs clickable
 		$("#nav .item").click(function(e){
 			e.preventDefault();
@@ -476,14 +479,14 @@ $(document).ready(function () {
 				//if already active
 			}else{
 				el = $($(this).attr('href'));
-				$("#nav .item").removeClass("active");	
+				$("#nav .item").removeClass("active");
 				$(this).addClass("active");
 				var sliderID = (el.attr("class").split(" "))[1];
 				$("#slide").css({top:-((sliderID-1)*400)+"px"});
 			}
 			$(this).focus();
 		});
-		
+
 		$("#right .info").click(function(){
 			var clickedI = $(this);
 			var clickedC = $(clickedI).siblings(".caption");
@@ -510,7 +513,7 @@ $(document).ready(function () {
 			if(e.data.box.open) e.data.box.toggleLid();
 			$('#welcome #help-content').css({opacity: 0}).animate({opacity: 1},500);
 		});
-	
+
 		// open/close info panel
 		$("#info .tab").click({box:this},function(e){ e.data.box.toggleInfoPanel(); });
 
@@ -553,7 +556,7 @@ $(document).ready(function () {
 		$("#evolveSpeed").on('change',{box:this},function(e){
 			e.data.box.changeSpeed($(this).find("option:selected").attr("value"));
 		});
-		 
+
 		//show summary
 		$('#summary').click({box:this},function (e) {
 			$('#welcome').removeClass('help lang').addClass('summary');
@@ -578,12 +581,12 @@ $(document).ready(function () {
 		}
 		return this;
 	}
-	
+
 	StarInABox.prototype.setupMode = function(){
 
 		// Update page title (make sure we encode the HTML entities)
 		if(this.phrasebook.title) $('html title').text(htmlDecode(this.phrasebook.title));
-		
+
 		// Set language direction via attribute and a CSS class
 		$('#container').attr('dir',(this.langdir=="right" ? 'rtl' : 'ltr')).removeClass('ltr rtl').addClass((this.langdir=="right" ? 'rtl' : 'ltr'));
 
@@ -607,7 +610,7 @@ $(document).ready(function () {
 		if(this.phrasebook.intro) $('#welcome-content h1').html(this.phrasebook.intro.title);
 		if(this.phrasebook.intro) $('#welcome-content .jsonly').html(this.phrasebook.intro.content);
 
-		$('#info .tab').text(this.phrasebook.help.tab);
+		$('#info .tab').html(this.phrasebook.help.tab);
 		if($('#info .closer').length == 0){
 			$('#infocontent').before('<div class="closer"><a href="#">&times;</a></div>');
 			$('#info .closer a').on('click',{box:this},function(e){ e.data.box.toggleInfoPanel(); });
@@ -619,7 +622,7 @@ $(document).ready(function () {
 		this.stopwatch.rebuild();
 		if(this.phrasebook.mass) $('#starMass .value strong').html(this.phrasebook.mass);
 		$(this.scaletext).find('.units').html(this.phrasebook.massunit);
-		this.sizeComparison.sunLabel.attr('text',this.phrasebook.sun);
+		this.sizeComparison.sunLabel.attr('text',htmlDecode(this.phrasebook.sun));
 		this.el.stagelabel.find('strong').html(this.phrasebook.stage+":");
 		this.el.time.find('.units').html(this.phrasebook.timescale);
 		if(this.phrasebook.caution) $('.caution').html(this.phrasebook.caution);
@@ -636,9 +639,9 @@ $(document).ready(function () {
 		// Update speed dropdown
 		var _obj = this;
 		$('#evolveSpeed option').each(function(i){
-			$(this).text(_obj.phrasebook.speeds[i]);
+			$(this).html(_obj.phrasebook.speeds[i]);
 		})
-		
+
 		// Update control buttons
 		if(this.phrasebook.buttons.play) $('#controls img.play').attr('alt','').parent('a').attr('title',htmlDecode(this.phrasebook.buttons.play));
 		if(this.phrasebook.buttons.reset) $('#controls img.reset').attr('alt','').parent('a').attr('title',htmlDecode(this.phrasebook.buttons.reset));
@@ -648,9 +651,9 @@ $(document).ready(function () {
 		}
 
 		// Update box border options
-		if(this.phrasebook.data) $('#summary').text(this.phrasebook.data.title);
-		if(this.phrasebook.about) $('#help').text(this.phrasebook.about.title);
-		if(this.langs.length > 1) $('#lang').text('['+this.langcurrent+']').attr('title',htmlDecode((this.phrasebook.language ? this.phrasebook.language : '')));
+		if(this.phrasebook.data) $('#summary').html(this.phrasebook.data.title);
+		if(this.phrasebook.about) $('#help').html(this.phrasebook.about.title);
+		if(this.langs.length > 1) $('#lang').html('['+this.langcurrent+']').attr('title',htmlDecode((this.phrasebook.language ? this.phrasebook.language : '')));
 
 		// Update title attribute for mass selector
 		if(this.phrasebook.massunit) $('#starMass select').attr('title',htmlDecode(this.phrasebook.mass+' ('+this.phrasebook.massunit+')'));
@@ -662,7 +665,7 @@ $(document).ready(function () {
 
 		// Update Data Table
 		this.updateSummary();
-		
+
 		// Update About
 		if($('#help-content').length > 0 && $('#help-content').text().length > 0 && typeof this.phrasebook.about==="object"){
 			var o = "";
@@ -672,7 +675,7 @@ $(document).ready(function () {
 			if(o) o = "<ul class=\"keyboard-controls\">"+o+"</ul>";
 			$('#help-content').html('<h2>'+this.phrasebook.about.title+'</h2>'+this.phrasebook.about.content.replace("%CONTROLLIST%",o));
 		}
-		
+
 		$('#lang-content ul a').off('click');
 		// Build the language selector
 		var html = '<h2>'+this.phrasebook.language+'</h2><ul>';
@@ -705,7 +708,7 @@ $(document).ready(function () {
 		this.loadConfig();
 		this.loadChartData(this.mass);
 	}
-	
+
 	StarInABox.prototype.supernova = function(){
 		var c = $('#container');
 		var b = $('#box-top');
@@ -840,7 +843,7 @@ $(document).ready(function () {
 	StarInABox.prototype.slidePanelBy = function(p){
 
 		var selected = 0;
-		
+
 		// Get currently selected panel
 		$('#nav .item').each(function(i){
 			if($(this).hasClass('active')) selected = i;
@@ -857,10 +860,10 @@ $(document).ready(function () {
 
 		// Remove the active class from all panels
 		items.removeClass('active');
-		
+
 		// Make the requested panel the active one
 		items.eq(p).addClass('active');
-		
+
 		sliderID = p+1;
 		$("#slide").css({top:-((sliderID-1)*400)+"px"});
 
@@ -876,7 +879,7 @@ $(document).ready(function () {
 		this.stageLife = Array();
 		this.stageIndex = Array();
 		this.setupMode();
-		
+
 		$("a#animateEvolve").text('Start');
 		$("a#animateEvolveReset").css('display', '');
 		this.displayTime(0);
@@ -930,7 +933,7 @@ $(document).ready(function () {
 			var orig = $('#starMass select').attr('title');
 			$('#starMass select').attr('title',context.phrasebook.tutorial[0]).focus();
 			var bp = new bubblePopup({
-				id: 'hinttext', 
+				id: 'hinttext',
 				el: $('#starMass select'),
 				html: context.phrasebook.tutorial[0],
 				align: 'north',
@@ -942,14 +945,14 @@ $(document).ready(function () {
 					context.tutorialstep++;
 					$('#starMass select').attr('title',orig);
 					var test;
-					// If the user has changed the mass of the star it'll take a little 
+					// If the user has changed the mass of the star it'll take a little
 					// while until it loads and we need to wait until it has so that we
 					// know where to put the next bubble popup.
 					function nextstep(context){
 						if(!context.loading){
 							clearTimeout(test);
 							if(context.timestep > 0) return;
-							var bp = new bubblePopup({ 
+							var bp = new bubblePopup({
 								id: 'hinttext',
 								el: $('#chartstar'),
 								html: context.phrasebook.tutorial[1].replace('%COLOR%',context.chart.opts.path.color),
@@ -961,7 +964,7 @@ $(document).ready(function () {
 								onpop:function(){
 									context.tutorialstep++;
 									$('#controls .control_play').focus();
-									var bp = new bubblePopup({ 
+									var bp = new bubblePopup({
 										id: 'hinttext',
 										el: $('#controls .control_play img'),
 										html: context.phrasebook.tutorial[2],
@@ -970,7 +973,7 @@ $(document).ready(function () {
 										dismiss: true,
 										animate: true
 									});
-			
+
 								}
 							});
 						}
@@ -1021,7 +1024,7 @@ $(document).ready(function () {
 		if(i){
 			if(i < 1 || i > this.stageIndex.length) return;
 		}else i = this.stage;
-		
+
 		i = this.stageIndex[i];
 
 		this.jumpTo(i);
@@ -1078,7 +1081,7 @@ $(document).ready(function () {
 		}
 		this.chart.star.attr("cx", (this.eAnimPoints[this.timestep][0]));
 		this.chart.star.attr("cy", (this.eAnimPoints[this.timestep][1]));
-		return this;	
+		return this;
 	}
 
 
@@ -1128,7 +1131,7 @@ $(document).ready(function () {
 		return "db/star_"+mass+"_solar_mass"+(mass==1 && this.mode ? "_"+this.mode : "");
 	}
 	StarInABox.prototype.loadChartData = function(mass) {
-	
+
 		var dataurl = this.fileName(mass)+".json";
 
 		$.ajax({
@@ -1219,7 +1222,7 @@ $(document).ready(function () {
 
 		var T = x;
 		var L = y;
-		
+
 		if(!type || type!="log"){
 			T = Math.pow(10,x);
 			L = Math.pow(10,y);
@@ -1262,7 +1265,7 @@ $(document).ready(function () {
 				"fill-opacity": this.chart.opts.mainsequence.opacity,
 				"stroke-width": 0
 			});
-			this.chart.mainSequenceLabel = this.chart.holder.text(mid[0],mid[1],this.phrasebook.ms).attr({ fill: this.chart.opts.mainsequence.color,'font-size': this.chart.opts['font-size'],'text-anchor':'middle' }).rotate(Raphael.angle(p1[0],p1[1],p2[0],p2[1]));
+			this.chart.mainSequenceLabel = this.chart.holder.text(mid[0],mid[1],htmlDecode(this.phrasebook.ms)).attr({ fill: this.chart.opts.mainsequence.color,'font-size': this.chart.opts['font-size'],'text-anchor':'middle' }).rotate(Raphael.angle(p1[0],p1[1],p2[0],p2[1]));
 
 		}
 		if(!this.chart.axes) this.chart.axes = this.chart.holder.rect(this.chart.offset.left,this.chart.offset.top,this.chart.offset.width,this.chart.offset.height).attr({stroke:'rgb(0,0,0)','stroke-opacity': 0.5,'stroke-width':2});
@@ -1358,11 +1361,11 @@ $(document).ready(function () {
 				var xy = _obj.getXYFromPix(x,y);
 				// The index for the nearest data point to where we click
 				var t = -1;
-				// r2 is the square of the distance (no need to sqrt it as we 
+				// r2 is the square of the distance (no need to sqrt it as we
 				// just need to find the shortest distance and that would add
 				// unnecessary overhead
 				var r2;
-				var r2min = 10000;	
+				var r2min = 10000;
 				for(var i = 0 ; i < _obj.eAnimPoints.length ; i++){
 					r2 = Math.pow((x-_obj.eAnimPoints[i][0]),2) + Math.pow((y-_obj.eAnimPoints[i][1]),2);
 					if(r2 < r2min){
@@ -1436,7 +1439,7 @@ $(document).ready(function () {
 	}
 	StarInABox.prototype.updateCurrentStage = function() {
 		var el = this.getData(this.timestep);
-		if(typeof el=="object") this.el.stagelabel.html('<strong>'+this.phrasebook.stage+':</strong> ' + this.stages[el.type]);
+		if(typeof el=="object") this.el.stagelabel.html('<strong>'+htmlDecode(this.phrasebook.stage)+':</strong> ' + this.stages[el.type]);
 	}
 	StarInABox.prototype.updateSummary = function() {
 		$('#welcome #summary-content').html(this.generateSummary());
@@ -1556,7 +1559,7 @@ $(document).ready(function () {
 
 	// Create a Thermometer
 	function Thermometer(inp){
-		
+
 		this.id = (typeof inp.id==="string") ? inp.id : 'thermometer';
 		this.phrasebook = (inp.phrasebook) ? inp.phrasebook : { 'temp' : 'Temperature', 'tempunit': 'K' };
 		this.txt = (inp.txt) ? inp.txt : {'font':'12px'};
@@ -1567,7 +1570,7 @@ $(document).ready(function () {
 		this.max = 60000;
 		this.padding = 10;	// The light meter padding in pixels
 		this.major = 5; // Number of major tick marks
-		this.minor = 6; // Number of minor tick marks 
+		this.minor = 6; // Number of minor tick marks
 
 		// Properties of the thermometer SVG
 		this.w = 83;
@@ -1610,12 +1613,12 @@ $(document).ready(function () {
 			}
 		}
 		this.updateLanguage(this.phrasebook);
-		return this;	
+		return this;
 	}
 	Thermometer.prototype.updateLanguage = function(lang){
 		this.phrasebook = lang;
 		if(this.ll){ this.ll.remove(); }
-		this.ll = this.thermo.text(this.x-this.padding-parseInt(this.txt['font-size'])/2, this.y+this.h/2, this.phrasebook.temp+" ("+this.phrasebook.tempunit+")").attr(this.txt);
+		this.ll = this.thermo.text(this.x-this.padding-parseInt(this.txt['font-size'])/2, this.y+this.h/2, htmlDecode(this.phrasebook.temp+" ("+this.phrasebook.tempunit+")")).attr(this.txt);
 		this.ll.attr({'text-anchor':'middle',transform:"r-90"});
 	}
 	Thermometer.prototype.setTemperature = function(temp){
@@ -1719,7 +1722,7 @@ $(document).ready(function () {
 		}
 		return this;
 	}
-	
+
 	LightMeter.prototype.eqChange = function() {
 		if(!this.eqCurrentLevel || this.eqCurrentLevel < 0) this.eqCurrentLevel = 0;
 		if(this.numBars == this.eqCurrentLevel) return;
@@ -1762,7 +1765,7 @@ $(document).ready(function () {
     	}
     	return closest;
 	}
-	
+
 	function Stopwatch(box){
 		this.box = box;
 
@@ -1776,7 +1779,7 @@ $(document).ready(function () {
 		this.w2 = 12;
 		this.h2 = 8;
 		this.frac = 0.8;
-		
+
 		this.rStopwatch = Raphael("rStopwatch");
 		this.dial = this.rStopwatch.set();
 
@@ -1834,7 +1837,7 @@ $(document).ready(function () {
 				var s = this.box.getData(this.box.stageIndex[i]);
 				var n = (i < this.box.stageIndex.length-1) ? this.box.stageIndex[i+1]-1 : this.box.data.data.length-1;
 				var e = this.box.getData(n);
-				this.legend[i-1] = this.box.stages[s.type];
+				this.legend[i-1] = htmlDecode(this.box.stages[s.type]);
 				this.data[i-1] = (e.t-s.t);
 			}
 			this.d = { values: this.data, labels:this.legend };
@@ -1848,7 +1851,7 @@ $(document).ready(function () {
 
 		this.stopwatchleft[1].attr('title',(this.box.phrasebook && this.box.phrasebook.buttons.reset ? this.box.phrasebook.buttons.reset:""));
 		this.stopwatchright[1].attr('title',(this.box.phrasebook && this.box.phrasebook.buttons.play ? this.box.phrasebook.buttons.play:""));
-		
+
 		//: this.stopwatchright[1]);
 		//el.attr('text',txt);
 
@@ -1960,7 +1963,7 @@ $(document).ready(function () {
 					this.next.transform('s1');	// key
 					this.next.next.attr({'font-weight':'normal'});	// key label
 				}).click(function(e){
-					this.data('box').resetStage.call(this.data('box'),this.data('i'))				
+					this.data('box').resetStage.call(this.data('box'),this.data('i'))
 				})
 			);
 			// Add the key box
@@ -2021,7 +2024,7 @@ $(document).ready(function () {
 		var h2 = h/2;
 		var x = inp.el.offset().left+w2;	// The centre of the element
 		var y = inp.el.offset().top+h2;	// The centre of the element
-	
+
 		var onpop = (typeof inp.onpop=="function") ? inp.onpop : "";
 		var context = (inp.context) ? inp.context : this;
 		var id = inp.id;
@@ -2030,7 +2033,7 @@ $(document).ready(function () {
 			$('body').append('<div id="'+id+'" class="poppitypin'+(style ? " "+style : "")+'"><div class="poppitypin-inner">'+inp.html+'</div><\/div>');
 			el = $('#'+id);
 		}else el.stop().attr('class','').addClass('poppitypin'+(style ? " "+style : "")).html('<div class="poppitypin-inner">'+(inp.html ? inp.html : el.html())+'</div>');
-		
+
 		var z = (typeof inp.z=="number") ? inp.z : 980;	// The z-index
 
 		var animate = (typeof inp.animate=="boolean") ? inp.animate : false;
@@ -2041,17 +2044,17 @@ $(document).ready(function () {
 		var tall = (typeof inp.h=="number") ? inp.h : el.outerHeight();
 
 		el.css({'position':'absolute','z-index':z,'display':'inline-block','visibility':'visible','width':this.wide});
-	
-	
+
+
 		this.arr = 8;
 		this.padding = (typeof inp.padding=="number") ? inp.padding : parseInt(el.css('padding-left'));
 		this.align = (typeof inp.align=="string") ? inp.align : "auto";
 		var talign = (typeof inp.textalign=="string") ? inp.textalign : "center";
 		var style = (typeof inp.style=="string") ? " "+inp.style : (el ? " "+el.attr('class') : "");
-	
-	
+
+
 		var y2 = (y - h2 - tall - this.arr - this.padding);
-	
+
 		if(this.align == "auto"){
 			this.align = "north";
 			if((y - h2 - tall - this.arr - this.padding) < window.scrollY || x + this.wide/2 > $(window).width() || x - this.wide/2 < 0){
@@ -2060,7 +2063,7 @@ $(document).ready(function () {
 				if(x - this.wide/2 < 0) this.align = "east";
 			}
 		}
-	
+
 		el.addClass('poppitypin-'+this.align);
 		var css = {};
 		var css2 = {};
@@ -2100,12 +2103,12 @@ $(document).ready(function () {
 			css = {'left':l+'px','top':t+'px'};
 			css2 = {'left':lorig+'px','top':torig+'px'};
 		}else return this;
-	
+
 		el.css({'text-align':talign});
 
 		css.opacity = 1;
 		css2.opacity = 0;
-		
+
 		if(animate) el.css(css2).animate(css,500)
 		else el.css(css).show()
 		if(fade > 0) el.delay(fade).fadeOut(fade);
@@ -2132,9 +2135,7 @@ $(document).ready(function () {
 		css.display = "block";
 		$('#hinttext').css({display:"none"}).css(css);
 	}
-	
+
 	box = new StarInABox();
 
 }); //ready.function
-
-
