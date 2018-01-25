@@ -206,10 +206,16 @@ $(document).ready(function () {
 		this.reduction = 5;	// A slower framerate for the size/thermometer animations
 
 		//GET URL if one is passed
-		this.fullurl = parent.document.URL;
-		this.urlquery = Array;
-		this.urlquery = this.fullurl.substring(this.fullurl.indexOf('?')+1, this.fullurl.length).split('=');
-		this.initStarMass = (this.urlquery.length == 0 || this.urlquery[0] != 's') ? 1 : getNearestNumber(this.massVM, parseInt(this.urlquery[1]));
+		try {
+			this.fullurl = parent.document.URL;
+			this.urlquery = Array;
+			this.urlquery = this.fullurl.substring(this.fullurl.indexOf('?')+1, this.fullurl.length).split('=');
+			this.initStarMass = (this.urlquery.length == 0 || this.urlquery[0] != 's') ? 1 : getNearestNumber(this.massVM, parseInt(this.urlquery[1]));
+		} catch (err) {
+			this.fullurl = document.URL;
+			this.urlquery = "";
+			this.initStarMass = 1;
+		}
 
 		// Get font-size
 		this.fs = ($('#placeholder').css('font-size') ? parseInt($('#placeholder').css('font-size')) : 12);
