@@ -40,3 +40,9 @@ Further reading
 ---------------
 
 More about the [Hertzsprung-Russell diagram](https://lco.global/spacebook/h-r-diagram) in LCOGT's [SpaceBook](https://lco.global/spacebook).
+
+## Production Deployment
+
+The LCO Jenkins build server will automatically synchronize the contents of
+this repository with the AWS S3 bucket that hosts https://starinabox.lco.global/.
+This only happens for tagged releases on the "master" branch.
