@@ -57,7 +57,7 @@ $(document).ready(function () {
 		this.q = $.query();
 
 		// Define which languages will appear in the language menu
-		this.langs = ["en","en-GB","cy","ar","pt","es","zh"];
+		this.langs = ["en","en-GB","cy","ar","pt","es","zh","it"];
 		// Create a lookup table for language codes and names
 		// Country codes at http://en.wikipedia.org/wiki/List_of_ISO_639-1_codes
 		this.langlookup = {
@@ -347,10 +347,12 @@ $(document).ready(function () {
 			method: 'POST',
 			dataType: 'json',
 			context: this,
-			error: function(){
+			error: function(jqXHR, exception){
 				if(lang == "en"){
 					this.error((this.phrasebook && this.phrasebook.error && this.phrasebook.error.langload) ? this.phrasebook.error.langload.replace('%FILE%',dataurl) : "Couldn't load language from "+dataurl);
 				}else{
+          console.error(jqXHR)
+          console.error(exception)
 					// Loop over to see if the current language shortcode is in our list
 					var n = (this.langlookup[lang]) ? this.langlookup[lang] : lang;
 					this.warn("Couldn't load "+n+".");

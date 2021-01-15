@@ -1,0 +1,125 @@
+{
+ "language": {
+  "code": "it",
+  "name": "Italiano",
+  "alignment": "left",
+  "mode": "normal",
+  "translator": "Clara Rezek, Giulia Maria Spinozzi, Gianmarco Albani"
+ },
+ "phrasebook": {
+  "title": "Stella in una Scatola",
+  "language": "Seleziona la lingua",
+  "stages": [
+   "Sequenza Principale",
+   "Sequenza Principale",
+   "Gigante Rossa",
+   "Gigante Rossa",
+   "Gigante Rossa",
+   "Gigante Rossa",
+   "Gigante Rossa",
+   "Gigante Blu",
+   "Gigante Blu",
+   "Gigante Blu",
+   "Nana Bianca",
+   "Nana Bianca",
+   "Nana Bianca",
+   "Stella di Neutroni",
+   "Buco Nero",
+   "Distruzione"
+  ],
+  "modes": {
+   "normal": "Normale",
+   "advanced": "Avanzato",
+   "toggle": "Toggle mode"
+  },
+  "about": {
+   "title": "Su Stella in una Scatola",
+   "content": "<p>Stella in una Scatola ti consente di esplorare uno degli strumenti pi&#249; enigmatici dell'astronomia - il <a href=\"https://lco.global/spacebook/h-r-diagram\">diagramma di Hertzsprung-Russell (HR)</a>.</p><p>Quando aprite la scatola cominciate con una stella con la stessa massa del Sole ma la potete cambiare con una massa differente in qualsiasi momento. Le tracce che vedete sul grafico (a sinistra) indicano il ciclo di vita della stella. Potete riprodurre l'animazione della stella in movimento all'interno del diagramma, e vedere come la sua luminosit&#224;, dimensione , temperatura superficiale, e il cambiamento di massa nei pannelli a destra .</p><p>Le stelle possono impiegare miliardi di anni per arrivare alla fine delle loro vite con gli eventi finali parossistici che si svolgono in lassi di tempo piuttosto brevi. Nell'animazione acceleriamo il tempo quando la stella non sta realmente cambiando in modo significativo e rallentiamo quando ci sono delle fasi parossistiche nella vita della stella .</p><h3>Controlli da tastiera:</h3>%CONTROLLIST%<h3>Riconoscimenti</h3><p><b>Design & <a href=\"https://github.com/LCOGT/starinabox\">Sviluppo</a></b>: <a href=\"https://github.com/jonyardley\">Jon Yardley</a>, <a href=\"http://www.strudel.org.uk/\">Stuart Lowe</a>, <a href=\"http://edward.gomez.me.uk\">Edward Gomez</a>, <a href=\"https://www.cardiff.ac.uk/people/view/116892-gomez-haley\">Haley Gomez</a> & <a href=\"https://www.cardiff.ac.uk/people/view/828749-north-chris\">Chris North</a></p><p>Traduzioni: Vedi la nostra <a href=\"translations.html\">pagina dedicata alle traduzioni</a></p><p>Basata sulle ricerche sull'evoluzione stellare di <a href=\"http://astronomy.swin.edu.au/~jhurley/\">Jarrod Hurley</a>, <a href=\"https://www.astro.ru.nl/wiki/general/people/onno_pols\">Onno Pols</a>, e  <a href=\"http://www.ast.cam.ac.uk/~cat/\">Christopher Tout</a></p>"
+  },
+  "data": {
+   "title": "Tabella dei dati",
+   "content": "Questo &#232; un riepilogo della stella attualmente selezionata. Massa: <strong>%MASS%</strong>.</p>%TABLE%<p>Scaricare i dati come  %CSV%.</p>"
+  },
+  "keys": {
+   "play": "Play",
+   "lid": "Apri il coperchio",
+   "mode": "Cambia modalit&#224;",
+   "size": "Pannello delle dimensioni",
+   "temperature": "Pannello delle temperature",
+   "luminosity": "Pannello della luminosit&#224;",
+   "stage": "Pannello della fase evolutiva",
+   "mass": "Pannello della massa"
+  },
+  "intro": {
+   "title": "Benvenuti!",
+   "content": "<p>Ora sei il fiero propetario di Stella in una Scatola.</p><p>All'interno di questo scatola puoi animare le fasi differenti nella vita di una stella e vedere come la sua luminosit&#224;, dimenzione e massa cambiano con il tempo.</p><p>Una volta aperta la casella  <strong>clicca sul pulsante play</strong> per avviare l'animazione.</p>"
+  },
+  "open": "&#8249; Aprire il coperchio",
+  "close": "Chiudere il coperchio &#8250;",
+  "preparing": "Stiamo preparando la tua stella.<br />Attendere prego&#8230;",
+  "sun": "Sole",
+  "stage": "Fase",
+  "radius": "Raggio",
+  "radiusunit": "in Raggi Solari",
+  "duration": "Durata",
+  "timescale": "milioni di anni",
+  "longtime": "Un tempo MOLTO lungo...",
+  "lum": "Luminosit&#224;",
+  "lumunit": "Luminosit&#224; solari",
+  "temp": "Temperatura",
+  "tempunit": "Kelvin",
+  "cooldown": "Si sta raffreddando a partire da %TEMP%",
+  "cooling": "Raffreddamento",
+  "mass": "Massa",
+  "massunit": "in Masse Solari",
+  "ms": "Sequenza Principale",
+  "caution": "Attenzione: Supernova imminente",
+  "speeds": [
+   "velocissimo",
+   "veloce",
+   "normale",
+   "lento",
+   "lentissimo"
+  ],
+  "buttons": {
+   "play": "Inizia/Pausa",
+   "reset": "Torna all'inizio della vita della tua stella",
+   "size": "Confrontare le dimensioni",
+   "temperature": "Temperatura superficiale",
+   "luminosity": "Luminosit&#224;",
+   "stage": "Fasi della vita della tua stella",
+   "mass": "Massa"
+  },
+  "help": {
+   "tab": "Informazioni",
+   "content": {
+    "m0_2": "<h1>0.2 volte la massa del Sole</h1><h3>Sequenza principale</h3><p>Le stelle intorno o meno della met&#224; della massa del Sole iniziano come stelle di Sequenza principale di massa piccola (Low Mass Main Sequence). Qui sono in stati molto stabili, in cui fondono atomi di idrogeno in elio come fonte di energia.</p><img src='http://www.spaceanswers.com/wp-content/uploads/2013/01/Red-dwarf-main-image.jpg'/><h3>Gigante rossa </h3><p>Quando il nucleo della stella finisce l'idrogeno che si fonde in elio, gli strati esterni della stella iniziano a gonfiarsi e la temperatura della superficie della stella si raffredda, la stella cambia anche aspetto diventando pi&#249; rossa. Dal momento che le stelle di questa massa sono troppo piccole per avviare la fusione dell'elio nel nucleo, la stella brucia tutta la sua scorta di idrogeno, lasciando il nucleo di elio all'interno, in quella che &#232; nota come una Nana Bianca di Elio.</p><img src='https://cdn.eso.org/images/screen/eso1319b.jpg'/>",
+    "m0_65": "<h1>0.65 volte la massa del sole </h1><h3>Sequenza Principale</h3><p>>Le stelle intorno o meno della met&#224; della massa del Sole iniziano come stelle di Sequenza principale di massa piccola (Low Mass Main Sequence).Qui sono in stati molto stabili, in cui fondono atomi di idrogeno in elio come fonte di energia.</p><img src='http://www.spaceanswers.com/wp-content/uploads/2013/01/Red-dwarf-main-image.jpg'/><h3>Gigante rossa </h3><p>Quando il nucleo della stella finisce l'idrogeno che si fonde in elio, gli strati esterni della stella iniziano a gonfiarsi e la temperatura della superficie della stella si raffredda, la stella cambia anche aspetto diventando pi&#249; rossa. Dal momento che le stelle di questa massa sono troppo piccole per avviare la fusione dell'elio nel nucleo, la stella brucia tutta la sua scorta di idrogeno, lasciando il nucleo di elio all'interno, in quella che &#232; nota come una Nana Bianca di Elio.</p><img src='https://cdn.eso.org/images/screen/eso1319b.jpg'/>",
+    "m1": "<h1>Stelle con la massa del sole </h1><h3>Sequenza principale</h3><p>La sequenza principale &#232; la fase pi&#249; lunga \"vissuta\" da una stella. In questa fase la stella rimane stabile per milioni e miliardi di anni, grazie alla fusione di atomi di idrogeno in atomi di elio come combustibile .</p><h3>Gigante Rossa</h3><div style='width:100%'><div style='float:left;width:200px'><img src='config/images/RedGiant.jpeg' style='width:95%'/></div><p>Quando tutto l'idrogeno nel nucleo si trasforma in elio, gli strati esterni della stella cominciano a gonfiarsi e diventare pi&#249; rossi come fanno le stelle di circa 0.2-0.65 volte la massa del Sole. Tuttavia, per le stelle di massa pari al sole e fino a 8 volte la massa del sole, il nucleo diventa abbastanza caldo da fondere l'elio in elementi pi&#249; pesanti come carbonio e ossigeno.Per&#242; non sono ancora abbastanza pesanti per fondere carbonio e ossigeno in elementi pi&#249; pesanti all'interno del nucleo.</p></div><div style='clear:both'></div><h3>nana Bianca </h3><div style='width:100%'><div style='float:left;width:200px'> <img src='https://cdn.eso.org/images/screen/eso1319b.jpg' style='width:95%'/></div>Alla fine gli strati di idrogeno ed elio della stella \"svaniscono\" lasciando una 'Nana Bianca' come le stelle di Piccola Massa.</p></div>",
+    "m2": "<h1>2 volte la massa del Sole </h1><h3>Sequenza principale</h3><p>La sequenza principale &#232; la fase pi&#249; lunga \"vissuta\" da una stella. In questa fase la stella rimane stabile per milioni e miliardi di anni, grazie alla fusione di atomi di idrogeno in atomi di elio come combustibile.</p><h3>Gigante Rossa</h3><img src='https://science.nasa.gov/science-red/s3fs-public/styles/image_gallery_scale_960w/public/atoms/betelgeuse_block_960.jpg'/><p>Quando tutto l'idrogeno nel nucleo si trasforma in elio, gli strati esterni della stella cominciano a gonfiarsi e diventare pi&#249; rossi come fanno le stelle di circa 0.2-0.65 volte la massa del Sole. Tuttavia, per le stelle di massa pari al sole e fino a 8 volte la massa del sole, il nucleo diventa abbastanza caldo da fondere l'elio in elementi pi&#249; pesanti come carbonio e ossigeno.Per&#242; non sono ancora abbastanza pesanti per fondere carbonio e ossigeno in elementi pi&#249; pesanti all'interno del nucleo. Alla fine gli strati di idrogeno ed elio della stella \"svaniscono\" lasciando una 'Nana Bianca' come le stelle di Piccola Massa.</p><img src='https://cdn.eso.org/images/screen/eso1319b.jpg'/>",
+    "m4": "<h1>4 volte la massa del sole</h1><h3>Sequenza principale</h3><p>La sequenza principale &#232; la fase pi&#249; lunga \"vissuta\" da una stella. In questa fase la stella rimane stabile per milioni e miliardi di anni, grazie alla fusione di atomi di idrogeno in atomi di elio come combustibile.</p><h3>Gigante Rossa</h3><img src='https://science.nasa.gov/science-red/s3fs-public/styles/image_gallery_scale_960w/public/atoms/betelgeuse_block_960.jpg'/><p>Quando tutto l'idrogeno nel nucleo si trasforma in elio, gli strati esterni della stella cominciano a gonfiarsi e diventare pi&#249; rossi come fanno le stelle di circa 0.2-0.65 volte la massa del Sole. Tuttavia, per le stelle di massa pari al sole e fino a 8 volte la massa del sole, il nucleo diventa abbastanza caldo da fondere l'elio in elementi pi&#249; pesanti come carbonio e ossigeno.Per&#242; non sono ancora abbastanza pesanti per fondere carbonio e ossigeno in elementi pi&#249; pesanti all'interno del nucleo. Alla fine gli strati di idrogeno ed elio della stella \"svaniscono\" lasciando una 'Nana Bianca' di Carbonio e Ossigeno come le stelle di Piccola Massa.</p><img src='https://cdn.eso.org/images/screen/eso1319b.jpg'/>",
+    "m6": "<h1>6 volte la massa del sole</h1><h3>Sequenza principale</h3><p>La sequenza principale &#232; la fase pi&#249; lunga \"vissuta\" da una stella. In questa fase la stella rimane stabile per milioni e miliardi di anni, grazie alla fusione di atomi di idrogeno in atomi di elio come combustibile.</p><h3>Gigante Rossa</h3><img src='https://science.nasa.gov/science-red/s3fs-public/styles/image_gallery_scale_960w/public/atoms/betelgeuse_block_960.jpg'/><p>Quando tutto l'idrogeno nel nucleo si trasforma in elio, gli strati esterni della stella cominciano a gonfiarsi e diventare pi&#249; rossi come fanno le stelle di circa 0.2-0.65 volte la massa del Sole. Tuttavia, per le stelle di massa pari al sole e fino a 8 volte la massa del sole, il nucleo diventa abbastanza caldo da fondere l'elio in elementi pi&#249; pesanti come carbonio e ossigeno.Per&#242; non sono ancora abbastanza pesanti per fondere carbonio e ossigeno in elementi pi&#249; pesanti all'interno del nucleo. Alla fine gli strati di idrogeno ed elio della stella \"svaniscono\" lasciando una 'Nana Bianca' di Carbonio e Ossigeno come le stelle di Piccola Massa.</p><img src='https://cdn.eso.org/images/screen/eso1319b.jpg'/>",
+    "m10": "<h1>10 volte la massa del Sole </h1><h3>Sequenza principale</h3><p>La sequenza principale &#232; la fase pi&#249; lunga \"vissuta\" da una stella. In questa fase la stella rimane stabile per milioni di anni, grazie alla fusione di atomi di idrogeno in atomi di elio come combustibile.</p><img src='https://cdn.spacetelescope.org/archives/images/screen/heic0516b.jpg'/><h3> Gigante Rossa</h3><p>Quando tutto l'idrogeno nel nucleo si trasforma in elio, gli strati esterni della stella cominciano a gonfiarsi e diventare pi&#249; rossi come accade nelle stelle di massa pari a 1-6 volte la massa del sole. tuttavia, per le stelle a partire dalla massa del sole, il nucleo diventa abbastanza caldo da fondere elio in elementi pi&#249; pesanti come carbonio e ossigeno. Stelle da 10 a 20 volte la massa del Sole saranno in grado di avviare la fusione di atomi come ossigeno e carbonio nel nucleo. Alla fine la stella avr&#224; una struttura simile a una cipolla, con diversi elementi in diversi strati, come idrogeno, elio, carbonio, ossigeno e neon, ma si fermer&#224; al ferro. Una volta che la fusione arriva fino al ferro, non ci sono pi&#249; reazioni nucleari che impediscano al nucleo di collassare, cos&#236; facendo si verifica una supernova e tutto ci&#242; che rimane &#232; una stella di neutroni.</p><img src='http://www.nasa.gov/images/content/283511main_fermigrop_pulsarmodel_HI.jpg'/>",
+    "m20": "<h1>20 volte la massa del Sole </h1><h3>Sequenza principale</h3><p>La sequenza principale &#232; la fase pi&#249; lunga \"vissuta\" da una stella. In questa fase la stella rimane stabile per milioni di anni, grazie alla fusione di atomi di idrogeno in atomi di elio come combustibile.</p><img src='https://cdn.spacetelescope.org/archives/images/screen/heic0516b.jpg'/><h3> Gigante Rossa</h3><p>Quando tutto l'idrogeno nel nucleo si trasforma in elio, gli strati esterni della stella cominciano a gonfiarsi e diventare pi&#249; rossi come accade nelle stelle di massa pari a 1-6 volte la massa del sole. tuttavia, per le stelle a partire dalla massa del sole, il nucleo diventa abbastanza caldo da fondere elio in elementi pi&#249; pesanti come carbonio e ossigeno. Stelle da 10 a 20 volte la massa del Sole saranno in grado di avviare la fusione di atomi come ossigeno e carbonio nel nucleo. Alla fine la stella avr&#224; una struttura simile a una cipolla, con diversi elementi in diversi strati, come idrogeno, elio, carbonio, ossigeno e neon, ma si fermer&#224; al ferro. Una volta che la fusione arriva fino al ferro, non ci sono pi&#249; reazioni nucleari che impediscano al nucleo di collassare, cos&#236; facendo si verifica una supernova e tutto ci&#242; che rimane &#232; una stella di neutroni.</p><img src='http://www.nasa.gov/images/content/283511main_fermigrop_pulsarmodel_HI.jpg'/>",
+    "m30": "<h1>30 volte la massa del Sole</h1><h3>Sequenza Principale </h3><p>La sequenza principale &#232; la fase pi&#249; lunga \"vissuta\" da una stella. In questa fase la stella rimane stabile per milioni di anni, grazie alla fusione di atomi di idrogeno in atomi di elio come combustibile.</p><img src='https://cdn.spacetelescope.org/archives/images/screen/heic0516b.jpg'/><h3> Red Giant </h3><img src='http://www.eso.org/public/archives/images/screen/wr124.jpg'/><p>Quando tutto l'idrogeno nel nucleo si trasforma in elio, gli strati esterni della stella cominciano a gonfiarsi e diventare pi&#249; rossi come accade nelle stelle di massa pari a 1-6 volte la massa del sole. Stelle 30 volte il Sole, e anche pi&#249; pesanti, saranno in grado di avviare la fusione di elementi molto pi&#249; pesanti nel nucleo, come l'elio, il carbonio, l'ossigeno e il neon.</p><h3> Gigante Blu</h3><p>Stelle cos&#236; pesanti avranno fortissimi venti stellari, che spazzeranno via gli strati esterni della stella lasciando in mostra l'interno pi&#249; caldo. A causa della temperatura superficiale molto pi&#249; elevata, la stella apparir&#224; come una gigante blu. Alla fine il nucleo collasser&#224;, con una enorme supernova, tuttavia rimarr&#224; un buco nero, un oggetto con un campo gravitazionale cos&#236; forte, che nemmeno la luce pu&#242; sfuggire (ecco perch&#233; viene chiamato 'Nero'). </p><img src='http://www.spacetimetravel.org/galerie/sl218.jpg'/>",
+    "m40": "<h1>40  volte la massa del Sole</h1><h3>Sequenza Principale </h3><p>La sequenza principale &#232; la fase pi&#249; lunga \"vissuta\" da una stella. In questa fase la stella rimane stabile per milioni di anni, grazie alla fusione di atomi di idrogeno in atomi di elio come combustibile.</p><img src='https://cdn.spacetelescope.org/archives/images/screen/heic0516b.jpg'/><h3> Red Giant </h3><img src='http://www.eso.org/public/archives/images/screen/wr124.jpg'/><p>Quando tutto l'idrogeno nel nucleo si trasforma in elio, gli strati esterni della stella cominciano a gonfiarsi e diventare pi&#249; rossi come accade nelle stelle di massa pari a 1-6 volte la massa del sole. Stelle 30 volte il Sole, e anche pi&#249; pesanti, saranno in grado di avviare la fusione di elementi molto pi&#249; pesanti nel nucleo, come l'elio, il carbonio, l'ossigeno e il neon.</p><h3> Gigante Blu</h3><p>Stelle cos&#236; pesanti avranno fortissimi venti stellari, che spazzeranno via gli strati esterni della stella lasciando in mostra l'interno pi&#249; caldo. A causa della temperatura superficiale molto pi&#249; elevata, la stella apparir&#224; come una gigante blu. Alla fine il nucleo collasser&#224;, con una enorme supernova, tuttavia rimarr&#224; un buco nero, un oggetto con un campo gravitazionale cos&#236; forte, che nemmeno la luce pu&#242; sfuggire (ecco perch&#233; viene chiamato 'Nero'). </p><img src='http://www.spacetimetravel.org/galerie/sl218.jpg'/>"
+   }
+  },
+  "tutorial": [
+   "Benvenuto! Al momento disponi di una stella di UNA massa solare,ma la puoi cambiare qui,se vuoi!",
+   "Questa &#232; la tua stella all'inizio della sua vita. La <span style=\"color:%COLOR%\">linea tratteggiata </span> mostra ora come la luminosit&#224; e la temperatura della stella cambieranno nel corso della sua vita",
+   "Fare Clic sul pulsante PLAY quando si &#232; pronti per iniziare ad animare la stella."
+  ],
+  "captions": {
+   "rScales": "<h2>Massa</h2><p>questo mostra come la massa della tua stella varia nel corso della sua vita. La stella perde gradualmente massa convertendo idrogeno in elio ed elementi pi&#249; pesanti. Pu&#242; anche perdere massa attraverso i venti che soffiano dalla superficie e in momenti parossistici della loro vita.</p><p>Le stelle sono cos&#236; massicce che, invece di misurarla in chilogrammi, la misuriamo rispetto al nostro Sole che ha 1 massa solare   - che &#232; di circa 2 milioni di milioni di milioni di milioni di milioni di kg!</p>",
+   "rStopwatch": "<h2>Le fasi nella vita della tua stella </h2><p>Questo cronometro mostra il tempo relativo in cui la stella accelera in ogni fase della sua vita Nell'animazione acceleriamo il tempo quando la stella non sta realmente cambiando molto e rallentiamo le cose per le fasi drammatiche della vita della stella  .</p>",
+   "rlum": "<h2>Luminosit&#224;</h2><p>Come cambia la luminosit&#224; della tua stella rispetto alla luminosit&#224; del nostro Sole  (che ha un valore di 1 in questo misuratore di luce).</p><p>Anche questo misuratore di luce cambia colore per adattarsi alla tua stella .</p>",
+   "thermometer": "<h2>Temperatura della superficie</h2><p>Come la temperatura superficiale della tua stella cambia nel tempo. Le temperature sono indicate in Kelvin,che di solito &#232; abbreviato con K. Ricordati che:</p><blockquote style=\"text-align:center;\">0&#176;C = 273 K</blockquote>",
+   "rCanvas": "<h2>Taglia</h2><p>Come cambia la vostra stella in dimensione e colore, rispetto alle attuali condizioni del Sole .</p>"
+  },
+  "error": {
+   "langload": "Non sono riuscito a caricare la lingua dal %FILE%",
+   "starload": "La stella non è riuscita a formarsi. Per favore riprova più tardi."
+  }
+ }
+}
