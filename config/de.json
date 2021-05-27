@@ -1,0 +1,249 @@
+{
+
+	"language": {
+
+		"code": "de",
+
+		"name": "Deutsch",
+
+		"alignment": "left",
+
+		"mode": "normal",
+
+		"translator": "Stefan Richtberg"
+
+	},
+
+	"phrasebook": {
+
+		"title": "Star in der Schachtel",
+
+		"language": "Sprache ausw&#228;hlen",
+
+		"stages": [
+
+			"Hauptreihenstadium",
+
+			"Hauptreihenstadium",
+
+			"Roter Riese",
+
+			"Roter Riese",
+
+			"Roter Riese",
+
+			"Roter Riese",
+
+			"Roter Riese",
+
+			"Blauer Riese",
+
+			"Blauer Riese",
+
+			"Blauer Riese",
+
+			"Wei&#223;er Zwerg",
+
+			"Wei&#223;er Zwerg",
+
+			"Wei&#223;er Zwerg",
+
+			"Neutronenstern",
+
+			"Schwarzes Loch",
+
+			"Ver&#246;dung"
+
+		],
+
+		"modes": {
+
+			"normal": "Normal",
+
+			"advanced": "Fortgeschritten",
+
+			"toggle": "Toggle mode"
+
+		},
+
+		"about": {
+
+			"title": "&#220;ber die Simulation",
+
+			"content": "<p>Stern in einer Schachtel erm&#246;glicht es dir, eines der r&#228;tselhaftesten Werkzeuge der Astronomie zu erforschen - das <a href=\"https://lco.global/spacebook/h-r-diagram\">Hertzsprung-Russell-Diagramm</a>.</p><p>Wenn du die Schachtel zum ersten Mal &#246;ffnest, beginne mit einem Stern, der die gleiche Masse wie die Sonne hat. Aber du kannst diese jederzeit ver&#228;ndern. Die Spuren, die du in der Grafik (links) siehst, bilden den Lebenszyklus des Sterns ab. Du kannst die Animation abspielen, in der sich der Stern durch das Diagramm bewegt, und in den Feldern auf der rechten Seite sehen, wie sich seine Helligkeit, Gr&#246;&#223;e, Oberfl&#228;chentemperatur und Masse  &#228;ndern.</p><p>Sterne k&#246;nnen Milliarden von Jahren brauchen, um ihr Leben zu durchlaufen, wobei die dramatischen Ereignisse in relativ kurzen Zeitr&#228;umen stattfinden. In der Animation beschleunigen wir die Zeit, wenn sich der Stern nicht wirklich viel ver&#228;ndert, und verlangsamen die Dinge f&#252;r die dramatischen Phasen im Leben des Sterns.</p><h3>Tastenbelegung:</h3>%CONTROLLIST%<h3>Acknowledgments</h3><p><b>Design & <a href=\"https://github.com/LCOGT/starinabox\">Development</a></b>: <a href=\"https://github.com/jonyardley\">Jon Yardley</a>, <a href=\"http://www.strudel.org.uk/\">Stuart Lowe</a>, <a href=\"http://edward.gomez.me.uk\">Edward Gomez</a>, <a href=\"https://www.cardiff.ac.uk/people/view/116892-gomez-haley\">Haley Gomez</a> & <a href=\"https://www.cardiff.ac.uk/people/view/828749-north-chris\">Chris North</a></p><p>Translations: See our <a href=\"translations.html\">dedicated page for translations</a></p><p>Based on the stellar evolution research of <a href=\"http://astronomy.swin.edu.au/~jhurley/\">Jarrod Hurley</a>, <a href=\"https://www.astro.ru.nl/wiki/general/people/onno_pols\">Onno Pols</a>, and <a href=\"http://www.ast.cam.ac.uk/~cat/\">Christopher Tout</a></p>"
+
+		},
+
+		"data": {
+
+			"title": "Datentabelle",
+
+			"content": "Dies ist die Zusammenfassung f&#252;r den aktuell ausgew&#228;hlten Stern. Masse: <strong>%MASS%</strong>.</p>%TABLE%<p>Daten als %CSV% herunterladen.</p>"
+
+		},
+
+		"keys": {
+
+			"play": "Play",
+
+			"lid": "Deckel &#246;ffnen",
+
+			"mode": "Modus wechseln",
+
+			"size": "Gr&#246;&#223;e",
+
+			"temperature": "Temperatur",
+
+			"luminosity": "Helligkeit",
+
+			"stage": "Stadium",
+
+			"mass": "Masse"
+
+		},
+
+		"intro": {
+
+			"title": "Willkommen!",
+
+			"content": "<p>Du bist jetzt der stolze Besitzer eines \"Sterns in einer Schachtel\".</p><p>Mit dieser Simulation kannst du die verschiedenen Stadien im Leben eines Sterns animieren und sehen, wie sich seine Helligkeit, Gr&#246;&#223;e und Masse mit der Zeit ver&#228;ndern.</p><p>Nach dem &#214;ffnen der Schachtel klicken Sie einfach <strong>auf die Play-Taste</strong>, um die Animation zu starten.</p>"
+
+		},
+
+		"open": "&#8249; Deckel &#246;ffnen",
+
+		"close": "Deckel schlie&#223;en &#8250;",
+
+		"preparing": "Dein Stern wird vorbereitet.<br />Bitte warten...",
+
+		"sun": "Sonne",
+
+		"stage": "Stadium",
+
+		"radius": "Radius",
+
+		"radiusunit": "verglichen mit der Sonne",
+
+		"duration": "Dauer",
+
+		"timescale": "Millionen Jahre",
+
+		"longtime": " Eine sehr lange Zeit",
+
+		"lum": "Helligkeit",
+
+		"lumunit": "verglichen mit der Sonne",
+
+		"temp": "Temperatur",
+
+		"tempunit": "Kelvin",
+
+		"cooldown": "Abk&#252;hlen von %TEMP%",
+
+		"cooling": "Abk&#252;hlen",
+
+		"mass": "Masse",
+
+		"massunit": "&#215; Sonnenmassen",
+
+		"ms": "Hauptreihenstadium",
+
+		"caution": "Achtung: Supernova bevorstehend",
+
+		"speeds": [
+
+			"am schnellsten",
+
+			"schnell",
+
+			"normal",
+
+			"langsam",
+
+			"am langsamsten"
+
+		],
+
+		"buttons": {
+
+			"play": "Start/Pause",
+
+			"reset": "Zur&#252;ck zum Beginn des Sternenlebens",
+
+			"size": "Gr&#246;&#223;envergleich",
+
+			"temperature": "Oberfl&#228;chentemperatur",
+
+			"luminosity": "Helligkeit",
+
+			"stage": "Stadien im Leben deines Sterns",
+
+			"mass": "Masse"
+
+		},
+
+		"help": {
+
+			"tab": "Informationen",
+
+			"content": {
+
+				"m0_2": "<h1>0,2 Sonnenmassen</h1><h3> Hauptreihenstadium </h3><p>Sterne mit etwa oder weniger als der halben Masse der Sonne beginnen als massearme Hauptreihensterne. Hier befinden sie sich in sehr stabilen Zust&#228;nden, in denen sie Wasserstoffatome zu Helium als Energiequelle fusionieren.</p><img src='http://www.spaceanswers.com/wp-content/uploads/2013/01/Red-dwarf-main-image.jpg'/><h3>Roter Riese</h3><p>Wenn dem Kern des Sterns der Wasserstoff f&#252;r die Fusion zu Helium ausgeht, beginnen die &#228;u&#223;eren Schichten des Sterns aufzuquellen und die Oberfl&#228;chentemperatur des Sterns k&#252;hlt ab, der Stern ver&#228;ndert auch sein Aussehen und wird r&#246;ter. Da Sterne dieser Masse zu klein sind, um die Heliumfusion im Kern zu initiieren, verbrennt der Stern seinen gesamten Wasserstoffvorrat und l&#228;sst den Heliumkern als so genannten \"Wei&#223;en Zwerg\" zur&#252;ck.</p><img src='https://cdn.eso.org/images/screen/eso1319b.jpg'/>",
+
+				"m0_65": "<h1>0,65 Sonnenmassen</h1><h3> Hauptreihenstadium </h3><p>Sterne mit etwa oder weniger als der halben Masse der Sonne beginnen als massearme Hauptreihensterne. Hier befinden sie sich in sehr stabilen Zust&#228;nden, in denen sie Wasserstoffatome zu Helium als Energiequelle fusionieren.</p><img src='http://www.spaceanswers.com/wp-content/uploads/2013/01/Red-dwarf-main-image.jpg'/><h3>Roter Riese</h3><p>Wenn dem Kern des Sterns der Wasserstoff f&#252;r die Fusion zu Helium ausgeht, beginnen die &#228;u&#223;eren Schichten des Sterns aufzuquellen und die Oberfl&#228;chentemperatur des Sterns k&#252;hlt ab, der Stern ver&#228;ndert auch sein Aussehen und wird r&#246;ter. Da Sterne dieser Masse zu klein sind, um die Heliumfusion im Kern zu initiieren, verbrennt der Stern seinen gesamten Wasserstoffvorrat und l&#228;sst den Heliumkern als so genannten \"Wei&#223;en Zwerg\" zur&#252;ck.</p><img src='https://cdn.eso.org/images/screen/eso1319b.jpg'/>",
+
+				"m1": "<h1>Sterne mit der Masse der Sonne</h1><h3> Hauptreihenstadium </h3><p>Das Hauptreihenstadium ist das am l&#228;ngsten bewohnte Stadium eines Sterns. Hier bleibt der Stern f&#252;r Millionen bis Milliarden von Jahren stabil und fusioniert als Brennstoff Wasserstoff zu Helium.</p><h3>Roter Riese</h3><div style='width:100%'><div style='float:left;width:200px'><img src='https://science.nasa.gov/science-red/s3fs-public/styles/image_gallery_scale_960w/public/atoms/betelgeuse_block_960.jpg' style='width:95%'/></div><p>Wenn sich der gesamte Wasserstoff im Kern in Helium umgewandelt hat, beginnen die &#228;u&#223;eren Schichten des Sterns anzuschwellen und werden r&#246;ter, wie es bei Sternen mit etwa 0,2-0,65-facher Masse der Sonne der Fall ist. Bei Sternen mit der gleichen Masse wie die Sonne und bis zum 8-fachen der Masse der Sonne wird der Kern jedoch hei&#223; genug, um Helium zu schwereren Elementen wie Kohlenstoff und Sauerstoff zu fusionieren. Allerdings sind sie immer noch nicht schwer genug, um Kohlenstoff und Sauerstoff im Kern zu schwereren Elementen zu verschmelzen.</p></div><div style='clear:both'></div><h3>Wei&#223;er Zwerg</h3><div style='width:100%'><div style='float:left;width:200px'> <img src='https://cdn.eso.org/images/screen/eso1319b.jpg' style='width:95%'/></div>Schlie&#223;lich verblassen die Wasserstoff- und Heliumschichten des Sterns und hinterlassen einen 'Wei&#223;en Zwerg', &#228;hnlich wie bei Sternen mit geringer Masse.</p></div>",
+
+				"m2": "<h1>2 Sonnenmassen</h1><h3> Hauptreihenstadium </h3><p>Das Hauptreihenstadium ist das am l&#228;ngsten bewohnte Stadium eines Sterns. Hier bleibt der Stern f&#252;r Millionen bis Milliarden von Jahren stabil und fusioniert Wasserstoffatome zu Heliumatomen als Brennstoff.</p><h3>Roter Riese</h3><img src='https://science.nasa.gov/science-red/s3fs-public/styles/image_gallery_scale_960w/public/atoms/betelgeuse_block_960.jpg'/><p>Wenn sich der gesamte Wasserstoff im Kern in Helium umwandelt, beginnen die &#228;u&#223;eren Schichten des Sterns zu schwellen und werden r&#246;ter, wie es bei Sternen mit etwa 0,2-0,65-facher Sonnenmasse der Fall ist. Bei Sternen mit der gleichen Masse wie die Sonne und bis zum 8-fachen der Masse der Sonne wird der Kern jedoch hei&#223; genug, um Helium zu schwereren Elementen wie Kohlenstoff und Sauerstoff zu fusionieren. Allerdings sind sie immer noch nicht schwer genug, um Kohlenstoff und Sauerstoff zu schwereren Elementen im Kern zu fusionieren. Schlie&#223;lich verblassen die Wasserstoff- und Heliumschichten des Sterns und hinterlassen einen \"Wei&#223;en Zwerg aus Kohlenstoff und Sauerstoff\", &#228;hnlich wie bei Sternen mit geringer Masse.</p><img src='https://cdn.eso.org/images/screen/eso1319b.jpg'/>",
+
+				"m4": "<h1>4 Sonnenmassen</h1><h3> Hauptreihenstadium </h3><p>Das Hauptreihenstadium ist das am l&#228;ngsten bewohnte Stadium eines Sterns. Hier bleibt der Stern f&#252;r Millionen bis Milliarden von Jahren stabil und fusioniert Wasserstoffatome zu Heliumatomen als Brennstoff.</p><h3>Roter Riese</h3><img src='https://science.nasa.gov/science-red/s3fs-public/styles/image_gallery_scale_960w/public/atoms/betelgeuse_block_960.jpg'/><p>Wenn sich der gesamte Wasserstoff im Kern in Helium umwandelt, beginnen die &#228;u&#223;eren Schichten des Sterns zu schwellen und werden r&#246;ter, wie es bei Sternen mit etwa 0,2-0,65-facher Sonnenmasse der Fall ist. Bei Sternen mit der gleichen Masse wie die Sonne und bis zum 8-fachen der Masse der Sonne wird der Kern jedoch hei&#223; genug, um Helium zu schwereren Elementen wie Kohlenstoff und Sauerstoff zu fusionieren. Allerdings sind sie immer noch nicht schwer genug, um Kohlenstoff und Sauerstoff zu schwereren Elementen im Kern zu fusionieren. Schlie&#223;lich verblassen die Wasserstoff- und Heliumschichten des Sterns und hinterlassen einen \"Wei&#223;en Zwerg aus Kohlenstoff und Sauerstoff\", &#228;hnlich wie bei Sternen mit geringer Masse.</p><img src='https://cdn.eso.org/images/screen/eso1319b.jpg'/>",
+
+				"m6": "<h1>6 Sonnenmassen</h1><h3> Hauptreihenstadium</h3><p>Das Hauptreihenstadium ist das am l&#228;ngsten bewohnte Stadium eines Sterns. Hier bleibt der Stern f&#252;r Millionen bis Milliarden von Jahren stabil und fusioniert Wasserstoffatome zu Heliumatomen als Brennstoff.</p><h3>Roter Riese</h3><img src='https://science.nasa.gov/science-red/s3fs-public/styles/image_gallery_scale_960w/public/atoms/betelgeuse_block_960.jpg'/><p>Wenn sich der gesamte Wasserstoff im Kern in Helium umwandelt, beginnen die &#228;u&#223;eren Schichten des Sterns zu schwellen und werden r&#246;ter, wie es bei Sternen mit etwa 0,2-0,65-facher Sonnenmasse der Fall ist. Bei Sternen mit der gleichen Masse wie die Sonne und bis zum 8-fachen der Masse der Sonne wird der Kern jedoch hei&#223; genug, um Helium zu schwereren Elementen wie Kohlenstoff und Sauerstoff zu fusionieren. Allerdings sind sie immer noch nicht schwer genug, um Kohlenstoff und Sauerstoff zu schwereren Elementen im Kern zu fusionieren. Schlie&#223;lich verblassen die Wasserstoff- und Heliumschichten des Sterns und hinterlassen einen \"Wei&#223;en Zwerg aus Kohlenstoff und Sauerstoff\", &#228;hnlich wie bei Sternen mit geringer Masse.</p><img src='https://cdn.eso.org/images/screen/eso1319b.jpg'/>",
+
+				"m10": "<h1>10 Sonnenmassen</h1><h3> Hauptreihenstadium</h3><p>Das Hauptreihenstadium ist das am l&#228;ngsten bewohnte Stadium eines Sterns. Hier bleibt der Stern f&#252;r Millionen von Jahren stabil und fusioniert Wasserstoffatome zu Heliumatomen als Brennstoff.</p><img src='https://cdn.spacetelescope.org/archives/images/screen/heic0516b.jpg'/><h3>Roter Riese </h3><p>Wenn sich der gesamte Wasserstoff im Kern in Helium verwandelt hat, beginnen die &#228;u&#223;eren Schichten des Sterns anzuschwellen und werden r&#246;ter, wie es bei Sternen mit etwa 1-6-facher Sonnenmasse der Fall ist. Bei Sternen, die die gleiche Masse wie die Sonne haben und schwerer sind, wird der Kern jedoch hei&#223; genug, um Helium zu schwereren Elementen wie Kohlenstoff und Sauerstoff zu fusionieren. Sterne mit der 10- bis 20-fachen Masse der Sonne werden in der Lage sein, die Verschmelzung von Atomen wie Sauerstoff und Kohlenstoff im Kern einzuleiten. Letztendlich wird der Stern eine zwiebelartige Struktur haben, mit verschiedenen Elementen in verschiedenen Schichten, wie Wasserstoff, Helium, Kohlenstoff, Sauerstoff und Neon, aber die Fusion wird bei Eisen aufh&#246;ren. Sobald die Fusion bei Eisen aufh&#246;rt, gibt es keine Kernreaktionen mehr, die den Kern am Kollabieren hindern k&#246;nnten, woraufhin eine Supernova stattfindet und alles, was &#252;brig bleibt, ist ein Neutronenstern.</p><img src='http://www.nasa.gov/images/content/283511main_fermigrop_pulsarmodel_HI.jpg'/>",
+
+				"m20": "<h1>20 Sonnemassen</h1><h3> Hauptreihenstadium</h3><p>Das Hauptreihenstadium ist das am l&#228;ngsten bewohnte Stadium eines Sterns. Hier bleibt der Stern f&#252;r Millionen von Jahren stabil und fusioniert Wasserstoffatome zu Heliumatomen als Brennstoff.</p><img src='https://cdn.spacetelescope.org/archives/images/screen/heic0516b.jpg'/><h3>Roter Riese </h3><p>Wenn sich der gesamte Wasserstoff im Kern in Helium verwandelt hat, beginnen die &#228;u&#223;eren Schichten des Sterns anzuschwellen und werden r&#246;ter, wie es bei Sternen mit etwa 1-6-facher Sonnenmasse der Fall ist. Bei Sternen, die die gleiche Masse wie die Sonne haben und schwerer sind, wird der Kern jedoch hei&#223; genug, um Helium zu schwereren Elementen wie Kohlenstoff und Sauerstoff zu fusionieren. Sterne mit der 10- bis 20-fachen Masse der Sonne werden in der Lage sein, die Verschmelzung von Atomen wie Sauerstoff und Kohlenstoff im Kern einzuleiten. Letztendlich wird der Stern eine zwiebelartige Struktur haben, mit verschiedenen Elementen in verschiedenen Schichten, wie Wasserstoff, Helium, Kohlenstoff, Sauerstoff und Neon, aber die Fusion wird bei Eisen aufh&#246;ren. Sobald die Fusion bei Eisen aufh&#246;rt, gibt es keine Kernreaktionen mehr, die den Kern am Kollabieren hindern k&#246;nnten, woraufhin eine Supernova stattfindet und alles, was &#252;brig bleibt, ist ein Neutronenstern.</p><img src='http://www.nasa.gov/images/content/283511main_fermigrop_pulsarmodel_HI.jpg'/>",
+
+				"m30": "<h1>30 Sonnenmassen</h1><h3> Hauptreihenstadium </h3><p>Das Hauptreihenstadium ist das am l&#228;ngsten bewohnte Stadium eines Sterns. Hier bleibt der Stern f&#252;r Millionen von Jahren stabil und fusioniert Wasserstoffatome zu Heliumatomen als Brennstoff.</p><img src='https://cdn.spacetelescope.org/archives/images/screen/heic0516b.jpg'/><h3> Roter Riese </h3><img src='http://www.eso.org/public/archives/images/screen/wr124.jpg'/><p>Wenn sich der gesamte Wasserstoff im Kern in Helium umwandelt, beginnen die &#228;u&#223;eren Schichten des Sterns zu schwellen und werden r&#246;ter, wie es bei Sternen mit etwa der 1-6-fachen Sonnenmasse der Fall ist. Sterne mit der 30-fachen Masse der Sonne und noch schwerer k&#246;nnen die Fusion von viel schwereren Elementen im Kern einleiten, wie Helium, Kohlenstoff, Sauerstoff und Neon.</p><h3>Blauer Riese</h3><p>Sterne dieser Schwere haben sehr starke Sternwinde, die die &#228;u&#223;eren Schichten des Sterns wegblasen und das hei&#223;ere Innere sichtbar werden lassen. Aufgrund der viel hei&#223;eren Oberfl&#228;chentemperatur wird der Stern als blauer Riese erscheinen. Schlie&#223;lich kollabiert der Kern mit einer gro&#223;en Supernova. &#220;brig bleibt ein Schwarzes Loch, ein Objekt mit einem so starken Gravitationsfeld, dass nicht einmal Licht entkommen kann.</p><img src='http://www.spacetimetravel.org/galerie/sl218.jpg'/>",
+
+				"m40": "<h1>40 Sonnenmassen</h1><h3> Hauptreihenstadium </h3><p>Das Hauptreihenstadium ist das am l&#228;ngsten bewohnte Stadium eines Sterns. Hier bleibt der Stern f&#252;r Millionen von Jahren stabil und fusioniert Wasserstoffatome zu Heliumatomen als Brennstoff.</p><img src='https://cdn.spacetelescope.org/archives/images/screen/heic0516b.jpg'/><h3> Roter Riese </h3><img src='http://www.eso.org/public/archives/images/screen/wr124.jpg'/><p>Wenn sich der gesamte Wasserstoff im Kern in Helium umwandelt, beginnen die &#228;u&#223;eren Schichten des Sterns zu schwellen und werden r&#246;ter, wie es bei Sternen mit etwa der 1-6-fachen Sonnenmasse der Fall ist. Sterne mit der 30-fachen Masse der Sonne und noch schwerer k&#246;nnen die Fusion von viel schwereren Elementen im Kern einleiten, wie Helium, Kohlenstoff, Sauerstoff und Neon.</p><h3>Blauer Riese</h3><p>Sterne dieser Schwere haben sehr starke Sternwinde, die die &#228;u&#223;eren Schichten des Sterns wegblasen und das hei&#223;ere Innere sichtbar werden lassen. Aufgrund der viel hei&#223;eren Oberfl&#228;chentemperatur wird der Stern als blauer Riese erscheinen. Schlie&#223;lich kollabiert der Kern mit einer gro&#223;en Supernova. &#220;brig bleibt ein Schwarzes Loch, ein Objekt mit einem so starken Gravitationsfeld, dass nicht einmal Licht entkommen kann.</p><img src='http://www.spacetimetravel.org/galerie/sl218.jpg'/>"
+
+			}
+
+		},
+
+		"tutorial": [
+
+			"Willkommen! Im Moment hast du einen Stern mit einer Sonnenmasse, aber du kannst das hier &#228;ndern, wenn du willst.",
+
+			"Dies ist dein Stern am Anfang seines Lebens. Die <span style=\"color:%COLOR%\">gestrichelte Linie</span> zeigt, wie sich die Helligkeit und Temperatur des Sterns im Laufe seines Lebens ver&#228;ndern wird.",
+
+			"Klicke auf die Play-Taste, um das Lebens deines Sterns zu animieren."
+
+		],
+
+		"captions": {
+
+			"rScales": "<h2>Masse</h2><p>Dies zeigt, wie sich die Masse deines Sterns im Laufe seines Lebens ver&#228;ndert. Sterne verlieren allm&#228;hlich Masse durch die Umwandlung von Wasserstoff in Helium und schwerere Elemente. Sie k&#246;nnen auch durch Winde, die von ihrer Oberfl&#228;che wehen, und in dramatischen Momenten ihres Lebens Masse verlieren.</p><p>Sterne sind massiv, daher messen wir ihre Masse nicht in Kilogramm, sondern im Vergleich zu unserer Sonne, die eine Sonnenmasse hat - das sind etwa 2 Millionen Millionen Millionen Millionen Millionen Millionen kg!</p>",
+
+			"rStopwatch": "<h2>Stadien im Leben deines Sterns</h2><p>Diese Stoppuhr zeigt die relative Zeit, die der Stern in jeder Phase seines Lebens verbringt. In der Animation beschleunigen wir die Zeit, wenn sich der Stern nicht wirklich viel ver&#228;ndert, und verlangsamen die Dinge f&#252;r die dramatischen Phasen im Leben des Sterns.</p>",
+
+			"rlum": "<h2>Helligkeit</h2><p>Zeigt, wie sich die Helligkeit deines Sterns im Vergleich zur aktuellen Helligkeit unserer Sonne (die in diesem Helligkeitsmesser einen Wert von 1 hat) &#228;ndert.</p><p>Der Helligkeitsmesser &#228;ndert auch die Farbe, um sich deinem Stern anzupassen.</p>",
+
+			"thermometer": "<h2>Oberfl&#228;chentemperatur</h2><p>Zeigt, wie sich die Oberfl&#228;chentemperatur deines Sterns mit der Zeit &#228;ndert. Die Temperaturen werden in Kelvin angegeben, was gew&#246;hnlich mit K abgek&#252;rzt wird. Beachte:</p><blockquote style=\"text-align:center;\">0&#176;C = 273 K</blockquote>",
+
+			"rCanvas": "<h2>Gr&#246;&#223;e</h2><p>Zeigt, wie sich dein Stern, verglichen mit den aktuellen Bedingungen der Sonne, in Gr&#246;&#223;e und Farbe ver&#228;ndert.</p>"
+
+		},
+
+		"error": {
+
+			"langload": "Konnte Sprach-Datei von %FILE% nicht laden",
+
+			"starload": "Fehler beim Erstellen des Sterns. Versuche es später nochmals."
+
+		}
+
+	}
+
+}
