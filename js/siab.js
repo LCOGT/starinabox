@@ -631,7 +631,7 @@ $(document).ready(function () {
 		if(this.phrasebook.mass) $('#starMass .value strong').html(this.phrasebook.mass);
 		$(this.scaletext).find('.units').html(this.phrasebook.massunit);
 		this.sizeComparison.sunLabel.attr('text',htmlDecode(this.phrasebook.sun));
-		this.el.stagelabel.find('strong').html(this.phrasebook.stage+":");
+		this.el.stagelabel.html("<strong>"+this.phrasebook.stage+":</strong> "+this.stages[0]);
 		this.el.time.find('.units').html(this.phrasebook.timescale);
 		if(this.phrasebook.caution) $('.caution').html(this.phrasebook.caution);
 
