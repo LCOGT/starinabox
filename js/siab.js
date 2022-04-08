@@ -57,7 +57,7 @@ $(document).ready(function () {
 		this.q = $.query();
 
 		// Define which languages will appear in the language menu
-		this.langs = ["en","en-GB","cy","ar","pt","es","zh","it","de"];
+		this.langs = ["en","en-GB","cy","ar","pt","es","zh"];
 		// Create a lookup table for language codes and names
 		// Country codes at http://en.wikipedia.org/wiki/List_of_ISO_639-1_codes
 		this.langlookup = {
@@ -130,7 +130,7 @@ $(document).ready(function () {
 				"langload": "Couldn't load the language from %FILE%",
 				"starload": "The star failed to form. Please try again later."
 			},
-			"about": { "title": "About", "content": "<p>Star in a Box allows you to explore one of the most enigmatic tools in astronomy - the <a href=\"https://lco.global/spacebook/h-r-diagram\">Hertzsprung-Russell diagram</a>.</p><p>When you first open the box you start with a star with the same mass as the Sun but you can change this to a different mass at any time. The tracks that you see on the graph (on the left) map the lifecycle of the star. You can play the animation of the star moving around the diagram, and see how its brightness, size, surface temperature, and mass change in the panels on the right.</p><p>Stars can take billions of years to go through their lives with the dramatic events taking place in relatively short periods of time. In the animation we speed up time when the star is not really changing much and slow things down for the dramatic phases of the star's life.</p><h3>Keyboard controls:</h3>%CONTROLLIST%<h3>Acknowledgments</h3><p><b>Design &amp; Development</b>: <a href=\"https://github.com/jonyardley\">Jon Yardley</a>, <a href=\"http://www.strudel.org.uk/\">Stuart Lowe</a>, <a href=\"http://edward.gomez.me.uk\">Edward Gomez</a>, <a href=\"https://www.cardiff.ac.uk/people/view/116892-gomez-haley\">Haley Gomez</a> &amp; <a href=\"https://www.cardiff.ac.uk/people/view/828749-north-chris\">Chris North</a></p><p>Translations: See our <a href=\"translations.html\">dedicated page for translations</a></p><p>Based on the stellar evolution research of <a href=\"http://astronomy.swin.edu.au/~jhurley/\">Jarrod Hurley</a>, <a href=\"https://www.astro.ru.nl/wiki/general/people/onno_pols\">Onno Pols</a>, and <a href=\"http://www.ast.cam.ac.uk/~cat/\">Christopher Tout</a></p>" },
+			"about": { "title": "About", "content": "<p>Star in a Box allows you to explore one of the most enigmatic tools in astronomy - the <a href=\"http://lcogt.net/book/h-r-diagram\">Hertzsprung-Russell diagram</a>.</p><p>When you first open the box you start with a star with the same mass as the Sun but you can change this to a different mass at any time. The tracks that you see on the graph (on the left) map the lifecycle of the star. You can play the animation of the star moving around the diagram, and see how its brightness, size, surface temperature, and mass change in the panels on the right.</p><p>Stars can take billions of years to go through their lives with the dramatic events taking place in relatively short periods of time. In the animation we speed up time when the star is not really changing much and slow things down for the dramatic phases of the star's life.</p><h3>Keyboard controls:</h3>%CONTROLLIST%<h3>Acknowledgments</h3><p><b>Design &amp; Development</b>: <a href=\"http://jyardley.co.uk\">Jon Yardley</a>, <a href=\"http://www.strudel.org.uk/\">Stuart Lowe</a>, <a href=\"http://lcogt.net/user/egomez\">Edward Gomez</a>, <a href=\"http://www.astro.cf.ac.uk/contactsandpeople/?page=full&id=151\">Haley Gomez</a> &amp; Chris North</p><p>Supported by <a href=\"http://lcogt.net/\">LCOGT</a> &amp; <a href=\"http://www.cf.ac.uk/\">Cardiff University</a></p><p>Based on the stellar evolution research of <a href=\"http://astronomy.swin.edu.au/~jhurley/\">Jarrod Hurley</a>, <a href=\"https://www.astro.ru.nl/wiki/general/people/onno_pols\">Onno Pols</a>, and <a href=\"http://www.ast.cam.ac.uk/~cat/\">Christopher Tout</a></p>" },
 			"data": { "title": "Data Table", "content": "This is a summary of the star that is currently selected.</p><p>Mass: %MASS%</p>%TABLE%<p>Download data as %CSV%</p>" },
 			"intro": {
 				"title": "Welcome!",
@@ -347,12 +347,10 @@ $(document).ready(function () {
 			method: 'POST',
 			dataType: 'json',
 			context: this,
-			error: function(jqXHR, exception){
+			error: function(){
 				if(lang == "en"){
 					this.error((this.phrasebook && this.phrasebook.error && this.phrasebook.error.langload) ? this.phrasebook.error.langload.replace('%FILE%',dataurl) : "Couldn't load language from "+dataurl);
 				}else{
-          console.error(jqXHR)
-          console.error(exception)
 					// Loop over to see if the current language shortcode is in our list
 					var n = (this.langlookup[lang]) ? this.langlookup[lang] : lang;
 					this.warn("Couldn't load "+n+".");
@@ -631,7 +629,7 @@ $(document).ready(function () {
 		if(this.phrasebook.mass) $('#starMass .value strong').html(this.phrasebook.mass);
 		$(this.scaletext).find('.units').html(this.phrasebook.massunit);
 		this.sizeComparison.sunLabel.attr('text',htmlDecode(this.phrasebook.sun));
-		this.el.stagelabel.html("<strong>"+this.phrasebook.stage+":</strong> "+this.stages[0]);
+		this.el.stagelabel.find('strong').html(this.phrasebook.stage+":");
 		this.el.time.find('.units').html(this.phrasebook.timescale);
 		if(this.phrasebook.caution) $('.caution').html(this.phrasebook.caution);
 
@@ -1235,6 +1233,7 @@ $(document).ready(function () {
 			T = Math.pow(10,x);
 			L = Math.pow(10,y);
 		}
+
 		return [T,L];
 	}
 
@@ -1291,8 +1290,7 @@ $(document).ready(function () {
 				p1 = this.getPixPos(this.chart.opts.xaxis.max,i,"log");
 				p2 = this.getPixPos(this.chart.opts.xaxis.min,i,"log");
 				this.chart.yaxis.push(this.chart.holder.path("M"+p1[0]+","+p1[1]+"L"+p2[0]+","+p2[1]).attr({ stroke: this.chart.opts.grid.color,'stroke-opacity':this.chart.opts.grid.opacity,'stroke-width':(this.chart.opts.grid.width ? this.chart.opts.grid.width : 0.5)}));
-        // This is where the axis label numbers are created
-				this.chart.yaxis.push(this.chart.holder.text(p1[0]+5,p1[1],addCommas(Math.pow(10,i))).attr({
+				this.chart.yaxis.push(this.chart.holder.text(p1[0]+5,p1[1],addCommas(Math.pow(10, i))).attr({
 					'text-anchor': 'start',
 					'fill': (this.chart.opts.grid.label.color ? this.chart.opts.grid.label.color : this.chart.opts.color),
 					'fill-opacity': (this.chart.opts.grid.label.opacity ? this.chart.opts.grid.label.opacity : 0.5),
@@ -1754,10 +1752,6 @@ $(document).ready(function () {
 
 
 	function addCommas(nStr) {
-    if (nStr < 1.0){
-      // Don't use commas for small numbers but make sure don't get round errors
-      return parseFloat(nStr).toPrecision(1);
-    }
 		nStr += '';
 		var x = nStr.split('.');
 		var x1 = x[0];
