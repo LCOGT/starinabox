@@ -15,9 +15,7 @@ Classroom resources
 
 Are you a teacher? Do you want to use Star in a Box in your classroom lessons? These resources are designed to help you to explore the life-cycle of stars with your class.
 
-* Life-cycle of stars (teacher presentation) -  [Powerpoint](https://lco.global/files/StarinaBox.ppt) and [PDF](https://lco.global/files/StarinaBox.pdf)
-* Beginners level -  [worksheet](https://docs.google.com/a/lcogt.net/document/d/1yPAWqjH8DxE-ZC4VIFZ8sLlhnmeyQl0nwvDixCiSoKs/edit) and [solutions](https://docs.google.com/a/lcogt.net/document/d/1mW_LjPX9wUMvwH_ZkGnYtkxO4h4WYFS8Uo1hre43538/edit)
-* Intermediate level - [worksheet](https://docs.google.com/document/d/18h5U27n_337Dj5Gx0GM2GaErgcoL81G80XpHKrkq0jE/edit) and [solutions](https://docs.google.com/document/d/15RtYlmsvhiFlaWVzgBRc-BvVVaAnb544t73i1mO9_xk/edit)
+You can find all of our educational resources to accompany Star in a Box on the [Las Cumbres Observatory website](https://lco.global/education/activities/star-in-a-box/).
 
 Translations
 ----
@@ -40,3 +38,8 @@ Further reading
 ---------------
 
 More about the [Hertzsprung-Russell diagram](https://lco.global/spacebook/h-r-diagram) in LCOGT's [SpaceBook](https://lco.global/spacebook).
+
+Maintainer
+----------
+
+[Edward Gomez](https://lco.global/user/egomez) is the maintainer of Star in a Box
